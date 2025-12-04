@@ -226,12 +226,12 @@ impl eframe::App for EguiPinger {
                 };
 
                 let jitter_text = format!(
-                    "J3: {:4.1} J21: {:4.1} J99: {:4.1}",
+                    "J3:{:4.1} J21:{:4.1} J99:{:4.1}",
                     status.jitter_3, status.jitter_21, status.jitter_99
                 );
                 let text = if status.alive {
                     format!(
-                        "{} [{}]  →  {:>4}мс {}",
+                        "{:<20} {:<15} → {:4}мс {}",
                         host_info.name,
                         host_info.address,
                         status.latency.as_millis(),
@@ -239,7 +239,7 @@ impl eframe::App for EguiPinger {
                     )
                 } else {
                     format!(
-                        "{} [{}]  →  ВПАВ {}",
+                        "{:<20} {:<15} → ВПАВ {}",
                         host_info.name, host_info.address, jitter_text
                     )
                 };
@@ -254,7 +254,7 @@ impl eframe::App for EguiPinger {
                             .iter()
                             .enumerate()
                             .map(|(i, &rtt)| {
-                                let height = if rtt.is_nan() { 30.0 } else { rtt / 5.0 };
+                                let height = if rtt.is_nan() { 100.0 } else { rtt };
                                 let fill = if rtt.is_nan() {
                                     Color32::RED
                                 } else if rtt > 100.0 {
@@ -276,7 +276,7 @@ impl eframe::App for EguiPinger {
                         .allow_drag(false)
                         .allow_scroll(false)
                         .include_y(0.0)
-                        .include_y(30.0)
+                        .include_y(100.0)
                         .show(ui, |plot_ui| plot_ui.bar_chart(chart));
 
                     ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
