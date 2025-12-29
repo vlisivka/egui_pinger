@@ -47,9 +47,7 @@ struct EguiPinger {
 }
 
 impl EguiPinger {
-
     fn new(cc: &eframe::CreationContext<'_>) -> Self {
-
         let (tx, rx) = mpsc::unbounded_channel();
 
         let state = Arc::new(Mutex::new(match cc.storage {
@@ -62,7 +60,6 @@ impl EguiPinger {
             }
             None => AppState::default(),
         }));
-
 
         let state_clone = state.clone();
         std::thread::spawn(move || {
@@ -81,7 +78,6 @@ impl EguiPinger {
         }
     }
 }
-
 
 use futures::future::join_all;
 
@@ -107,7 +103,8 @@ async fn pinger_task(state: SharedState, tx: mpsc::UnboundedSender<(String, bool
                 let tx = tx.clone();
 
                 Some(tokio::spawn(async move {
-                    let result = tokio::time::timeout(Duration::from_secs(2), ping(ip, &payload)).await;
+                    let result =
+                        tokio::time::timeout(Duration::from_secs(2), ping(ip, &payload)).await;
                     let (alive, rtt) = match result {
                         Ok(Ok((_, duration))) => (true, duration),
                         _ => (false, Duration::ZERO),
@@ -128,7 +125,6 @@ async fn pinger_task(state: SharedState, tx: mpsc::UnboundedSender<(String, bool
         });
     }
 }
-
 
 impl eframe::App for EguiPinger {
     fn save(&mut self, storage: &mut dyn eframe::Storage) {
@@ -177,129 +173,146 @@ impl eframe::App for EguiPinger {
         }
 
         egui::CentralPanel::default().show(ctx, |ui| {
-            ui.horizontal(|ui| {
-                ui.label("Назва:");
-                ui.text_edit_singleline(&mut self.input_name);
-                ui.label("Адреса:");
-                ui.text_edit_singleline(&mut self.input_address);
-                if ui.button("Додати").clicked() && !self.input_address.trim().is_empty() {
-                    let name = self.input_name.trim().to_string();
-                    let address = self.input_address.trim().to_string();
+            egui::ScrollArea::vertical().show(ui, |ui| {
+                egui::ScrollArea::horizontal().show(ui, |ui| {
+                    ui.horizontal(|ui| {
+                        egui::TextEdit::singleline(&mut self.input_name)
+                            .char_limit(20)
+                            .hint_text("Назва хоста")
+                            .desired_width(8.0 * 20.0)
+                            .show(ui);
 
-                    let mut state = self.state.lock().unwrap();
-                    if !state.hosts.iter().any(|h| h.address == address) {
-                        state
-                            .statuses
-                            .insert(address.clone(), HostStatus::default());
-                        state.hosts.push(HostInfo { name, address });
-                    }
+                        egui::TextEdit::singleline(&mut self.input_address)
+                            .char_limit(20)
+                            .hint_text("Адреса хоста")
+                            .desired_width(8.0 * 20.0)
+                            .show(ui);
 
-                    self.input_name.clear();
-                    self.input_address.clear();
-                }
-            });
+                        if ui.button("Додати").clicked() && !self.input_address.trim().is_empty()
+                        {
+                            let name = self.input_name.trim().to_string();
+                            let address = self.input_address.trim().to_string();
 
-            ui.separator();
+                            let mut state = self.state.lock().unwrap();
+                            if !state.hosts.iter().any(|h| h.address == address) {
+                                state
+                                    .statuses
+                                    .insert(address.clone(), HostStatus::default());
+                                state.hosts.push(HostInfo { name, address });
+                            }
 
-            // Клонуємо потрібні дані один раз — уникаємо тимчасових значень
-            let (hosts, statuses) = {
-                let state = self.state.lock().unwrap();
-                (state.hosts.clone(), state.statuses.clone())
-            };
-
-            let mut to_remove = Vec::new();
-            let default_host_status = HostStatus::default();
-
-            for host_info in &hosts {
-                let status = statuses
-                    .get(&host_info.address)
-                    .unwrap_or(&default_host_status);
-
-                let color = if status.alive {
-                    if status.latency.as_millis() > 100 {
-                        Color32::from_rgb(255, 255, 100)
-                    } else {
-                        Color32::from_rgb(0, 255, 100)
-                    }
-                } else {
-                    Color32::from_rgb(255, 80, 80)
-                };
-
-                let jitter_text = format!(
-                    "J3:{:4.1} J21:{:4.1} J99:{:4.1}",
-                    status.jitter_3, status.jitter_21, status.jitter_99
-                );
-                let text = if status.alive {
-                    format!(
-                        "{:<20} {:<15} → {:4}мс {}",
-                        host_info.name,
-                        host_info.address,
-                        status.latency.as_millis(),
-                        jitter_text
-                    )
-                } else {
-                    format!(
-                        "{:<20} {:<15} → ВПАВ {}",
-                        host_info.name, host_info.address, jitter_text
-                    )
-                };
-
-                ui.horizontal(|ui| {
-                    ui.colored_label(color, RichText::new(text).monospace().strong());
-
-                    // Графік — тоненькі стовпчики
-                    let chart = BarChart::new(
-                        status
-                            .history
-                            .iter()
-                            .enumerate()
-                            .map(|(i, &rtt)| {
-                                let height = if rtt.is_nan() { 100.0 } else { rtt };
-                                let fill = if rtt.is_nan() {
-                                    Color32::RED
-                                } else if rtt > 100.0 {
-                                    Color32::YELLOW
-                                } else {
-                                    Color32::from_rgb(0, 200, 100)
-                                };
-                                Bar::new(i as f64, height).width(0.8).fill(fill)
-                            })
-                            .collect(),
-                    );
-
-                    Plot::new(format!("plot_{}", &host_info.address))
-                        .height(30.0)
-                        .width(300.0)
-                        .show_axes(false)
-                        .show_grid(false)
-                        .allow_zoom(true)
-                        .allow_drag(false)
-                        .allow_scroll(false)
-                        .include_y(0.0)
-                        .include_y(100.0)
-                        .show(ui, |plot_ui| plot_ui.bar_chart(chart));
-
-                    ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                        if ui.button("x").clicked() {
-                            to_remove.push(host_info.address.clone());
+                            self.input_name.clear();
+                            self.input_address.clear();
                         }
                     });
-                });
-            }
 
-            // Видаляємо хости поза lock
-            if !to_remove.is_empty() {
-                let mut state = self.state.lock().unwrap();
-                for address in to_remove {
-                    state.hosts.retain(|x| x.address != address);
-                    state.statuses.remove(&address);
-                }
-            }
+                    ui.separator();
+
+                    // Клонуємо потрібні дані один раз — уникаємо тимчасових значень
+                    let (hosts, statuses) = {
+                        let state = self.state.lock().unwrap();
+                        (state.hosts.clone(), state.statuses.clone())
+                    };
+
+                    let mut to_remove = Vec::new();
+                    let default_host_status = HostStatus::default();
+
+                    for host_info in &hosts {
+                        let status = statuses
+                            .get(&host_info.address)
+                            .unwrap_or(&default_host_status);
+
+                        let color = if status.alive {
+                            if status.latency.as_millis() > 100 {
+                                Color32::from_rgb(255, 255, 100)
+                            } else {
+                                Color32::from_rgb(0, 255, 100)
+                            }
+                        } else {
+                            Color32::from_rgb(255, 80, 80)
+                        };
+
+                        let jitter_text = format!(
+                            "J3:{:4.1} J21:{:4.1} J99:{:4.1}",
+                            status.jitter_3, status.jitter_21, status.jitter_99
+                        );
+                        let text = if status.alive {
+                            format!(
+                                "{:<20} {:<15} → {:4}мс {}",
+                                host_info.name,
+                                host_info.address,
+                                status.latency.as_millis(),
+                                jitter_text
+                            )
+                        } else {
+                            format!(
+                                "{:<20} {:<15} →   ВПАВ {}",
+                                host_info.name, host_info.address, jitter_text
+                            )
+                        };
+
+                        ui.horizontal(|ui| {
+                            // Графік — тоненькі стовпчики
+                            let chart = BarChart::new(
+                                status
+                                    .history
+                                    .iter()
+                                    .enumerate()
+                                    .map(|(i, &rtt)| {
+                                        let height = if rtt.is_nan() { 100.0 } else { rtt };
+                                        let fill = if rtt.is_nan() {
+                                            Color32::RED
+                                        } else if rtt > 100.0 {
+                                            Color32::YELLOW
+                                        } else {
+                                            Color32::from_rgb(0, 200, 100)
+                                        };
+                                        Bar::new(i as f64, height).width(0.8).fill(fill)
+                                    })
+                                    .collect(),
+                            );
+
+                            Plot::new(format!("plot_{}", &host_info.address))
+                                .height(30.0)
+                                .width(300.0)
+                                .show_axes(false)
+                                .show_grid(false)
+                                .allow_zoom(true)
+                                .allow_drag(false)
+                                .allow_scroll(false)
+                                .include_y(0.0)
+                                .include_y(100.0)
+                                .show(ui, |plot_ui| plot_ui.bar_chart(chart));
+
+                            // Текст з назвою, адресою, і результатами
+                            ui.colored_label(color, RichText::new(text).monospace().strong());
+
+                            // Кнопка для видалення хоста
+                            ui.with_layout(
+                                egui::Layout::right_to_left(egui::Align::Center),
+                                |ui| {
+                                    if ui.button("x").clicked() {
+                                        to_remove.push(host_info.address.clone());
+                                    }
+                                },
+                            );
+                        });
+                    }
+
+                    // Видаляємо хости, які були позначені для видалення
+                    if !to_remove.is_empty() {
+                        let mut state = self.state.lock().unwrap();
+                        for address in to_remove {
+                            state.hosts.retain(|x| x.address != address);
+                            state.statuses.remove(&address);
+                        }
+                    }
+                })
+            })
         });
 
         ctx.request_repaint_after(Duration::from_millis(500));
     }
-
 }
 
 fn main() -> eframe::Result {
