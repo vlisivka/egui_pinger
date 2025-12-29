@@ -176,19 +176,30 @@ impl eframe::App for EguiPinger {
             egui::ScrollArea::vertical().show(ui, |ui| {
                 egui::ScrollArea::horizontal().show(ui, |ui| {
                     ui.horizontal(|ui| {
-                        egui::TextEdit::singleline(&mut self.input_name)
-                            .char_limit(20)
-                            .hint_text("Назва хоста")
-                            .desired_width(8.0 * 20.0)
-                            .show(ui);
+                        let name_field_id = ui.make_persistent_id("name_field");
+                        let addr_field_id = ui.make_persistent_id("addr_field");
 
-                        egui::TextEdit::singleline(&mut self.input_address)
-                            .char_limit(20)
-                            .hint_text("Адреса хоста")
-                            .desired_width(8.0 * 20.0)
-                            .show(ui);
+                        let rs1 = ui.add(
+                            egui::TextEdit::singleline(&mut self.input_name)
+                                .id(name_field_id)
+                                .char_limit(20)
+                                .hint_text("Назва хоста")
+                                .desired_width(8.0 * 20.0),
+                        );
 
-                        if ui.button("Додати").clicked() && !self.input_address.trim().is_empty()
+                        let rs2 = ui.add(
+                            egui::TextEdit::singleline(&mut self.input_address)
+                                .id(addr_field_id)
+                                .char_limit(20)
+                                .hint_text("Адреса хоста")
+                                .desired_width(8.0 * 20.0),
+                        );
+
+                        // При натисненні кнопки Додати чи при натисненні клавіші Enter у другому полі, додати хост до списку
+                        if (ui.button("Додати").clicked()
+                            || (rs2.lost_focus()
+                                && rs2.ctx.input(|i| i.key_pressed(egui::Key::Enter))))
+                            && !self.input_address.trim().is_empty()
                         {
                             let name = self.input_name.trim().to_string();
                             let address = self.input_address.trim().to_string();
@@ -203,6 +214,14 @@ impl eframe::App for EguiPinger {
 
                             self.input_name.clear();
                             self.input_address.clear();
+
+                            ui.memory_mut(|mem| mem.request_focus(name_field_id));
+                        }
+
+                        // При натиснені клавіші Enter у першому полі, перемістити фокус на друге поле
+                        if rs1.lost_focus() && rs1.ctx.input(|i| i.key_pressed(egui::Key::Enter)) {
+                            println!("Фокус втрачено, Enter натиснуто у першому полі.");
+                            ui.memory_mut(|mem| mem.request_focus(addr_field_id));
                         }
                     });
 
