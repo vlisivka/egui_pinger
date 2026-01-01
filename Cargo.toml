@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2024"
 authors = [ "Volodymyr M. Lisivka <vlisivka@gmail.com>" ]
 description = "Simple pinger for multiple servers with grap and jitter."
-license = "GPL-3-or-later"
+license = "GPL-3.0-or-later"
 repository = "https://github.com/vlisivka/egui_pinger"
 keywords = [ "egui", "ping" ]
 
