@@ -241,7 +241,8 @@ impl eframe::App for EguiPinger {
                                 .desired_width(8.0 * 20.0),
                         );
 
-                        // При натисненні кнопки Додати чи при натисненні клавіші Enter у другому полі, додати хост до списку
+                        // При натисненні кнопки Додати чи при натисненні клавіші Enter у другому полі,
+                        // додати хост до списку
                         if (ui.button("Додати").clicked()
                             || (rs2.lost_focus()
                                 && rs2.ctx.input(|i| i.key_pressed(egui::Key::Enter))))
@@ -266,7 +267,6 @@ impl eframe::App for EguiPinger {
 
                         // При натиснені клавіші Enter у першому полі, перемістити фокус на друге поле
                         if rs1.lost_focus() && rs1.ctx.input(|i| i.key_pressed(egui::Key::Enter)) {
-                            println!("Фокус втрачено, Enter натиснуто у першому полі.");
                             ui.memory_mut(|mem| mem.request_focus(addr_field_id));
                         }
                     });
