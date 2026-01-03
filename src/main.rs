@@ -339,6 +339,7 @@ fn main() -> eframe::Result {
         viewport: egui::ViewportBuilder::default()
             .with_inner_size([800.0, 520.0])
             .with_resizable(true),
+        renderer: eframe::Renderer::Wgpu,
         ..Default::default()
     };
 

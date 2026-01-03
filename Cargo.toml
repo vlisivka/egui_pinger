@@ -2,14 +2,15 @@
 name = "egui_pinger"
 version = "0.1.0"
 edition = "2024"
-authors = [ "Volodymyr M. Lisivka <vlisivka@gmail.com>" ]
-description = "Simple pinger for multiple servers with grap and jitter."
+authors = ["Volodymyr M. Lisivka <vlisivka@gmail.com>"]
+description = "Simple pinger for multiple servers with graph and jitter."
 license = "GPL-3.0-or-later"
 repository = "https://github.com/vlisivka/egui_pinger"
-keywords = [ "egui", "ping" ]
+keywords = ["egui", "ping"]
 
 [dependencies]
-eframe = { version = "0.31", features = [ "persistence" ] }
+eframe = { version = "0.31", features = ["persistence", "wgpu"] }
+wgpu = { version = "*", features = ["glsl", "angle"] }
 egui_extras = { version = "0.31", features = ["all_loaders"] }
 egui_plot = "0.31"
 
