@@ -18,18 +18,94 @@ struct HostInfo {
 
 #[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
 struct HostStatus {
+    /// Чи отримали ми відповідь від хоста цього разу
     #[serde(skip, default)]
     alive: bool,
+    /// Останній RTT
     #[serde(skip, default)]
-    latency: Duration,
+    latency: f64,
+    /// Останні 99 RTT у мілісекундах (NaN = втрата)
     #[serde(skip, default)]
-    history: Vec<f64>, // останні 99 RTT у мілісекундах (NaN = втрата)
+    history: Vec<f64>,
+    /// Середнє арифметичне
+    #[serde(skip, default)]
+    mean: f64,
+    /// Тремтіння (jitter) для останніх 3 результатів
     #[serde(skip, default)]
     jitter_3: f64,
+    /// Тремтіння (jitter) для останніх 21 результатів
     #[serde(skip, default)]
     jitter_21: f64,
+    /// Середнє тремтіння
     #[serde(skip, default)]
     jitter_99: f64,
+    /// Кількість надісланих пакетів
+    #[serde(skip, default)]
+    sent: u32,
+    /// Кількість неотриманих відповідей
+    #[serde(skip, default)]
+    lost: u32,
+}
+
+impl HostStatus {
+    fn add_sample(&mut self, rtt_ms: f64) {
+        self.sent += 1;
+
+        if rtt_ms.is_nan() {
+            self.lost += 1;
+        }
+
+        self.latency = rtt_ms;
+
+        // Додаємо в історію (максимум 99)
+        self.history.push(rtt_ms);
+        if self.history.len() > 99 {
+            self.history.remove(0);
+        }
+
+        let valid_data = self
+            .history
+            .iter()
+            .copied()
+            .filter(|v| !v.is_nan())
+            .collect::<Vec<f64>>();
+
+        if valid_data.len() < 2 {
+            // Недостатньо даних
+            self.jitter_3 = 0.0;
+            self.jitter_99 = 0.0;
+            return;
+        }
+
+        // Середнє
+        self.mean = valid_data.iter().sum::<f64>() / valid_data.len() as f64;
+
+        // Середнє тремтіння (jitter)
+        self.jitter_99 = Self::calculate_jitter(&valid_data[..]);
+
+        // Тремтіння для останніх 16 елементів
+        let start_index = valid_data.len().saturating_sub(16);
+        self.jitter_21 = Self::calculate_jitter(&valid_data[start_index..]);
+
+        // Тремтіння для останніх 3 елементів
+        let start_index = valid_data.len().saturating_sub(3);
+        self.jitter_3 = Self::calculate_jitter(&valid_data[start_index..]);
+    }
+
+    fn calculate_jitter(valid_data: &[f64]) -> f64 {
+        if valid_data.len() < 2 {
+            return 0.0;
+        }
+
+        let mut total_diff = 0.0;
+        // Обчислюємо абсолютну різницю між сусідніми елементами
+        for window in valid_data.windows(2) {
+            let diff = (window[1] - window[0]).abs();
+            total_diff += diff;
+        }
+        // Середнє значення різниць
+        total_diff / (valid_data.len() - 1) as f64
+    }
 }
 
 #[derive(Default, serde::Serialize, serde::Deserialize)]
@@ -41,7 +117,7 @@ struct AppState {
 struct EguiPinger {
     state: SharedState,
 
-    rx: mpsc::UnboundedReceiver<(String, bool, Duration, f64)>,
+    rx: mpsc::UnboundedReceiver<(String, bool, f64)>,
     input_name: String,
     input_address: String,
 }
@@ -81,7 +157,7 @@ impl EguiPinger {
 
 use futures::future::join_all;
 
-async fn pinger_task(state: SharedState, tx: mpsc::UnboundedSender<(String, bool, Duration, f64)>) {
+async fn pinger_task(state: SharedState, tx: mpsc::UnboundedSender<(String, bool, f64)>) {
     let payload = [42u8; 16];
     let mut interval = tokio::time::interval(Duration::from_secs(2));
 
@@ -105,16 +181,15 @@ async fn pinger_task(state: SharedState, tx: mpsc::UnboundedSender<(String, bool
                 Some(tokio::spawn(async move {
                     let result =
                         tokio::time::timeout(Duration::from_secs(2), ping(ip, &payload)).await;
-                    let (alive, rtt) = match result {
-                        Ok(Ok((_, duration))) => (true, duration),
-                        _ => (false, Duration::ZERO),
+
+                    let (alive, rtt_ms) = match result {
+                        // Є відповідь, хост живий
+                        Ok(Ok((_, duration))) => (true, duration.as_secs_f64() * 1000.0),
+                        // Немає відповіді, хост впав
+                        _ => (false, f64::NAN),
                     };
-                    let rtt_ms = if alive {
-                        rtt.as_secs_f64() * 1000.0
-                    } else {
-                        f64::NAN
-                    };
-                    let _res = tx.send((address, alive, rtt, rtt_ms));
+
+                    let _res = tx.send((address, alive, rtt_ms));
                 }))
             })
             .collect();
@@ -134,41 +209,12 @@ impl eframe::App for EguiPinger {
 
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         // Оновлюємо статуси з фонового потоку
-        while let Ok((address, alive, latency, rtt_ms)) = self.rx.try_recv() {
+        while let Ok((address, alive, rtt_ms)) = self.rx.try_recv() {
             let mut state = self.state.lock().unwrap();
             if let Some(status) = state.statuses.get_mut(&address) {
                 status.alive = alive;
-                status.latency = latency;
 
-                // Додаємо в історію (максимум 99)
-                status.history.push(rtt_ms);
-                if status.history.len() > 99 {
-                    status.history.remove(0);
-                }
-
-                // Функція для jitter (стандартне відхилення)
-                fn jitter(samples: &[f64]) -> f64 {
-                    let valid: Vec<f64> = samples.iter().copied().filter(|v| !v.is_nan()).collect();
-                    if valid.len() < 2 {
-                        return 0.0;
-                    }
-                    let mean = valid.iter().sum::<f64>() / valid.len() as f64;
-                    let variance =
-                        valid.iter().map(|v| (v - mean).powi(2)).sum::<f64>() / valid.len() as f64;
-                    variance.sqrt()
-                }
-
-                if status.history.len() >= 3 {
-                    let last3 = &status.history[status.history.len().saturating_sub(3)..];
-                    status.jitter_3 = jitter(last3);
-                }
-                if status.history.len() >= 21 {
-                    let last21 = &status.history[status.history.len().saturating_sub(21)..];
-                    status.jitter_21 = jitter(last21);
-                }
-                if status.history.len() >= 99 {
-                    status.jitter_99 = jitter(&status.history);
-                }
+                status.add_sample(rtt_ms);
             }
         }
 
@@ -242,7 +288,7 @@ impl eframe::App for EguiPinger {
                             .unwrap_or(&default_host_status);
 
                         let color = if status.alive {
-                            if status.latency.as_millis() > 100 {
+                            if status.latency > 100.0 {
                                 Color32::from_rgb(255, 255, 100)
                             } else {
                                 Color32::from_rgb(0, 255, 100)
@@ -252,33 +298,48 @@ impl eframe::App for EguiPinger {
                         };
 
                         let jitter_text = format!(
-                            "J3:{:4.1} J21:{:4.1} J99:{:4.1}",
-                            status.jitter_3, status.jitter_21, status.jitter_99
+                            "Середнє: {:4.1} Тремтіння: Т3 {:4.1}, Т21 {:4.1}, Т99 {:4.1}",
+                            status.mean, status.jitter_3, status.jitter_21, status.jitter_99
                         );
                         let text = if status.alive {
                             format!(
-                                "{:<20} {:<15} → {:4}мс {}",
+                                "{:<20} {:<15} → {:4.0}мс {} Втрачено: {}/{} {:.2}%",
                                 host_info.name,
                                 host_info.address,
-                                status.latency.as_millis(),
-                                jitter_text
+                                status.latency,
+                                jitter_text,
+                                status.lost,
+                                status.sent,
+                                (status.lost as f64
+                                    / if status.sent == 0 { 1 } else { status.sent } as f64)
+                                    * 100.0
                             )
                         } else {
                             format!(
-                                "{:<20} {:<15} →   ВПАВ {}",
-                                host_info.name, host_info.address, jitter_text
+                                "{:<20} {:<15} →   НЕМА {} Втрачено: {}/{} {:.2}%",
+                                host_info.name,
+                                host_info.address,
+                                jitter_text,
+                                status.lost,
+                                status.sent,
+                                (status.lost as f64
+                                    / if status.sent == 0 { 1 } else { status.sent } as f64)
+                                    * 100.0
                             )
                         };
 
                         ui.horizontal(|ui| {
-                            // Графік — тоненькі стовпчики
+                            // Графік — тоненькі стовпчики зеленого (для <100 мс), жовтого (для >100 мс ),
+                            // і червоного (для пропущених) кольорів
                             let chart = BarChart::new(
                                 status
                                     .history
                                     .iter()
                                     .enumerate()
                                     .map(|(i, &rtt)| {
+                                        // Якщо пропущений, робимо стовпчик на всю висоту (100 мс)
                                         let height = if rtt.is_nan() { 100.0 } else { rtt };
+
                                         let fill = if rtt.is_nan() {
                                             Color32::RED
                                         } else if rtt > 100.0 {
@@ -286,24 +347,26 @@ impl eframe::App for EguiPinger {
                                         } else {
                                             Color32::from_rgb(0, 200, 100)
                                         };
+
                                         Bar::new(i as f64, height).width(0.8).fill(fill)
                                     })
                                     .collect(),
                             );
 
+                            // Графік від 0 до 100 мс, по замовчуванню.
                             Plot::new(format!("plot_{}", &host_info.address))
                                 .height(30.0)
-                                .width(300.0)
+                                .width(337.0)
                                 .show_axes(false)
                                 .show_grid(false)
-                                .allow_zoom(true)
+                                .allow_zoom(false)
                                 .allow_drag(false)
                                 .allow_scroll(false)
                                 .include_y(0.0)
                                 .include_y(100.0)
                                 .show(ui, |plot_ui| plot_ui.bar_chart(chart));
 
-                            // Текст з назвою, адресою, і результатами
+                            // Текст з назвою, адресою, і результатами. Шрифт фіксованої ширини, жирний.
                             ui.colored_label(color, RichText::new(text).monospace().strong());
 
                             // Кнопка для видалення хоста
@@ -330,7 +393,7 @@ impl eframe::App for EguiPinger {
             })
         });
 
-        ctx.request_repaint_after(Duration::from_millis(500));
+        ctx.request_repaint_after(Duration::from_millis(1000));
     }
 }
 
