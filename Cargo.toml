@@ -1,6 +1,6 @@
 [package]
 name = "egui_pinger"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 authors = ["Volodymyr M. Lisivka <vlisivka@gmail.com>"]
 description = "Simple pinger for multiple servers with graph and jitter."
