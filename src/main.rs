@@ -6,7 +6,6 @@ use std::net::IpAddr;
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 use surge_ping::ping;
-use tokio::sync::mpsc;
 
 type SharedState = Arc<Mutex<AppState>>;
 
@@ -117,15 +116,12 @@ struct AppState {
 struct EguiPinger {
     state: SharedState,
 
-    rx: mpsc::UnboundedReceiver<(String, bool, f64)>,
     input_name: String,
     input_address: String,
 }
 
 impl EguiPinger {
     fn new(cc: &eframe::CreationContext<'_>) -> Self {
-        let (tx, rx) = mpsc::unbounded_channel();
-
         let state = Arc::new(Mutex::new(match cc.storage {
             Some(storage) => {
                 if let Some(serialized) = storage.get_string(eframe::APP_KEY) {
@@ -143,12 +139,11 @@ impl EguiPinger {
                 .enable_all()
                 .build()
                 .unwrap()
-                .block_on(pinger_task(state_clone, tx));
+                .block_on(pinger_task(state_clone));
         });
 
         Self {
             state,
-            rx,
             input_name: String::new(),
             input_address: String::new(),
         }
@@ -157,7 +152,7 @@ impl EguiPinger {
 
 use futures::future::join_all;
 
-async fn pinger_task(state: SharedState, tx: mpsc::UnboundedSender<(String, bool, f64)>) {
+async fn pinger_task(state: SharedState) {
     let payload = [42u8; 16];
     let mut interval = tokio::time::interval(Duration::from_secs(2));
 
@@ -176,7 +171,7 @@ async fn pinger_task(state: SharedState, tx: mpsc::UnboundedSender<(String, bool
                 let ip: IpAddr = host_info.address.parse().ok()?;
                 let payload = payload;
                 let address = host_info.address.clone();
-                let tx = tx.clone();
+                let state = state.clone();
 
                 Some(tokio::spawn(async move {
                     let result =
@@ -189,7 +184,11 @@ async fn pinger_task(state: SharedState, tx: mpsc::UnboundedSender<(String, bool
                         _ => (false, f64::NAN),
                     };
 
-                    let _res = tx.send((address, alive, rtt_ms));
+                    if let Some(status) = state.lock().unwrap().statuses.get_mut(&address) {
+                        status.alive = alive;
+
+                        status.add_sample(rtt_ms);
+                    }
                 }))
             })
             .collect();
@@ -208,16 +207,6 @@ impl eframe::App for EguiPinger {
     }
 
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        // Оновлюємо статуси з фонового потоку
-        while let Ok((address, alive, rtt_ms)) = self.rx.try_recv() {
-            let mut state = self.state.lock().unwrap();
-            if let Some(status) = state.statuses.get_mut(&address) {
-                status.alive = alive;
-
-                status.add_sample(rtt_ms);
-            }
-        }
-
         egui::CentralPanel::default().show(ctx, |ui| {
             egui::ScrollArea::vertical().show(ui, |ui| {
                 egui::ScrollArea::horizontal().show(ui, |ui| {
