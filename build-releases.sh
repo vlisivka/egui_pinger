@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ue
+set -ueE -o pipefail
 
 NAME=$(<Cargo.toml grep '^name =' | cut -d '"' -f 2)
 VERSION=$(<Cargo.toml grep '^version =' | cut -d '"' -f 2)
@@ -13,8 +13,8 @@ panic() {
 [ -x ~/.cargo/bin/cross ] || cargo install cross --git https://github.com/cross-rs/cross \
   || panic "Cannot install cross compiler. Install it manually, see https://github.com/cross-rs/cross ."
 
-cargo clean || panic "Cannot clean \"target\" directory."
-rm -rf "$RELEASES_DIR/*"
+#cargo clean || panic "Cannot clean \"target\" directory."
+rm -rf "$RELEASES_DIR/*" || panic "Cannot clean \"$RELEASES_DIR\" directory."
 mkdir -p "$RELEASES_DIR" || panic "Cannot create \"$RELEASES_DIR\" directory."
 
 ARCHES=(
@@ -32,19 +32,19 @@ do
 
   if [ -x "$TARGET_BUILD_DIR/$NAME" ]
   then
-    EXECUTABLE="$TARGET_BUILD_DIR/$NAME"
+    EXECUTABLE="$NAME"
     ARCHIVE="$RELEASES_DIR/$TARGET-$VERSION.tar.gz"
 
     rm -f "$ARCHIVE"
-    tar -zcf "$ARCHIVE" "$EXECUTABLE" || panic "Cannot make archive \"$ARCHIVE\" using file \"$EXECUTABLE\"."
+    tar -zcf "$ARCHIVE" -C "$TARGET_BUILD_DIR" "$EXECUTABLE" || panic "Cannot make archive \"$ARCHIVE\" using file \"$EXECUTABLE\" from \"$TARGET_BUILD_DIR\"."
 
   elif [ -x "$TARGET_BUILD_DIR/$NAME.exe" ]
   then
-    EXECUTABLE="$TARGET_BUILD_DIR/$NAME.exe"
-    ARCHIVE="$RELEASES_DIR/$TARGET-$VERSION.zip"
+    EXECUTABLE="$NAME.exe"
+    ARCHIVE=$(readlink -f "$RELEASES_DIR/$TARGET-$VERSION.zip")
 
     rm -f "$ARCHIVE"
-    zip "$ARCHIVE" "$EXECUTABLE" || panic "Cannot make archive \"$ARCHIVE\" using file \"$EXECUTABLE\"."
+    ( cd "$TARGET_BUILD_DIR" && zip "$ARCHIVE" "$EXECUTABLE" ) || panic "Cannot make archive \"$ARCHIVE\" using file \"$EXECUTABLE\" from \"$TARGET_BUILD_DIR\" ."
 
   else
     panic "Cannot find executable for \"$TARGET\" target."
