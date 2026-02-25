@@ -3,123 +3,16 @@
 use eframe::egui;
 use eframe::egui::{Color32, RichText};
 use egui_plot::{Bar, BarChart, Plot};
-use std::collections::HashMap;
-use std::net::IpAddr;
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
-use surge_ping::ping;
 use tr::tr;
 #[cfg(not(feature = "embed-locales"))]
 use tr::tr_init;
+mod model;
+mod logic;
 
-#[cfg(feature = "embed-locales")]
-use tr::MoTranslator;
-
-type SharedState = Arc<Mutex<AppState>>;
-
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
-struct HostInfo {
-    name: String,
-    address: String,
-}
-
-#[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
-struct HostStatus {
-    /// Чи отримали ми відповідь від хоста цього разу
-    #[serde(skip, default)]
-    alive: bool,
-    /// Останній RTT
-    #[serde(skip, default)]
-    latency: f64,
-    /// Останні 99 RTT у мілісекундах (NaN = втрата)
-    #[serde(skip, default)]
-    history: Vec<f64>,
-    /// Середнє арифметичне
-    #[serde(skip, default)]
-    mean: f64,
-    /// Тремтіння (jitter) для останніх 3 результатів
-    #[serde(skip, default)]
-    jitter_3: f64,
-    /// Тремтіння (jitter) для останніх 21 результатів
-    #[serde(skip, default)]
-    jitter_21: f64,
-    /// Середнє тремтіння
-    #[serde(skip, default)]
-    jitter_99: f64,
-    /// Кількість надісланих пакетів
-    #[serde(skip, default)]
-    sent: u32,
-    /// Кількість неотриманих відповідей
-    #[serde(skip, default)]
-    lost: u32,
-}
-
-impl HostStatus {
-    fn add_sample(&mut self, rtt_ms: f64) {
-        self.sent += 1;
-
-        if rtt_ms.is_nan() {
-            self.lost += 1;
-        }
-
-        self.latency = rtt_ms;
-
-        // Додаємо в історію (максимум 99)
-        self.history.push(rtt_ms);
-        if self.history.len() > 99 {
-            self.history.remove(0);
-        }
-
-        let valid_data = self
-            .history
-            .iter()
-            .copied()
-            .filter(|v| !v.is_nan())
-            .collect::<Vec<f64>>();
-
-        if valid_data.len() < 2 {
-            // Недостатньо даних
-            self.jitter_3 = 0.0;
-            self.jitter_99 = 0.0;
-            return;
-        }
-
-        // Середнє
-        self.mean = valid_data.iter().sum::<f64>() / valid_data.len() as f64;
-
-        // Середнє тремтіння (jitter)
-        self.jitter_99 = Self::calculate_jitter(&valid_data[..]);
-
-        // Тремтіння для останніх 16 елементів
-        let start_index = valid_data.len().saturating_sub(16);
-        self.jitter_21 = Self::calculate_jitter(&valid_data[start_index..]);
-
-        // Тремтіння для останніх 3 елементів
-        let start_index = valid_data.len().saturating_sub(3);
-        self.jitter_3 = Self::calculate_jitter(&valid_data[start_index..]);
-    }
-
-    fn calculate_jitter(valid_data: &[f64]) -> f64 {
-        if valid_data.len() < 2 {
-            return 0.0;
-        }
-
-        let mut total_diff = 0.0;
-        // Обчислюємо абсолютну різницю між сусідніми елементами
-        for window in valid_data.windows(2) {
-            let diff = (window[1] - window[0]).abs();
-            total_diff += diff;
-        }
-        // Середнє значення різниць
-        total_diff / (valid_data.len() - 1) as f64
-    }
-}
-
-#[derive(Default, serde::Serialize, serde::Deserialize)]
-struct AppState {
-    hosts: Vec<HostInfo>,
-    statuses: HashMap<String, HostStatus>,
-}
+use model::{AppState, HostInfo, HostStatus};
+use logic::{pinger_task, SharedState};
 
 struct EguiPinger {
     state: SharedState,
@@ -155,56 +48,6 @@ impl EguiPinger {
             input_name: String::new(),
             input_address: String::new(),
         }
-    }
-}
-
-use futures::future::join_all;
-
-async fn pinger_task(state: SharedState) {
-    let payload = [42u8; 16];
-    let mut interval = tokio::time::interval(Duration::from_secs(2));
-
-    loop {
-        interval.tick().await;
-
-        let hosts: Vec<HostInfo> = state.lock().unwrap().hosts.clone();
-        if hosts.is_empty() {
-            continue;
-        }
-
-        // Створюємо та запускаємо всі пінги паралельно
-        let ping_tasks: Vec<_> = hosts
-            .iter()
-            .filter_map(|host_info| {
-                let ip: IpAddr = host_info.address.parse().ok()?;
-                let payload = payload;
-                let address = host_info.address.clone();
-                let state = state.clone();
-
-                Some(tokio::spawn(async move {
-                    let result =
-                        tokio::time::timeout(Duration::from_secs(2), ping(ip, &payload)).await;
-
-                    let (alive, rtt_ms) = match result {
-                        // Є відповідь, хост живий
-                        Ok(Ok((_, duration))) => (true, duration.as_secs_f64() * 1000.0),
-                        // Немає відповіді, хост впав
-                        _ => (false, f64::NAN),
-                    };
-
-                    if let Some(status) = state.lock().unwrap().statuses.get_mut(&address) {
-                        status.alive = alive;
-
-                        status.add_sample(rtt_ms);
-                    }
-                }))
-            })
-            .collect();
-
-        // Запускаємо всі task'и паралельно
-        tokio::spawn(async move {
-            let _res = join_all(ping_tasks).await;
-        });
     }
 }
 
