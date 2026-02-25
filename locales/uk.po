@@ -1,0 +1,48 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: egui_pinger\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-25 14:31+0000\n"
+"PO-Revision-Date: 2026-02-25 16:30+0200\n"
+"Last-Translator: Volodymyr M. Lisivka <vlisivka@gmail.com>\n"
+"Language-Team: Ukrainian\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: ../src/main.rs:224
+msgid "Host name"
+msgstr "Імʼя хоста"
+
+#: ../src/main.rs:232
+msgid "Host address"
+msgstr "Адреса хоста"
+
+#. When "Add" button is clicked or Enter is pressed in the second field,
+#. add host to the list
+#: ../src/main.rs:238
+msgid "Add"
+msgstr "Додати"
+
+#: ../src/main.rs:294
+msgid "Mean:"
+msgstr "Середнє:"
+
+#: ../src/main.rs:294
+msgid "Jitter:"
+msgstr "Тремтіння:"
+
+#: ../src/main.rs:303 ../src/main.rs:317
+msgid "Lost"
+msgstr "Втрачено"
+
+#: ../src/main.rs:315
+msgid "DOWN"
+msgstr "НЕМА"
+
+#: ../src/main.rs:406
+msgid "egui pinger"
+msgstr "egui pinger"

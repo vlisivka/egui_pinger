@@ -8,6 +8,12 @@ use std::net::IpAddr;
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 use surge_ping::ping;
+use tr::tr;
+#[cfg(not(feature = "embed-locales"))]
+use tr::tr_init;
+
+#[cfg(feature = "embed-locales")]
+use tr::MoTranslator;
 
 type SharedState = Arc<Mutex<AppState>>;
 
@@ -220,7 +226,7 @@ impl eframe::App for EguiPinger {
                             egui::TextEdit::singleline(&mut self.input_name)
                                 .id(name_field_id)
                                 .char_limit(20)
-                                .hint_text("Назва хоста")
+                                .hint_text(tr!("Host name"))
                                 .desired_width(8.0 * 20.0),
                         );
 
@@ -228,13 +234,13 @@ impl eframe::App for EguiPinger {
                             egui::TextEdit::singleline(&mut self.input_address)
                                 .id(addr_field_id)
                                 .char_limit(20)
-                                .hint_text("Адреса хоста")
+                                .hint_text(tr!("Host address"))
                                 .desired_width(8.0 * 20.0),
                         );
 
-                        // При натисненні кнопки Додати чи при натисненні клавіші Enter у другому полі,
-                        // додати хост до списку
-                        if (ui.button("Додати").clicked()
+                        // When "Add" button is clicked or Enter is pressed in the second field,
+                        // add host to the list
+                        if (ui.button(tr!("Add")).clicked()
                             || (rs2.lost_focus()
                                 && rs2.ctx.input(|i| i.key_pressed(egui::Key::Enter))))
                             && !self.input_address.trim().is_empty()
@@ -289,16 +295,17 @@ impl eframe::App for EguiPinger {
                         };
 
                         let jitter_text = format!(
-                            "Середнє: {:4.1} Тремтіння: Т3 {:4.1}, Т21 {:4.1}, Т99 {:4.1}",
-                            status.mean, status.jitter_3, status.jitter_21, status.jitter_99
+                            "{} {:4.1} {} Т3 {:4.1}, Т21 {:4.1}, Т99 {:4.1}",
+                            tr!("Mean:"), status.mean, tr!("Jitter:"), status.jitter_3, status.jitter_21, status.jitter_99
                         );
                         let text = if status.alive {
                             format!(
-                                "{:<20} {:<15} → {:4.0}мс {} Втрачено: {}/{} {:.2}%",
+                                "{:<20} {:<15} → {:4.0}ms {} {}: {}/{} {:.2}%",
                                 host_info.name,
                                 host_info.address,
                                 status.latency,
                                 jitter_text,
+                                tr!("Lost"),
                                 status.lost,
                                 status.sent,
                                 (status.lost as f64
@@ -307,10 +314,12 @@ impl eframe::App for EguiPinger {
                             )
                         } else {
                             format!(
-                                "{:<20} {:<15} →   НЕМА {} Втрачено: {}/{} {:.2}%",
+                                "{:<20} {:<15} → {:>4} {} {}: {}/{} {:.2}%",
                                 host_info.name,
                                 host_info.address,
+                                tr!("DOWN"),
                                 jitter_text,
+                                tr!("Lost"),
                                 status.lost,
                                 status.sent,
                                 (status.lost as f64
@@ -387,7 +396,6 @@ impl eframe::App for EguiPinger {
         ctx.request_repaint_after(Duration::from_millis(1000));
     }
 }
-
 fn main() -> eframe::Result {
     let options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
@@ -397,8 +405,25 @@ fn main() -> eframe::Result {
         ..Default::default()
     };
 
+    #[cfg(not(feature = "embed-locales"))]
+    tr_init!("./locales");
+
+    #[cfg(feature = "embed-locales")]
+    {
+        // For embedded mode, we check the language and load the appropriate MO file.
+        // Currently, we only have Ukrainian translation.
+        let lang = std::env::var("LANG").or_else(|_| std::env::var("LC_ALL")).or_else(|_| std::env::var("LC_MESSAGES")).unwrap_or_else(|_| "en".to_string());
+        
+        if lang.starts_with("uk") {
+            let uk_mo = include_bytes!("../locales/uk/LC_MESSAGES/egui_pinger.mo");
+            if let Ok(translator) = MoTranslator::from_vec_u8(uk_mo.to_vec()) {
+                tr::set_translator!(translator);
+            }
+        }
+    }
+
     eframe::run_native(
-        "egui pinger",
+        &tr!("egui pinger"),
         options,
         Box::new(|cc| Ok(Box::new(EguiPinger::new(cc)))),
     )
