@@ -172,11 +172,6 @@ impl EguiPinger {
                         };
 
                         ui.horizontal(|ui| {
-                            // Кнопка для видалення хоста
-                            if ui.button("x").clicked() {
-                                to_remove.push(host_info.address.clone());
-                            }
-
                             // Графік — тоненькі стовпчики зеленого (для <100 мс), жовтого (для >100 мс ),
                             // і червоного (для пропущених) кольорів
                             let chart = BarChart::new(
@@ -217,6 +212,16 @@ impl EguiPinger {
 
                             // Текст з назвою, адресою, і результатами. Шрифт фіксованої ширини, жирний.
                             ui.colored_label(color, RichText::new(text).monospace().strong());
+
+                            // Кнопка для видалення хоста (справа)
+                            ui.with_layout(
+                                egui::Layout::right_to_left(egui::Align::Center),
+                                |ui| {
+                                    if ui.button("x").clicked() {
+                                        to_remove.push(host_info.address.clone());
+                                    }
+                                },
+                            );
                         });
                     }
 
@@ -316,6 +321,8 @@ mod gui_tests {
         
         let mut app = EguiPinger::from_state(state.clone());
         let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
+        // Збільшуємо розмір, щоб кнопка видалення (справа) була видима і доступна для кліку
+        harness.set_size(egui::vec2(1200.0, 800.0));
         harness.run();
 
         // Check if host is there
