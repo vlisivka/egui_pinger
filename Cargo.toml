@@ -9,10 +9,10 @@ repository = "https://github.com/vlisivka/egui_pinger"
 keywords = ["egui", "ping"]
 
 [dependencies]
-eframe = { version = "0.31", features = ["persistence", "wgpu"] }
-wgpu = { version = "*", features = ["glsl", "angle"] }
-egui_extras = { version = "0.31", features = ["all_loaders"] }
-egui_plot = "0.31"
+eframe = { version = "0.33", features = ["persistence", "wgpu"] }
+wgpu = { version = "27", features = ["glsl", "angle"] }
+egui_extras = { version = "0.33", features = ["all_loaders"] }
+egui_plot = "0.34"
 
 tokio = { version = "1.38", features = ["rt-multi-thread", "macros", "time"] }
 surge-ping = "0.8"
@@ -37,4 +37,4 @@ opt-level = 1
 debug = 0
 
 [dev-dependencies]
-egui_kittest = "0.31"
+egui_kittest = "0.33"

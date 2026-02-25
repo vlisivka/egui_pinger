@@ -172,9 +172,15 @@ impl EguiPinger {
                         };
 
                         ui.horizontal(|ui| {
+                            // Кнопка для видалення хоста
+                            if ui.button("x").clicked() {
+                                to_remove.push(host_info.address.clone());
+                            }
+
                             // Графік — тоненькі стовпчики зеленого (для <100 мс), жовтого (для >100 мс ),
                             // і червоного (для пропущених) кольорів
                             let chart = BarChart::new(
+                                tr!("Pings"),
                                 status
                                     .history
                                     .iter()
@@ -211,16 +217,6 @@ impl EguiPinger {
 
                             // Текст з назвою, адресою, і результатами. Шрифт фіксованої ширини, жирний.
                             ui.colored_label(color, RichText::new(text).monospace().strong());
-
-                            // Кнопка для видалення хоста
-                            ui.with_layout(
-                                egui::Layout::right_to_left(egui::Align::Center),
-                                |ui| {
-                                    if ui.button("x").clicked() {
-                                        to_remove.push(host_info.address.clone());
-                                    }
-                                },
-                            );
                         });
                     }
 
