@@ -14,11 +14,10 @@ mod logic;
 use model::{AppState, HostInfo, HostStatus};
 use logic::{pinger_task, SharedState};
 
-struct EguiPinger {
-    state: SharedState,
-
-    input_name: String,
-    input_address: String,
+pub struct EguiPinger {
+    pub(crate) state: SharedState,
+    pub(crate) input_name: String,
+    pub(crate) input_address: String,
 }
 
 impl EguiPinger {
@@ -49,15 +48,16 @@ impl EguiPinger {
             input_address: String::new(),
         }
     }
-}
 
-impl eframe::App for EguiPinger {
-    fn save(&mut self, storage: &mut dyn eframe::Storage) {
-        let serialized = serde_json::to_string_pretty(&self.state).unwrap_or_default();
-        storage.set_string(eframe::APP_KEY, serialized);
+    pub fn from_state(state: SharedState) -> Self {
+        Self {
+            state,
+            input_name: String::new(),
+            input_address: String::new(),
+        }
     }
 
-    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+    pub fn ui_layout(&mut self, ctx: &egui::Context) {
         egui::CentralPanel::default().show(ctx, |ui| {
             egui::ScrollArea::vertical().show(ui, |ui| {
                 egui::ScrollArea::horizontal().show(ui, |ui| {
@@ -235,7 +235,17 @@ impl eframe::App for EguiPinger {
                 })
             })
         });
+    }
+}
 
+impl eframe::App for EguiPinger {
+    fn save(&mut self, storage: &mut dyn eframe::Storage) {
+        let serialized = serde_json::to_string_pretty(&self.state).unwrap_or_default();
+        storage.set_string(eframe::APP_KEY, serialized);
+    }
+
+    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+        self.ui_layout(ctx);
         ctx.request_repaint_after(Duration::from_millis(1000));
     }
 }
@@ -270,4 +280,93 @@ fn main() -> eframe::Result {
         options,
         Box::new(|cc| Ok(Box::new(EguiPinger::new(cc)))),
     )
+}
+
+#[cfg(test)]
+mod gui_tests {
+    use super::*;
+    use egui_kittest::Harness;
+    use egui_kittest::kittest::Queryable;
+
+    #[test]
+    fn test_add_host_flow() {
+        let state = Arc::new(Mutex::new(AppState::default()));
+        let mut app = EguiPinger::from_state(state.clone());
+        // 1. Set fields (before creating harness to avoid borrow checker issues)
+        app.input_name = "Google".to_string();
+        app.input_address = "8.8.8.8".to_string();
+
+        let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
+        
+        // 2. Click Add
+        harness.get_by_label("Add").click();
+        harness.run();
+
+        // 4. Verify
+        let state_lock = state.lock().unwrap();
+        assert_eq!(state_lock.hosts.len(), 1);
+        assert_eq!(state_lock.hosts[0].name, "Google");
+        assert_eq!(state_lock.hosts[0].address, "8.8.8.8");
+    }
+
+    #[test]
+    fn test_remove_host_flow() {
+        let state = Arc::new(Mutex::new(AppState::default()));
+        {
+            let mut s = state.lock().unwrap();
+            s.hosts.push(HostInfo { name: "Test".to_string(), address: "1.2.3.4".to_string() });
+            s.statuses.insert("1.2.3.4".to_string(), HostStatus::default());
+        }
+        
+        let mut app = EguiPinger::from_state(state.clone());
+        let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
+        harness.run();
+
+        // Check if host is there
+        assert_eq!(state.lock().unwrap().hosts.len(), 1);
+
+        // Click delete button (labeled "x")
+        harness.get_by_label("x").click();
+        harness.run();
+
+        // Verify host is gone
+        assert!(state.lock().unwrap().hosts.is_empty());
+    }
+
+    #[test]
+    fn test_validation_empty_address() {
+        let state = Arc::new(Mutex::new(AppState::default()));
+        let mut app = EguiPinger::from_state(state.clone());
+        // Fill name, address is empty
+        app.input_name = "Invalid".to_string();
+        app.input_address = String::new();
+
+        let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
+        harness.get_by_label("Add").click();
+        harness.run();
+
+        assert!(state.lock().unwrap().hosts.is_empty());
+    }
+
+    #[test]
+    fn test_status_display_updates() {
+        let state = Arc::new(Mutex::new(AppState::default()));
+        {
+            let mut s = state.lock().unwrap();
+            s.hosts.push(HostInfo { name: "Google".to_string(), address: "8.8.8.8".to_string() });
+            let mut status = HostStatus::default();
+            status.alive = true;
+            status.latency = 123.0;
+            status.mean = 123.0;
+            s.statuses.insert("8.8.8.8".to_string(), status);
+        }
+
+        let mut app = EguiPinger::from_state(state.clone());
+        let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
+        harness.run();
+
+        // The text should contain "123ms"
+        // get_by_label for colored_label uses the text as label
+        harness.get_by_label_contains("123ms");
+    }
 }
