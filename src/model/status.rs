@@ -63,7 +63,11 @@ impl HostStatus {
 
         if valid_data.len() < 2 {
             // Not enough data for jitter calculation
-            self.mean = if valid_data.is_empty() { 0.0 } else { valid_data[0] };
+            self.mean = if valid_data.is_empty() {
+                0.0
+            } else {
+                valid_data[0]
+            };
             self.jitter_3 = 0.0;
             self.jitter_21 = 0.0;
             self.jitter_99 = 0.0;
@@ -96,7 +100,7 @@ pub fn calculate_jitter(valid_data: &[f64]) -> f64 {
         let diff = (window[1] - window[0]).abs();
         total_diff += diff;
     }
-    
+
     total_diff / (valid_data.len() - 1) as f64
 }
 
@@ -131,7 +135,7 @@ mod tests {
         status.add_sample(10.0);
         status.add_sample(20.0);
         status.add_sample(f64::NAN);
-        
+
         assert_eq!(status.sent, 3);
         assert_eq!(status.lost, 1);
         assert_eq!(status.mean, 15.0); // (10+20)/2

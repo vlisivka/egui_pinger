@@ -8,16 +8,73 @@ use std::time::Duration;
 use tr::tr;
 #[cfg(not(feature = "embed-locales"))]
 use tr::tr_init;
-mod model;
 mod logic;
+mod model;
 
+use logic::{SharedState, pinger_task};
 use model::{AppState, HostInfo, HostStatus};
-use logic::{pinger_task, SharedState};
 
 pub struct EguiPinger {
     pub(crate) state: SharedState,
     pub(crate) input_name: String,
     pub(crate) input_address: String,
+}
+
+/// Helper for application-specific colors adapted for light/dark themes.
+struct PingVisuals {
+    pub is_dark: bool,
+}
+
+impl PingVisuals {
+    fn from_ctx(ctx: &egui::Context) -> Self {
+        Self {
+            is_dark: ctx.style().visuals.dark_mode,
+        }
+    }
+
+    fn limit_line_color(&self) -> Color32 {
+        if self.is_dark {
+            Color32::from_gray(80)
+        } else {
+            Color32::from_gray(160)
+        }
+    }
+
+    fn latency_color(&self, rtt: f64) -> Color32 {
+        if rtt.is_nan() {
+            if self.is_dark {
+                Color32::RED
+            } else {
+                Color32::from_rgb(200, 0, 0)
+            }
+        } else if rtt > 300.0 {
+            if self.is_dark {
+                Color32::from_rgb(160, 32, 240)
+            } else {
+                Color32::from_rgb(120, 0, 200)
+            }
+        } else if rtt > 150.0 {
+            if self.is_dark {
+                Color32::YELLOW
+            } else {
+                Color32::from_rgb(180, 140, 0)
+            }
+        } else {
+            if self.is_dark {
+                Color32::from_rgb(0, 255, 100)
+            } else {
+                Color32::from_rgb(0, 150, 0)
+            }
+        }
+    }
+
+    fn status_color(&self, alive: bool, latency: f64) -> Color32 {
+        if !alive {
+            self.latency_color(f64::NAN)
+        } else {
+            self.latency_color(latency)
+        }
+    }
 }
 
 impl EguiPinger {
@@ -139,6 +196,7 @@ impl EguiPinger {
                         (state.hosts.clone(), state.statuses.clone())
                     };
 
+                    let visuals = PingVisuals::from_ctx(ctx);
                     let mut to_remove = Vec::new();
                     let default_host_status = HostStatus::default();
 
@@ -147,21 +205,16 @@ impl EguiPinger {
                             .get(&host_info.address)
                             .unwrap_or(&default_host_status);
 
-                        let color = if status.alive {
-                            if status.latency > 300.0 {
-                                Color32::from_rgb(160, 32, 240) // Purple
-                            } else if status.latency > 150.0 {
-                                Color32::from_rgb(255, 255, 100) // Yellow
-                            } else {
-                                Color32::from_rgb(0, 255, 100) // Green
-                            }
-                        } else {
-                            Color32::from_rgb(255, 80, 80) // Red
-                        };
+                        let color = visuals.status_color(status.alive, status.latency);
 
                         let jitter_text = format!(
                             "{} {:4.1} {} Т3 {:4.1}, Т21 {:4.1}, Т99 {:4.1}",
-                            tr!("Mean:"), status.mean, tr!("Jitter:"), status.jitter_3, status.jitter_21, status.jitter_99
+                            tr!("Mean:"),
+                            status.mean,
+                            tr!("Jitter:"),
+                            status.jitter_3,
+                            status.jitter_21,
+                            status.jitter_99
                         );
                         let text = if status.alive {
                             format!(
@@ -205,23 +258,14 @@ impl EguiPinger {
                                     .map(|(i, &rtt)| {
                                         // Якщо пропущений, робимо стовпчик висотою 150 мс
                                         let height = if rtt.is_nan() { 150.0 } else { rtt };
-
-                                        let fill = if rtt.is_nan() {
-                                            Color32::RED
-                                        } else if rtt > 300.0 {
-                                            Color32::from_rgb(160, 32, 240) // Purple
-                                        } else if rtt > 150.0 {
-                                            Color32::YELLOW
-                                        } else {
-                                            Color32::from_rgb(0, 200, 100)
-                                        };
+                                        let fill = visuals.latency_color(rtt);
 
                                         Bar::new(i as f64, height).width(1.0).fill(fill)
                                     })
                                     .collect(),
                             );
 
-                            // Графік історії пінгів. 
+                            // Графік історії пінгів.
                             // Щоб 99 стовпчиків шириною 1.0 заповнювали весь простір без "чорних смужок":
                             // 1. Встановлюємо межі X від -0.5 до 98.5 (разом 99 одиниць).
                             // 2. Прибираємо горизонтальні відступи (margin_fraction).
@@ -239,7 +283,11 @@ impl EguiPinger {
                                 .include_y(0.0)
                                 .include_y(150.0)
                                 .show(ui, |plot_ui| {
-                                    plot_ui.hline(HLine::new("", 150.0).color(Color32::from_gray(80)).width(1.0));
+                                    plot_ui.hline(
+                                        HLine::new("", 150.0)
+                                            .color(visuals.limit_line_color())
+                                            .width(1.0),
+                                    );
                                     plot_ui.bar_chart(chart);
                                 });
 
@@ -299,8 +347,11 @@ fn main() -> eframe::Result {
     {
         // For embedded mode, we check the language and load the appropriate MO file.
         // Currently, we only have Ukrainian translation.
-        let lang = std::env::var("LANG").or_else(|_| std::env::var("LC_ALL")).or_else(|_| std::env::var("LC_MESSAGES")).unwrap_or_else(|_| "en".to_string());
-        
+        let lang = std::env::var("LANG")
+            .or_else(|_| std::env::var("LC_ALL"))
+            .or_else(|_| std::env::var("LC_MESSAGES"))
+            .unwrap_or_else(|_| "en".to_string());
+
         if lang.starts_with("uk") {
             let uk_mo = include_bytes!("../locales/uk/LC_MESSAGES/egui_pinger.mo");
             if let Ok(translator) = MoTranslator::from_vec_u8(uk_mo.to_vec()) {
@@ -331,7 +382,7 @@ mod gui_tests {
         app.input_address = "8.8.8.8".to_string();
 
         let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
-        
+
         // 2. Click Add
         harness.get_by_label("Add").click();
         harness.run();
@@ -348,10 +399,14 @@ mod gui_tests {
         let state = Arc::new(Mutex::new(AppState::default()));
         {
             let mut s = state.lock().unwrap();
-            s.hosts.push(HostInfo { name: "Test".to_string(), address: "1.2.3.4".to_string() });
-            s.statuses.insert("1.2.3.4".to_string(), HostStatus::default());
+            s.hosts.push(HostInfo {
+                name: "Test".to_string(),
+                address: "1.2.3.4".to_string(),
+            });
+            s.statuses
+                .insert("1.2.3.4".to_string(), HostStatus::default());
         }
-        
+
         let mut app = EguiPinger::from_state(state.clone());
         let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
         // Збільшуємо розмір, щоб кнопка видалення (справа) була видима і доступна для кліку
@@ -389,7 +444,10 @@ mod gui_tests {
         let state = Arc::new(Mutex::new(AppState::default()));
         {
             let mut s = state.lock().unwrap();
-            s.hosts.push(HostInfo { name: "Google".to_string(), address: "8.8.8.8".to_string() });
+            s.hosts.push(HostInfo {
+                name: "Google".to_string(),
+                address: "8.8.8.8".to_string(),
+            });
             let mut status = HostStatus::default();
             status.alive = true;
             status.latency = 123.0;

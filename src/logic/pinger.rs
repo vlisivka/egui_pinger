@@ -1,9 +1,9 @@
+use crate::model::{AppState, HostInfo};
+use futures::future::join_all;
 use std::net::IpAddr;
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 use surge_ping::ping;
-use futures::future::join_all;
-use crate::model::{AppState, HostInfo};
 
 pub type SharedState = Arc<Mutex<AppState>>;
 
@@ -16,10 +16,12 @@ pub async fn pinger_task(state: SharedState) {
         interval.tick().await;
 
         let hosts: Vec<HostInfo> = {
-            let state_lock = state.lock().expect("Failed to lock state for reading hosts");
+            let state_lock = state
+                .lock()
+                .expect("Failed to lock state for reading hosts");
             state_lock.hosts.clone()
         };
-        
+
         if hosts.is_empty() {
             continue;
         }
@@ -44,7 +46,9 @@ pub async fn pinger_task(state: SharedState) {
                         _ => (false, f64::NAN),
                     };
 
-                    let mut state_lock = state.lock().expect("Failed to lock state for updating status");
+                    let mut state_lock = state
+                        .lock()
+                        .expect("Failed to lock state for updating status");
                     if let Some(status) = state_lock.statuses.get_mut(&address) {
                         status.alive = alive;
                         status.add_sample(rtt_ms);

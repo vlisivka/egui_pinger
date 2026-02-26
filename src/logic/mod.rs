@@ -1,3 +1,3 @@
 pub mod pinger;
 
-pub use pinger::{pinger_task, SharedState};
+pub use pinger::{SharedState, pinger_task};
