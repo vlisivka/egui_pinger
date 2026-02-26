@@ -22,6 +22,16 @@ pub struct EguiPinger {
 
 impl EguiPinger {
     fn new(cc: &eframe::CreationContext<'_>) -> Self {
+        // Встановлюємо початкові налаштування теми
+        cc.egui_ctx.options_mut(|o| {
+            o.theme_preference = egui::ThemePreference::System;
+        });
+
+        // Спробуємо встановити тему згідно з системною за допомогою Theme
+        if let Some(theme) = cc.egui_ctx.input(|i| i.raw.system_theme) {
+            cc.egui_ctx.set_visuals(theme.default_visuals());
+        }
+
         let state = Arc::new(Mutex::new(match cc.storage {
             Some(storage) => {
                 if let Some(serialized) = storage.get_string(eframe::APP_KEY) {
@@ -109,6 +119,16 @@ impl EguiPinger {
                         if rs1.lost_focus() && rs1.ctx.input(|i| i.key_pressed(egui::Key::Enter)) {
                             ui.memory_mut(|mem| mem.request_focus(addr_field_id));
                         }
+
+                        // Перемикач тем (справа)
+                        ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
+                            let mut theme = ui.ctx().options(|o| o.theme_preference);
+                            let old_theme = theme;
+                            theme.radio_buttons(ui);
+                            if theme != old_theme {
+                                ui.ctx().options_mut(|o| o.theme_preference = theme);
+                            }
+                        });
                     });
 
                     ui.separator();
