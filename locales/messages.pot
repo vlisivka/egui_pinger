@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-26 16:24+0000\n"
+"POT-Creation-Date: 2026-02-26 16:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,81 +40,157 @@ msgid "M"
 msgstr ""
 
 #: ./scripts/../src/main.rs:236
+msgid "Med"
+msgstr ""
+
+#: ./scripts/../src/main.rs:239
 msgid "J"
 msgstr ""
 
-#: ./scripts/../src/main.rs:253
+#: ./scripts/../src/main.rs:242
+msgid "Jm"
+msgstr ""
+
+#: ./scripts/../src/main.rs:247
+msgid "Jmed"
+msgstr ""
+
+#: ./scripts/../src/main.rs:252
+msgid "MOS"
+msgstr ""
+
+#: ./scripts/../src/main.rs:255
+msgid "Av"
+msgstr ""
+
+#: ./scripts/../src/main.rs:258
+msgid "Out"
+msgstr ""
+
+#: ./scripts/../src/main.rs:262
+msgid "S"
+msgstr ""
+
+#: ./scripts/../src/main.rs:264
+msgid "F"
+msgstr ""
+
+#: ./scripts/../src/main.rs:266
+msgid "Str"
+msgstr ""
+
+#: ./scripts/../src/main.rs:269
+msgid "SD"
+msgstr ""
+
+#: ./scripts/../src/main.rs:277
+msgid "m/M"
+msgstr ""
+
+#: ./scripts/../src/main.rs:288
 msgid "L"
 msgstr ""
 
-#: ./scripts/../src/main.rs:278
+#: ./scripts/../src/main.rs:313
 msgid "Pings"
 msgstr ""
 
-#: ./scripts/../src/main.rs:379
+#: ./scripts/../src/main.rs:414
 msgid "Host Settings"
 msgstr ""
 
-#: ./scripts/../src/main.rs:383
+#: ./scripts/../src/main.rs:418
 msgid "Host"
 msgstr ""
 
-#: ./scripts/../src/main.rs:387 ./scripts/../src/main.rs:398
+#: ./scripts/../src/main.rs:422
 msgid "Name"
 msgstr ""
 
-#: ./scripts/../src/main.rs:392
+#: ./scripts/../src/main.rs:427
 msgid "Ping Interval:"
 msgstr ""
 
-#: ./scripts/../src/main.rs:393
+#: ./scripts/../src/main.rs:428
 msgid "Fast (1s)"
 msgstr ""
 
-#: ./scripts/../src/main.rs:394
+#: ./scripts/../src/main.rs:429
 msgid "Slow (1m)"
 msgstr ""
 
-#: ./scripts/../src/main.rs:397
+#: ./scripts/../src/main.rs:432
 msgid "Show fields:"
 msgstr ""
 
-#: ./scripts/../src/main.rs:399
-msgid "Address"
+#: ./scripts/../src/main.rs:433
+msgid "Host Name"
 msgstr ""
 
-#: ./scripts/../src/main.rs:400
-msgid "Latency"
+#: ./scripts/../src/main.rs:434
+msgid "Host IP Address"
 msgstr ""
 
-#: ./scripts/../src/main.rs:401
-msgid "Mean"
+#: ./scripts/../src/main.rs:435
+msgid "Current Latency (Latest RTT)"
 msgstr ""
 
-#: ./scripts/../src/main.rs:404
-msgid "RTP Jitter (RFC 3550)"
+#: ./scripts/../src/main.rs:436
+msgid "Mean RTT (Average latency)"
 msgstr ""
 
-#: ./scripts/../src/main.rs:408
-msgid "Jitter T3 (Experimental)"
+#: ./scripts/../src/main.rs:437
+msgid "Median RTT (Middle value, robust to spikes)"
 msgstr ""
 
-#: ./scripts/../src/main.rs:412
-msgid "Jitter T21 (Experimental)"
+#: ./scripts/../src/main.rs:440
+msgid "RTP Jitter (Current variation per RFC 3550)"
 msgstr ""
 
-#: ./scripts/../src/main.rs:416
-msgid "Jitter T99 (Experimental)"
+#: ./scripts/../src/main.rs:444
+msgid "RTP Jitter Mean (Average variation)"
 msgstr ""
 
-#: ./scripts/../src/main.rs:418
-msgid "Loss statistics"
+#: ./scripts/../src/main.rs:448
+msgid "RTP Jitter Median (Middle variation value)"
 msgstr ""
 
-#: ./scripts/../src/main.rs:421
-msgid "Close"
+#: ./scripts/../src/main.rs:452
+msgid "MOS (Estimated Voice Quality, 1.0-4.5)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:456
+msgid "Availability (Packet delivery success rate %)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:460
+msgid "Outliers (Packets significantly slower than average)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:464
+msgid "Streak (Consecutive success/fail count)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:468
+msgid "Standard Deviation (RTT stability measure)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:472
+msgid "95th Percentile (Latency for 95% of packets)"
 msgstr ""
 
 #: ./scripts/../src/main.rs:474
+msgid "Min / Max (Extreme latency values)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:475
+msgid "Loss Statistics (Sent/Lost counters)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:478
+msgid "Close"
+msgstr ""
+
+#: ./scripts/../src/main.rs:531
 msgid "egui pinger"
 msgstr ""

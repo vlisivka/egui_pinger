@@ -17,13 +17,27 @@ pub struct DisplaySettings {
     #[serde(default = "default_true")]
     pub show_mean: bool,
     #[serde(default = "default_true")]
+    pub show_median: bool,
+    #[serde(default = "default_true")]
     pub show_rtp_jitter: bool,
     #[serde(default = "default_false")]
-    pub show_jitter_t3: bool,
+    pub show_rtp_mean_jitter: bool,
     #[serde(default = "default_false")]
-    pub show_jitter_t21: bool,
+    pub show_rtp_median_jitter: bool,
     #[serde(default = "default_false")]
-    pub show_jitter_t99: bool,
+    pub show_mos: bool,
+    #[serde(default = "default_false")]
+    pub show_availability: bool,
+    #[serde(default = "default_false")]
+    pub show_outliers: bool,
+    #[serde(default = "default_false")]
+    pub show_streak: bool,
+    #[serde(default = "default_false")]
+    pub show_stddev: bool,
+    #[serde(default = "default_false")]
+    pub show_p95: bool,
+    #[serde(default = "default_false")]
+    pub show_min_max: bool,
     #[serde(default = "default_true")]
     pub show_loss: bool,
 }
@@ -42,10 +56,17 @@ impl Default for DisplaySettings {
             show_address: true,
             show_latency: true,
             show_mean: true,
+            show_median: true,
             show_rtp_jitter: true,
-            show_jitter_t3: false,
-            show_jitter_t21: false,
-            show_jitter_t99: false,
+            show_rtp_mean_jitter: false,
+            show_rtp_median_jitter: false,
+            show_mos: true,
+            show_availability: false,
+            show_outliers: false,
+            show_streak: false,
+            show_stddev: false,
+            show_p95: false,
+            show_min_max: false,
             show_loss: true,
         }
     }
@@ -98,21 +119,51 @@ pub struct HostStatus {
     /// Last 99 RTTs in milliseconds (NaN = loss)
     #[serde(skip, default)]
     pub history: Vec<f64>,
-    /// Arithmetic mean of latency
+    /// Mean of latency
     #[serde(skip, default)]
     pub mean: f64,
-    /// Jitter for the last 3 results (T3)
-    #[serde(skip, default)]
-    pub jitter_3: f64,
-    /// Jitter for the last 21 results (T21)
-    #[serde(skip, default)]
-    pub jitter_21: f64,
-    /// Average jitter for all samples (T99) - Statistical
-    #[serde(skip, default)]
-    pub jitter_99: f64,
     /// Standard RTP Jitter according to RFC 3550
     #[serde(skip, default)]
     pub rtp_jitter: f64,
+    /// History of RTP Jitter values (last 99)
+    #[serde(skip, default)]
+    pub rtp_jitter_history: Vec<f64>,
+    /// Median RTT
+    #[serde(skip, default)]
+    pub median: f64,
+    /// 95th percentile of RTT
+    #[serde(skip, default)]
+    pub p95: f64,
+    /// Standard deviation of RTT
+    #[serde(skip, default)]
+    pub stddev: f64,
+    /// Minimum RTT in current history
+    #[serde(skip, default)]
+    pub min_rtt: f64,
+    /// Maximum RTT in current history
+    #[serde(skip, default)]
+    pub max_rtt: f64,
+    /// Mean of RTP Jitter history
+    #[serde(skip, default)]
+    pub rtp_jitter_mean: f64,
+    /// Median of RTP Jitter history
+    #[serde(skip, default)]
+    pub rtp_jitter_median: f64,
+    /// MOS (Mean Opinion Score) 1.0 - 4.5
+    #[serde(skip, default)]
+    pub mos: f64,
+    /// Availability percentage based on all sent packets
+    #[serde(skip, default)]
+    pub availability: f64,
+    /// Number of packets with RTT > mean + 3*stddev
+    #[serde(skip, default)]
+    pub outliers: u32,
+    /// Current success/fail streak count
+    #[serde(skip, default)]
+    pub streak: u32,
+    /// Whether the current streak is success (true) or fail (false)
+    #[serde(skip, default)]
+    pub streak_success: bool,
     /// Number of packets sent
     #[serde(skip, default)]
     pub sent: u32,
@@ -128,6 +179,19 @@ impl HostStatus {
 
         if rtt_ms.is_nan() {
             self.lost += 1;
+            if !self.streak_success {
+                self.streak += 1;
+            } else {
+                self.streak = 1;
+                self.streak_success = false;
+            }
+        } else {
+            if self.streak_success {
+                self.streak += 1;
+            } else {
+                self.streak = 1;
+                self.streak_success = true;
+            }
         }
 
         self.latency = rtt_ms;
@@ -138,6 +202,8 @@ impl HostStatus {
             self.history.remove(0);
         }
 
+        self.availability = (self.sent - self.lost) as f64 / self.sent as f64 * 100.0;
+
         let valid_data: Vec<f64> = self
             .history
             .iter()
@@ -145,16 +211,16 @@ impl HostStatus {
             .filter(|v| !v.is_nan())
             .collect();
 
+        if valid_data.is_empty() {
+            self.mean = 0.0;
+            self.median = 0.0;
+            return;
+        }
+
         if valid_data.len() < 2 {
-            // Not enough data for jitter calculation
-            self.mean = if valid_data.is_empty() {
-                0.0
-            } else {
-                valid_data[0]
-            };
-            self.jitter_3 = 0.0;
-            self.jitter_21 = 0.0;
-            self.jitter_99 = 0.0;
+            self.mean = valid_data[0];
+            self.median = valid_data[0];
+            self.mos = calculate_mos(self.mean, self.rtp_jitter, 0.0);
             return;
         }
 
@@ -176,59 +242,91 @@ impl HostStatus {
             } else {
                 self.rtp_jitter += (d - self.rtp_jitter) / 16.0;
             }
+
+            self.rtp_jitter_history.push(self.rtp_jitter);
+            if self.rtp_jitter_history.len() > 99 {
+                self.rtp_jitter_history.remove(0);
+            }
         }
 
-        // Calculate jitter for different windows (Statistical)
-        self.jitter_99 = calculate_jitter(&valid_data);
+        // Calculate statistics for RTT
+        self.median = calculate_percentile(&valid_data, 50.0);
+        self.p95 = calculate_percentile(&valid_data, 95.0);
+        self.min_rtt = valid_data.iter().copied().fold(f64::INFINITY, f64::min);
+        self.max_rtt = valid_data.iter().copied().fold(f64::NEG_INFINITY, f64::max);
 
-        let start_index_21 = valid_data.len().saturating_sub(21);
-        self.jitter_21 = calculate_jitter(&valid_data[start_index_21..]);
+        let variance = valid_data
+            .iter()
+            .map(|&v| {
+                let diff = v - self.mean;
+                diff * diff
+            })
+            .sum::<f64>()
+            / valid_data.len() as f64;
+        self.stddev = variance.sqrt();
 
-        let start_index_3 = valid_data.len().saturating_sub(3);
-        self.jitter_3 = calculate_jitter(&valid_data[start_index_3..]);
+        // Calculate statistics for RTP Jitter history
+        if !self.rtp_jitter_history.is_empty() {
+            self.rtp_jitter_mean =
+                self.rtp_jitter_history.iter().sum::<f64>() / self.rtp_jitter_history.len() as f64;
+            self.rtp_jitter_median = calculate_percentile(&self.rtp_jitter_history, 50.0);
+        }
+
+        // Calculate Outliers
+        let threshold = self.mean + 3.0 * self.stddev;
+        if !rtt_ms.is_nan() && rtt_ms > threshold && self.stddev > 0.1 {
+            self.outliers += 1;
+        }
+
+        // Calculate MOS
+        let loss_pct =
+            (self.lost as f64 / if self.sent == 0 { 1 } else { self.sent } as f64) * 100.0;
+        self.mos = calculate_mos(self.mean, self.rtp_jitter, loss_pct);
     }
 }
 
-/// Calculates average jitter from a slice of RTT samples.
-/// Jitter is calculated as the average absolute difference between consecutive samples.
-pub fn calculate_jitter(valid_data: &[f64]) -> f64 {
-    if valid_data.len() < 2 {
+/// Calculates MOS (Mean Opinion Score) based on RTT, Jitter and Loss.
+/// Range: 1.0 (Bad) to 4.5 (Excellent).
+pub fn calculate_mos(rtt: f64, jitter: f64, loss_pct: f64) -> f64 {
+    // Effective latency
+    let effective_latency = rtt + jitter * 2.0 + 10.0;
+
+    let r = if effective_latency < 160.0 {
+        94.2 - effective_latency / 40.0
+    } else {
+        94.2 - (effective_latency - 120.0) / 10.0
+    };
+
+    // Damage from loss
+    let r = r - (loss_pct * 2.5);
+
+    // Limit R to [0, 100]
+    let r = r.clamp(0.0, 100.0);
+
+    // MOS calculation
+    1.0 + 0.035 * r + 0.000007 * r * (r - 60.0) * (100.0 - r)
+}
+
+/// Calculates a percentile from a slice of data.
+pub fn calculate_percentile(data: &[f64], percentile: f64) -> f64 {
+    if data.is_empty() {
         return 0.0;
     }
-
-    let mut total_diff = 0.0;
-    for window in valid_data.windows(2) {
-        let diff = (window[1] - window[0]).abs();
-        total_diff += diff;
+    let mut sorted = data.to_vec();
+    sorted.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
+    let pos = (percentile / 100.0) * (sorted.len() - 1) as f64;
+    let base = pos.floor() as usize;
+    let fract = pos - base as f64;
+    if base + 1 < sorted.len() {
+        sorted[base] + fract * (sorted[base + 1] - sorted[base])
+    } else {
+        sorted[base]
     }
-
-    total_diff / (valid_data.len() - 1) as f64
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn test_calculate_jitter_empty() {
-        assert_eq!(calculate_jitter(&[]), 0.0);
-    }
-
-    #[test]
-    fn test_calculate_jitter_single() {
-        assert_eq!(calculate_jitter(&[10.0]), 0.0);
-    }
-
-    #[test]
-    fn test_calculate_jitter_stable() {
-        assert_eq!(calculate_jitter(&[10.0, 10.0, 10.0]), 0.0);
-    }
-
-    #[test]
-    fn test_calculate_jitter_increasing() {
-        // |20-10| + |30-20| = 10 + 10 = 20. 20 / (3-1) = 10.0
-        assert_eq!(calculate_jitter(&[10.0, 20.0, 30.0]), 10.0);
-    }
 
     #[test]
     fn test_add_sample_stats() {
@@ -240,7 +338,108 @@ mod tests {
         assert_eq!(status.sent, 3);
         assert_eq!(status.lost, 1);
         assert_eq!(status.mean, 15.0); // (10+20)/2
-        assert_eq!(status.jitter_99, 10.0); // |20-10|/1
+        assert_eq!(status.availability, (2.0 / 3.0) * 100.0);
+        assert_eq!(status.streak, 1);
+        assert_eq!(status.streak_success, false); // Last was NaN
+    }
+
+    #[test]
+    fn test_calculate_percentile() {
+        let data = vec![1.0, 2.0, 3.0, 4.0, 5.0];
+        assert_eq!(calculate_percentile(&data, 0.0), 1.0);
+        assert_eq!(calculate_percentile(&data, 50.0), 3.0);
+        assert_eq!(calculate_percentile(&data, 100.0), 5.0);
+        assert_eq!(calculate_percentile(&data, 25.0), 2.0); // (0.25 * 4) = 1.0 -> idx 1 -> 2.0
+
+        let data2 = vec![10.0, 20.0];
+        assert_eq!(calculate_percentile(&data2, 50.0), 15.0); // interpolation
+    }
+
+    #[test]
+    fn test_calculate_mos_values() {
+        // Ideal network: Low RTT, no jitter, no loss
+        let excellent = calculate_mos(10.0, 0.0, 0.0);
+        assert!(excellent > 4.4);
+
+        // Typical good network: 50ms RTT, 5ms jitter, 0% loss
+        let good = calculate_mos(50.0, 5.0, 0.0);
+        assert!(good > 4.0 && good < 4.4);
+
+        // Degraded network: 150ms RTT, 20ms jitter, 1% loss
+        let stressed = calculate_mos(150.0, 20.0, 1.0);
+        // Effective latency 200ms -> R ~ 83.7 -> MOS ~ 4.1
+        assert!(stressed < 4.2 && stressed > 3.0);
+
+        // Bad network: 300ms RTT, 50ms jitter, 5% loss
+        let bad = calculate_mos(300.0, 50.0, 5.0);
+        assert!(bad < 3.0);
+    }
+
+    #[test]
+    fn test_streaks() {
+        let mut status = HostStatus::default();
+
+        // Success streak
+        status.add_sample(10.0);
+        status.add_sample(10.0);
+        status.add_sample(10.0);
+        assert_eq!(status.streak, 3);
+        assert_eq!(status.streak_success, true);
+
+        // Switch to fail streak
+        status.add_sample(f64::NAN);
+        assert_eq!(status.streak, 1);
+        assert_eq!(status.streak_success, false);
+
+        status.add_sample(f64::NAN);
+        assert_eq!(status.streak, 2);
+        assert_eq!(status.streak_success, false);
+
+        // Switch back to success
+        status.add_sample(10.0);
+        assert_eq!(status.streak, 1);
+        assert_eq!(status.streak_success, true);
+    }
+
+    #[test]
+    fn test_outliers_detection() {
+        let mut status = HostStatus::default();
+        // Establish stable baseline
+        for _ in 0..10 {
+            status.add_sample(10.0);
+        }
+        assert_eq!(status.outliers, 0);
+        assert!(status.stddev < 0.1);
+
+        // Add some variation to make stddev > 0.1
+        status.add_sample(11.0);
+        status.add_sample(9.0);
+
+        // Threshold is mean + 3*std
+        // Initially stddev=0, then we add 11.0.
+        // With 10 samples of 10.0 and one 11.0, stddev is small enough that 11.0 might be an outlier.
+        // Let's check status.outliers after the spike.
+        status.add_sample(100.0);
+        assert!(status.outliers >= 1);
+
+        let prev_outliers = status.outliers;
+        // Another normal sample
+        status.add_sample(10.1);
+        assert_eq!(status.outliers, prev_outliers);
+    }
+
+    #[test]
+    fn test_advanced_stats() {
+        let mut status = HostStatus::default();
+        for &rtt in &[10.0, 20.0, 30.0, 40.0, 50.0] {
+            status.add_sample(rtt);
+        }
+
+        assert_eq!(status.min_rtt, 10.0);
+        assert_eq!(status.max_rtt, 50.0);
+        assert_eq!(status.median, 30.0);
+        assert!(status.p95 > 40.0);
+        assert_eq!(status.mean, 30.0);
     }
 
     #[test]

@@ -232,17 +232,52 @@ impl EguiPinger {
                         if host_info.display.show_mean {
                             stats.push(format!("{}: {:4.1}", tr!("M"), status.mean));
                         }
+                        if host_info.display.show_median {
+                            stats.push(format!("{}: {:4.1}", tr!("Med"), status.median));
+                        }
                         if host_info.display.show_rtp_jitter {
                             stats.push(format!("{}: {:4.1}", tr!("J"), status.rtp_jitter));
                         }
-                        if host_info.display.show_jitter_t3 {
-                            stats.push(format!("T3: {:4.1}", status.jitter_3));
+                        if host_info.display.show_rtp_mean_jitter {
+                            stats.push(format!("{}: {:4.1}", tr!("Jm"), status.rtp_jitter_mean));
                         }
-                        if host_info.display.show_jitter_t21 {
-                            stats.push(format!("T21: {:4.1}", status.jitter_21));
+                        if host_info.display.show_rtp_median_jitter {
+                            stats.push(format!(
+                                "{}: {:4.1}",
+                                tr!("Jmed"),
+                                status.rtp_jitter_median
+                            ));
                         }
-                        if host_info.display.show_jitter_t99 {
-                            stats.push(format!("T99: {:4.1}", status.jitter_99));
+                        if host_info.display.show_mos {
+                            stats.push(format!("{}: {:3.1}", tr!("MOS"), status.mos));
+                        }
+                        if host_info.display.show_availability {
+                            stats.push(format!("{}: {:3.0}%", tr!("Av"), status.availability));
+                        }
+                        if host_info.display.show_outliers {
+                            stats.push(format!("{}: {}", tr!("Out"), status.outliers));
+                        }
+                        if host_info.display.show_streak {
+                            let streak_type = if status.streak_success {
+                                tr!("S")
+                            } else {
+                                tr!("F")
+                            };
+                            stats.push(format!("{}: {}{}", tr!("Str"), streak_type, status.streak));
+                        }
+                        if host_info.display.show_stddev {
+                            stats.push(format!("{}: {:4.1}", tr!("SD"), status.stddev));
+                        }
+                        if host_info.display.show_p95 {
+                            stats.push(format!("95%: {:4.1}", status.p95));
+                        }
+                        if host_info.display.show_min_max {
+                            stats.push(format!(
+                                "{}: {:1.0}-{:1.0}",
+                                tr!("m/M"),
+                                status.min_rtt,
+                                status.max_rtt
+                            ));
                         }
                         if host_info.display.show_loss {
                             let loss_pct = (status.lost as f64
@@ -395,27 +430,67 @@ impl EguiPinger {
 
                                     ui.add_space(8.0);
                                     ui.label(tr!("Show fields:"));
-                                    ui.checkbox(&mut h.display.show_name, tr!("Name"));
-                                    ui.checkbox(&mut h.display.show_address, tr!("Address"));
-                                    ui.checkbox(&mut h.display.show_latency, tr!("Latency"));
-                                    ui.checkbox(&mut h.display.show_mean, tr!("Mean"));
+                                    ui.checkbox(&mut h.display.show_name, tr!("Host Name"));
+                                    ui.checkbox(
+                                        &mut h.display.show_address,
+                                        tr!("Host IP Address"),
+                                    );
+                                    ui.checkbox(
+                                        &mut h.display.show_latency,
+                                        tr!("Current Latency (Latest RTT)"),
+                                    );
+                                    ui.checkbox(
+                                        &mut h.display.show_mean,
+                                        tr!("Mean RTT (Average latency)"),
+                                    );
+                                    ui.checkbox(
+                                        &mut h.display.show_median,
+                                        tr!("Median RTT (Middle value, robust to spikes)"),
+                                    );
                                     ui.checkbox(
                                         &mut h.display.show_rtp_jitter,
-                                        tr!("RTP Jitter (RFC 3550)"),
+                                        tr!("RTP Jitter (Current variation per RFC 3550)"),
                                     );
                                     ui.checkbox(
-                                        &mut h.display.show_jitter_t3,
-                                        tr!("Jitter T3 (Experimental)"),
+                                        &mut h.display.show_rtp_mean_jitter,
+                                        tr!("RTP Jitter Mean (Average variation)"),
                                     );
                                     ui.checkbox(
-                                        &mut h.display.show_jitter_t21,
-                                        tr!("Jitter T21 (Experimental)"),
+                                        &mut h.display.show_rtp_median_jitter,
+                                        tr!("RTP Jitter Median (Middle variation value)"),
                                     );
                                     ui.checkbox(
-                                        &mut h.display.show_jitter_t99,
-                                        tr!("Jitter T99 (Experimental)"),
+                                        &mut h.display.show_mos,
+                                        tr!("MOS (Estimated Voice Quality, 1.0-4.5)"),
                                     );
-                                    ui.checkbox(&mut h.display.show_loss, tr!("Loss statistics"));
+                                    ui.checkbox(
+                                        &mut h.display.show_availability,
+                                        tr!("Availability (Packet delivery success rate %)"),
+                                    );
+                                    ui.checkbox(
+                                        &mut h.display.show_outliers,
+                                        tr!("Outliers (Packets significantly slower than average)"),
+                                    );
+                                    ui.checkbox(
+                                        &mut h.display.show_streak,
+                                        tr!("Streak (Consecutive success/fail count)"),
+                                    );
+                                    ui.checkbox(
+                                        &mut h.display.show_stddev,
+                                        tr!("Standard Deviation (RTT stability measure)"),
+                                    );
+                                    ui.checkbox(
+                                        &mut h.display.show_p95,
+                                        tr!("95th Percentile (Latency for 95% of packets)"),
+                                    );
+                                    ui.checkbox(
+                                        &mut h.display.show_min_max,
+                                        tr!("Min / Max (Extreme latency values)"),
+                                    );
+                                    ui.checkbox(
+                                        &mut h.display.show_loss,
+                                        tr!("Loss Statistics (Sent/Lost counters)"),
+                                    );
 
                                     ui.add_space(12.0);
                                     ui.button(tr!("Close")).clicked()

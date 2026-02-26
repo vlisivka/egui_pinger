@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: egui_pinger\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-26 16:24+0000\n"
+"POT-Creation-Date: 2026-02-26 16:40+0000\n"
 "PO-Revision-Date: 2026-02-25 16:30+0200\n"
 "Last-Translator: Volodymyr M. Lisivka <vlisivka@gmail.com>\n"
 "Language-Team: Ukrainian\n"
@@ -36,87 +36,191 @@ msgid "M"
 msgstr "С"
 
 #: scripts/../src/main.rs:236
+msgid "Med"
+msgstr "Мд"
+
+#: scripts/../src/main.rs:239
 msgid "J"
 msgstr "Т"
 
-#: scripts/../src/main.rs:253
+#: scripts/../src/main.rs:242
+msgid "Jm"
+msgstr "Тс"
+
+#: scripts/../src/main.rs:247
+msgid "Jmed"
+msgstr "Тм"
+
+#: scripts/../src/main.rs:252
+msgid "MOS"
+msgstr ""
+
+#: scripts/../src/main.rs:255
+msgid "Av"
+msgstr ""
+
+#: scripts/../src/main.rs:258
+msgid "Out"
+msgstr ""
+
+#: scripts/../src/main.rs:262
+#, fuzzy
+msgid "S"
+msgstr "СВ"
+
+#: scripts/../src/main.rs:264
+msgid "F"
+msgstr ""
+
+#: scripts/../src/main.rs:266
+msgid "Str"
+msgstr ""
+
+#: scripts/../src/main.rs:269
+msgid "SD"
+msgstr "СВ"
+
+#: scripts/../src/main.rs:277
+msgid "m/M"
+msgstr "м/М"
+
+#: scripts/../src/main.rs:288
 msgid "L"
 msgstr "В"
 
-#: scripts/../src/main.rs:278
+#: scripts/../src/main.rs:313
 msgid "Pings"
 msgstr "Пінги"
 
-#: scripts/../src/main.rs:379
+#: scripts/../src/main.rs:414
 msgid "Host Settings"
 msgstr "Налаштування хоста"
 
-#: scripts/../src/main.rs:383
+#: scripts/../src/main.rs:418
 msgid "Host"
 msgstr "Хост"
 
-#: scripts/../src/main.rs:387 scripts/../src/main.rs:398
+#: scripts/../src/main.rs:422
 msgid "Name"
 msgstr "Назва"
 
-#: scripts/../src/main.rs:392
+#: scripts/../src/main.rs:427
 msgid "Ping Interval:"
 msgstr "Інтервал пінгу:"
 
-#: scripts/../src/main.rs:393
+#: scripts/../src/main.rs:428
 msgid "Fast (1s)"
 msgstr "Швидко (1с)"
 
-#: scripts/../src/main.rs:394
+#: scripts/../src/main.rs:429
 msgid "Slow (1m)"
 msgstr "Повільно (1хв)"
 
-#: scripts/../src/main.rs:397
+#: scripts/../src/main.rs:432
 msgid "Show fields:"
 msgstr "Показувати поля:"
 
-#: scripts/../src/main.rs:399
-msgid "Address"
-msgstr "Адреса"
+#: scripts/../src/main.rs:433
+msgid "Host Name"
+msgstr "Назва хоста"
 
-#: scripts/../src/main.rs:400
-msgid "Latency"
-msgstr "Затримка"
+#: scripts/../src/main.rs:434
+msgid "Host IP Address"
+msgstr "IP-адреса хоста"
 
-#: scripts/../src/main.rs:401
-msgid "Mean"
-msgstr "Середнє"
+#: scripts/../src/main.rs:435
+msgid "Current Latency (Latest RTT)"
+msgstr "Поточна затримка (RTT останнього пакета)"
 
-#: scripts/../src/main.rs:404
-msgid "RTP Jitter (RFC 3550)"
-msgstr "RTP Jitter (RFC 3550)"
+#: scripts/../src/main.rs:436
+msgid "Mean RTT (Average latency)"
+msgstr "Середній RTT (Середня затримка)"
 
-#: scripts/../src/main.rs:408
-msgid "Jitter T3 (Experimental)"
-msgstr "Jitter T3 (Експериментально)"
+#: scripts/../src/main.rs:437
+msgid "Median RTT (Middle value, robust to spikes)"
+msgstr "Медіанний RTT (Середнє значення, стійке до сплесків)"
 
-#: scripts/../src/main.rs:412
-msgid "Jitter T21 (Experimental)"
-msgstr "Jitter T21 (Експериментально)"
+#: scripts/../src/main.rs:440
+msgid "RTP Jitter (Current variation per RFC 3550)"
+msgstr "RTP Jitter (Поточне тремтіння згідно з RFC 3550)"
 
-#: scripts/../src/main.rs:416
-msgid "Jitter T99 (Experimental)"
-msgstr "Jitter T99 (Експериментально)"
+#: scripts/../src/main.rs:444
+msgid "RTP Jitter Mean (Average variation)"
+msgstr "Середній RTP Jitter (Середнє тремтіння за період)"
 
-#: scripts/../src/main.rs:418
-msgid "Loss statistics"
-msgstr "Статистика втрат"
+#: scripts/../src/main.rs:448
+msgid "RTP Jitter Median (Middle variation value)"
+msgstr "Медіанний RTP Jitter (Медіана тремтіння)"
 
-#: scripts/../src/main.rs:421
+#: scripts/../src/main.rs:452
+msgid "MOS (Estimated Voice Quality, 1.0-4.5)"
+msgstr "MOS (Оцінка якості голосу, 1.0-4.5)"
+
+#: scripts/../src/main.rs:456
+msgid "Availability (Packet delivery success rate %)"
+msgstr "Доступність (Відсоток доставлених пакетів)"
+
+#: scripts/../src/main.rs:460
+msgid "Outliers (Packets significantly slower than average)"
+msgstr "Аномалії (Пакети з аномально великою затримкою)"
+
+#: scripts/../src/main.rs:464
+msgid "Streak (Consecutive success/fail count)"
+msgstr "Серія (Кількість послідовних успіхів/помилок)"
+
+#: scripts/../src/main.rs:468
+msgid "Standard Deviation (RTT stability measure)"
+msgstr "Стандартне відхилення (Міра стабільності RTT)"
+
+#: scripts/../src/main.rs:472
+msgid "95th Percentile (Latency for 95% of packets)"
+msgstr "95-й перцентиль (Затримка для 95% пакетів)"
+
+#: scripts/../src/main.rs:474
+msgid "Min / Max (Extreme latency values)"
+msgstr "Мін / Макс (Екстремальні значення затримки)"
+
+#: scripts/../src/main.rs:475
+msgid "Loss Statistics (Sent/Lost counters)"
+msgstr "Статистика втрат (Лічильники відправлених/втрачених)"
+
+#: scripts/../src/main.rs:478
 msgid "Close"
 msgstr "Закрити"
 
-#: scripts/../src/main.rs:474
+#: scripts/../src/main.rs:531
 msgid "egui pinger"
 msgstr "egui pinger"
 
+#~ msgid "Address"
+#~ msgstr "Адреса"
+
+#~ msgid "Latency"
+#~ msgstr "Затримка"
+
+#~ msgid "Mean RTT"
+#~ msgstr "Середній RTT"
+
+#~ msgid "Median RTT"
+#~ msgstr "Медіанний RTT"
+
+#~ msgid "RTP Jitter (Mean)"
+#~ msgstr "RTP Jitter (Середній)"
+
+#~ msgid "Min / Max RTT"
+#~ msgstr "Мін / Макс RTT"
+
+#~ msgid "Loss statistics"
+#~ msgstr "Статистика втрат"
+
+#~ msgid "Jitter T3 (Experimental)"
+#~ msgstr "Jitter T3 (Експериментально)"
+
+#~ msgid "Jitter T21 (Experimental)"
+#~ msgstr "Jitter T21 (Експериментально)"
+
+#~ msgid "Jitter T99 (Experimental)"
+#~ msgstr "Jitter T99 (Експериментально)"
+
 #~ msgid "Lost"
 #~ msgstr "Втрачено"
-
-#~ msgid "RTP Jitter (Standard)"
-#~ msgstr "RTP Jitter (Стандарт)"
