@@ -79,16 +79,6 @@ impl PingVisuals {
 
 impl EguiPinger {
     fn new(cc: &eframe::CreationContext<'_>) -> Self {
-        // Встановлюємо початкові налаштування теми
-        cc.egui_ctx.options_mut(|o| {
-            o.theme_preference = egui::ThemePreference::System;
-        });
-
-        // Спробуємо встановити тему згідно з системною за допомогою Theme
-        if let Some(theme) = cc.egui_ctx.input(|i| i.raw.system_theme) {
-            cc.egui_ctx.set_visuals(theme.default_visuals());
-        }
-
         let state = Arc::new(Mutex::new(match cc.storage {
             Some(storage) => {
                 if let Some(serialized) = storage.get_string(eframe::APP_KEY) {
@@ -334,6 +324,7 @@ impl eframe::App for EguiPinger {
 fn main() -> eframe::Result {
     let options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
+            .with_title(tr!("egui pinger"))
             .with_inner_size([800.0, 520.0])
             .with_resizable(true),
         renderer: eframe::Renderer::Wgpu,
@@ -361,7 +352,7 @@ fn main() -> eframe::Result {
     }
 
     eframe::run_native(
-        &tr!("egui pinger"),
+        "egui_pinger",
         options,
         Box::new(|cc| Ok(Box::new(EguiPinger::new(cc)))),
     )
