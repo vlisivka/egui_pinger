@@ -1,9 +1,43 @@
 use serde::{Deserialize, Serialize};
 
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub enum PingMode {
+    Fast, // 1 second
+    Slow, // 1 minute
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct HostInfo {
     pub name: String,
     pub address: String,
+    #[serde(default = "default_ping_mode")]
+    pub mode: PingMode,
+}
+
+fn default_ping_mode() -> PingMode {
+    PingMode::Fast
+}
+
+impl HostInfo {
+    pub fn is_local(&self) -> bool {
+        if let Ok(ip) = self.address.parse::<std::net::IpAddr>() {
+            match ip {
+                std::net::IpAddr::V4(v4) => {
+                    // RFC 1918: 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16
+                    // as well as loopback and link-local
+                    v4.is_private() || v4.is_loopback() || v4.is_link_local()
+                }
+                std::net::IpAddr::V6(v6) => {
+                    // IPv6 Unique Local Address (fc00::/7) and loopback/link-local
+                    v6.is_loopback()
+                        || (v6.segments()[0] & 0xfe00 == 0xfc00)
+                        || v6.is_unicast_link_local()
+                }
+            }
+        } else {
+            false
+        }
+    }
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

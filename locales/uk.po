@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: egui_pinger\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-25 14:31+0000\n"
+"POT-Creation-Date: 2026-02-26 15:34+0000\n"
 "PO-Revision-Date: 2026-02-25 16:30+0200\n"
 "Last-Translator: Volodymyr M. Lisivka <vlisivka@gmail.com>\n"
 "Language-Team: Ukrainian\n"
@@ -13,36 +13,68 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ../src/main.rs:224
+#: scripts/../src/main.rs:132
 msgid "Host name"
 msgstr "Імʼя хоста"
 
-#: ../src/main.rs:232
+#: scripts/../src/main.rs:140
 msgid "Host address"
 msgstr "Адреса хоста"
 
 #. When "Add" button is clicked or Enter is pressed in the second field,
 #. add host to the list
-#: ../src/main.rs:238
+#: scripts/../src/main.rs:146
 msgid "Add"
 msgstr "Додати"
 
-#: ../src/main.rs:294
+#: scripts/../src/main.rs:213
 msgid "Mean:"
 msgstr "Середнє:"
 
-#: ../src/main.rs:294
+#: scripts/../src/main.rs:215
 msgid "Jitter:"
 msgstr "Тремтіння:"
 
-#: ../src/main.rs:303 ../src/main.rs:317
+#: scripts/../src/main.rs:227 scripts/../src/main.rs:241
 msgid "Lost"
 msgstr "Втрачено"
 
-#: ../src/main.rs:315
+#: scripts/../src/main.rs:239
 msgid "DOWN"
 msgstr "НЕМА"
 
-#: ../src/main.rs:406
+#: scripts/../src/main.rs:254
+msgid "Pings"
+msgstr "Пінги"
+
+#: scripts/../src/main.rs:326
+msgid "Host Settings"
+msgstr "Налаштування хоста"
+
+#: scripts/../src/main.rs:330
+msgid "Host"
+msgstr "Хост"
+
+#: scripts/../src/main.rs:334
+msgid "Name"
+msgstr "Назва"
+
+#: scripts/../src/main.rs:339
+msgid "Ping Interval:"
+msgstr "Інтервал пінгу:"
+
+#: scripts/../src/main.rs:340
+msgid "Fast (1s)"
+msgstr "Швидко (1с)"
+
+#: scripts/../src/main.rs:341
+msgid "Slow (1m)"
+msgstr "Повільно (1хв)"
+
+#: scripts/../src/main.rs:344
+msgid "Close"
+msgstr "Закрити"
+
+#: scripts/../src/main.rs:397
 msgid "egui pinger"
 msgstr "egui pinger"

@@ -12,12 +12,13 @@ mod logic;
 mod model;
 
 use logic::{SharedState, pinger_task};
-use model::{AppState, HostInfo, HostStatus};
+use model::{AppState, HostInfo, HostStatus, PingMode};
 
 pub struct EguiPinger {
     pub(crate) state: SharedState,
     pub(crate) input_name: String,
     pub(crate) input_address: String,
+    pub(crate) editing_host: Option<String>,
 }
 
 /// Helper for application-specific colors adapted for light/dark themes.
@@ -103,6 +104,7 @@ impl EguiPinger {
             state,
             input_name: String::new(),
             input_address: String::new(),
+            editing_host: None,
         }
     }
 
@@ -111,6 +113,7 @@ impl EguiPinger {
             state,
             input_name: String::new(),
             input_address: String::new(),
+            editing_host: None,
         }
     }
 
@@ -153,7 +156,15 @@ impl EguiPinger {
                                 state
                                     .statuses
                                     .insert(address.clone(), HostStatus::default());
-                                state.hosts.push(HostInfo { name, address });
+                                let mut host_info = HostInfo {
+                                    name,
+                                    address,
+                                    mode: PingMode::Slow,
+                                };
+                                if host_info.is_local() {
+                                    host_info.mode = PingMode::Fast;
+                                }
+                                state.hosts.push(host_info);
                             }
 
                             self.input_name.clear();
@@ -284,16 +295,75 @@ impl EguiPinger {
                             // Текст з назвою, адресою, і результатами. Шрифт фіксованої ширини, жирний.
                             ui.colored_label(color, RichText::new(text).monospace().strong());
 
-                            // Кнопка для видалення хоста (справа)
+                            // Кнопки управління хостом (справа)
                             ui.with_layout(
                                 egui::Layout::right_to_left(egui::Align::Center),
                                 |ui| {
                                     if ui.button("x").clicked() {
                                         to_remove.push(host_info.address.clone());
                                     }
+                                    if ui.button("⚙").clicked() {
+                                        self.editing_host = Some(host_info.address.clone());
+                                    }
                                 },
                             );
                         });
+                    }
+
+                    // Діалог налаштувань хоста
+                    if let Some(ref addr) = self.editing_host {
+                        let mut is_open = true;
+                        let mut host_copy = None;
+
+                        {
+                            let state = self.state.lock().unwrap();
+                            if let Some(h) = state.hosts.iter().find(|h| h.address == *addr) {
+                                host_copy = Some(h.clone());
+                            }
+                        }
+
+                        if let Some(mut h) = host_copy {
+                            let window_res = egui::Window::new(tr!("Host Settings"))
+                                .open(&mut is_open)
+                                .resizable(false)
+                                .show(ctx, |ui| {
+                                    ui.heading(format!("{}: {}", tr!("Host"), h.address));
+                                    ui.add_space(8.0);
+
+                                    ui.horizontal(|ui| {
+                                        ui.label(format!("{}:", tr!("Name")));
+                                        ui.text_edit_singleline(&mut h.name);
+                                    });
+
+                                    ui.add_space(8.0);
+                                    ui.label(tr!("Ping Interval:"));
+                                    ui.radio_value(&mut h.mode, PingMode::Fast, tr!("Fast (1s)"));
+                                    ui.radio_value(&mut h.mode, PingMode::Slow, tr!("Slow (1m)"));
+
+                                    ui.add_space(12.0);
+                                    ui.button(tr!("Close")).clicked()
+                                });
+
+                            if let Some(inner_res) = window_res {
+                                if inner_res.inner == Some(true) {
+                                    is_open = false;
+                                }
+                            }
+
+                            // Зберігаємо зміни
+                            let mut state = self.state.lock().unwrap();
+                            if let Some(target) =
+                                state.hosts.iter_mut().find(|th| th.address == *addr)
+                            {
+                                *target = h;
+                            }
+                        }
+
+                        // У разі якщо кнопка "Close" була натиснута (ми можемо перевірити повернення .show, але простіше так)
+                        // Або якщо було натиснуто 'x' у заголовку вікна (це оновить is_open)
+                        if !is_open {
+                            self.editing_host = None;
+                        }
                     }
 
                     // Видаляємо хости, які були позначені для видалення
@@ -393,6 +463,7 @@ mod gui_tests {
             s.hosts.push(HostInfo {
                 name: "Test".to_string(),
                 address: "1.2.3.4".to_string(),
+                mode: PingMode::Fast,
             });
             s.statuses
                 .insert("1.2.3.4".to_string(), HostStatus::default());
@@ -438,6 +509,7 @@ mod gui_tests {
             s.hosts.push(HostInfo {
                 name: "Google".to_string(),
                 address: "8.8.8.8".to_string(),
+                mode: PingMode::Fast,
             });
             let mut status = HostStatus::default();
             status.alive = true;

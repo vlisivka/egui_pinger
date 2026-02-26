@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-25 14:31+0000\n"
+"POT-Creation-Date: 2026-02-26 15:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,36 +17,68 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ./../src/main.rs:224
+#: scripts/../src/main.rs:132
 msgid "Host name"
 msgstr ""
 
-#: ./../src/main.rs:232
+#: scripts/../src/main.rs:140
 msgid "Host address"
 msgstr ""
 
 #. When "Add" button is clicked or Enter is pressed in the second field,
 #. add host to the list
-#: ./../src/main.rs:238
+#: scripts/../src/main.rs:146
 msgid "Add"
 msgstr ""
 
-#: ./../src/main.rs:294
+#: scripts/../src/main.rs:213
 msgid "Mean:"
 msgstr ""
 
-#: ./../src/main.rs:294
+#: scripts/../src/main.rs:215
 msgid "Jitter:"
 msgstr ""
 
-#: ./../src/main.rs:303 ./../src/main.rs:317
+#: scripts/../src/main.rs:227 scripts/../src/main.rs:241
 msgid "Lost"
 msgstr ""
 
-#: ./../src/main.rs:315
+#: scripts/../src/main.rs:239
 msgid "DOWN"
 msgstr ""
 
-#: ./../src/main.rs:406
+#: scripts/../src/main.rs:254
+msgid "Pings"
+msgstr ""
+
+#: scripts/../src/main.rs:326
+msgid "Host Settings"
+msgstr ""
+
+#: scripts/../src/main.rs:330
+msgid "Host"
+msgstr ""
+
+#: scripts/../src/main.rs:334
+msgid "Name"
+msgstr ""
+
+#: scripts/../src/main.rs:339
+msgid "Ping Interval:"
+msgstr ""
+
+#: scripts/../src/main.rs:340
+msgid "Fast (1s)"
+msgstr ""
+
+#: scripts/../src/main.rs:341
+msgid "Slow (1m)"
+msgstr ""
+
+#: scripts/../src/main.rs:344
+msgid "Close"
+msgstr ""
+
+#: scripts/../src/main.rs:397
 msgid "egui pinger"
 msgstr ""
