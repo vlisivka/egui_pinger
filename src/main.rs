@@ -307,6 +307,14 @@ impl EguiPinger {
                                         ui.ctx().set_cursor_icon(egui::CursorIcon::Grab);
                                     }
 
+                                    // Кнопки управління хостом (тепер зліва для стабільності)
+                                    if ui.button("x").clicked() {
+                                        to_remove.push(host_info.address.clone());
+                                    }
+                                    if ui.button("⚙").clicked() {
+                                        self.editing_host = Some(host_info.address.clone());
+                                    }
+
                                     // Графік — тоненькі стовпчики зеленого (для <100 мс), жовтого (для >100 мс ),
                                     // і червоного (для пропущених) кольорів
                                     let chart = BarChart::new(
@@ -355,19 +363,6 @@ impl EguiPinger {
                                     ui.colored_label(
                                         color,
                                         RichText::new(text).monospace().strong(),
-                                    );
-
-                                    // Кнопки управління хостом (справа)
-                                    ui.with_layout(
-                                        egui::Layout::right_to_left(egui::Align::Center),
-                                        |ui| {
-                                            if ui.button("x").clicked() {
-                                                to_remove.push(host_info.address.clone());
-                                            }
-                                            if ui.button("⚙").clicked() {
-                                                self.editing_host = Some(host_info.address.clone());
-                                            }
-                                        },
                                     );
                                 });
                             });
