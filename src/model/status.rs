@@ -7,11 +7,58 @@ pub enum PingMode {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct DisplaySettings {
+    #[serde(default = "default_true")]
+    pub show_name: bool,
+    #[serde(default = "default_true")]
+    pub show_address: bool,
+    #[serde(default = "default_true")]
+    pub show_latency: bool,
+    #[serde(default = "default_true")]
+    pub show_mean: bool,
+    #[serde(default = "default_true")]
+    pub show_rtp_jitter: bool,
+    #[serde(default = "default_false")]
+    pub show_jitter_t3: bool,
+    #[serde(default = "default_false")]
+    pub show_jitter_t21: bool,
+    #[serde(default = "default_false")]
+    pub show_jitter_t99: bool,
+    #[serde(default = "default_true")]
+    pub show_loss: bool,
+}
+
+fn default_true() -> bool {
+    true
+}
+fn default_false() -> bool {
+    false
+}
+
+impl Default for DisplaySettings {
+    fn default() -> Self {
+        Self {
+            show_name: true,
+            show_address: true,
+            show_latency: true,
+            show_mean: true,
+            show_rtp_jitter: true,
+            show_jitter_t3: false,
+            show_jitter_t21: false,
+            show_jitter_t99: false,
+            show_loss: true,
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct HostInfo {
     pub name: String,
     pub address: String,
     #[serde(default = "default_ping_mode")]
     pub mode: PingMode,
+    #[serde(default)]
+    pub display: DisplaySettings,
 }
 
 fn default_ping_mode() -> PingMode {
@@ -60,9 +107,12 @@ pub struct HostStatus {
     /// Jitter for the last 21 results (T21)
     #[serde(skip, default)]
     pub jitter_21: f64,
-    /// Average jitter for all samples (T99)
+    /// Average jitter for all samples (T99) - Statistical
     #[serde(skip, default)]
     pub jitter_99: f64,
+    /// Standard RTP Jitter according to RFC 3550
+    #[serde(skip, default)]
+    pub rtp_jitter: f64,
     /// Number of packets sent
     #[serde(skip, default)]
     pub sent: u32,
@@ -111,7 +161,24 @@ impl HostStatus {
         // Arithmetic mean
         self.mean = valid_data.iter().sum::<f64>() / valid_data.len() as f64;
 
-        // Calculate jitter for different windows
+        // Calculate RTP Jitter (RFC 3550)
+        // J = J + (|D| - J) / 16
+        // We calculate D as the difference in RTT between current and previous packet.
+        if valid_data.len() >= 2 {
+            let last_idx = valid_data.len() - 1;
+            let current_rtt = valid_data[last_idx];
+            let prev_rtt = valid_data[last_idx - 1];
+            let d = (current_rtt - prev_rtt).abs();
+
+            if self.sent == 2 {
+                // Initial value for jitter
+                self.rtp_jitter = d;
+            } else {
+                self.rtp_jitter += (d - self.rtp_jitter) / 16.0;
+            }
+        }
+
+        // Calculate jitter for different windows (Statistical)
         self.jitter_99 = calculate_jitter(&valid_data);
 
         let start_index_21 = valid_data.len().saturating_sub(21);

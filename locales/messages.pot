@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-26 15:35+0000\n"
+"POT-Creation-Date: 2026-02-26 16:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,68 +17,104 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: scripts/../src/main.rs:132
+#: ./scripts/../src/main.rs:132
 msgid "Host name"
 msgstr ""
 
-#: scripts/../src/main.rs:140
+#: ./scripts/../src/main.rs:140
 msgid "Host address"
 msgstr ""
 
 #. When "Add" button is clicked or Enter is pressed in the second field,
 #. add host to the list
-#: scripts/../src/main.rs:146
+#: ./scripts/../src/main.rs:146
 msgid "Add"
 msgstr ""
 
-#: scripts/../src/main.rs:213
-msgid "Mean:"
-msgstr ""
-
-#: scripts/../src/main.rs:215
-msgid "Jitter:"
-msgstr ""
-
-#: scripts/../src/main.rs:227 scripts/../src/main.rs:241
-msgid "Lost"
-msgstr ""
-
-#: scripts/../src/main.rs:239
+#: ./scripts/../src/main.rs:227
 msgid "DOWN"
 msgstr ""
 
-#: scripts/../src/main.rs:254
+#: ./scripts/../src/main.rs:233
+msgid "M"
+msgstr ""
+
+#: ./scripts/../src/main.rs:236
+msgid "J"
+msgstr ""
+
+#: ./scripts/../src/main.rs:253
+msgid "L"
+msgstr ""
+
+#: ./scripts/../src/main.rs:278
 msgid "Pings"
 msgstr ""
 
-#: scripts/../src/main.rs:326
+#: ./scripts/../src/main.rs:379
 msgid "Host Settings"
 msgstr ""
 
-#: scripts/../src/main.rs:330
+#: ./scripts/../src/main.rs:383
 msgid "Host"
 msgstr ""
 
-#: scripts/../src/main.rs:334
+#: ./scripts/../src/main.rs:387 ./scripts/../src/main.rs:398
 msgid "Name"
 msgstr ""
 
-#: scripts/../src/main.rs:339
+#: ./scripts/../src/main.rs:392
 msgid "Ping Interval:"
 msgstr ""
 
-#: scripts/../src/main.rs:340
+#: ./scripts/../src/main.rs:393
 msgid "Fast (1s)"
 msgstr ""
 
-#: scripts/../src/main.rs:341
+#: ./scripts/../src/main.rs:394
 msgid "Slow (1m)"
 msgstr ""
 
-#: scripts/../src/main.rs:344
+#: ./scripts/../src/main.rs:397
+msgid "Show fields:"
+msgstr ""
+
+#: ./scripts/../src/main.rs:399
+msgid "Address"
+msgstr ""
+
+#: ./scripts/../src/main.rs:400
+msgid "Latency"
+msgstr ""
+
+#: ./scripts/../src/main.rs:401
+msgid "Mean"
+msgstr ""
+
+#: ./scripts/../src/main.rs:404
+msgid "RTP Jitter (RFC 3550)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:408
+msgid "Jitter T3 (Experimental)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:412
+msgid "Jitter T21 (Experimental)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:416
+msgid "Jitter T99 (Experimental)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:418
+msgid "Loss statistics"
+msgstr ""
+
+#: ./scripts/../src/main.rs:421
 msgid "Close"
 msgstr ""
 
-#: scripts/../src/main.rs:397
+#: ./scripts/../src/main.rs:474
 msgid "egui pinger"
 msgstr ""

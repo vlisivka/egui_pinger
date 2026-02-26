@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: egui_pinger\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-26 15:34+0000\n"
+"POT-Creation-Date: 2026-02-26 16:24+0000\n"
 "PO-Revision-Date: 2026-02-25 16:30+0200\n"
 "Last-Translator: Volodymyr M. Lisivka <vlisivka@gmail.com>\n"
 "Language-Team: Ukrainian\n"
@@ -27,54 +27,96 @@ msgstr "Адреса хоста"
 msgid "Add"
 msgstr "Додати"
 
-#: scripts/../src/main.rs:213
-msgid "Mean:"
-msgstr "Середнє:"
-
-#: scripts/../src/main.rs:215
-msgid "Jitter:"
-msgstr "Тремтіння:"
-
-#: scripts/../src/main.rs:227 scripts/../src/main.rs:241
-msgid "Lost"
-msgstr "Втрачено"
-
-#: scripts/../src/main.rs:239
+#: scripts/../src/main.rs:227
 msgid "DOWN"
 msgstr "НЕМА"
 
-#: scripts/../src/main.rs:254
+#: scripts/../src/main.rs:233
+msgid "M"
+msgstr "С"
+
+#: scripts/../src/main.rs:236
+msgid "J"
+msgstr "Т"
+
+#: scripts/../src/main.rs:253
+msgid "L"
+msgstr "В"
+
+#: scripts/../src/main.rs:278
 msgid "Pings"
 msgstr "Пінги"
 
-#: scripts/../src/main.rs:326
+#: scripts/../src/main.rs:379
 msgid "Host Settings"
 msgstr "Налаштування хоста"
 
-#: scripts/../src/main.rs:330
+#: scripts/../src/main.rs:383
 msgid "Host"
 msgstr "Хост"
 
-#: scripts/../src/main.rs:334
+#: scripts/../src/main.rs:387 scripts/../src/main.rs:398
 msgid "Name"
 msgstr "Назва"
 
-#: scripts/../src/main.rs:339
+#: scripts/../src/main.rs:392
 msgid "Ping Interval:"
 msgstr "Інтервал пінгу:"
 
-#: scripts/../src/main.rs:340
+#: scripts/../src/main.rs:393
 msgid "Fast (1s)"
 msgstr "Швидко (1с)"
 
-#: scripts/../src/main.rs:341
+#: scripts/../src/main.rs:394
 msgid "Slow (1m)"
 msgstr "Повільно (1хв)"
 
-#: scripts/../src/main.rs:344
+#: scripts/../src/main.rs:397
+msgid "Show fields:"
+msgstr "Показувати поля:"
+
+#: scripts/../src/main.rs:399
+msgid "Address"
+msgstr "Адреса"
+
+#: scripts/../src/main.rs:400
+msgid "Latency"
+msgstr "Затримка"
+
+#: scripts/../src/main.rs:401
+msgid "Mean"
+msgstr "Середнє"
+
+#: scripts/../src/main.rs:404
+msgid "RTP Jitter (RFC 3550)"
+msgstr "RTP Jitter (RFC 3550)"
+
+#: scripts/../src/main.rs:408
+msgid "Jitter T3 (Experimental)"
+msgstr "Jitter T3 (Експериментально)"
+
+#: scripts/../src/main.rs:412
+msgid "Jitter T21 (Experimental)"
+msgstr "Jitter T21 (Експериментально)"
+
+#: scripts/../src/main.rs:416
+msgid "Jitter T99 (Experimental)"
+msgstr "Jitter T99 (Експериментально)"
+
+#: scripts/../src/main.rs:418
+msgid "Loss statistics"
+msgstr "Статистика втрат"
+
+#: scripts/../src/main.rs:421
 msgid "Close"
 msgstr "Закрити"
 
-#: scripts/../src/main.rs:397
+#: scripts/../src/main.rs:474
 msgid "egui pinger"
 msgstr "egui pinger"
+
+#~ msgid "Lost"
+#~ msgstr "Втрачено"
+
+#~ msgid "RTP Jitter (Standard)"
+#~ msgstr "RTP Jitter (Стандарт)"

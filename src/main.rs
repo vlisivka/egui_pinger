@@ -12,7 +12,7 @@ mod logic;
 mod model;
 
 use logic::{SharedState, pinger_task};
-use model::{AppState, HostInfo, HostStatus, PingMode};
+use model::{AppState, DisplaySettings, HostInfo, HostStatus, PingMode};
 
 pub struct EguiPinger {
     pub(crate) state: SharedState,
@@ -160,6 +160,7 @@ impl EguiPinger {
                                     name,
                                     address,
                                     mode: PingMode::Slow,
+                                    display: DisplaySettings::default(),
                                 };
                                 if host_info.is_local() {
                                     host_info.mode = PingMode::Fast;
@@ -210,44 +211,53 @@ impl EguiPinger {
 
                         let color = visuals.status_color(status.alive, status.latency);
 
-                        let jitter_text = format!(
-                            "{} {:4.1} {} Т3 {:4.1}, Т21 {:4.1}, Т99 {:4.1}",
-                            tr!("Mean:"),
-                            status.mean,
-                            tr!("Jitter:"),
-                            status.jitter_3,
-                            status.jitter_21,
-                            status.jitter_99
-                        );
-                        let text = if status.alive {
-                            format!(
-                                "{:<20} {:<15} → {:4.0}ms {} {}: {}/{} {:.2}%",
-                                host_info.name,
-                                host_info.address,
-                                status.latency,
-                                jitter_text,
-                                tr!("Lost"),
+                        let mut parts = Vec::new();
+                        if host_info.display.show_name {
+                            parts.push(format!("{:<20}", host_info.name));
+                        }
+                        if host_info.display.show_address {
+                            parts.push(format!("{:<15}", host_info.address));
+                        }
+                        parts.push("→".to_string());
+
+                        if host_info.display.show_latency {
+                            if status.alive {
+                                parts.push(format!("{:4.0}ms", status.latency));
+                            } else {
+                                parts.push(format!("{:>4}", tr!("DOWN")));
+                            }
+                        }
+
+                        let mut stats = Vec::new();
+                        if host_info.display.show_mean {
+                            stats.push(format!("{}: {:4.1}", tr!("M"), status.mean));
+                        }
+                        if host_info.display.show_rtp_jitter {
+                            stats.push(format!("{}: {:4.1}", tr!("J"), status.rtp_jitter));
+                        }
+                        if host_info.display.show_jitter_t3 {
+                            stats.push(format!("T3: {:4.1}", status.jitter_3));
+                        }
+                        if host_info.display.show_jitter_t21 {
+                            stats.push(format!("T21: {:4.1}", status.jitter_21));
+                        }
+                        if host_info.display.show_jitter_t99 {
+                            stats.push(format!("T99: {:4.1}", status.jitter_99));
+                        }
+                        if host_info.display.show_loss {
+                            let loss_pct = (status.lost as f64
+                                / if status.sent == 0 { 1 } else { status.sent } as f64)
+                                * 100.0;
+                            stats.push(format!(
+                                "{}: {}/{} {:.2}%",
+                                tr!("L"),
                                 status.lost,
                                 status.sent,
-                                (status.lost as f64
-                                    / if status.sent == 0 { 1 } else { status.sent } as f64)
-                                    * 100.0
-                            )
-                        } else {
-                            format!(
-                                "{:<20} {:<15} → {:>4} {} {}: {}/{} {:.2}%",
-                                host_info.name,
-                                host_info.address,
-                                tr!("DOWN"),
-                                jitter_text,
-                                tr!("Lost"),
-                                status.lost,
-                                status.sent,
-                                (status.lost as f64
-                                    / if status.sent == 0 { 1 } else { status.sent } as f64)
-                                    * 100.0
-                            )
-                        };
+                                loss_pct
+                            ));
+                        }
+
+                        let text = format!("{} {}", parts.join(" "), stats.join(", "));
 
                         let row_id = egui::Id::new("host_row").with(&host_info.address);
                         let (inner_res, dropped_payload) =
@@ -383,6 +393,30 @@ impl EguiPinger {
                                     ui.radio_value(&mut h.mode, PingMode::Fast, tr!("Fast (1s)"));
                                     ui.radio_value(&mut h.mode, PingMode::Slow, tr!("Slow (1m)"));
 
+                                    ui.add_space(8.0);
+                                    ui.label(tr!("Show fields:"));
+                                    ui.checkbox(&mut h.display.show_name, tr!("Name"));
+                                    ui.checkbox(&mut h.display.show_address, tr!("Address"));
+                                    ui.checkbox(&mut h.display.show_latency, tr!("Latency"));
+                                    ui.checkbox(&mut h.display.show_mean, tr!("Mean"));
+                                    ui.checkbox(
+                                        &mut h.display.show_rtp_jitter,
+                                        tr!("RTP Jitter (RFC 3550)"),
+                                    );
+                                    ui.checkbox(
+                                        &mut h.display.show_jitter_t3,
+                                        tr!("Jitter T3 (Experimental)"),
+                                    );
+                                    ui.checkbox(
+                                        &mut h.display.show_jitter_t21,
+                                        tr!("Jitter T21 (Experimental)"),
+                                    );
+                                    ui.checkbox(
+                                        &mut h.display.show_jitter_t99,
+                                        tr!("Jitter T99 (Experimental)"),
+                                    );
+                                    ui.checkbox(&mut h.display.show_loss, tr!("Loss statistics"));
+
                                     ui.add_space(12.0);
                                     ui.button(tr!("Close")).clicked()
                                 });
@@ -507,6 +541,7 @@ mod gui_tests {
                 name: "Test".to_string(),
                 address: "1.2.3.4".to_string(),
                 mode: PingMode::Fast,
+                display: DisplaySettings::default(),
             });
             s.statuses
                 .insert("1.2.3.4".to_string(), HostStatus::default());
@@ -553,6 +588,7 @@ mod gui_tests {
                 name: "Google".to_string(),
                 address: "8.8.8.8".to_string(),
                 mode: PingMode::Fast,
+                display: DisplaySettings::default(),
             });
             let mut status = HostStatus::default();
             status.alive = true;
