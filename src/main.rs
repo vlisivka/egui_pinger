@@ -196,12 +196,15 @@ impl EguiPinger {
                                             Color32::from_rgb(0, 200, 100)
                                         };
 
-                                        Bar::new(i as f64, height).width(0.8).fill(fill)
+                                        Bar::new(i as f64, height).width(1.0).fill(fill)
                                     })
                                     .collect(),
                             );
 
-                            // Графік від 0 до 100 мс, по замовчуванню.
+                            // Графік історії пінгів. 
+                            // Щоб 99 стовпчиків шириною 1.0 заповнювали весь простір без "чорних смужок":
+                            // 1. Встановлюємо межі X від -0.5 до 98.5 (разом 99 одиниць).
+                            // 2. Прибираємо горизонтальні відступи (margin_fraction).
                             Plot::new(format!("plot_{}", &host_info.address))
                                 .height(30.0)
                                 .width(337.0)
@@ -210,6 +213,9 @@ impl EguiPinger {
                                 .allow_zoom(false)
                                 .allow_drag(false)
                                 .allow_scroll(false)
+                                .set_margin_fraction(egui::Vec2::new(0.0, 0.05))
+                                .include_x(-0.5)
+                                .include_x(98.5)
                                 .include_y(0.0)
                                 .include_y(150.0)
                                 .show(ui, |plot_ui| {
