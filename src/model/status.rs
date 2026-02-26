@@ -196,9 +196,9 @@ impl HostStatus {
 
         self.latency = rtt_ms;
 
-        // Add to history (maximum 99 samples)
+        // Add to history (maximum 300 samples)
         self.history.push(rtt_ms);
-        if self.history.len() > 99 {
+        if self.history.len() > 300 {
             self.history.remove(0);
         }
 
@@ -244,7 +244,7 @@ impl HostStatus {
             }
 
             self.rtp_jitter_history.push(self.rtp_jitter);
-            if self.rtp_jitter_history.len() > 99 {
+            if self.rtp_jitter_history.len() > 300 {
                 self.rtp_jitter_history.remove(0);
             }
         }
@@ -445,11 +445,11 @@ mod tests {
     #[test]
     fn test_history_limit() {
         let mut status = HostStatus::default();
-        for i in 0..150 {
+        for i in 0..400 {
             status.add_sample(i as f64);
         }
-        assert_eq!(status.history.len(), 99);
-        assert_eq!(status.history[0], 51.0);
-        assert_eq!(status.history[98], 149.0);
+        assert_eq!(status.history.len(), 300);
+        assert_eq!(status.history[0], 100.0);
+        assert_eq!(status.history[299], 399.0);
     }
 }

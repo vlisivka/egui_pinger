@@ -14,12 +14,23 @@ mod model;
 use logic::{SharedState, pinger_task};
 use model::{AppState, DisplaySettings, HostInfo, HostStatus, PingMode};
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub enum HelpTab {
+    #[default]
+    Latency,
+    Jitter,
+    Quality,
+    Reliability,
+}
+
 pub struct EguiPinger {
     pub(crate) state: SharedState,
     pub(crate) input_name: String,
     pub(crate) input_address: String,
     pub(crate) editing_host: Option<String>,
     pub(crate) deleting_host: Option<String>,
+    pub(crate) help_window_open: bool,
+    pub(crate) selected_help_tab: HelpTab,
 }
 
 /// Helper for application-specific colors adapted for light/dark themes.
@@ -107,6 +118,8 @@ impl EguiPinger {
             input_address: String::new(),
             editing_host: None,
             deleting_host: None,
+            help_window_open: false,
+            selected_help_tab: HelpTab::default(),
         }
     }
 
@@ -117,6 +130,8 @@ impl EguiPinger {
             input_address: String::new(),
             editing_host: None,
             deleting_host: None,
+            help_window_open: false,
+            selected_help_tab: HelpTab::default(),
         }
     }
 
@@ -336,12 +351,12 @@ impl EguiPinger {
                                     );
 
                                     // Графік історії пінгів.
-                                    // Щоб 99 стовпчиків шириною 1.0 заповнювали весь простір без "чорних смужок":
-                                    // 1. Встановлюємо межі X від -0.5 до 98.5 (разом 99 одиниць).
+                                    // Щоб 300 стовпчиків шириною 1.0 заповнювали весь простір без "чорних смужок":
+                                    // 1. Встановлюємо межі X від -0.5 до 299.5 (разом 300 одиниць).
                                     // 2. Прибираємо горизонтальні відступи (margin_fraction).
                                     Plot::new(format!("plot_{}", &host_info.address))
                                         .height(30.0)
-                                        .width(337.0)
+                                        .width(300.0)
                                         .show_axes(false)
                                         .show_grid(false)
                                         .allow_zoom(false)
@@ -349,7 +364,7 @@ impl EguiPinger {
                                         .allow_scroll(false)
                                         .set_margin_fraction(egui::Vec2::new(0.0, 0.05))
                                         .include_x(-0.5)
-                                        .include_x(98.5)
+                                        .include_x(299.5)
                                         .include_y(0.0)
                                         .include_y(150.0)
                                         .show(ui, |plot_ui| {
@@ -464,68 +479,74 @@ impl EguiPinger {
                                     ui.radio_value(&mut h.mode, PingMode::Slow, tr!("Slow (1m)"));
 
                                     ui.add_space(8.0);
-                                    ui.label(tr!("Show fields:"));
-                                    ui.checkbox(&mut h.display.show_name, tr!("Host Name"));
+                                    ui.horizontal(|ui| {
+                                        ui.label(tr!("Show fields:"));
+                                        if ui.button(" (?) ").on_hover_text(tr!("Learn more about these metrics")).clicked() {
+                                            self.help_window_open = true;
+                                        }
+                                    });
+                                    ui.checkbox(&mut h.display.show_name, tr!("Host Name"))
+                                        .on_hover_text(tr!("Show the custom name of the host"));
                                     ui.checkbox(
                                         &mut h.display.show_address,
                                         tr!("Host IP Address"),
-                                    );
+                                    ).on_hover_text(tr!("Show the IP address or domain of the host"));
                                     ui.checkbox(
                                         &mut h.display.show_latency,
                                         tr!("Current Latency (Latest RTT)"),
-                                    );
+                                    ).on_hover_text(tr!("Show the round-trip time for the last packet"));
                                     ui.checkbox(
                                         &mut h.display.show_mean,
                                         tr!("Mean RTT (Average latency)"),
-                                    );
+                                    ).on_hover_text(tr!("Show average latency over the history window"));
                                     ui.checkbox(
                                         &mut h.display.show_median,
                                         tr!("Median RTT (Middle value, robust to spikes)"),
-                                    );
+                                    ).on_hover_text(tr!("Shows values robust to occasional outliers"));
                                     ui.checkbox(
                                         &mut h.display.show_rtp_jitter,
                                         tr!("RTP Jitter (Current variation per RFC 3550)"),
-                                    );
+                                    ).on_hover_text(tr!("Variation in packet delay (jitter)"));
                                     ui.checkbox(
                                         &mut h.display.show_rtp_mean_jitter,
                                         tr!("RTP Jitter Mean (Average variation)"),
-                                    );
+                                    ).on_hover_text(tr!("Show average jitter over history"));
                                     ui.checkbox(
                                         &mut h.display.show_rtp_median_jitter,
                                         tr!("RTP Jitter Median (Middle variation value)"),
-                                    );
+                                    ).on_hover_text(tr!("Show median jitter over history"));
                                     ui.checkbox(
                                         &mut h.display.show_mos,
                                         tr!("MOS (Estimated Voice Quality, 1.0-4.5)"),
-                                    );
+                                    ).on_hover_text(tr!("Calculated Voice Quality (Mean Opinion Score)"));
                                     ui.checkbox(
                                         &mut h.display.show_availability,
                                         tr!("Availability (Packet delivery success rate %)"),
-                                    );
+                                    ).on_hover_text(tr!("Percentage of packets that received a reply"));
                                     ui.checkbox(
                                         &mut h.display.show_outliers,
                                         tr!("Outliers (Packets significantly slower than average)"),
-                                    );
+                                    ).on_hover_text(tr!("Number of packets with latency > mean + 3*stddev"));
                                     ui.checkbox(
                                         &mut h.display.show_streak,
                                         tr!("Streak (Consecutive success/fail count)"),
-                                    );
+                                    ).on_hover_text(tr!("Shows current series of successes or failures"));
                                     ui.checkbox(
                                         &mut h.display.show_stddev,
                                         tr!("Standard Deviation (RTT stability measure)"),
-                                    );
+                                    ).on_hover_text(tr!("Measure of how stable the latency is"));
                                     ui.checkbox(
                                         &mut h.display.show_p95,
                                         tr!("95th Percentile (Latency for 95% of packets)"),
-                                    );
+                                    ).on_hover_text(tr!("Worst-case latency for 95% of traffic"));
                                     ui.checkbox(
                                         &mut h.display.show_min_max,
                                         tr!("Min / Max (Extreme latency values)"),
-                                    );
+                                    ).on_hover_text(tr!("Shows absolute minimum and maximum in history"));
                                     ui.checkbox(
                                         &mut h.display.show_loss,
                                         tr!("Loss Statistics (Sent/Lost counters)"),
-                                    );
+                                    ).on_hover_text(tr!("Shows raw packet counters (sent and lost)"));
 
                                     ui.add_space(12.0);
                                     ui.button(tr!("Close")).clicked()
@@ -550,6 +571,87 @@ impl EguiPinger {
                         // Або якщо було натиснуто 'x' у заголовку вікна (це оновить is_open)
                         if !is_open {
                             self.editing_host = None;
+                        }
+                    }
+
+                    // Модальне вікно довідки
+                    if self.help_window_open {
+                        let mut open_var = true;
+                        let window_res = egui::Window::new(tr!("Network Statistics Information"))
+                            .open(&mut open_var)
+                            .resizable(true)
+                            .default_width(450.0)
+                            .show(ctx, |ui| {
+                                ui.horizontal(|ui| {
+                                    ui.selectable_value(&mut self.selected_help_tab, HelpTab::Latency, tr!("Latency"));
+                                    ui.selectable_value(&mut self.selected_help_tab, HelpTab::Jitter, tr!("Jitter"));
+                                    ui.selectable_value(&mut self.selected_help_tab, HelpTab::Quality, tr!("Quality & MOS"));
+                                    ui.selectable_value(&mut self.selected_help_tab, HelpTab::Reliability, tr!("Reliability"));
+                                });
+                                ui.separator();
+                                egui::ScrollArea::vertical().show(ui, |ui| {
+                                    match self.selected_help_tab {
+                                        HelpTab::Latency => {
+                                            ui.strong(tr!("Round-Trip Time (RTT) - What is Latency?"));
+                                            ui.label(tr!("Latency (RTT) is the total time it takes for a signal to go from your computer to the server and back. In network diagnostics, this is the most basic measure of 'speed'."));
+                                            ui.add_space(8.0);
+
+                                            ui.strong(tr!("How it is calculated:"));
+                                            ui.label(tr!("- Mean (Average): The sum of all RTTs divided by the number of packets. Good for general trends, but can be misleading if you have rare, massive 'lags'."));
+                                            ui.label(tr!("- Median (Middle Value): We sort all results and pick the one in the middle. This is the 'typical' experience. If you have 100 packets and 1 of them is very slow, the Median stays the same, while the Mean jumps up."));
+                                            ui.label(tr!("- 95th Percentile (P95): This shows the worst-case scenario for 95% of your traffic. If P95 is low, your connection is stable. If it's much higher than the Median, your connection is 'jittery' and prone to sudden lags."));
+
+                                            ui.add_space(8.0);
+                                            ui.strong(tr!("VoIP Impact:"));
+                                            ui.label(tr!("Voice is a real-time stream. If latency is over 150ms, you start to notice a delay in the conversation (waiting for the other person to respond). Above 300ms, people will start 'talking over' each other because of the lag."));
+                                        },
+                                        HelpTab::Jitter => {
+                                            ui.strong(tr!("Jitter - Stability of the Connection"));
+                                            ui.label(tr!("Jitter is the 'shaking' of your latency. It measures how much the delay between packets changes over time."));
+                                            ui.add_space(8.0);
+
+                                            ui.strong(tr!("How it is calculated:"));
+                                            ui.label(tr!("We use the RFC 3550 algorithm (Standard for RTP). It doesn't just look at the highest and lowest values; it calculates the difference between consecutive packets and applies a smoothing filter."));
+                                            ui.label(tr!("Formally: J = J + (|D| - J) / 16, where D is the difference between the current and previous packet delay. This provides a stable 'moving average' of network stability."));
+
+                                            ui.add_space(8.0);
+                                            ui.strong(tr!("VoIP Impact:"));
+                                            ui.label(tr!("Phones expect audio packets to arrive in a steady 'heartbeat' (every 20ms). If Jitter is high (>30ms), packets arrive in 'clumps' or too late to be played. This causes the voice to sound 'robotic', 'choppy', or broken."));
+                                        },
+                                        HelpTab::Quality => {
+                                            ui.strong(tr!("MOS - The 'Voice Score'"));
+                                            ui.label(tr!("MOS (Mean Opinion Score) is a 1.0 to 4.5 rating that predicts how a human would rate the call quality."));
+                                            ui.add_space(8.0);
+
+                                            ui.strong(tr!("How we calculate it:"));
+                                            ui.label(tr!("We implement a simplified ITU-T G.107 'E-model'. It takes your current Latency, Jitter, and Packet Loss, and calculates an 'R-factor'. This factor is then mapped to the MOS scale."));
+                                            ui.add_space(4.0);
+                                            ui.label(tr!("- 4.3 - 4.5 (Excellent): Crystal clear HD audio, like sitting in the same room."));
+                                            ui.label(tr!("- 4.0 - 4.2 (Good): Standard clean call. No issues."));
+                                            ui.label(tr!("- 3.6 - 3.9 (Fair): You can hear 'compression' or minor clicks. Acceptable for business."));
+                                            ui.label(tr!("- Below 3.0 (Poor): Words are missing, voice is distorted. It's time to hang up and check your router."));
+                                        },
+                                        HelpTab::Reliability => {
+                                            ui.strong(tr!("Reliability - Packet Loss & Outliers"));
+                                            ui.label(tr!("This tab tracks if packets are actually reaching their destination and if any are 'statistical anomalies'."));
+                                            ui.add_space(8.0);
+
+                                            ui.strong(tr!("Definitions:"));
+                                            ui.label(tr!("- Packet Loss: The most critical metric. If a packet is lost, a piece of someone's word is gone forever. VoIP cannot 'redownload' lost audio like a file transfer does."));
+                                            ui.label(tr!("- Outliers: These are packets that didn't go missing but took much longer than usual (more than 3 standard deviations from the mean). In a call, these cause a temporary 'freeze' or a loud 'pop' in the audio."));
+                                            ui.label(tr!("- Streak: Shows how many times in a row a host has responded (S) or failed (F). Long 'F' streaks mean the connection is completely down."));
+
+                                            ui.add_space(8.0);
+                                            ui.strong(tr!("VoIP Impact:"));
+                                            ui.label(tr!("While 1% loss might be okay for browsing, for VoIP it means every 100th piece of a word is missing. Above 2-3% loss, the conversation becomes extremely difficult to understand."));
+                                        }
+                                    }
+                                });
+                                ui.add_space(8.0);
+                                ui.button(tr!("Close")).clicked()
+                            });
+                        if !open_var || (window_res.is_some() && window_res.unwrap().inner == Some(true)) {
+                            self.help_window_open = false;
                         }
                     }
                 })

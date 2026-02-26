@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-26 17:08+0000\n"
+"POT-Creation-Date: 2026-02-26 18:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,196 +17,397 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ./scripts/../src/main.rs:135
+#: ./scripts/../src/main.rs:150
 msgid "Host name"
 msgstr ""
 
-#: ./scripts/../src/main.rs:143
+#: ./scripts/../src/main.rs:158
 msgid "Host address"
 msgstr ""
 
 #. When "Add" button is clicked or Enter is pressed in the second field,
 #. add host to the list
-#: ./scripts/../src/main.rs:149
+#: ./scripts/../src/main.rs:164
 msgid "Add"
 msgstr ""
 
-#: ./scripts/../src/main.rs:230
+#: ./scripts/../src/main.rs:244
 msgid "DOWN"
 msgstr ""
 
-#: ./scripts/../src/main.rs:236
+#: ./scripts/../src/main.rs:250
 msgid "M"
 msgstr ""
 
-#: ./scripts/../src/main.rs:239
+#: ./scripts/../src/main.rs:253
 msgid "Med"
 msgstr ""
 
-#: ./scripts/../src/main.rs:242
+#: ./scripts/../src/main.rs:256
 msgid "J"
 msgstr ""
 
-#: ./scripts/../src/main.rs:245
+#: ./scripts/../src/main.rs:259
 msgid "Jm"
 msgstr ""
 
-#: ./scripts/../src/main.rs:250
+#: ./scripts/../src/main.rs:264
 msgid "Jmed"
 msgstr ""
 
-#: ./scripts/../src/main.rs:255
+#: ./scripts/../src/main.rs:269
 msgid "MOS"
 msgstr ""
 
-#: ./scripts/../src/main.rs:258
+#: ./scripts/../src/main.rs:272
 msgid "Av"
 msgstr ""
 
-#: ./scripts/../src/main.rs:261
+#: ./scripts/../src/main.rs:275
 msgid "Out"
 msgstr ""
 
-#: ./scripts/../src/main.rs:265
+#: ./scripts/../src/main.rs:279
 msgid "S"
 msgstr ""
 
-#: ./scripts/../src/main.rs:267
+#: ./scripts/../src/main.rs:281
 msgid "F"
 msgstr ""
 
-#: ./scripts/../src/main.rs:269
+#: ./scripts/../src/main.rs:283
 msgid "Str"
 msgstr ""
 
-#: ./scripts/../src/main.rs:272
+#: ./scripts/../src/main.rs:286
 msgid "SD"
 msgstr ""
 
-#: ./scripts/../src/main.rs:280
+#: ./scripts/../src/main.rs:294
 msgid "m/M"
 msgstr ""
 
-#: ./scripts/../src/main.rs:291
+#: ./scripts/../src/main.rs:305
 msgid "L"
 msgstr ""
 
-#: ./scripts/../src/main.rs:324
+#: ./scripts/../src/main.rs:338
 msgid "Pings"
 msgstr ""
 
-#: ./scripts/../src/main.rs:411
+#: ./scripts/../src/main.rs:425
 msgid "Confirm Deletion"
 msgstr ""
 
-#: ./scripts/../src/main.rs:418
+#: ./scripts/../src/main.rs:432
 msgid "Are you sure you want to remove this host"
 msgstr ""
 
-#: ./scripts/../src/main.rs:424
+#. Click "Delete" in the confirmation dialog
+#: ./scripts/../src/main.rs:438 ./scripts/../src/main.rs:767
 msgid "Delete"
 msgstr ""
 
-#: ./scripts/../src/main.rs:430
+#: ./scripts/../src/main.rs:444
 msgid "Cancel"
 msgstr ""
 
-#: ./scripts/../src/main.rs:450
+#: ./scripts/../src/main.rs:464
 msgid "Host Settings"
 msgstr ""
 
-#: ./scripts/../src/main.rs:454
+#: ./scripts/../src/main.rs:468
 msgid "Host"
 msgstr ""
 
-#: ./scripts/../src/main.rs:458
+#: ./scripts/../src/main.rs:472
 msgid "Name"
 msgstr ""
 
-#: ./scripts/../src/main.rs:463
+#: ./scripts/../src/main.rs:477
 msgid "Ping Interval:"
 msgstr ""
 
-#: ./scripts/../src/main.rs:464
+#: ./scripts/../src/main.rs:478
 msgid "Fast (1s)"
 msgstr ""
 
-#: ./scripts/../src/main.rs:465
+#: ./scripts/../src/main.rs:479
 msgid "Slow (1m)"
 msgstr ""
 
-#: ./scripts/../src/main.rs:468
+#: ./scripts/../src/main.rs:483
 msgid "Show fields:"
 msgstr ""
 
-#: ./scripts/../src/main.rs:469
-msgid "Host Name"
-msgstr ""
-
-#: ./scripts/../src/main.rs:472
-msgid "Host IP Address"
-msgstr ""
-
-#: ./scripts/../src/main.rs:476
-msgid "Current Latency (Latest RTT)"
-msgstr ""
-
-#: ./scripts/../src/main.rs:480
-msgid "Mean RTT (Average latency)"
-msgstr ""
-
 #: ./scripts/../src/main.rs:484
-msgid "Median RTT (Middle value, robust to spikes)"
+msgid "Learn more about these metrics"
 msgstr ""
 
 #: ./scripts/../src/main.rs:488
-msgid "RTP Jitter (Current variation per RFC 3550)"
+msgid "Host Name"
+msgstr ""
+
+#: ./scripts/../src/main.rs:489
+msgid "Show the custom name of the host"
 msgstr ""
 
 #: ./scripts/../src/main.rs:492
-msgid "RTP Jitter Mean (Average variation)"
+msgid "Host IP Address"
+msgstr ""
+
+#: ./scripts/../src/main.rs:493
+msgid "Show the IP address or domain of the host"
 msgstr ""
 
 #: ./scripts/../src/main.rs:496
-msgid "RTP Jitter Median (Middle variation value)"
+msgid "Current Latency (Latest RTT)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:497
+msgid "Show the round-trip time for the last packet"
 msgstr ""
 
 #: ./scripts/../src/main.rs:500
-msgid "MOS (Estimated Voice Quality, 1.0-4.5)"
+msgid "Mean RTT (Average latency)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:501
+msgid "Show average latency over the history window"
 msgstr ""
 
 #: ./scripts/../src/main.rs:504
-msgid "Availability (Packet delivery success rate %)"
+msgid "Median RTT (Middle value, robust to spikes)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:505
+msgid "Shows values robust to occasional outliers"
 msgstr ""
 
 #: ./scripts/../src/main.rs:508
-msgid "Outliers (Packets significantly slower than average)"
+msgid "RTP Jitter (Current variation per RFC 3550)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:509
+msgid "Variation in packet delay (jitter)"
 msgstr ""
 
 #: ./scripts/../src/main.rs:512
-msgid "Streak (Consecutive success/fail count)"
+msgid "RTP Jitter Mean (Average variation)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:513
+msgid "Show average jitter over history"
 msgstr ""
 
 #: ./scripts/../src/main.rs:516
-msgid "Standard Deviation (RTT stability measure)"
+msgid "RTP Jitter Median (Middle variation value)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:517
+msgid "Show median jitter over history"
 msgstr ""
 
 #: ./scripts/../src/main.rs:520
-msgid "95th Percentile (Latency for 95% of packets)"
+msgid "MOS (Estimated Voice Quality, 1.0-4.5)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:521
+msgid "Calculated Voice Quality (Mean Opinion Score)"
 msgstr ""
 
 #: ./scripts/../src/main.rs:524
-msgid "Min / Max (Extreme latency values)"
+msgid "Availability (Packet delivery success rate %)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:525
+msgid "Percentage of packets that received a reply"
 msgstr ""
 
 #: ./scripts/../src/main.rs:528
-msgid "Loss Statistics (Sent/Lost counters)"
+msgid "Outliers (Packets significantly slower than average)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:529
+msgid "Number of packets with latency > mean + 3*stddev"
 msgstr ""
 
 #: ./scripts/../src/main.rs:532
+msgid "Streak (Consecutive success/fail count)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:533
+msgid "Shows current series of successes or failures"
+msgstr ""
+
+#: ./scripts/../src/main.rs:536
+msgid "Standard Deviation (RTT stability measure)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:537
+msgid "Measure of how stable the latency is"
+msgstr ""
+
+#: ./scripts/../src/main.rs:540
+msgid "95th Percentile (Latency for 95% of packets)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:541
+msgid "Worst-case latency for 95% of traffic"
+msgstr ""
+
+#: ./scripts/../src/main.rs:544
+msgid "Min / Max (Extreme latency values)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:545
+msgid "Shows absolute minimum and maximum in history"
+msgstr ""
+
+#: ./scripts/../src/main.rs:548
+msgid "Loss Statistics (Sent/Lost counters)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:549
+msgid "Shows raw packet counters (sent and lost)"
+msgstr ""
+
+#: ./scripts/../src/main.rs:552 ./scripts/../src/main.rs:651
 msgid "Close"
 msgstr ""
 
-#: ./scripts/../src/main.rs:585
+#: ./scripts/../src/main.rs:580
+msgid "Network Statistics Information"
+msgstr ""
+
+#: ./scripts/../src/main.rs:586
+msgid "Latency"
+msgstr ""
+
+#: ./scripts/../src/main.rs:587
+msgid "Jitter"
+msgstr ""
+
+#: ./scripts/../src/main.rs:588
+msgid "Quality & MOS"
+msgstr ""
+
+#: ./scripts/../src/main.rs:589
+msgid "Reliability"
+msgstr ""
+
+#: ./scripts/../src/main.rs:595
+msgid "Round-Trip Time (RTT) - What is Latency?"
+msgstr ""
+
+#: ./scripts/../src/main.rs:596
+msgid "Latency (RTT) is the total time it takes for a signal to go from your computer to the server and back. In network diagnostics, this is the most basic measure of 'speed'."
+msgstr ""
+
+#: ./scripts/../src/main.rs:599 ./scripts/../src/main.rs:613
+msgid "How it is calculated:"
+msgstr ""
+
+#: ./scripts/../src/main.rs:600
+msgid "- Mean (Average): The sum of all RTTs divided by the number of packets. Good for general trends, but can be misleading if you have rare, massive 'lags'."
+msgstr ""
+
+#: ./scripts/../src/main.rs:601
+msgid "- Median (Middle Value): We sort all results and pick the one in the middle. This is the 'typical' experience. If you have 100 packets and 1 of them is very slow, the Median stays the same, while the Mean jumps up."
+msgstr ""
+
+#: ./scripts/../src/main.rs:602
+msgid "- 95th Percentile (P95): This shows the worst-case scenario for 95% of your traffic. If P95 is low, your connection is stable. If it's much higher than the Median, your connection is 'jittery' and prone to sudden lags."
+msgstr ""
+
+#: ./scripts/../src/main.rs:605 ./scripts/../src/main.rs:618 ./scripts/../src/main.rs:645
+msgid "VoIP Impact:"
+msgstr ""
+
+#: ./scripts/../src/main.rs:606
+msgid "Voice is a real-time stream. If latency is over 150ms, you start to notice a delay in the conversation (waiting for the other person to respond). Above 300ms, people will start 'talking over' each other because of the lag."
+msgstr ""
+
+#: ./scripts/../src/main.rs:609
+msgid "Jitter - Stability of the Connection"
+msgstr ""
+
+#: ./scripts/../src/main.rs:610
+msgid "Jitter is the 'shaking' of your latency. It measures how much the delay between packets changes over time."
+msgstr ""
+
+#: ./scripts/../src/main.rs:614
+msgid "We use the RFC 3550 algorithm (Standard for RTP). It doesn't just look at the highest and lowest values; it calculates the difference between consecutive packets and applies a smoothing filter."
+msgstr ""
+
+#: ./scripts/../src/main.rs:615
+msgid "Formally: J = J + (|D| - J) / 16, where D is the difference between the current and previous packet delay. This provides a stable 'moving average' of network stability."
+msgstr ""
+
+#: ./scripts/../src/main.rs:619
+msgid "Phones expect audio packets to arrive in a steady 'heartbeat' (every 20ms). If Jitter is high (>30ms), packets arrive in 'clumps' or too late to be played. This causes the voice to sound 'robotic', 'choppy', or broken."
+msgstr ""
+
+#: ./scripts/../src/main.rs:622
+msgid "MOS - The 'Voice Score'"
+msgstr ""
+
+#: ./scripts/../src/main.rs:623
+msgid "MOS (Mean Opinion Score) is a 1.0 to 4.5 rating that predicts how a human would rate the call quality."
+msgstr ""
+
+#: ./scripts/../src/main.rs:626
+msgid "How we calculate it:"
+msgstr ""
+
+#: ./scripts/../src/main.rs:627
+msgid "We implement a simplified ITU-T G.107 'E-model'. It takes your current Latency, Jitter, and Packet Loss, and calculates an 'R-factor'. This factor is then mapped to the MOS scale."
+msgstr ""
+
+#: ./scripts/../src/main.rs:629
+msgid "- 4.3 - 4.5 (Excellent): Crystal clear HD audio, like sitting in the same room."
+msgstr ""
+
+#: ./scripts/../src/main.rs:630
+msgid "- 4.0 - 4.2 (Good): Standard clean call. No issues."
+msgstr ""
+
+#: ./scripts/../src/main.rs:631
+msgid "- 3.6 - 3.9 (Fair): You can hear 'compression' or minor clicks. Acceptable for business."
+msgstr ""
+
+#: ./scripts/../src/main.rs:632
+msgid "- Below 3.0 (Poor): Words are missing, voice is distorted. It's time to hang up and check your router."
+msgstr ""
+
+#: ./scripts/../src/main.rs:635
+msgid "Reliability - Packet Loss & Outliers"
+msgstr ""
+
+#: ./scripts/../src/main.rs:636
+msgid "This tab tracks if packets are actually reaching their destination and if any are 'statistical anomalies'."
+msgstr ""
+
+#: ./scripts/../src/main.rs:639
+msgid "Definitions:"
+msgstr ""
+
+#: ./scripts/../src/main.rs:640
+msgid "- Packet Loss: The most critical metric. If a packet is lost, a piece of someone's word is gone forever. VoIP cannot 'redownload' lost audio like a file transfer does."
+msgstr ""
+
+#: ./scripts/../src/main.rs:641
+msgid "- Outliers: These are packets that didn't go missing but took much longer than usual (more than 3 standard deviations from the mean). In a call, these cause a temporary 'freeze' or a loud 'pop' in the audio."
+msgstr ""
+
+#: ./scripts/../src/main.rs:642
+msgid "- Streak: Shows how many times in a row a host has responded (S) or failed (F). Long 'F' streaks mean the connection is completely down."
+msgstr ""
+
+#: ./scripts/../src/main.rs:646
+msgid "While 1% loss might be okay for browsing, for VoIP it means every 100th piece of a word is missing. Above 2-3% loss, the conversation becomes extremely difficult to understand."
+msgstr ""
+
+#: ./scripts/../src/main.rs:677
 msgid "egui pinger"
 msgstr ""
