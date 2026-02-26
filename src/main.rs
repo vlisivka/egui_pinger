@@ -19,6 +19,7 @@ pub struct EguiPinger {
     pub(crate) input_name: String,
     pub(crate) input_address: String,
     pub(crate) editing_host: Option<String>,
+    pub(crate) deleting_host: Option<String>,
 }
 
 /// Helper for application-specific colors adapted for light/dark themes.
@@ -105,6 +106,7 @@ impl EguiPinger {
             input_name: String::new(),
             input_address: String::new(),
             editing_host: None,
+            deleting_host: None,
         }
     }
 
@@ -114,6 +116,7 @@ impl EguiPinger {
             input_name: String::new(),
             input_address: String::new(),
             editing_host: None,
+            deleting_host: None,
         }
     }
 
@@ -199,7 +202,6 @@ impl EguiPinger {
                     };
 
                     let visuals = PingVisuals::from_ctx(ctx);
-                    let mut to_remove = Vec::new();
                     let default_host_status = HostStatus::default();
 
                     let mut moved = None;
@@ -309,7 +311,7 @@ impl EguiPinger {
 
                                     // Кнопки управління хостом (тепер зліва для стабільності)
                                     if ui.button("x").clicked() {
-                                        to_remove.push(host_info.address.clone());
+                                        self.deleting_host = Some(host_info.address.clone());
                                     }
                                     if ui.button("⚙").clicked() {
                                         self.editing_host = Some(host_info.address.clone());
@@ -391,6 +393,44 @@ impl EguiPinger {
                             let item = state.hosts.remove(from);
                             state.hosts.insert(to, item);
                         }
+                    }
+
+                    // Діалог підтвердження видалення
+                    if let Some(address) = self.deleting_host.clone() {
+                        let name = {
+                            let state = self.state.lock().unwrap();
+                            state
+                                .hosts
+                                .iter()
+                                .find(|h| h.address == address)
+                                .map(|h| h.name.clone())
+                                .unwrap_or_else(|| address.clone())
+                        };
+
+                        egui::Window::new(tr!("Confirm Deletion"))
+                            .collapsible(false)
+                            .resizable(false)
+                            .anchor(egui::Align2::CENTER_CENTER, egui::Vec2::ZERO)
+                            .show(ctx, |ui| {
+                                ui.label(format!(
+                                    "{}: {} ({})?",
+                                    tr!("Are you sure you want to remove this host"),
+                                    name,
+                                    address
+                                ));
+                                ui.add_space(12.0);
+                                ui.horizontal(|ui| {
+                                    if ui.button(tr!("Delete")).clicked() {
+                                        let mut state = self.state.lock().unwrap();
+                                        state.hosts.retain(|h| h.address != address);
+                                        state.statuses.remove(&address);
+                                        self.deleting_host = None;
+                                    }
+                                    if ui.button(tr!("Cancel")).clicked() {
+                                        self.deleting_host = None;
+                                    }
+                                });
+                            });
                     }
 
                     // Діалог налаштувань хоста
@@ -512,15 +552,6 @@ impl EguiPinger {
                             self.editing_host = None;
                         }
                     }
-
-                    // Видаляємо хости, які були позначені для видалення
-                    if !to_remove.is_empty() {
-                        let mut state = self.state.lock().unwrap();
-                        for address in to_remove {
-                            state.hosts.retain(|x| x.address != address);
-                            state.statuses.remove(&address);
-                        }
-                    }
                 })
             })
         });
@@ -628,6 +659,10 @@ mod gui_tests {
 
         // Click delete button (labeled "x")
         harness.get_by_label("x").click();
+        harness.run();
+
+        // Click "Delete" in the confirmation dialog
+        harness.get_by_label(&tr!("Delete")).click();
         harness.run();
 
         // Verify host is gone
