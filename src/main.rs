@@ -2,7 +2,7 @@
 
 use eframe::egui;
 use eframe::egui::{Color32, RichText};
-use egui_plot::{Bar, BarChart, Plot};
+use egui_plot::{Bar, BarChart, HLine, Plot};
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 use tr::tr;
@@ -128,13 +128,15 @@ impl EguiPinger {
                             .unwrap_or(&default_host_status);
 
                         let color = if status.alive {
-                            if status.latency > 100.0 {
-                                Color32::from_rgb(255, 255, 100)
+                            if status.latency > 300.0 {
+                                Color32::from_rgb(160, 32, 240) // Purple
+                            } else if status.latency > 150.0 {
+                                Color32::from_rgb(255, 255, 100) // Yellow
                             } else {
-                                Color32::from_rgb(0, 255, 100)
+                                Color32::from_rgb(0, 255, 100) // Green
                             }
                         } else {
-                            Color32::from_rgb(255, 80, 80)
+                            Color32::from_rgb(255, 80, 80) // Red
                         };
 
                         let jitter_text = format!(
@@ -181,12 +183,14 @@ impl EguiPinger {
                                     .iter()
                                     .enumerate()
                                     .map(|(i, &rtt)| {
-                                        // Якщо пропущений, робимо стовпчик на всю висоту (100 мс)
-                                        let height = if rtt.is_nan() { 100.0 } else { rtt };
+                                        // Якщо пропущений, робимо стовпчик висотою 150 мс
+                                        let height = if rtt.is_nan() { 150.0 } else { rtt };
 
                                         let fill = if rtt.is_nan() {
                                             Color32::RED
-                                        } else if rtt > 100.0 {
+                                        } else if rtt > 300.0 {
+                                            Color32::from_rgb(160, 32, 240) // Purple
+                                        } else if rtt > 150.0 {
                                             Color32::YELLOW
                                         } else {
                                             Color32::from_rgb(0, 200, 100)
@@ -207,8 +211,11 @@ impl EguiPinger {
                                 .allow_drag(false)
                                 .allow_scroll(false)
                                 .include_y(0.0)
-                                .include_y(100.0)
-                                .show(ui, |plot_ui| plot_ui.bar_chart(chart));
+                                .include_y(150.0)
+                                .show(ui, |plot_ui| {
+                                    plot_ui.hline(HLine::new("", 150.0).color(Color32::from_gray(80)).width(1.0));
+                                    plot_ui.bar_chart(chart);
+                                });
 
                             // Текст з назвою, адресою, і результатами. Шрифт фіксованої ширини, жирний.
                             ui.colored_label(color, RichText::new(text).monospace().strong());
