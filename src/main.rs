@@ -201,7 +201,9 @@ impl EguiPinger {
                     let mut to_remove = Vec::new();
                     let default_host_status = HostStatus::default();
 
-                    for host_info in &hosts {
+                    let mut moved = None;
+
+                    for (idx, host_info) in hosts.iter().enumerate() {
                         let status = statuses
                             .get(&host_info.address)
                             .unwrap_or(&default_host_status);
@@ -247,67 +249,108 @@ impl EguiPinger {
                             )
                         };
 
-                        ui.horizontal(|ui| {
-                            // Графік — тоненькі стовпчики зеленого (для <100 мс), жовтого (для >100 мс ),
-                            // і червоного (для пропущених) кольорів
-                            let chart = BarChart::new(
-                                tr!("Pings"),
-                                status
-                                    .history
-                                    .iter()
-                                    .enumerate()
-                                    .map(|(i, &rtt)| {
-                                        // Якщо пропущений, робимо стовпчик висотою 150 мс
-                                        let height = if rtt.is_nan() { 150.0 } else { rtt };
-                                        let fill = visuals.latency_color(rtt);
+                        let row_id = egui::Id::new("host_row").with(&host_info.address);
+                        let (inner_res, dropped_payload) =
+                            ui.dnd_drop_zone::<usize, ()>(egui::Frame::NONE, |ui| {
+                                ui.horizontal(|ui| {
+                                    // Ручка для перетягування
+                                    let handle_id = row_id.with("handle");
+                                    let handle_res = ui.dnd_drag_source(handle_id, idx, |ui| {
+                                        ui.label(RichText::new(" ☰ ").monospace().strong());
+                                    });
+                                    if handle_res.response.hovered() {
+                                        ui.ctx().set_cursor_icon(egui::CursorIcon::Grab);
+                                    }
 
-                                        Bar::new(i as f64, height).width(1.0).fill(fill)
-                                    })
-                                    .collect(),
-                            );
+                                    // Графік — тоненькі стовпчики зеленого (для <100 мс), жовтого (для >100 мс ),
+                                    // і червоного (для пропущених) кольорів
+                                    let chart = BarChart::new(
+                                        tr!("Pings"),
+                                        status
+                                            .history
+                                            .iter()
+                                            .enumerate()
+                                            .map(|(i, &rtt)| {
+                                                // Якщо пропущений, робимо стовпчик висотою 150 мс
+                                                let height = if rtt.is_nan() { 150.0 } else { rtt };
+                                                let fill = visuals.latency_color(rtt);
 
-                            // Графік історії пінгів.
-                            // Щоб 99 стовпчиків шириною 1.0 заповнювали весь простір без "чорних смужок":
-                            // 1. Встановлюємо межі X від -0.5 до 98.5 (разом 99 одиниць).
-                            // 2. Прибираємо горизонтальні відступи (margin_fraction).
-                            Plot::new(format!("plot_{}", &host_info.address))
-                                .height(30.0)
-                                .width(337.0)
-                                .show_axes(false)
-                                .show_grid(false)
-                                .allow_zoom(false)
-                                .allow_drag(false)
-                                .allow_scroll(false)
-                                .set_margin_fraction(egui::Vec2::new(0.0, 0.05))
-                                .include_x(-0.5)
-                                .include_x(98.5)
-                                .include_y(0.0)
-                                .include_y(150.0)
-                                .show(ui, |plot_ui| {
-                                    plot_ui.hline(
-                                        HLine::new("", 150.0)
-                                            .color(visuals.limit_line_color())
-                                            .width(1.0),
+                                                Bar::new(i as f64, height).width(1.0).fill(fill)
+                                            })
+                                            .collect(),
                                     );
-                                    plot_ui.bar_chart(chart);
+
+                                    // Графік історії пінгів.
+                                    // Щоб 99 стовпчиків шириною 1.0 заповнювали весь простір без "чорних смужок":
+                                    // 1. Встановлюємо межі X від -0.5 до 98.5 (разом 99 одиниць).
+                                    // 2. Прибираємо горизонтальні відступи (margin_fraction).
+                                    Plot::new(format!("plot_{}", &host_info.address))
+                                        .height(30.0)
+                                        .width(337.0)
+                                        .show_axes(false)
+                                        .show_grid(false)
+                                        .allow_zoom(false)
+                                        .allow_drag(false)
+                                        .allow_scroll(false)
+                                        .set_margin_fraction(egui::Vec2::new(0.0, 0.05))
+                                        .include_x(-0.5)
+                                        .include_x(98.5)
+                                        .include_y(0.0)
+                                        .include_y(150.0)
+                                        .show(ui, |plot_ui| {
+                                            plot_ui.hline(
+                                                HLine::new("", 150.0)
+                                                    .color(visuals.limit_line_color())
+                                                    .width(1.0),
+                                            );
+                                            plot_ui.bar_chart(chart);
+                                        });
+
+                                    // Текст з назвою, адресою, і результатами. Шрифт фіксованої ширини, жирний.
+                                    ui.colored_label(
+                                        color,
+                                        RichText::new(text).monospace().strong(),
+                                    );
+
+                                    // Кнопки управління хостом (справа)
+                                    ui.with_layout(
+                                        egui::Layout::right_to_left(egui::Align::Center),
+                                        |ui| {
+                                            if ui.button("x").clicked() {
+                                                to_remove.push(host_info.address.clone());
+                                            }
+                                            if ui.button("⚙").clicked() {
+                                                self.editing_host = Some(host_info.address.clone());
+                                            }
+                                        },
+                                    );
                                 });
+                            });
 
-                            // Текст з назвою, адресою, і результатами. Шрифт фіксованої ширини, жирний.
-                            ui.colored_label(color, RichText::new(text).monospace().strong());
+                        let response = inner_res.response;
 
-                            // Кнопки управління хостом (справа)
-                            ui.with_layout(
-                                egui::Layout::right_to_left(egui::Align::Center),
-                                |ui| {
-                                    if ui.button("x").clicked() {
-                                        to_remove.push(host_info.address.clone());
-                                    }
-                                    if ui.button("⚙").clicked() {
-                                        self.editing_host = Some(host_info.address.clone());
-                                    }
-                                },
+                        // Якщо на цей рядок скинули інший рядок
+                        if let Some(from_idx) = dropped_payload {
+                            moved = Some((*from_idx, idx));
+                        }
+
+                        // Підсвітка при наведенні під час перетягування
+                        if response.dnd_hover_payload::<usize>().is_some() {
+                            ui.painter().rect_filled(
+                                response.rect,
+                                2.0,
+                                Color32::from_white_alpha(30),
                             );
-                        });
+                        }
+                    }
+
+                    // Виконуємо перестановку
+                    if let Some((from, to)) = moved {
+                        if from != to {
+                            let mut state = self.state.lock().unwrap();
+                            let item = state.hosts.remove(from);
+                            state.hosts.insert(to, item);
+                        }
                     }
 
                     // Діалог налаштувань хоста
