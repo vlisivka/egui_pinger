@@ -185,13 +185,11 @@ impl HostStatus {
                 self.streak = 1;
                 self.streak_success = false;
             }
+        } else if self.streak_success {
+            self.streak += 1;
         } else {
-            if self.streak_success {
-                self.streak += 1;
-            } else {
-                self.streak = 1;
-                self.streak_success = true;
-            }
+            self.streak = 1;
+            self.streak_success = true;
         }
 
         self.latency = rtt_ms;
@@ -279,8 +277,7 @@ impl HostStatus {
         }
 
         // Calculate MOS
-        let loss_pct =
-            (self.lost as f64 / if self.sent == 0 { 1 } else { self.sent } as f64) * 100.0;
+        let loss_pct = (self.lost as f64 / self.sent as f64) * 100.0;
         self.mos = calculate_mos(self.mean, self.rtp_jitter, loss_pct);
     }
 }

@@ -51,19 +51,36 @@ pub async fn pinger_task(state: SharedState) {
         if !hosts_to_ping.is_empty() {
             let ping_tasks: Vec<_> = hosts_to_ping
                 .into_iter()
-                .filter_map(|host_info| {
-                    let ip: IpAddr = host_info.address.parse().ok()?;
-                    let payload = payload;
+                .map(|host_info| {
                     let address = host_info.address.clone();
                     let state = state.clone();
 
-                    Some(tokio::spawn(async move {
-                        let result =
-                            tokio::time::timeout(Duration::from_secs(2), ping(ip, &payload)).await;
+                    tokio::spawn(async move {
+                        // Resolve the address (could be IP or domain)
+                        let ip = match address.parse::<IpAddr>() {
+                            Ok(ip) => Some(ip),
+                            Err(_) => {
+                                // Try DNS resolution
+                                let lookup_str = format!("{}:0", address);
+                                if let Ok(mut addrs) = tokio::net::lookup_host(&lookup_str).await {
+                                    addrs.next().map(|a| a.ip())
+                                } else {
+                                    None
+                                }
+                            }
+                        };
 
-                        let (alive, rtt_ms) = match result {
-                            Ok(Ok((_, duration))) => (true, duration.as_secs_f64() * 1000.0),
-                            _ => (false, f64::NAN),
+                        let (alive, rtt_ms) = if let Some(ip) = ip {
+                            let result =
+                                tokio::time::timeout(Duration::from_secs(2), ping(ip, &payload))
+                                    .await;
+
+                            match result {
+                                Ok(Ok((_, duration))) => (true, duration.as_secs_f64() * 1000.0),
+                                _ => (false, f64::NAN),
+                            }
+                        } else {
+                            (false, f64::NAN) // Domain resolution failed
                         };
 
                         let mut state_lock = state
@@ -73,7 +90,7 @@ pub async fn pinger_task(state: SharedState) {
                             status.alive = alive;
                             status.add_sample(rtt_ms);
                         }
-                    }))
+                    })
                 })
                 .collect();
 

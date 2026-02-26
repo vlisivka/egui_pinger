@@ -55,29 +55,56 @@ impl PingVisuals {
 
     fn latency_color(&self, rtt: f64) -> Color32 {
         if rtt.is_nan() {
-            if self.is_dark {
-                Color32::RED
-            } else {
-                Color32::from_rgb(200, 0, 0)
-            }
+            Color32::from_rgb(213, 94, 0) // Vermilion
         } else if rtt > 300.0 {
-            if self.is_dark {
-                Color32::from_rgb(160, 32, 240)
-            } else {
-                Color32::from_rgb(120, 0, 200)
-            }
+            Color32::from_rgb(204, 121, 167) // Reddish purple
         } else if rtt > 150.0 {
             if self.is_dark {
-                Color32::YELLOW
+                Color32::from_rgb(240, 228, 66) // Yellow
             } else {
-                Color32::from_rgb(180, 140, 0)
+                Color32::from_rgb(230, 159, 0) // Orange
             }
+        } else if self.is_dark {
+            Color32::from_rgb(86, 180, 233) // Sky Blue
         } else {
-            if self.is_dark {
-                Color32::from_rgb(0, 255, 100)
-            } else {
-                Color32::from_rgb(0, 150, 0)
-            }
+            Color32::from_rgb(0, 114, 178) // Blue
+        }
+    }
+
+    fn value_color(
+        &self,
+        value: f64,
+        warn_th: f64,
+        bad_th: f64,
+        higher_is_better: bool,
+    ) -> Option<Color32> {
+        if value.is_nan() {
+            return None;
+        }
+        let is_bad = if higher_is_better {
+            value < bad_th
+        } else {
+            value > bad_th
+        };
+        let is_warn = if higher_is_better {
+            value < warn_th
+        } else {
+            value > warn_th
+        };
+
+        let bad_c = Color32::from_rgb(213, 94, 0); // Vermilion
+        let warn_c = if self.is_dark {
+            Color32::from_rgb(240, 228, 66)
+        } else {
+            Color32::from_rgb(230, 159, 0)
+        };
+
+        if is_bad {
+            Some(bad_c)
+        } else if is_warn {
+            Some(warn_c)
+        } else {
+            None
         }
     }
 
@@ -210,21 +237,19 @@ impl EguiPinger {
 
                     ui.separator();
 
-                    // Клонуємо потрібні дані один раз — уникаємо тимчасових значень
-                    let (hosts, statuses) = {
-                        let state = self.state.lock().unwrap();
-                        (state.hosts.clone(), state.statuses.clone())
-                    };
-
+                    // Клонуємо лише Arc, щоб відв'язати MutexGuard від self
+                    let state_arc = self.state.clone();
                     let visuals = PingVisuals::from_ctx(ctx);
                     let default_host_status = HostStatus::default();
-
                     let mut moved = None;
 
-                    for (idx, host_info) in hosts.iter().enumerate() {
-                        let status = statuses
-                            .get(&host_info.address)
-                            .unwrap_or(&default_host_status);
+                    {
+                        let state = state_arc.lock().unwrap();
+
+                        for (idx, host_info) in state.hosts.iter().enumerate() {
+                            let status = state.statuses
+                                .get(&host_info.address)
+                                .unwrap_or(&default_host_status);
 
                         let color = visuals.status_color(status.alive, status.latency);
 
@@ -239,77 +264,122 @@ impl EguiPinger {
 
                         if host_info.display.show_latency {
                             if status.alive {
-                                parts.push(format!("{:4.0}ms", status.latency));
+                                parts.push(format!("{:4.0}{}", status.latency, tr!("ms")));
                             } else {
                                 parts.push(format!("{:>4}", tr!("DOWN")));
                             }
                         }
 
+                        struct StatDisplay {
+                            text: String,
+                            tooltip: String,
+                            color: Option<Color32>,
+                        }
                         let mut stats = Vec::new();
+
+                        let loss_pct = (status.lost as f64
+                            / if status.sent == 0 { 1 } else { status.sent } as f64)
+                            * 100.0;
+
                         if host_info.display.show_mean {
-                            stats.push(format!("{}: {:4.1}", tr!("M"), status.mean));
+                            stats.push(StatDisplay {
+                                text: format!("{}: {:4.1}", tr!("M"), status.mean),
+                                tooltip: tr!("Mean RTT").to_string(),
+                                color: visuals.value_color(status.mean, 150.0, 300.0, false),
+                            });
                         }
                         if host_info.display.show_median {
-                            stats.push(format!("{}: {:4.1}", tr!("Med"), status.median));
+                            stats.push(StatDisplay {
+                                text: format!("{}: {:4.1}", tr!("Med"), status.median),
+                                tooltip: tr!("Median RTT").to_string(),
+                                color: visuals.value_color(status.median, 150.0, 300.0, false),
+                            });
                         }
                         if host_info.display.show_rtp_jitter {
-                            stats.push(format!("{}: {:4.1}", tr!("J"), status.rtp_jitter));
+                            stats.push(StatDisplay {
+                                text: format!("{}: {:4.1}", tr!("J"), status.rtp_jitter),
+                                tooltip: tr!("RTP Jitter").to_string(),
+                                color: visuals.value_color(status.rtp_jitter, 20.0, 30.0, false),
+                            });
                         }
                         if host_info.display.show_rtp_mean_jitter {
-                            stats.push(format!("{}: {:4.1}", tr!("Jm"), status.rtp_jitter_mean));
+                            stats.push(StatDisplay {
+                                text: format!("{}: {:4.1}", tr!("Jm"), status.rtp_jitter_mean),
+                                tooltip: tr!("Mean Jitter").to_string(),
+                                color: visuals.value_color(status.rtp_jitter_mean, 20.0, 30.0, false),
+                            });
                         }
                         if host_info.display.show_rtp_median_jitter {
-                            stats.push(format!(
-                                "{}: {:4.1}",
-                                tr!("Jmed"),
-                                status.rtp_jitter_median
-                            ));
+                            stats.push(StatDisplay {
+                                text: format!("{}: {:4.1}", tr!("Jmed"), status.rtp_jitter_median),
+                                tooltip: tr!("Median Jitter").to_string(),
+                                color: visuals.value_color(status.rtp_jitter_median, 20.0, 30.0, false),
+                            });
                         }
                         if host_info.display.show_mos {
-                            stats.push(format!("{}: {:3.1}", tr!("MOS"), status.mos));
+                            stats.push(StatDisplay {
+                                text: format!("{}: {:3.1}", tr!("MOS"), status.mos),
+                                tooltip: tr!("Voice Quality (MOS)").to_string(),
+                                color: visuals.value_color(status.mos, 4.0, 3.6, true),
+                            });
                         }
                         if host_info.display.show_availability {
-                            stats.push(format!("{}: {:3.0}%", tr!("Av"), status.availability));
+                            stats.push(StatDisplay {
+                                text: format!("{}: {:3.0}%", tr!("Av"), status.availability),
+                                tooltip: tr!("Availability").to_string(),
+                                color: visuals.value_color(status.availability, 99.0, 95.0, true),
+                            });
                         }
                         if host_info.display.show_outliers {
-                            stats.push(format!("{}: {}", tr!("Out"), status.outliers));
+                            stats.push(StatDisplay {
+                                text: format!("{}: {}", tr!("Out"), status.outliers),
+                                tooltip: tr!("Outliers (Lags)").to_string(),
+                                color: if status.outliers > 3 { Some(Color32::from_rgb(230, 159, 0)) } else { None },
+                            });
                         }
                         if host_info.display.show_streak {
-                            let streak_type = if status.streak_success {
-                                tr!("S")
+                            let streak_type = if status.streak_success { tr!("S") } else { tr!("F") };
+                            let c = if !status.streak_success && status.streak > 3 {
+                                Some(Color32::from_rgb(213, 94, 0))
+                            } else if !status.streak_success && status.streak > 1 {
+                                Some(if visuals.is_dark { Color32::from_rgb(240, 228, 66) } else { Color32::from_rgb(230, 159, 0) })
                             } else {
-                                tr!("F")
+                                None
                             };
-                            stats.push(format!("{}: {}{}", tr!("Str"), streak_type, status.streak));
+                            stats.push(StatDisplay {
+                                text: format!("{}: {}{}", tr!("Str"), streak_type, status.streak),
+                                tooltip: tr!("Streak").to_string(),
+                                color: c,
+                            });
                         }
                         if host_info.display.show_stddev {
-                            stats.push(format!("{}: {:4.1}", tr!("SD"), status.stddev));
+                            stats.push(StatDisplay {
+                                text: format!("{}: {:4.1}", tr!("SD"), status.stddev),
+                                tooltip: tr!("Standard Deviation").to_string(),
+                                color: None,
+                            });
                         }
                         if host_info.display.show_p95 {
-                            stats.push(format!("95%: {:4.1}", status.p95));
+                            stats.push(StatDisplay {
+                                text: format!("95%: {:4.1}", status.p95),
+                                tooltip: tr!("95th Percentile").to_string(),
+                                color: visuals.value_color(status.p95, 150.0, 300.0, false),
+                            });
                         }
                         if host_info.display.show_min_max {
-                            stats.push(format!(
-                                "{}: {:1.0}-{:1.0}",
-                                tr!("m/M"),
-                                status.min_rtt,
-                                status.max_rtt
-                            ));
+                            stats.push(StatDisplay {
+                                text: format!("{}: {:1.0}-{:1.0}", tr!("m/M"), status.min_rtt, status.max_rtt),
+                                tooltip: tr!("Min / Max RTT").to_string(),
+                                color: None,
+                            });
                         }
                         if host_info.display.show_loss {
-                            let loss_pct = (status.lost as f64
-                                / if status.sent == 0 { 1 } else { status.sent } as f64)
-                                * 100.0;
-                            stats.push(format!(
-                                "{}: {}/{} {:.2}%",
-                                tr!("L"),
-                                status.lost,
-                                status.sent,
-                                loss_pct
-                            ));
+                            stats.push(StatDisplay {
+                                text: format!("{}: {}/{} {:.1}%", tr!("L"), status.lost, status.sent, loss_pct),
+                                tooltip: tr!("Packet Loss").to_string(),
+                                color: visuals.value_color(loss_pct, 1.0, 3.0, false),
+                            });
                         }
-
-                        let text = format!("{} {}", parts.join(" "), stats.join(", "));
 
                         let row_id = egui::Id::new("host_row").with(&host_info.address);
                         let (inner_res, dropped_payload) =
@@ -376,11 +446,24 @@ impl EguiPinger {
                                             plot_ui.bar_chart(chart);
                                         });
 
-                                    // Текст з назвою, адресою, і результатами. Шрифт фіксованої ширини, жирний.
+                                    // Текст з назвою, адресою, і загальною затримкою
                                     ui.colored_label(
                                         color,
-                                        RichText::new(text).monospace().strong(),
+                                        RichText::new(format!("{}  ", parts.join(" "))).monospace().strong(),
                                     );
+
+                                    ui.horizontal(|ui| {
+                                        ui.spacing_mut().item_spacing.x = 0.0;
+                                        for (i, stat) in stats.iter().enumerate() {
+                                            let c = stat.color.unwrap_or(color);
+                                            ui.colored_label(c, RichText::new(&stat.text).monospace().strong())
+                                                .on_hover_text(&stat.tooltip);
+
+                                            if i < stats.len() - 1 {
+                                                ui.colored_label(color, RichText::new(", ").monospace().strong());
+                                            }
+                                        }
+                                    });
                                 });
                             });
 
@@ -400,15 +483,15 @@ impl EguiPinger {
                             );
                         }
                     }
+                    } // End of state MutexGuard scope
 
                     // Виконуємо перестановку
-                    if let Some((from, to)) = moved {
-                        if from != to {
+                    if let Some((from, to)) = moved
+                        && from != to {
                             let mut state = self.state.lock().unwrap();
                             let item = state.hosts.remove(from);
                             state.hosts.insert(to, item);
                         }
-                    }
 
                     // Діалог підтвердження видалення
                     if let Some(address) = self.deleting_host.clone() {
@@ -486,77 +569,76 @@ impl EguiPinger {
                                         }
                                     });
                                     ui.checkbox(&mut h.display.show_name, tr!("Host Name"))
-                                        .on_hover_text(tr!("Show the custom name of the host"));
+                                        .on_hover_text(tr!("User-defined name for this host"));
                                     ui.checkbox(
                                         &mut h.display.show_address,
-                                        tr!("Host IP Address"),
-                                    ).on_hover_text(tr!("Show the IP address or domain of the host"));
+                                        tr!("Host Address"),
+                                    ).on_hover_text(tr!("IP address or domain name"));
                                     ui.checkbox(
                                         &mut h.display.show_latency,
-                                        tr!("Current Latency (Latest RTT)"),
-                                    ).on_hover_text(tr!("Show the round-trip time for the last packet"));
+                                        tr!("Current Latency"),
+                                    ).on_hover_text(tr!("Round-trip time of the last packet"));
                                     ui.checkbox(
                                         &mut h.display.show_mean,
-                                        tr!("Mean RTT (Average latency)"),
-                                    ).on_hover_text(tr!("Show average latency over the history window"));
+                                        tr!("Mean RTT"),
+                                    ).on_hover_text(tr!("Average latency (can be skewed by spikes)"));
                                     ui.checkbox(
                                         &mut h.display.show_median,
-                                        tr!("Median RTT (Middle value, robust to spikes)"),
-                                    ).on_hover_text(tr!("Shows values robust to occasional outliers"));
+                                        tr!("Median RTT"),
+                                    ).on_hover_text(tr!("Typical latency (ignores rare spikes)"));
                                     ui.checkbox(
                                         &mut h.display.show_rtp_jitter,
-                                        tr!("RTP Jitter (Current variation per RFC 3550)"),
-                                    ).on_hover_text(tr!("Variation in packet delay (jitter)"));
+                                        tr!("RTP Jitter"),
+                                    ).on_hover_text(tr!("Current variation in delay (RFC 3550)"));
                                     ui.checkbox(
                                         &mut h.display.show_rtp_mean_jitter,
-                                        tr!("RTP Jitter Mean (Average variation)"),
-                                    ).on_hover_text(tr!("Show average jitter over history"));
+                                        tr!("Mean Jitter"),
+                                    ).on_hover_text(tr!("Average variation over time"));
                                     ui.checkbox(
                                         &mut h.display.show_rtp_median_jitter,
-                                        tr!("RTP Jitter Median (Middle variation value)"),
-                                    ).on_hover_text(tr!("Show median jitter over history"));
+                                        tr!("Median Jitter"),
+                                    ).on_hover_text(tr!("Typical variation over time"));
                                     ui.checkbox(
                                         &mut h.display.show_mos,
-                                        tr!("MOS (Estimated Voice Quality, 1.0-4.5)"),
-                                    ).on_hover_text(tr!("Calculated Voice Quality (Mean Opinion Score)"));
+                                        tr!("MOS"),
+                                    ).on_hover_text(tr!("Voice Quality Score (1.0 = Bad, 4.5 = Excellent)"));
                                     ui.checkbox(
                                         &mut h.display.show_availability,
-                                        tr!("Availability (Packet delivery success rate %)"),
-                                    ).on_hover_text(tr!("Percentage of packets that received a reply"));
+                                        tr!("Availability"),
+                                    ).on_hover_text(tr!("Percentage of packets successfully delivered"));
                                     ui.checkbox(
                                         &mut h.display.show_outliers,
-                                        tr!("Outliers (Packets significantly slower than average)"),
-                                    ).on_hover_text(tr!("Number of packets with latency > mean + 3*stddev"));
+                                        tr!("Outliers"),
+                                    ).on_hover_text(tr!("Count of extremely delayed packets (lags)"));
                                     ui.checkbox(
                                         &mut h.display.show_streak,
-                                        tr!("Streak (Consecutive success/fail count)"),
-                                    ).on_hover_text(tr!("Shows current series of successes or failures"));
+                                        tr!("Streak"),
+                                    ).on_hover_text(tr!("Current consecutive successes or failures"));
                                     ui.checkbox(
                                         &mut h.display.show_stddev,
-                                        tr!("Standard Deviation (RTT stability measure)"),
-                                    ).on_hover_text(tr!("Measure of how stable the latency is"));
+                                        tr!("StdDev"),
+                                    ).on_hover_text(tr!("Standard Deviation (spread of latency values)"));
                                     ui.checkbox(
                                         &mut h.display.show_p95,
-                                        tr!("95th Percentile (Latency for 95% of packets)"),
-                                    ).on_hover_text(tr!("Worst-case latency for 95% of traffic"));
+                                        tr!("95th Percentile"),
+                                    ).on_hover_text(tr!("Latency experienced by 95% of packets (worst-case)"));
                                     ui.checkbox(
                                         &mut h.display.show_min_max,
-                                        tr!("Min / Max (Extreme latency values)"),
-                                    ).on_hover_text(tr!("Shows absolute minimum and maximum in history"));
+                                        tr!("Min / Max RTT"),
+                                    ).on_hover_text(tr!("Absolute best and worst latency in history"));
                                     ui.checkbox(
                                         &mut h.display.show_loss,
-                                        tr!("Loss Statistics (Sent/Lost counters)"),
-                                    ).on_hover_text(tr!("Shows raw packet counters (sent and lost)"));
+                                        tr!("Packet Loss"),
+                                    ).on_hover_text(tr!("Count and percentage of dropped packets"));
 
                                     ui.add_space(12.0);
                                     ui.button(tr!("Close")).clicked()
                                 });
 
-                            if let Some(inner_res) = window_res {
-                                if inner_res.inner == Some(true) {
+                            if let Some(inner_res) = window_res
+                                && inner_res.inner == Some(true) {
                                     is_open = false;
                                 }
-                            }
 
                             // Зберігаємо зміни
                             let mut state = self.state.lock().unwrap();
