@@ -8,6 +8,12 @@ license = "GPL-3.0-or-later"
 repository = "https://github.com/vlisivka/egui_pinger"
 keywords = ["egui", "ping"]
 
+[target.'cfg(not(windows))'.dependencies]
+tr = "0.1"
+
+[target.'cfg(windows)'.dependencies]
+tr = { version = "0.1", default-features = false, features = ["mo-translator"] }
+
 [dependencies]
 eframe = { version = "0.33", features = ["persistence", "wgpu"] }
 wgpu = { version = "27", features = ["glsl", "angle"] }
@@ -19,7 +25,6 @@ surge-ping = "0.8"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 futures = "0.3"
-tr = "0.1"
 rand = "0.10.0"
 
 [features]

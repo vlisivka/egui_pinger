@@ -13,21 +13,31 @@ panic() {
 [ -x ~/.cargo/bin/cross ] || cargo install cross --git https://github.com/cross-rs/cross \
   || panic "Cannot install cross compiler. Install it manually, see https://github.com/cross-rs/cross ."
 
+[ -x ~/.cargo/bin/cargo-xwin ] || cargo install cargo-xwin \
+  || panic "Cannot install cargo-xwin. Install it manually: cargo install cargo-xwin"
+
+which clang >/dev/null 2>&1 || panic "clang is not installed. Install it: sudo dnf install clang lld"
+which llvm-lib >/dev/null 2>&1 || panic "llvm-lib is not installed. Install it: sudo dnf install llvm"
+
 #cargo clean || panic "Cannot clean \"target\" directory."
-rm -rf "$RELEASES_DIR/*" || panic "Cannot clean \"$RELEASES_DIR\" directory."
+#rm -rf "$RELEASES_DIR/*" || panic "Cannot clean \"$RELEASES_DIR\" directory."
 mkdir -p "$RELEASES_DIR" || panic "Cannot create \"$RELEASES_DIR\" directory."
 
 ARCHES=(
-  x86_64-unknown-linux-gnu
-  aarch64-unknown-linux-gnu
-  x86_64-pc-windows-gnu
-  i686-pc-windows-gnu
+#  x86_64-unknown-linux-gnu
+#  aarch64-unknown-linux-gnu
+#  x86_64-pc-windows-gnu
+  x86_64-pc-windows-msvc
 )
 
 for TARGET in "${ARCHES[@]}"
 do
-  cross build --release --target "$TARGET" || panic "Cannot build release for \"$TARGET\" target."
-
+  echo "--- Building for $TARGET ---"
+  if [[ "$TARGET" == *"-msvc" ]]; then
+    cargo xwin build --release --target "$TARGET" || panic "Cannot build release for \"$TARGET\" target using cargo-xwin."
+  else
+    cross build --release --target "$TARGET" || panic "Cannot build release for \"$TARGET\" target using cross."
+  fi
   TARGET_BUILD_DIR="./target/$TARGET/release/"
 
   if [ -x "$TARGET_BUILD_DIR/$NAME" ]

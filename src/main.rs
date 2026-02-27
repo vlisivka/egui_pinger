@@ -1,10 +1,10 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // hide console window on Windows in release
 
 use eframe::egui;
-#[cfg(feature = "embed-locales")]
+#[cfg(any(feature = "embed-locales", target_os = "windows"))]
 use tr::MoTranslator;
 use tr::tr;
-#[cfg(not(feature = "embed-locales"))]
+#[cfg(not(any(feature = "embed-locales", target_os = "windows")))]
 use tr::tr_init;
 
 use egui_pinger::EguiPinger;
@@ -19,10 +19,10 @@ fn main() -> eframe::Result {
         ..Default::default()
     };
 
-    #[cfg(not(feature = "embed-locales"))]
+    #[cfg(not(any(feature = "embed-locales", target_os = "windows")))]
     tr_init!("./locales");
 
-    #[cfg(feature = "embed-locales")]
+    #[cfg(any(feature = "embed-locales", target_os = "windows"))]
     {
         // For embedded mode, we check the language and load the appropriate MO file.
         // Currently, we only have Ukrainian translation.

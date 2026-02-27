@@ -1,4 +1,3 @@
-#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // hide console window on Windows in release
 
 use crate::logic::{SharedState, pinger_task};
 use crate::model::{AppState, DisplaySettings, HostInfo, HostStatus, PingMode};
