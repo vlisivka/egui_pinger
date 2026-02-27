@@ -570,3 +570,19 @@ msgstr "Не повільно (30с)"
 
 msgid "Very slow (5m)"
 msgstr "Дуже повільно (5хв)"
+
+msgid "VPN & Privacy:"
+msgstr "VPN та приватність:"
+
+msgid "Packet Size:"
+msgstr "Розмір пакета:"
+
+msgid " bytes"
+msgstr " байт"
+
+msgid "Random Padding"
+msgstr "Випадкове заповнення"
+
+msgid "Adds 0-25% random extra data to each packet to mask traffic patterns"
+msgstr "Додає 0-25% випадкових даних до кожного пакета для маскування мережевого патерна"
+

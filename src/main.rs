@@ -207,6 +207,8 @@ impl EguiPinger {
                                     address,
                                     mode: PingMode::Slow,
                                     display: DisplaySettings::default(),
+                                    packet_size: 16,
+                                    random_padding: false,
                                 };
                                 if host_info.is_local() {
                                     host_info.mode = PingMode::Fast;
@@ -581,25 +583,41 @@ impl EguiPinger {
                                     });
 
                                     ui.add_space(8.0);
-                                    egui::ComboBox::from_label(tr!("Ping Interval:"))
-                                        .selected_text(match h.mode {
-                                            PingMode::VeryFast => tr!("Very fast (1s)"),
-                                            PingMode::Fast => tr!("Fast (2s)"),
-                                            PingMode::NotFast => tr!("Not fast (5s)"),
-                                            PingMode::Normal => tr!("Normal (10s)"),
-                                            PingMode::NotSlow => tr!("Not slow (30s)"),
-                                            PingMode::Slow => tr!("Slow (1m)"),
-                                            PingMode::VerySlow => tr!("Very slow (5m)"),
-                                        })
-                                        .show_ui(ui, |ui| {
-                                            ui.selectable_value(&mut h.mode, PingMode::VeryFast, tr!("Very fast (1s)"));
-                                            ui.selectable_value(&mut h.mode, PingMode::Fast, tr!("Fast (2s)"));
-                                            ui.selectable_value(&mut h.mode, PingMode::NotFast, tr!("Not fast (5s)"));
-                                            ui.selectable_value(&mut h.mode, PingMode::Normal, tr!("Normal (10s)"));
-                                            ui.selectable_value(&mut h.mode, PingMode::NotSlow, tr!("Not slow (30s)"));
-                                            ui.selectable_value(&mut h.mode, PingMode::Slow, tr!("Slow (1m)"));
-                                            ui.selectable_value(&mut h.mode, PingMode::VerySlow, tr!("Very slow (5m)"));
-                                        });
+                                    ui.horizontal(|ui| {
+                                        ui.label(tr!("Ping Interval:"));
+                                        egui::ComboBox::from_id_salt(format!("combo_{}", &h.address))
+                                            .selected_text(match h.mode {
+                                                PingMode::VeryFast => tr!("Very fast (1s)"),
+                                                PingMode::Fast => tr!("Fast (2s)"),
+                                                PingMode::NotFast => tr!("Not fast (5s)"),
+                                                PingMode::Normal => tr!("Normal (10s)"),
+                                                PingMode::NotSlow => tr!("Not slow (30s)"),
+                                                PingMode::Slow => tr!("Slow (1m)"),
+                                                PingMode::VerySlow => tr!("Very slow (5m)"),
+                                            })
+                                            .show_ui(ui, |ui| {
+                                                ui.selectable_value(&mut h.mode, PingMode::VeryFast, tr!("Very fast (1s)"));
+                                                ui.selectable_value(&mut h.mode, PingMode::Fast, tr!("Fast (2s)"));
+                                                ui.selectable_value(&mut h.mode, PingMode::NotFast, tr!("Not fast (5s)"));
+                                                ui.selectable_value(&mut h.mode, PingMode::Normal, tr!("Normal (10s)"));
+                                                ui.selectable_value(&mut h.mode, PingMode::NotSlow, tr!("Not slow (30s)"));
+                                                ui.selectable_value(&mut h.mode, PingMode::Slow, tr!("Slow (1m)"));
+                                                ui.selectable_value(&mut h.mode, PingMode::VerySlow, tr!("Very slow (5m)"));
+                                            });
+                                    });
+
+                                    ui.add_space(8.0);
+                                    ui.label(tr!("VPN & Privacy:"));
+                                    ui.horizontal(|ui| {
+                                        ui.label(tr!("Packet Size:"));
+                                        ui.add(
+                                            egui::DragValue::new(&mut h.packet_size)
+                                                .range(16..=1400)
+                                                .suffix(tr!(" bytes")),
+                                        );
+                                    });
+                                    ui.checkbox(&mut h.random_padding, tr!("Random Padding"))
+                                        .on_hover_text(tr!("Adds 0-25% random extra data to each packet to mask traffic patterns"));
 
                                     ui.add_space(8.0);
                                     ui.horizontal(|ui| {
@@ -881,6 +899,8 @@ mod gui_tests {
                 address: "1.2.3.4".to_string(),
                 mode: PingMode::Fast,
                 display: DisplaySettings::default(),
+                packet_size: 16,
+                random_padding: false,
             });
             s.statuses
                 .insert("1.2.3.4".to_string(), HostStatus::default());
@@ -932,6 +952,8 @@ mod gui_tests {
                 address: "8.8.8.8".to_string(),
                 mode: PingMode::Fast,
                 display: DisplaySettings::default(),
+                packet_size: 16,
+                random_padding: false,
             });
             let mut status = HostStatus::default();
             status.alive = true;

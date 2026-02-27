@@ -85,10 +85,18 @@ pub struct HostInfo {
     pub mode: PingMode,
     #[serde(default)]
     pub display: DisplaySettings,
+    #[serde(default = "default_packet_size")]
+    pub packet_size: usize,
+    #[serde(default = "default_false")]
+    pub random_padding: bool,
 }
 
 fn default_ping_mode() -> PingMode {
     PingMode::Fast
+}
+
+fn default_packet_size() -> usize {
+    16
 }
 
 impl HostInfo {

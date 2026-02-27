@@ -11,7 +11,6 @@ pub type SharedState = Arc<Mutex<AppState>>;
 
 /// Background task that pings all configured hosts at regular intervals.
 pub async fn pinger_task(state: SharedState) {
-    let payload = [42u8; 16];
     // Map of address -> next scheduled ping time
     let mut next_pings: HashMap<String, Instant> = HashMap::new();
     let mut rng = rand::rng();
@@ -30,21 +29,41 @@ pub async fn pinger_task(state: SharedState) {
                 .filter_map(|h| {
                     let next = next_pings.entry(h.address.clone()).or_insert(now);
                     if *next <= now {
-                        // Schedule next ping
+                        // Schedule next ping with jitter to prevent traffic analysis patterns
                         let interval = match h.mode {
-                            PingMode::VeryFast => Duration::from_secs(1),
-                            PingMode::Fast => Duration::from_secs(2),
-                            PingMode::NotFast => Duration::from_secs(5),
-                            PingMode::Normal => Duration::from_secs(10),
-                            PingMode::NotSlow => Duration::from_secs(30),
+                            PingMode::VeryFast => {
+                                // 1s ± 0.05s
+                                let jitter: f64 = rng.random_range(-0.05..0.05);
+                                Duration::from_secs_f64(1.0 + jitter)
+                            }
+                            PingMode::Fast => {
+                                // 2s ± 0.2s
+                                let jitter: f64 = rng.random_range(-0.2..0.2);
+                                Duration::from_secs_f64(2.0 + jitter)
+                            }
+                            PingMode::NotFast => {
+                                // 5s ± 0.5s
+                                let jitter: f64 = rng.random_range(-0.5..0.5);
+                                Duration::from_secs_f64(5.0 + jitter)
+                            }
+                            PingMode::Normal => {
+                                // 10s ± 1.0s
+                                let jitter: f64 = rng.random_range(-1.0..1.0);
+                                Duration::from_secs_f64(10.0 + jitter)
+                            }
+                            PingMode::NotSlow => {
+                                // 30s ± 3s
+                                let jitter: f64 = rng.random_range(-3.0..3.0);
+                                Duration::from_secs_f64(30.0 + jitter)
+                            }
                             PingMode::Slow => {
-                                // 60 seconds ± 5 seconds jitter
+                                // 60s ± 5s
                                 let jitter: f64 = rng.random_range(-5.0..5.0);
                                 Duration::from_secs_f64(60.0 + jitter)
                             }
                             PingMode::VerySlow => {
-                                // 300 seconds ± 10 seconds jitter
-                                let jitter: f64 = rng.random_range(-10.0..10.0);
+                                // 300s ± 15s
+                                let jitter: f64 = rng.random_range(-15.0..15.0);
                                 Duration::from_secs_f64(300.0 + jitter)
                             }
                         };
@@ -63,6 +82,16 @@ pub async fn pinger_task(state: SharedState) {
                 .map(|host_info| {
                     let address = host_info.address.clone();
                     let state = state.clone();
+
+                    // Generate payload for this specific ping
+                    let mut payload_size = host_info.packet_size.clamp(16, 1400);
+                    if host_info.random_padding {
+                        // Add 0-25% random extra padding
+                        let extra = rand::rng().random_range(0..=(payload_size / 4));
+                        payload_size += extra;
+                    }
+                    let payload: Vec<u8> =
+                        (0..payload_size).map(|_| rand::rng().random()).collect();
 
                     tokio::spawn(async move {
                         // Resolve the address (could be IP or domain)
