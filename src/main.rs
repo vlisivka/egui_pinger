@@ -406,7 +406,7 @@ impl EguiPinger {
                                     // Графік — тоненькі стовпчики зеленого (для <100 мс), жовтого (для >100 мс ),
                                     // і червоного (для пропущених) кольорів
                                     let chart = BarChart::new(
-                                        tr!("Pings"),
+                                        String::new(),
                                         status
                                             .history
                                             .iter()
@@ -419,17 +419,20 @@ impl EguiPinger {
                                                 Bar::new(i as f64, height).width(1.0).fill(fill)
                                             })
                                             .collect(),
-                                    );
+                                    )
+                                    .allow_hover(false); // Вимикаємо вбудовані підказки для стовпчиків
 
                                     // Графік історії пінгів.
                                     // Щоб 300 стовпчиків шириною 1.0 заповнювали весь простір без "чорних смужок":
                                     // 1. Встановлюємо межі X від -0.5 до 299.5 (разом 300 одиниць).
                                     // 2. Прибираємо горизонтальні відступи (margin_fraction).
-                                    Plot::new(format!("plot_{}", &host_info.address))
+                                    let plot_res = Plot::new(format!("plot_{}", &host_info.address))
                                         .height(30.0)
                                         .width(300.0)
                                         .show_axes(false)
                                         .show_grid(false)
+                                        .show_x(false) // Повністю вимикаємо внутрішню систему підказок
+                                        .show_y(false)
                                         .allow_zoom(false)
                                         .allow_drag(false)
                                         .allow_scroll(false)
@@ -438,7 +441,7 @@ impl EguiPinger {
                                         .include_x(299.5)
                                         .include_y(0.0)
                                         .include_y(150.0)
-                                        .show(ui, |plot_ui| {
+                                        .show(ui, |plot_ui: &mut egui_plot::PlotUi| {
                                             plot_ui.hline(
                                                 HLine::new("", 150.0)
                                                     .color(visuals.limit_line_color())
@@ -446,6 +449,26 @@ impl EguiPinger {
                                             );
                                             plot_ui.bar_chart(chart);
                                         });
+
+                                    plot_res.response.on_hover_ui(|ui| {
+                                        if let Some(hover_pos) = ui.ctx().pointer_hover_pos() {
+                                            let pos = plot_res.transform.value_from_position(hover_pos);
+                                            let i = pos.x.round() as i32;
+                                            if i >= 0 && i < status.history.len() as i32 {
+                                                let rtt = status.history[i as usize];
+                                                let text = if rtt.is_nan() {
+                                                    tr!("Timeout").to_string()
+                                                } else {
+                                                    format!("{:.1} {}", rtt, tr!("ms"))
+                                                };
+                                                ui.horizontal(|ui| {
+                                                    ui.add_space(4.0);
+                                                    ui.label(text);
+                                                    ui.add_space(4.0);
+                                                });
+                                            }
+                                        }
+                                    });
 
                                     // Текст з назвою, адресою, і загальною затримкою
                                     ui.colored_label(
