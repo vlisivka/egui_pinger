@@ -581,9 +581,25 @@ impl EguiPinger {
                                     });
 
                                     ui.add_space(8.0);
-                                    ui.label(tr!("Ping Interval:"));
-                                    ui.radio_value(&mut h.mode, PingMode::Fast, tr!("Fast (1s)"));
-                                    ui.radio_value(&mut h.mode, PingMode::Slow, tr!("Slow (1m)"));
+                                    egui::ComboBox::from_label(tr!("Ping Interval:"))
+                                        .selected_text(match h.mode {
+                                            PingMode::VeryFast => tr!("Very fast (1s)"),
+                                            PingMode::Fast => tr!("Fast (2s)"),
+                                            PingMode::NotFast => tr!("Not fast (5s)"),
+                                            PingMode::Normal => tr!("Normal (10s)"),
+                                            PingMode::NotSlow => tr!("Not slow (30s)"),
+                                            PingMode::Slow => tr!("Slow (1m)"),
+                                            PingMode::VerySlow => tr!("Very slow (5m)"),
+                                        })
+                                        .show_ui(ui, |ui| {
+                                            ui.selectable_value(&mut h.mode, PingMode::VeryFast, tr!("Very fast (1s)"));
+                                            ui.selectable_value(&mut h.mode, PingMode::Fast, tr!("Fast (2s)"));
+                                            ui.selectable_value(&mut h.mode, PingMode::NotFast, tr!("Not fast (5s)"));
+                                            ui.selectable_value(&mut h.mode, PingMode::Normal, tr!("Normal (10s)"));
+                                            ui.selectable_value(&mut h.mode, PingMode::NotSlow, tr!("Not slow (30s)"));
+                                            ui.selectable_value(&mut h.mode, PingMode::Slow, tr!("Slow (1m)"));
+                                            ui.selectable_value(&mut h.mode, PingMode::VerySlow, tr!("Very slow (5m)"));
+                                        });
 
                                     ui.add_space(8.0);
                                     ui.horizontal(|ui| {

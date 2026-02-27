@@ -32,11 +32,20 @@ pub async fn pinger_task(state: SharedState) {
                     if *next <= now {
                         // Schedule next ping
                         let interval = match h.mode {
-                            PingMode::Fast => Duration::from_secs(1),
+                            PingMode::VeryFast => Duration::from_secs(1),
+                            PingMode::Fast => Duration::from_secs(2),
+                            PingMode::NotFast => Duration::from_secs(5),
+                            PingMode::Normal => Duration::from_secs(10),
+                            PingMode::NotSlow => Duration::from_secs(30),
                             PingMode::Slow => {
                                 // 60 seconds ± 5 seconds jitter
                                 let jitter: f64 = rng.random_range(-5.0..5.0);
                                 Duration::from_secs_f64(60.0 + jitter)
+                            }
+                            PingMode::VerySlow => {
+                                // 300 seconds ± 10 seconds jitter
+                                let jitter: f64 = rng.random_range(-10.0..10.0);
+                                Duration::from_secs_f64(300.0 + jitter)
                             }
                         };
                         *next = now + interval;

@@ -2,8 +2,13 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 pub enum PingMode {
-    Fast, // 1 second
-    Slow, // 1 minute
+    VeryFast, // 1s
+    Fast,     // 2s
+    NotFast,  // 5s
+    Normal,   // 10s
+    NotSlow,  // 30s
+    Slow,     // 1m
+    VerySlow, // 5m
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

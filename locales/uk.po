@@ -553,3 +553,20 @@ msgstr ""
 #: ../src/main.rs:797
 msgid "egui pinger"
 msgstr "egui pinger"
+msgid "Very fast (1s)"
+msgstr "Дуже швидко (1с)"
+
+msgid "Fast (2s)"
+msgstr "Швидко (2с)"
+
+msgid "Not fast (5s)"
+msgstr "Не швидко (5с)"
+
+msgid "Normal (10s)"
+msgstr "Нормально (10с)"
+
+msgid "Not slow (30s)"
+msgstr "Не повільно (30с)"
+
+msgid "Very slow (5m)"
+msgstr "Дуже повільно (5хв)"
