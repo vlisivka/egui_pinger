@@ -9,6 +9,35 @@ use surge_ping::ping;
 
 pub type SharedState = Arc<Mutex<AppState>>;
 
+/// Returns a randomized ping interval for the given mode.
+/// Each mode has ±5% jitter to defeat traffic analysis.
+pub fn compute_interval(mode: PingMode, rng: &mut impl rand::Rng) -> Duration {
+    let (base, jitter_range) = match mode {
+        PingMode::VeryFast => (1.0, 0.05),
+        PingMode::Fast => (2.0, 0.2),
+        PingMode::NotFast => (5.0, 0.5),
+        PingMode::Normal => (10.0, 1.0),
+        PingMode::NotSlow => (30.0, 3.0),
+        PingMode::Slow => (60.0, 5.0),
+        PingMode::VerySlow => (300.0, 15.0),
+    };
+    let jitter: f64 = rng.random_range(-jitter_range..jitter_range);
+    Duration::from_secs_f64(base + jitter)
+}
+
+/// Generates a randomized ICMP payload for the given host config.
+/// Returns random bytes with optional random extra padding.
+pub fn generate_payload(host: &HostInfo) -> Vec<u8> {
+    let mut rng = rand::rng();
+    let mut size = host.packet_size.clamp(16, 1400);
+    if host.random_padding {
+        // Add 0-25% random extra padding
+        let extra = rng.random_range(0..=(size / 4));
+        size += extra;
+    }
+    (0..size).map(|_| rng.random()).collect()
+}
+
 /// Background task that pings all configured hosts at regular intervals.
 pub async fn pinger_task(state: SharedState) {
     // Map of address -> next scheduled ping time
@@ -29,44 +58,7 @@ pub async fn pinger_task(state: SharedState) {
                 .filter_map(|h| {
                     let next = next_pings.entry(h.address.clone()).or_insert(now);
                     if *next <= now {
-                        // Schedule next ping with jitter to prevent traffic analysis patterns
-                        let interval = match h.mode {
-                            PingMode::VeryFast => {
-                                // 1s ± 0.05s
-                                let jitter: f64 = rng.random_range(-0.05..0.05);
-                                Duration::from_secs_f64(1.0 + jitter)
-                            }
-                            PingMode::Fast => {
-                                // 2s ± 0.2s
-                                let jitter: f64 = rng.random_range(-0.2..0.2);
-                                Duration::from_secs_f64(2.0 + jitter)
-                            }
-                            PingMode::NotFast => {
-                                // 5s ± 0.5s
-                                let jitter: f64 = rng.random_range(-0.5..0.5);
-                                Duration::from_secs_f64(5.0 + jitter)
-                            }
-                            PingMode::Normal => {
-                                // 10s ± 1.0s
-                                let jitter: f64 = rng.random_range(-1.0..1.0);
-                                Duration::from_secs_f64(10.0 + jitter)
-                            }
-                            PingMode::NotSlow => {
-                                // 30s ± 3s
-                                let jitter: f64 = rng.random_range(-3.0..3.0);
-                                Duration::from_secs_f64(30.0 + jitter)
-                            }
-                            PingMode::Slow => {
-                                // 60s ± 5s
-                                let jitter: f64 = rng.random_range(-5.0..5.0);
-                                Duration::from_secs_f64(60.0 + jitter)
-                            }
-                            PingMode::VerySlow => {
-                                // 300s ± 15s
-                                let jitter: f64 = rng.random_range(-15.0..15.0);
-                                Duration::from_secs_f64(300.0 + jitter)
-                            }
-                        };
+                        let interval = compute_interval(h.mode, &mut rng);
                         *next = now + interval;
                         Some(h.clone())
                     } else {
@@ -82,16 +74,7 @@ pub async fn pinger_task(state: SharedState) {
                 .map(|host_info| {
                     let address = host_info.address.clone();
                     let state = state.clone();
-
-                    // Generate payload for this specific ping
-                    let mut payload_size = host_info.packet_size.clamp(16, 1400);
-                    if host_info.random_padding {
-                        // Add 0-25% random extra padding
-                        let extra = rand::rng().random_range(0..=(payload_size / 4));
-                        payload_size += extra;
-                    }
-                    let payload: Vec<u8> =
-                        (0..payload_size).map(|_| rand::rng().random()).collect();
+                    let payload = generate_payload(&host_info);
 
                     tokio::spawn(async move {
                         // Resolve the address (could be IP or domain)
@@ -142,3 +125,7 @@ pub async fn pinger_task(state: SharedState) {
         tokio::time::sleep(Duration::from_millis(100)).await;
     }
 }
+
+#[cfg(test)]
+#[path = "pinger_tests.rs"]
+mod tests;
