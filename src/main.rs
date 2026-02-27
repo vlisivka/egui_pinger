@@ -21,6 +21,7 @@ pub enum HelpTab {
     Jitter,
     Quality,
     Reliability,
+    Internet,
 }
 
 pub struct EguiPinger {
@@ -669,6 +670,7 @@ impl EguiPinger {
                                     ui.selectable_value(&mut self.selected_help_tab, HelpTab::Jitter, tr!("Jitter"));
                                     ui.selectable_value(&mut self.selected_help_tab, HelpTab::Quality, tr!("Quality & MOS"));
                                     ui.selectable_value(&mut self.selected_help_tab, HelpTab::Reliability, tr!("Reliability"));
+                                    ui.selectable_value(&mut self.selected_help_tab, HelpTab::Internet, tr!("Internet Check"));
                                 });
                                 ui.separator();
                                 egui::ScrollArea::vertical().show(ui, |ui| {
@@ -726,6 +728,19 @@ impl EguiPinger {
                                             ui.add_space(8.0);
                                             ui.strong(tr!("VoIP Impact:"));
                                             ui.label(tr!("While 1% loss might be okay for browsing, for VoIP it means every 100th piece of a word is missing. Above 2-3% loss, the conversation becomes extremely difficult to understand."));
+                                        },
+                                        HelpTab::Internet => {
+                                            ui.strong(tr!("Reliable Hosts for Internet Checks"));
+                                            ui.label(tr!("If you want to check if YOUR internet is working (rather than a specific service), use these stable public DNS servers:"));
+                                            ui.add_space(8.0);
+
+                                            ui.label(tr!("- Google DNS: 8.8.8.8 or 8.8.4.4"));
+                                            ui.label(tr!("- Cloudflare: 1.1.1.1 or 1.0.0.1"));
+                                            ui.label(tr!("- Quad9: 9.9.9.9"));
+                                            ui.add_space(8.0);
+
+                                            ui.strong(tr!("Tip:"));
+                                            ui.label(tr!("If you can ping 8.8.8.8 but cannot open 'google.com', you likely have a DNS problem, not a connection problem."));
                                         }
                                     }
                                 });

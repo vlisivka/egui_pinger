@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: egui_pinger\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-26 19:05+0000\n"
+"POT-Creation-Date: 2026-02-26 19:39+0000\n"
 "PO-Revision-Date: 2026-02-25 16:30+0200\n"
 "Last-Translator: Volodymyr M. Lisivka <vlisivka@gmail.com>\n"
 "Language-Team: Ukrainian\n"
@@ -13,302 +13,306 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: scripts/../src/main.rs:159
+#: scripts/../src/main.rs:178
 msgid "Host name"
 msgstr "Імʼя хоста"
 
-#: scripts/../src/main.rs:167
+#: scripts/../src/main.rs:186
 msgid "Host address"
 msgstr "Адреса хоста"
 
 #. When "Add" button is clicked or Enter is pressed in the second field,
 #. add host to the list
-#: scripts/../src/main.rs:173
+#: scripts/../src/main.rs:192
 msgid "Add"
 msgstr "Додати"
 
-#: scripts/../src/main.rs:249
+#: scripts/../src/main.rs:268
 msgid "ms"
 msgstr "мс"
 
-#: scripts/../src/main.rs:251
+#: scripts/../src/main.rs:270
 msgid "DOWN"
 msgstr "НЕМА"
 
-#: scripts/../src/main.rs:268
+#: scripts/../src/main.rs:287
 msgid "M"
 msgstr "С"
 
-#: scripts/../src/main.rs:269 scripts/../src/main.rs:565
+#: scripts/../src/main.rs:288 scripts/../src/main.rs:584
 msgid "Mean RTT"
 msgstr "Середній RTT"
 
-#: scripts/../src/main.rs:275
+#: scripts/../src/main.rs:294
 msgid "Med"
 msgstr "Мд"
 
-#: scripts/../src/main.rs:276 scripts/../src/main.rs:569
+#: scripts/../src/main.rs:295 scripts/../src/main.rs:588
 msgid "Median RTT"
 msgstr "Медіанний RTT"
 
-#: scripts/../src/main.rs:282
+#: scripts/../src/main.rs:301
 msgid "J"
 msgstr "Т"
 
-#: scripts/../src/main.rs:283 scripts/../src/main.rs:573
+#: scripts/../src/main.rs:302 scripts/../src/main.rs:592
 msgid "RTP Jitter"
 msgstr "Джиттер"
 
-#: scripts/../src/main.rs:289
+#: scripts/../src/main.rs:308
 msgid "Jm"
 msgstr "Тс"
 
-#: scripts/../src/main.rs:290 scripts/../src/main.rs:577
+#: scripts/../src/main.rs:309 scripts/../src/main.rs:596
 msgid "Mean Jitter"
 msgstr "Середній Джиттер"
 
-#: scripts/../src/main.rs:296
+#: scripts/../src/main.rs:315
 msgid "Jmed"
 msgstr "Тм"
 
-#: scripts/../src/main.rs:297 scripts/../src/main.rs:581
+#: scripts/../src/main.rs:316 scripts/../src/main.rs:600
 msgid "Median Jitter"
 msgstr "Медіанний Джиттер"
 
-#: scripts/../src/main.rs:303 scripts/../src/main.rs:585
+#: scripts/../src/main.rs:322 scripts/../src/main.rs:604
 msgid "MOS"
 msgstr "MOS"
 
-#: scripts/../src/main.rs:304
+#: scripts/../src/main.rs:323
 msgid "Voice Quality (MOS)"
 msgstr "Якість голосу (MOS)"
 
-#: scripts/../src/main.rs:310
+#: scripts/../src/main.rs:329
 msgid "Av"
 msgstr "Дост"
 
-#: scripts/../src/main.rs:311 scripts/../src/main.rs:589
+#: scripts/../src/main.rs:330 scripts/../src/main.rs:608
 msgid "Availability"
 msgstr "Доступність"
 
-#: scripts/../src/main.rs:317
+#: scripts/../src/main.rs:336
 msgid "Out"
 msgstr "Аном"
 
-#: scripts/../src/main.rs:318
+#: scripts/../src/main.rs:337
 msgid "Outliers (Lags)"
 msgstr "Аномалії (Лаги)"
 
-#: scripts/../src/main.rs:323
+#: scripts/../src/main.rs:342
 msgid "S"
 msgstr "У"
 
-#: scripts/../src/main.rs:323
+#: scripts/../src/main.rs:342
 msgid "F"
 msgstr "П"
 
-#: scripts/../src/main.rs:332
+#: scripts/../src/main.rs:351
 msgid "Str"
 msgstr "Сер"
 
-#: scripts/../src/main.rs:333 scripts/../src/main.rs:597
+#: scripts/../src/main.rs:352 scripts/../src/main.rs:616
 msgid "Streak"
 msgstr "Серія"
 
-#: scripts/../src/main.rs:339
+#: scripts/../src/main.rs:358
 msgid "SD"
 msgstr "СВ"
 
-#: scripts/../src/main.rs:340
+#: scripts/../src/main.rs:359
 msgid "Standard Deviation"
 msgstr "Стандартне відхилення"
 
-#: scripts/../src/main.rs:347 scripts/../src/main.rs:605
+#: scripts/../src/main.rs:366 scripts/../src/main.rs:624
 msgid "95th Percentile"
 msgstr "95-й перцентиль"
 
-#: scripts/../src/main.rs:353
+#: scripts/../src/main.rs:372
 msgid "m/M"
 msgstr "м/М"
 
-#: scripts/../src/main.rs:354 scripts/../src/main.rs:609
+#: scripts/../src/main.rs:373 scripts/../src/main.rs:628
 msgid "Min / Max RTT"
 msgstr "Мін/Макс RTT"
 
-#: scripts/../src/main.rs:360
+#: scripts/../src/main.rs:379
 msgid "L"
 msgstr "В"
 
-#: scripts/../src/main.rs:361 scripts/../src/main.rs:613
+#: scripts/../src/main.rs:380 scripts/../src/main.rs:632
 msgid "Packet Loss"
 msgstr "Втрати пакетів"
 
-#: scripts/../src/main.rs:390
+#: scripts/../src/main.rs:409
 msgid "Pings"
 msgstr "Пінги"
 
-#: scripts/../src/main.rs:490
+#: scripts/../src/main.rs:509
 msgid "Confirm Deletion"
 msgstr "Підтвердження видалення"
 
-#: scripts/../src/main.rs:497
+#: scripts/../src/main.rs:516
 msgid "Are you sure you want to remove this host"
 msgstr "Ви впевнені, що хочете видалити цей хост"
 
 #. Click "Delete" in the confirmation dialog
-#: scripts/../src/main.rs:503 scripts/../src/main.rs:831
+#: scripts/../src/main.rs:522 scripts/../src/main.rs:864
 msgid "Delete"
 msgstr "Видалити"
 
-#: scripts/../src/main.rs:509
+#: scripts/../src/main.rs:528
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: scripts/../src/main.rs:529
+#: scripts/../src/main.rs:548
 msgid "Host Settings"
 msgstr "Налаштування хоста"
 
-#: scripts/../src/main.rs:533
+#: scripts/../src/main.rs:552
 msgid "Host"
 msgstr "Хост"
 
-#: scripts/../src/main.rs:537
+#: scripts/../src/main.rs:556
 msgid "Name"
 msgstr "Назва"
 
-#: scripts/../src/main.rs:542
+#: scripts/../src/main.rs:561
 msgid "Ping Interval:"
 msgstr "Інтервал пінгу:"
 
-#: scripts/../src/main.rs:543
+#: scripts/../src/main.rs:562
 msgid "Fast (1s)"
 msgstr "Швидко (1с)"
 
-#: scripts/../src/main.rs:544
+#: scripts/../src/main.rs:563
 msgid "Slow (1m)"
 msgstr "Повільно (1хв)"
 
-#: scripts/../src/main.rs:548
+#: scripts/../src/main.rs:567
 msgid "Show fields:"
 msgstr "Показувати поля:"
 
-#: scripts/../src/main.rs:549
+#: scripts/../src/main.rs:568
 msgid "Learn more about these metrics"
 msgstr "Взнай більше про ці метрики"
 
-#: scripts/../src/main.rs:553
+#: scripts/../src/main.rs:572
 msgid "Host Name"
 msgstr "Назва хоста"
 
-#: scripts/../src/main.rs:554
+#: scripts/../src/main.rs:573
 msgid "User-defined name for this host"
 msgstr "Зрозуміла власна назва для цього хоста"
 
-#: scripts/../src/main.rs:557
+#: scripts/../src/main.rs:576
 msgid "Host Address"
 msgstr "Адреса хоста"
 
-#: scripts/../src/main.rs:558
+#: scripts/../src/main.rs:577
 msgid "IP address or domain name"
 msgstr "IP-адреса або доменне ім'я"
 
-#: scripts/../src/main.rs:561
+#: scripts/../src/main.rs:580
 msgid "Current Latency"
 msgstr "Поточна затримка"
 
-#: scripts/../src/main.rs:562
+#: scripts/../src/main.rs:581
 msgid "Round-trip time of the last packet"
 msgstr "Час проходження туди й назад останнього пакета"
 
-#: scripts/../src/main.rs:566
+#: scripts/../src/main.rs:585
 msgid "Average latency (can be skewed by spikes)"
 msgstr "Середня затримка (на неї можуть впливати сплески)"
 
-#: scripts/../src/main.rs:570
+#: scripts/../src/main.rs:589
 msgid "Typical latency (ignores rare spikes)"
 msgstr "Типова затримка (ігнорує рідкісні сплески)"
 
-#: scripts/../src/main.rs:574
+#: scripts/../src/main.rs:593
 msgid "Current variation in delay (RFC 3550)"
 msgstr "Поточне тремтіння часу доставки (RFC 3550)"
 
-#: scripts/../src/main.rs:578
+#: scripts/../src/main.rs:597
 msgid "Average variation over time"
 msgstr "Середнє коливання затримки з часом"
 
-#: scripts/../src/main.rs:582
+#: scripts/../src/main.rs:601
 msgid "Typical variation over time"
 msgstr "Типове коливання затримки з часом"
 
-#: scripts/../src/main.rs:586
+#: scripts/../src/main.rs:605
 msgid "Voice Quality Score (1.0 = Bad, 4.5 = Excellent)"
 msgstr "Оцінка якості голосу (1.0 = Погано, 4.5 = Відмінно)"
 
-#: scripts/../src/main.rs:590
+#: scripts/../src/main.rs:609
 msgid "Percentage of packets successfully delivered"
 msgstr "Відсоток успішно доставлених пакетів"
 
-#: scripts/../src/main.rs:593
+#: scripts/../src/main.rs:612
 msgid "Outliers"
 msgstr "Аномалії"
 
-#: scripts/../src/main.rs:594
+#: scripts/../src/main.rs:613
 msgid "Count of extremely delayed packets (lags)"
 msgstr "Кількість надзвичайно повільних пакетів (лагів)"
 
-#: scripts/../src/main.rs:598
+#: scripts/../src/main.rs:617
 msgid "Current consecutive successes or failures"
 msgstr "Поточна кількість підряд успіхів або помилок"
 
-#: scripts/../src/main.rs:601
+#: scripts/../src/main.rs:620
 msgid "StdDev"
 msgstr "СтВідх"
 
-#: scripts/../src/main.rs:602
+#: scripts/../src/main.rs:621
 msgid "Standard Deviation (spread of latency values)"
 msgstr "Стандартне відхилення (розкид значень затримки)"
 
-#: scripts/../src/main.rs:606
+#: scripts/../src/main.rs:625
 msgid "Latency experienced by 95% of packets (worst-case)"
 msgstr "Затримка для 95% пакетів (найгірший стабільний показник)"
 
-#: scripts/../src/main.rs:610
+#: scripts/../src/main.rs:629
 msgid "Absolute best and worst latency in history"
 msgstr "Абсолютно найкраща та найгірша затримка за історію"
 
-#: scripts/../src/main.rs:614
+#: scripts/../src/main.rs:633
 msgid "Count and percentage of dropped packets"
 msgstr "Кількість та відсоток втрачених пакетів"
 
-#: scripts/../src/main.rs:617 scripts/../src/main.rs:715
+#: scripts/../src/main.rs:636 scripts/../src/main.rs:748
 msgid "Close"
 msgstr "Закрити"
 
-#: scripts/../src/main.rs:644
+#: scripts/../src/main.rs:663
 msgid "Network Statistics Information"
 msgstr "Інформація про мережеву статистику"
 
-#: scripts/../src/main.rs:650
+#: scripts/../src/main.rs:669
 msgid "Latency"
 msgstr "Затримка"
 
-#: scripts/../src/main.rs:651
+#: scripts/../src/main.rs:670
 msgid "Jitter"
 msgstr "Джиттер"
 
-#: scripts/../src/main.rs:652
+#: scripts/../src/main.rs:671
 msgid "Quality & MOS"
 msgstr "Якість та MOS"
 
-#: scripts/../src/main.rs:653
+#: scripts/../src/main.rs:672
 msgid "Reliability"
 msgstr "Надійність"
 
-#: scripts/../src/main.rs:659
+#: scripts/../src/main.rs:673
+msgid "Internet Check"
+msgstr "Перевірка Інтернету"
+
+#: scripts/../src/main.rs:679
 msgid "Round-Trip Time (RTT) - What is Latency?"
 msgstr "Час обходу (RTT, Round-Trip Time) - Що таке «затримка»?"
 
-#: scripts/../src/main.rs:660
+#: scripts/../src/main.rs:680
 msgid ""
 "Latency (RTT) is the total time it takes for a signal to go from your "
 "computer to the server and back. In network diagnostics, this is the most "
@@ -318,11 +322,11 @@ msgstr ""
 "комп'ютера до сервера і назад. У діагностиці, це базовий показник 'швидкості "
 "відгуку' мережі."
 
-#: scripts/../src/main.rs:663 scripts/../src/main.rs:677
+#: scripts/../src/main.rs:683 scripts/../src/main.rs:697
 msgid "How it is calculated:"
 msgstr "Як це розраховується:"
 
-#: scripts/../src/main.rs:664
+#: scripts/../src/main.rs:684
 msgid ""
 "- Mean (Average): The sum of all RTTs divided by the number of packets. Good "
 "for general trends, but can be misleading if you have rare, massive 'lags'."
@@ -331,7 +335,7 @@ msgstr ""
 "Добре показує загальний тренд, але може вводити в оману, якщо є поодинокі, "
 "але величезні 'лаги'."
 
-#: scripts/../src/main.rs:665
+#: scripts/../src/main.rs:685
 msgid ""
 "- Median (Middle Value): We sort all results and pick the one in the middle. "
 "This is the 'typical' experience. If you have 100 packets and 1 of them is "
@@ -341,7 +345,7 @@ msgstr ""
 "ваш 'типовий' досвід. Якщо 1 зі 100 пакетів дуже повільний, Медіана не "
 "зміниться, тоді як Середнє помітно підскочить."
 
-#: scripts/../src/main.rs:666
+#: scripts/../src/main.rs:686
 msgid ""
 "- 95th Percentile (P95): This shows the worst-case scenario for 95% of your "
 "traffic. If P95 is low, your connection is stable. If it's much higher than "
@@ -351,12 +355,12 @@ msgstr ""
 "P95 низький — зв'язок стабільний. Якщо він значно вищий за Медіану — канал "
 "нестабільний і схильний до раптових підторможувань."
 
-#: scripts/../src/main.rs:669 scripts/../src/main.rs:682
-#: scripts/../src/main.rs:709
+#: scripts/../src/main.rs:689 scripts/../src/main.rs:702
+#: scripts/../src/main.rs:729
 msgid "VoIP Impact:"
 msgstr "Вплив на телефонію:"
 
-#: scripts/../src/main.rs:670
+#: scripts/../src/main.rs:690
 msgid ""
 "Voice is a real-time stream. If latency is over 150ms, you start to notice a "
 "delay in the conversation (waiting for the other person to respond). Above "
@@ -366,11 +370,11 @@ msgstr ""
 "паузи (очікування відповіді співрозмовника). Понад 300 мс — люди почнуть "
 "перебивати один одного через запізнення звуку."
 
-#: scripts/../src/main.rs:673
+#: scripts/../src/main.rs:693
 msgid "Jitter - Stability of the Connection"
 msgstr "Джиттер — стабільність з'єднання"
 
-#: scripts/../src/main.rs:674
+#: scripts/../src/main.rs:694
 msgid ""
 "Jitter is the 'shaking' of your latency. It measures how much the delay "
 "between packets changes over time."
@@ -378,7 +382,7 @@ msgstr ""
 "Джиттер — це 'тремтіння' затримки. Він вимірює, наскільки сильно змінюється "
 "час доставки пакетів відносно один одного."
 
-#: scripts/../src/main.rs:678
+#: scripts/../src/main.rs:698
 msgid ""
 "We use the RFC 3550 algorithm (Standard for RTP). It doesn't just look at "
 "the highest and lowest values; it calculates the difference between "
@@ -388,7 +392,7 @@ msgstr ""
 "мінімум і максимум, а вираховує різницю між сусідніми пакетами та застосовує "
 "фільтр згладжування."
 
-#: scripts/../src/main.rs:679
+#: scripts/../src/main.rs:699
 msgid ""
 "Formally: J = J + (|D| - J) / 16, where D is the difference between the "
 "current and previous packet delay. This provides a stable 'moving average' "
@@ -397,7 +401,7 @@ msgstr ""
 "Формально: J = J + (|D| - J) / 16, де D — різниця затримки поточного та "
 "попереднього пакетів. Це дає стабільне 'ковзне середнє' мережевої стійкості."
 
-#: scripts/../src/main.rs:683
+#: scripts/../src/main.rs:703
 msgid ""
 "Phones expect audio packets to arrive in a steady 'heartbeat' (every 20ms). "
 "If Jitter is high (>30ms), packets arrive in 'clumps' or too late to be "
@@ -407,11 +411,11 @@ msgstr ""
 "джиттер високий (>30 мс), пакети приходять 'пачками' або запізно. Це робить "
 "голос 'роботизованим' або уривчастим."
 
-#: scripts/../src/main.rs:686
+#: scripts/../src/main.rs:706
 msgid "MOS - The 'Voice Score'"
 msgstr "MOS — 'оцінка голосу'"
 
-#: scripts/../src/main.rs:687
+#: scripts/../src/main.rs:707
 msgid ""
 "MOS (Mean Opinion Score) is a 1.0 to 4.5 rating that predicts how a human "
 "would rate the call quality."
@@ -419,11 +423,11 @@ msgstr ""
 "MOS (Mean Opinion Score) — це рейтинг від 1.0 до 4.5, який прогнозує, як "
 "людина оцінить якість дзвінка."
 
-#: scripts/../src/main.rs:690
+#: scripts/../src/main.rs:710
 msgid "How we calculate it:"
 msgstr "Як ми це рахуємо:"
 
-#: scripts/../src/main.rs:691
+#: scripts/../src/main.rs:711
 msgid ""
 "We implement a simplified ITU-T G.107 'E-model'. It takes your current "
 "Latency, Jitter, and Packet Loss, and calculates an 'R-factor'. This factor "
@@ -432,17 +436,17 @@ msgstr ""
 "Ми реалізували спрощену 'E-модель' ITU-T G.107. Вона бере затримку, джиттер "
 "і втрати, обчислює 'R-фактор', який потім переводиться в шкалу MOS."
 
-#: scripts/../src/main.rs:693
+#: scripts/../src/main.rs:713
 msgid ""
 "- 4.3 - 4.5 (Excellent): Crystal clear HD audio, like sitting in the same "
 "room."
 msgstr "- 4.3 - 4.5 (Відмінно): Кришталево чистий звук, ніби людина поруч."
 
-#: scripts/../src/main.rs:694
+#: scripts/../src/main.rs:714
 msgid "- 4.0 - 4.2 (Good): Standard clean call. No issues."
 msgstr "- 4.0 - 4.2 (Добре): Стандартний солідний зв'язок без зауважень."
 
-#: scripts/../src/main.rs:695
+#: scripts/../src/main.rs:715
 msgid ""
 "- 3.6 - 3.9 (Fair): You can hear 'compression' or minor clicks. Acceptable "
 "for business."
@@ -450,7 +454,7 @@ msgstr ""
 "- 3.6 - 3.9 (Задовільно): Можна почути 'компресію' або легке клацання. "
 "Прийнятно для ділових розмов."
 
-#: scripts/../src/main.rs:696
+#: scripts/../src/main.rs:716
 msgid ""
 "- Below 3.0 (Poor): Words are missing, voice is distorted. It's time to hang "
 "up and check your router."
@@ -458,11 +462,11 @@ msgstr ""
 "- Нижче 3.0 (Погано): Слова зникають, голос спотворений. Час завершувати "
 "дзвінок і перевіряти роутер."
 
-#: scripts/../src/main.rs:699
+#: scripts/../src/main.rs:719
 msgid "Reliability - Packet Loss & Outliers"
 msgstr "Надійність — втрати та аномалії"
 
-#: scripts/../src/main.rs:700
+#: scripts/../src/main.rs:720
 msgid ""
 "This tab tracks if packets are actually reaching their destination and if "
 "any are 'statistical anomalies'."
@@ -470,11 +474,11 @@ msgstr ""
 "Ця вкладка відстежує, чи доходять пакети до цілі та чи є серед них "
 "'статистичні аномалії'."
 
-#: scripts/../src/main.rs:703
+#: scripts/../src/main.rs:723
 msgid "Definitions:"
 msgstr "Визначення:"
 
-#: scripts/../src/main.rs:704
+#: scripts/../src/main.rs:724
 msgid ""
 "- Packet Loss: The most critical metric. If a packet is lost, a piece of "
 "someone's word is gone forever. VoIP cannot 'redownload' lost audio like a "
@@ -484,7 +488,7 @@ msgstr ""
 "зникає назавжди. VoIP не може 'перекачати' звук заново, як це робить "
 "передача файлів."
 
-#: scripts/../src/main.rs:705
+#: scripts/../src/main.rs:725
 msgid ""
 "- Outliers: These are packets that didn't go missing but took much longer "
 "than usual (more than 3 standard deviations from the mean). In a call, these "
@@ -494,7 +498,7 @@ msgstr ""
 "(понад 3 стандартні відхилення). У дзвінку це викликає 'фріз' або гучне "
 "клацання."
 
-#: scripts/../src/main.rs:706
+#: scripts/../src/main.rs:726
 msgid ""
 "- Streak: Shows how many times in a row a host has responded (S) or failed "
 "(F). Long 'F' streaks mean the connection is completely down."
@@ -502,7 +506,7 @@ msgstr ""
 "- Серія (Streak): Скільки разів поспіль хост відповів (У) чи не відповів "
 "(П). Довгі серії 'П' означають повний обрив зв'язку."
 
-#: scripts/../src/main.rs:710
+#: scripts/../src/main.rs:730
 msgid ""
 "While 1% loss might be okay for browsing, for VoIP it means every 100th "
 "piece of a word is missing. Above 2-3% loss, the conversation becomes "
@@ -511,78 +515,43 @@ msgstr ""
 "Втрата 1% може бути непомітною при перегляді сайтів, але для VoIP це кожна "
 "100-та частинка слова. Понад 2-3% втрат роблять розмову нестерпною."
 
-#: scripts/../src/main.rs:741
+#: scripts/../src/main.rs:733
+msgid "Reliable Hosts for Internet Checks"
+msgstr "Надійні хости для перевірки Інтернету"
+
+#: scripts/../src/main.rs:734
+msgid ""
+"If you want to check if YOUR internet is working (rather than a specific "
+"service), use these stable public DNS servers:"
+msgstr ""
+"Якщо ви хочете перевірити, чи працює саме ВАШ інтернет (а не конкретний "
+"сервіс), використовуйте ці стабільні публічні DNS-сервери:"
+
+#: scripts/../src/main.rs:737
+msgid "- Google DNS: 8.8.8.8 or 8.8.4.4"
+msgstr "- Google DNS: 8.8.8.8 або 8.8.4.4"
+
+#: scripts/../src/main.rs:738
+msgid "- Cloudflare: 1.1.1.1 or 1.0.0.1"
+msgstr "- Cloudflare: 1.1.1.1 або 1.0.0.1"
+
+#: scripts/../src/main.rs:739
+msgid "- Quad9: 9.9.9.9"
+msgstr "- Quad9: 9.9.9.9"
+
+#: scripts/../src/main.rs:742
+msgid "Tip:"
+msgstr "Порада:"
+
+#: scripts/../src/main.rs:743
+msgid ""
+"If you can ping 8.8.8.8 but cannot open 'google.com', you likely have a DNS "
+"problem, not a connection problem."
+msgstr ""
+"Якщо ви можете пінгувати 8.8.8.8, але не можете відкрити 'google.com', у вас, "
+"швидше за все, проблема з DNS, а не з підключенням."
+
+#: scripts/../src/main.rs:774
 msgid "egui pinger"
 msgstr "egui pinger"
 
-#~ msgid "Mean RTT (Average latency)"
-#~ msgstr "Середній RTT (Середня затримка)"
-
-#~ msgid "Median RTT (Middle value, robust to spikes)"
-#~ msgstr "Медіанний RTT (Середнє значення, стійке до сплесків)"
-
-#~ msgid "RTP Jitter Mean (Average variation)"
-#~ msgstr "Середній RTP Jitter (Середнє тремтіння за період)"
-
-#~ msgid "RTP Jitter Median (Middle variation value)"
-#~ msgstr "Медіанний RTP Jitter (Медіана тремтіння)"
-
-#~ msgid "MOS (Estimated Voice Quality, 1.0-4.5)"
-#~ msgstr "MOS (Оцінка якості голосу, 1.0-4.5)"
-
-#~ msgid "Availability (Packet delivery success rate %)"
-#~ msgstr "Доступність (Відсоток доставлених пакетів)"
-
-#~ msgid "Outliers (Packets significantly slower than average)"
-#~ msgstr "Аномалії (Пакети з аномально великою затримкою)"
-
-#~ msgid "Streak (Consecutive success/fail count)"
-#~ msgstr "Серія (Кількість послідовних успіхів/помилок)"
-
-#~ msgid "95th Percentile (Latency for 95% of packets)"
-#~ msgstr "95-й перцентиль (Затримка для 95% пакетів)"
-
-#~ msgid "Min / Max (Extreme latency values)"
-#~ msgstr "Мін / Макс (Екстремальні значення затримки)"
-
-#~ msgid "Loss Statistics (Sent/Lost counters)"
-#~ msgstr "Статистика втрат (Лічильники відправлених/втрачених)"
-
-#~ msgid "Show the custom name of the host"
-#~ msgstr "Показати імʼя хоста"
-
-#~ msgid "Host IP Address"
-#~ msgstr "IP-адреса хоста"
-
-#~ msgid "Show average latency over the history window"
-#~ msgstr "Показувати середню затримку за весь період історії"
-
-#~ msgid "Shows values robust to occasional outliers"
-#~ msgstr "Показує значення, стійкі до випадкових сплесків"
-
-#~ msgid "Variation in packet delay (jitter)"
-#~ msgstr "Коливання затримки пакетів (джиттер)"
-
-#~ msgid "Show average jitter over history"
-#~ msgstr "Показувати середній джиттер за період історії"
-
-#~ msgid "Show median jitter over history"
-#~ msgstr "Показувати медіану джиттера за період історії"
-
-#~ msgid "Calculated Voice Quality (Mean Opinion Score)"
-#~ msgstr "Розрахункова якість голосу (Mean Opinion Score)"
-
-#~ msgid "Number of packets with latency > mean + 3*stddev"
-#~ msgstr "Кількість пакетів із затримкою > середня + 3*СВ"
-
-#~ msgid "Measure of how stable the latency is"
-#~ msgstr "Міра стабільності затримки"
-
-#~ msgid "Worst-case latency for 95% of traffic"
-#~ msgstr "Найгірша затримка для 95% трафіку"
-
-#~ msgid "Shows absolute minimum and maximum in history"
-#~ msgstr "Показує абсолютний мінімум та максимум в історії"
-
-#~ msgid "Shows raw packet counters (sent and lost)"
-#~ msgstr "Показує сирі лічильники пакетів (відправлено та втрачено)"
