@@ -19,24 +19,31 @@ panic() {
 which clang >/dev/null 2>&1 || panic "clang is not installed. Install it: sudo dnf install clang lld"
 which llvm-lib >/dev/null 2>&1 || panic "llvm-lib is not installed. Install it: sudo dnf install llvm"
 
-cargo clean || panic "Cannot clean \"target\" directory."
-rm -rf "$RELEASES_DIR/*" || panic "Cannot clean \"$RELEASES_DIR\" directory."
+#cargo clean || panic "Cannot clean \"target\" directory."
+#rm -rf "$RELEASES_DIR/*" || panic "Cannot clean \"$RELEASES_DIR\" directory."
 mkdir -p "$RELEASES_DIR" || panic "Cannot create \"$RELEASES_DIR\" directory."
 
 ARCHES=(
-  x86_64-unknown-linux-gnu
+#  x86_64-unknown-linux-gnu
+  x86_64-pc-windows-msvc
 #  aarch64-unknown-linux-gnu
-#  x86_64-pc-windows-gnu
-#  x86_64-pc-windows-msvc
 )
 
 for TARGET in "${ARCHES[@]}"
 do
   echo "--- Building for $TARGET ---"
   if [[ "$TARGET" == *"-msvc" ]]; then
-    cargo xwin build --release --target "$TARGET" || panic "Cannot build release for \"$TARGET\" target using cargo-xwin."
+    # Create temporary bin directory with symlinks to satisfy tool expectations
+    BIN_DIR="$(mktemp -d)"
+    ln -sf "$(which llvm-rc)" "$BIN_DIR/rc.exe"
+    ln -sf "$(which llvm-lib)" "$BIN_DIR/lib.exe"
+    # Export RC for winres and update PATH
+    export RC="$BIN_DIR/rc.exe"
+    PATH="$BIN_DIR:$PATH" cargo xwin build --release --target "$TARGET" --features embed-locales || { rm -rf "$BIN_DIR"; panic "Cannot build release for \"$TARGET\" target using cargo-xwin."; }
+    unset RC
+    rm -rf "$BIN_DIR"
   else
-    cross build --release --target "$TARGET" || panic "Cannot build release for \"$TARGET\" target using cross."
+    cross build --release --target "$TARGET" --features embed-locales || panic "Cannot build release for \"$TARGET\" target using cross."
   fi
   TARGET_BUILD_DIR="./target/$TARGET/release/"
 
