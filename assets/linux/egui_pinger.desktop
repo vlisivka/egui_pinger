@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=egui_pinger
+GenericName=Network Monitor
+Comment=Simple pinger for multiple servers with graph and jitter
+Exec=egui_pinger
+Icon=egui_pinger
+Terminal=false
+Categories=Network;System;Monitor;
+Keywords=ping;network;jitter;diagnostic;

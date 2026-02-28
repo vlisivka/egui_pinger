@@ -19,15 +19,15 @@ panic() {
 which clang >/dev/null 2>&1 || panic "clang is not installed. Install it: sudo dnf install clang lld"
 which llvm-lib >/dev/null 2>&1 || panic "llvm-lib is not installed. Install it: sudo dnf install llvm"
 
-#cargo clean || panic "Cannot clean \"target\" directory."
-#rm -rf "$RELEASES_DIR/*" || panic "Cannot clean \"$RELEASES_DIR\" directory."
+cargo clean || panic "Cannot clean \"target\" directory."
+rm -rf "$RELEASES_DIR/*" || panic "Cannot clean \"$RELEASES_DIR\" directory."
 mkdir -p "$RELEASES_DIR" || panic "Cannot create \"$RELEASES_DIR\" directory."
 
 ARCHES=(
-#  x86_64-unknown-linux-gnu
+  x86_64-unknown-linux-gnu
 #  aarch64-unknown-linux-gnu
 #  x86_64-pc-windows-gnu
-  x86_64-pc-windows-msvc
+#  x86_64-pc-windows-msvc
 )
 
 for TARGET in "${ARCHES[@]}"
@@ -45,8 +45,18 @@ do
     EXECUTABLE="$NAME"
     ARCHIVE="$RELEASES_DIR/$TARGET-$VERSION.tar.gz"
 
+    echo "--- Packaging $ARCHIVE ---"
+    TEMP_DIR=$(mktemp -d)
+    mkdir -p "$TEMP_DIR/bin" "$TEMP_DIR/share/applications" "$TEMP_DIR/share/icons/hicolor/scalable/apps"
+
+    cp "$TARGET_BUILD_DIR/$EXECUTABLE" "$TEMP_DIR/bin/"
+    cp "assets/linux/egui_pinger.desktop" "$TEMP_DIR/share/applications/"
+    cp "assets/linux/egui_pinger.svg" "$TEMP_DIR/share/icons/hicolor/scalable/apps/"
+
     rm -f "$ARCHIVE"
-    tar -zcf "$ARCHIVE" -C "$TARGET_BUILD_DIR" "$EXECUTABLE" || panic "Cannot make archive \"$ARCHIVE\" using file \"$EXECUTABLE\" from \"$TARGET_BUILD_DIR\"."
+    tar -zcf "$ARCHIVE" -C "$TEMP_DIR" bin share || panic "Cannot make archive \"$ARCHIVE\" from \"$TEMP_DIR\"."
+
+    rm -rf "$TEMP_DIR"
 
   elif [ -x "$TARGET_BUILD_DIR/$NAME.exe" ]
   then

@@ -67,5 +67,19 @@ sudo dnf install clang lld llvm
 ./build-releases.sh
 ```
 
-## Documentation
-Technical specifications, detailed plans, and the project TODO list are maintained in Ukrainian (see `Специфікація.md` and `TODO.md` in the root directory).
+## Installation on Linux (User-specific)
+
+You can install the pre-built Linux release into your local home directory without root privileges. This will integrate the app into your system menu and provide an icon.
+
+1.  Download the `x86_64-unknown-linux-gnu-vX.X.X.tar.gz` archive.
+2.  Unpack it into `~/.local`:
+    ```bash
+    tar -xf x86_64-unknown-linux-gnu-0.2.0.tar.gz -C ~/.local
+    ```
+3.  Ensure `~/.local/bin` is in your `PATH` (add `export PATH="$HOME/.local/bin:$PATH"` to your `.bashrc` or `.zshrc` if needed).
+4.  The application will now appear in your system menus as "egui_pinger".
+
+*Note: You may still need to grant raw network capabilities if you don't run as root:*
+```bash
+sudo setcap cap_net_raw+ep ~/.local/bin/egui_pinger
+```

@@ -1,4 +1,3 @@
-
 use crate::logic::{SharedState, pinger_task};
 use crate::model::{AppState, DisplaySettings, HostInfo, HostStatus, PingMode};
 use eframe::egui;
