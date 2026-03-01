@@ -168,3 +168,61 @@ fn test_no_padding_keeps_exact_size() {
         );
     }
 }
+
+#[tokio::test]
+async fn test_ipv6_parsing() {
+    let address = "2001:4860:4860::8888";
+    let ip = address.parse::<IpAddr>();
+    assert!(ip.is_ok());
+    assert!(ip.unwrap().is_ipv6());
+}
+
+#[tokio::test]
+async fn test_ipv6_hostname_resolution() {
+    // google.com usually has AAAA records
+    let address = "google.com";
+    let lookup_str = format!("{}:0", address);
+    let addrs = tokio::net::lookup_host(&lookup_str).await;
+    assert!(addrs.is_ok());
+    let mut addrs = addrs.unwrap();
+    // Verify we can find at least one IP
+    assert!(addrs.next().is_some());
+}
+
+#[tokio::test]
+async fn test_ipv6_bracketed_resolution() {
+    // This is where it might fail if we don't bracket IPv6
+    // address.parse::<IpAddr>() fails for "[::1]"
+    let address = "[::1]";
+    
+    let clean_address = if address.starts_with('[') && address.ends_with(']') {
+        &address[1..address.len() - 1]
+    } else {
+        &address
+    };
+    
+    let ip = clean_address.parse::<IpAddr>();
+    assert!(ip.is_ok());
+    assert_eq!(ip.unwrap(), "::1".parse::<IpAddr>().unwrap());
+    
+    // Test the fallback logic in pinger_task
+    let lookup_str = format!("{}:0", address);
+    let res = tokio::net::lookup_host(&lookup_str).await;
+    assert!(res.is_ok(), "lookup_host should handle bracketed [::1]:0");
+}
+
+#[tokio::test]
+async fn test_ipv6_long_address_parsing() {
+    // Full IPv6 address (39 characters)
+    let address = "2001:0db8:85a3:0000:0000:8a2e:0370:7334";
+    assert!(address.parse::<IpAddr>().is_ok());
+    
+    // Bracketed short IPv6
+    let address2 = "[2001:db8::1]";
+    let clean = if address2.starts_with('[') && address2.ends_with(']') {
+        &address2[1..address2.len() - 1]
+    } else {
+        &address2
+    };
+    assert!(clean.parse::<IpAddr>().is_ok());
+}

@@ -5,6 +5,7 @@ A powerful network diagnostic tool with a graphical interface designed for Windo
 ## Features
 
 - **Multi-host Monitoring**: Periodically ping multiple servers (e.g., Google DNS, Cloudflare, and your SIP server) simultaneously.
+- **Full IPv6 Support**: Monitor both IPv4 and IPv6 addresses seamlessly.
 - **Advanced Network Analysis**:
   - **RTP Jitter (RFC 3550)**: Standard industrial jitter calculation used in VoIP.
   - **MOS (Mean Opinion Score)**: Estimated voice quality score (1.0 - 4.5).
@@ -50,7 +51,11 @@ cd egui_pinger && \
 cargo run --release
 ```
 
-*Note: On Linux, you may need `CAP_NET_RAW` capabilities to send raw ICMP packets:*
+*Note: On Linux, you may need to allow unprivileged ICMP sockets:*
+```bash
+sudo sysctl -w net.ipv4.ping_group_range="0 2147483647"
+```
+*Alternatively, you can grant `CAP_NET_RAW` capabilities to the binary:*
 ```bash
 sudo setcap cap_net_raw+ep target/release/egui_pinger
 ```

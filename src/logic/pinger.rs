@@ -1,11 +1,10 @@
 use crate::model::{AppState, HostInfo, PingMode};
-use futures::future::join_all;
 use rand::RngExt;
 use std::collections::HashMap;
 use std::net::IpAddr;
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
-use surge_ping::ping;
+use ping_async::{IcmpEchoRequestor, IcmpEchoStatus};
 
 pub type SharedState = Arc<Mutex<AppState>>;
 
@@ -26,7 +25,6 @@ pub fn compute_interval(mode: PingMode, rng: &mut impl rand::Rng) -> Duration {
 }
 
 /// Generates a randomized ICMP payload for the given host config.
-/// Returns random bytes with optional random extra padding.
 pub fn generate_payload(host: &HostInfo) -> Vec<u8> {
     let mut rng = rand::rng();
     let mut size = host.packet_size.clamp(16, 1400);
@@ -42,7 +40,8 @@ pub fn generate_payload(host: &HostInfo) -> Vec<u8> {
 pub async fn pinger_task(state: SharedState) {
     // Map of address -> next scheduled ping time
     let mut next_pings: HashMap<String, Instant> = HashMap::new();
-    let mut rng = rand::rng();
+    // Cache of ping-async requestors
+    let mut requestors: HashMap<String, IcmpEchoRequestor> = HashMap::new();
 
     loop {
         // Check for hosts that are due for a ping
@@ -52,6 +51,7 @@ pub async fn pinger_task(state: SharedState) {
                 .expect("Failed to lock state for reading hosts");
 
             let now = Instant::now();
+            let mut rng = rand::rng(); // Created and used only within this block
             state_lock
                 .hosts
                 .iter()
@@ -68,60 +68,83 @@ pub async fn pinger_task(state: SharedState) {
                 .collect()
         };
 
-        if !hosts_to_ping.is_empty() {
-            let ping_tasks: Vec<_> = hosts_to_ping
-                .into_iter()
-                .map(|host_info| {
-                    let address = host_info.address.clone();
-                    let state = state.clone();
-                    let payload = generate_payload(&host_info);
+        for host_info in hosts_to_ping {
+            let address = host_info.address.clone();
+            let state = state.clone();
 
-                    tokio::spawn(async move {
-                        // Resolve the address (could be IP or domain)
-                        let ip = match address.parse::<IpAddr>() {
-                            Ok(ip) => Some(ip),
-                            Err(_) => {
-                                // Try DNS resolution
-                                let lookup_str = format!("{}:0", address);
-                                if let Ok(mut addrs) = tokio::net::lookup_host(&lookup_str).await {
-                                    addrs.next().map(|a| a.ip())
-                                } else {
-                                    None
-                                }
-                            }
-                        };
+            // Get or create requestor for this host
+            let requestor = if let Some(r) = requestors.get(&address) {
+                Some(r.clone())
+            } else {
+                // Resolve the address
+                let clean_address = if address.starts_with('[') && address.ends_with(']') {
+                    &address[1..address.len() - 1]
+                } else {
+                    &address
+                };
 
-                        let (alive, rtt_ms) = if let Some(ip) = ip {
-                            let result =
-                                tokio::time::timeout(Duration::from_secs(2), ping(ip, &payload))
-                                    .await;
+                let ip = if let Ok(ip) = clean_address.parse::<IpAddr>() {
+                    Some(ip)
+                } else {
+                    // Try DNS resolution
+                    let lookup_str = format!("{}:0", address);
+                    if let Ok(mut addrs) = tokio::net::lookup_host(&lookup_str).await {
+                        addrs.next().map(|a| a.ip())
+                    } else {
+                        None
+                    }
+                };
 
-                            match result {
-                                Ok(Ok((_, duration))) => (true, duration.as_secs_f64() * 1000.0),
-                                _ => (false, f64::NAN),
-                            }
-                        } else {
-                            (false, f64::NAN) // Domain resolution failed
-                        };
-
-                        let mut state_lock = state
-                            .lock()
-                            .expect("Failed to lock state for updating status");
-                        if let Some(status) = state_lock.statuses.get_mut(&address) {
-                            status.alive = alive;
-                            status.add_sample(rtt_ms);
+                if let Some(target_ip) = ip {
+                    match IcmpEchoRequestor::new(target_ip, None, None, None) {
+                        Ok(r) => {
+                            requestors.insert(address.clone(), r.clone());
+                            Some(r)
                         }
-                    })
-                })
-                .collect();
+                        Err(e) => {
+                            eprintln!("Failed to create ICMP requestor for {}: {}", address, e);
+                            None
+                        }
+                    }
+                } else {
+                    None
+                }
+            };
 
-            // Run pings in parallel
-            tokio::spawn(async move {
-                let _res = join_all(ping_tasks).await;
-            });
+            if let Some(r) = requestor {
+                tokio::spawn(async move {
+                    let result = r.send().await;
+
+                    let (alive, rtt_ms) = match result {
+                        Ok(reply) => {
+                            if reply.status() == IcmpEchoStatus::Success {
+                                (true, reply.round_trip_time().as_secs_f64() * 1000.0)
+                            } else {
+                                (false, f64::NAN)
+                            }
+                        }
+                        Err(_) => (false, f64::NAN),
+                    };
+
+                    let mut state_lock = state
+                        .lock()
+                        .expect("Failed to lock state for updating status");
+                    if let Some(status) = state_lock.statuses.get_mut(&address) {
+                        status.alive = alive;
+                        status.add_sample(rtt_ms);
+                    }
+                });
+            } else {
+                let mut state_lock = state
+                    .lock()
+                    .expect("Failed to lock state for updating status");
+                if let Some(status) = state_lock.statuses.get_mut(&address) {
+                    status.alive = false;
+                    status.add_sample(f64::NAN);
+                }
+            }
         }
 
-        // Sleep for a short while before next check
         tokio::time::sleep(Duration::from_millis(100)).await;
     }
 }

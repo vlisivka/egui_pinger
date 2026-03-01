@@ -167,17 +167,17 @@ impl EguiPinger {
                         let rs1 = ui.add(
                             egui::TextEdit::singleline(&mut self.input_name)
                                 .id(name_field_id)
-                                .char_limit(20)
+                                .char_limit(256)
                                 .hint_text(tr!("Host name"))
-                                .desired_width(8.0 * 20.0),
+                                .desired_width(256.0),
                         );
 
                         let rs2 = ui.add(
                             egui::TextEdit::singleline(&mut self.input_address)
                                 .id(addr_field_id)
-                                .char_limit(20)
+                                .char_limit(256)
                                 .hint_text(tr!("Host address"))
-                                .desired_width(8.0 * 20.0),
+                                .desired_width(256.0),
                         );
 
                         // When "Add" button is clicked or Enter is pressed in the second field,
@@ -198,7 +198,7 @@ impl EguiPinger {
                                 let mut host_info = HostInfo {
                                     name,
                                     address,
-                                    mode: PingMode::Slow,
+                                    mode: PingMode::NotFast,
                                     display: DisplaySettings::default(),
                                     packet_size: 16,
                                     random_padding: false,
@@ -251,10 +251,10 @@ impl EguiPinger {
 
                         let mut parts = Vec::new();
                         if host_info.display.show_name {
-                            parts.push(format!("{:<20}", host_info.name));
+                            parts.push(host_info.name.clone());
                         }
                         if host_info.display.show_address {
-                            parts.push(format!("{:<15}", host_info.address));
+                            parts.push(host_info.address.clone());
                         }
                         parts.push("→".to_string());
 

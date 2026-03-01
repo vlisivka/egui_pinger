@@ -78,7 +78,7 @@ fn test_add_host_flow() {
 
     let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
 
-    harness.get_by_label("Add").click();
+    harness.get_by_label(&tr!("Add")).click();
     harness.run();
 
     let state_lock = state.lock().unwrap();
@@ -115,7 +115,7 @@ fn test_validation_empty_address() {
     app.input_address = String::new();
 
     let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
-    harness.get_by_label("Add").click();
+    harness.get_by_label(&tr!("Add")).click();
     harness.run();
 
     assert!(state.lock().unwrap().hosts.is_empty());
@@ -160,7 +160,7 @@ fn test_duplicate_host_not_added() {
     app.input_address = "8.8.8.8".to_string();
     {
         let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
-        harness.get_by_label("Add").click();
+        harness.get_by_label(&tr!("Add")).click();
         harness.run();
     }
 
@@ -171,7 +171,7 @@ fn test_duplicate_host_not_added() {
     app.input_address = "8.8.8.8".to_string();
     {
         let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
-        harness.get_by_label("Add").click();
+        harness.get_by_label(&tr!("Add")).click();
         harness.run();
     }
 
@@ -189,7 +189,7 @@ fn test_whitespace_trimmed() {
     app.input_address = "  8.8.8.8  ".to_string();
 
     let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
-    harness.get_by_label("Add").click();
+    harness.get_by_label(&tr!("Add")).click();
     harness.run();
 
     let state_lock = state.lock().unwrap();
@@ -207,7 +207,7 @@ fn test_local_host_gets_fast_mode() {
     app.input_address = "192.168.1.1".to_string();
 
     let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
-    harness.get_by_label("Add").click();
+    harness.get_by_label(&tr!("Add")).click();
     harness.run();
 
     let state_lock = state.lock().unwrap();
@@ -215,18 +215,18 @@ fn test_local_host_gets_fast_mode() {
 }
 
 #[test]
-fn test_remote_host_gets_slow_mode() {
+fn test_remote_host_gets_not_fast_mode() {
     let state = Arc::new(Mutex::new(AppState::default()));
     let mut app = EguiPinger::from_state(state.clone());
     app.input_name = "Google".to_string();
     app.input_address = "8.8.8.8".to_string();
 
     let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
-    harness.get_by_label("Add").click();
+    harness.get_by_label(&tr!("Add")).click();
     harness.run();
 
     let state_lock = state.lock().unwrap();
-    assert_eq!(state_lock.hosts[0].mode, PingMode::Slow);
+    assert_eq!(state_lock.hosts[0].mode, PingMode::NotFast);
 }
 
 // === Down host display ===
@@ -324,7 +324,7 @@ fn test_multiple_hosts() {
     app.input_address = "8.8.8.8".to_string();
     {
         let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
-        harness.get_by_label("Add").click();
+        harness.get_by_label(&tr!("Add")).click();
         harness.run();
     }
 
@@ -333,7 +333,7 @@ fn test_multiple_hosts() {
     app.input_address = "1.1.1.1".to_string();
     {
         let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
-        harness.get_by_label("Add").click();
+        harness.get_by_label(&tr!("Add")).click();
         harness.run();
     }
 
@@ -384,7 +384,7 @@ fn test_empty_name_allowed() {
     app.input_address = "9.9.9.9".to_string();
 
     let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
-    harness.get_by_label("Add").click();
+    harness.get_by_label(&tr!("Add")).click();
     harness.run();
 
     let state_lock = state.lock().unwrap();
@@ -403,11 +403,30 @@ fn test_new_host_has_vpn_defaults() {
     app.input_address = "8.8.4.4".to_string();
 
     let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
-    harness.get_by_label("Add").click();
+    harness.get_by_label(&tr!("Add")).click();
     harness.run();
 
     let state_lock = state.lock().unwrap();
     let host = &state_lock.hosts[0];
     assert_eq!(host.packet_size, 16);
     assert!(!host.random_padding);
+}
+// === IPv6 specific GUI tests ===
+
+#[test]
+fn test_long_ipv6_input_not_truncated() {
+    let state = Arc::new(Mutex::new(AppState::default()));
+    let mut app = EguiPinger::from_state(state.clone());
+    
+    // Full IPv6 address (39 characters)
+    let long_ipv6 = "2001:0db8:85a3:0000:0000:8a2e:0370:7334";
+    app.input_address = long_ipv6.to_string();
+    
+    let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
+    harness.get_by_label(&tr!("Add")).click();
+    harness.run();
+    
+    let state_lock = state.lock().unwrap();
+    assert_eq!(state_lock.hosts.len(), 1);
+    assert_eq!(state_lock.hosts[0].address, long_ipv6);
 }

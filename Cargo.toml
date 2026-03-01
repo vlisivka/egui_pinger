@@ -1,6 +1,6 @@
 [package]
 name = "egui_pinger"
-version = "0.2.1"
+version = "0.3.0"
 edition = "2024"
 authors = ["Volodymyr M. Lisivka <vlisivka@gmail.com>"]
 description = "Simple pinger for multiple servers with graph and jitter."
@@ -21,11 +21,11 @@ egui_extras = { version = "0.33", features = ["all_loaders"] }
 egui_plot = "0.34"
 
 tokio = { version = "1.38", features = ["rt-multi-thread", "macros", "time"] }
-surge-ping = "0.8"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 futures = "0.3"
 rand = "0.10.0"
+ping-async = "1.0.2"
 
 [features]
 default = []
