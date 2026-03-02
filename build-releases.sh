@@ -50,7 +50,7 @@ do
   if [ -x "$TARGET_BUILD_DIR/$NAME" ]
   then
     EXECUTABLE="$NAME"
-    ARCHIVE="$RELEASES_DIR/$TARGET-$VERSION.tar.gz"
+    ARCHIVE="$RELEASES_DIR/egui_pinger_$TARGET-$VERSION.tar.gz"
 
     echo "--- Packaging $ARCHIVE ---"
     TEMP_DIR=$(mktemp -d)
@@ -68,7 +68,7 @@ do
   elif [ -x "$TARGET_BUILD_DIR/$NAME.exe" ]
   then
     EXECUTABLE="$NAME.exe"
-    ARCHIVE=$(readlink -f "$RELEASES_DIR/$TARGET-$VERSION.zip")
+    ARCHIVE=$(readlink -f "$RELEASES_DIR/egui_pinger_$TARGET-$VERSION.zip")
 
     rm -f "$ARCHIVE"
     ( cd "$TARGET_BUILD_DIR" && zip "$ARCHIVE" "$EXECUTABLE" ) || panic "Cannot make archive \"$ARCHIVE\" using file \"$EXECUTABLE\" from \"$TARGET_BUILD_DIR\" ."

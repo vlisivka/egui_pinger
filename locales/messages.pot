@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-27 12:02+0000\n"
+"POT-Creation-Date: 2026-03-01 18:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,441 +17,504 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ./../src/main.rs:178
+#: ./../src/main.rs:15
+msgid "egui pinger"
+msgstr ""
+
+#: ./../src/app.rs:174 ./../src/app.rs:174
 msgid "Host name"
 msgstr ""
 
-#: ./../src/main.rs:186
+#: ./../src/app.rs:182 ./../src/app.rs:182
 msgid "Host address"
 msgstr ""
 
 #. When "Add" button is clicked or Enter is pressed in the second field,
 #. add host to the list
-#: ./../src/main.rs:192
+#: ./../src/app.rs:188 ./../src/app.rs:188
 msgid "Add"
 msgstr ""
 
-#: ./../src/main.rs:268 ./../src/main.rs:462
+#: ./../src/app.rs:266 ./../src/app.rs:468 ./../src/app.rs:266 ./../src/app.rs:468
 msgid "ms"
 msgstr ""
 
-#: ./../src/main.rs:270
+#: ./../src/app.rs:269 ./../src/app.rs:271 ./../src/app.rs:269 ./../src/app.rs:271
 msgid "DOWN"
 msgstr ""
 
-#: ./../src/main.rs:287
+#: ./../src/app.rs:290 ./../src/app.rs:290
 msgid "M"
 msgstr ""
 
-#: ./../src/main.rs:288 ./../src/main.rs:607
+#: ./../src/app.rs:291 ./../src/app.rs:645 ./../src/app.rs:291 ./../src/app.rs:645
 msgid "Mean RTT"
 msgstr ""
 
-#: ./../src/main.rs:294
+#: ./../src/app.rs:297 ./../src/app.rs:297
 msgid "Med"
 msgstr ""
 
-#: ./../src/main.rs:295 ./../src/main.rs:611
+#: ./../src/app.rs:298 ./../src/app.rs:649 ./../src/app.rs:298 ./../src/app.rs:649
 msgid "Median RTT"
 msgstr ""
 
-#: ./../src/main.rs:301
+#: ./../src/app.rs:304 ./../src/app.rs:304
 msgid "J"
 msgstr ""
 
-#: ./../src/main.rs:302 ./../src/main.rs:615
+#: ./../src/app.rs:305 ./../src/app.rs:653 ./../src/app.rs:305 ./../src/app.rs:653
 msgid "RTP Jitter"
 msgstr ""
 
-#: ./../src/main.rs:308
+#: ./../src/app.rs:311 ./../src/app.rs:311
 msgid "Jm"
 msgstr ""
 
-#: ./../src/main.rs:309 ./../src/main.rs:619
+#: ./../src/app.rs:312 ./../src/app.rs:657 ./../src/app.rs:312 ./../src/app.rs:657
 msgid "Mean Jitter"
 msgstr ""
 
-#: ./../src/main.rs:315
+#: ./../src/app.rs:318 ./../src/app.rs:318
 msgid "Jmed"
 msgstr ""
 
-#: ./../src/main.rs:316 ./../src/main.rs:623
+#: ./../src/app.rs:319 ./../src/app.rs:661 ./../src/app.rs:319 ./../src/app.rs:661
 msgid "Median Jitter"
 msgstr ""
 
-#: ./../src/main.rs:322 ./../src/main.rs:627
+#: ./../src/app.rs:325 ./../src/app.rs:665 ./../src/app.rs:325 ./../src/app.rs:665
 msgid "MOS"
 msgstr ""
 
-#: ./../src/main.rs:323
+#: ./../src/app.rs:326 ./../src/app.rs:326
 msgid "Voice Quality (MOS)"
 msgstr ""
 
-#: ./../src/main.rs:329
+#: ./../src/app.rs:332 ./../src/app.rs:332
 msgid "Av"
 msgstr ""
 
-#: ./../src/main.rs:330 ./../src/main.rs:631
+#: ./../src/app.rs:333 ./../src/app.rs:669 ./../src/app.rs:333 ./../src/app.rs:669
 msgid "Availability"
 msgstr ""
 
-#: ./../src/main.rs:336
+#: ./../src/app.rs:339 ./../src/app.rs:339
 msgid "Out"
 msgstr ""
 
-#: ./../src/main.rs:337
+#: ./../src/app.rs:340 ./../src/app.rs:340
 msgid "Outliers (Lags)"
 msgstr ""
 
-#: ./../src/main.rs:342
+#: ./../src/app.rs:345 ./../src/app.rs:345
 msgid "S"
 msgstr ""
 
-#: ./../src/main.rs:342
+#: ./../src/app.rs:345 ./../src/app.rs:345
 msgid "F"
 msgstr ""
 
-#: ./../src/main.rs:351
+#: ./../src/app.rs:354 ./../src/app.rs:354
 msgid "Str"
 msgstr ""
 
-#: ./../src/main.rs:352 ./../src/main.rs:639
+#: ./../src/app.rs:355 ./../src/app.rs:677 ./../src/app.rs:355 ./../src/app.rs:677
 msgid "Streak"
 msgstr ""
 
-#: ./../src/main.rs:358
+#: ./../src/app.rs:361 ./../src/app.rs:361
 msgid "SD"
 msgstr ""
 
-#: ./../src/main.rs:359
+#: ./../src/app.rs:362 ./../src/app.rs:362
 msgid "Standard Deviation"
 msgstr ""
 
-#: ./../src/main.rs:366 ./../src/main.rs:647
+#: ./../src/app.rs:369 ./../src/app.rs:685 ./../src/app.rs:369 ./../src/app.rs:685
 msgid "95th Percentile"
 msgstr ""
 
-#: ./../src/main.rs:372
+#: ./../src/app.rs:375 ./../src/app.rs:375
 msgid "m/M"
 msgstr ""
 
-#: ./../src/main.rs:373 ./../src/main.rs:651
+#: ./../src/app.rs:376 ./../src/app.rs:689 ./../src/app.rs:376 ./../src/app.rs:689
 msgid "Min / Max RTT"
 msgstr ""
 
-#: ./../src/main.rs:379
+#: ./../src/app.rs:382 ./../src/app.rs:382
 msgid "L"
 msgstr ""
 
-#: ./../src/main.rs:380 ./../src/main.rs:655
+#: ./../src/app.rs:383 ./../src/app.rs:693 ./../src/app.rs:383 ./../src/app.rs:693
 msgid "Packet Loss"
 msgstr ""
 
-#: ./../src/main.rs:460
+#: ./../src/app.rs:466 ./../src/app.rs:466
 msgid "Timeout"
 msgstr ""
 
-#: ./../src/main.rs:532
+#: ./../src/app.rs:538 ./../src/app.rs:538
 msgid "Confirm Deletion"
 msgstr ""
 
-#: ./../src/main.rs:539
+#: ./../src/app.rs:545 ./../src/app.rs:545
 msgid "Are you sure you want to remove this host"
 msgstr ""
 
-#. Click "Delete" in the confirmation dialog
-#: ./../src/main.rs:545 ./../src/main.rs:887
+#: ./../src/app.rs:551 ./../src/app.rs:551
 msgid "Delete"
 msgstr ""
 
-#: ./../src/main.rs:551
+#: ./../src/app.rs:557 ./../src/app.rs:557
 msgid "Cancel"
 msgstr ""
 
-#: ./../src/main.rs:571
+#: ./../src/app.rs:577 ./../src/app.rs:577
 msgid "Host Settings"
 msgstr ""
 
-#: ./../src/main.rs:575
+#: ./../src/app.rs:581 ./../src/app.rs:581
 msgid "Host"
 msgstr ""
 
-#: ./../src/main.rs:579
+#: ./../src/app.rs:585 ./../src/app.rs:585
 msgid "Name"
 msgstr ""
 
-#: ./../src/main.rs:584
+#: ./../src/app.rs:591 ./../src/app.rs:591
 msgid "Ping Interval:"
 msgstr ""
 
-#: ./../src/main.rs:585
-msgid "Fast (1s)"
+#: ./../src/app.rs:594 ./../src/app.rs:603 ./../src/app.rs:594 ./../src/app.rs:603
+msgid "Very fast (1s)"
 msgstr ""
 
-#: ./../src/main.rs:586
+#: ./../src/app.rs:595 ./../src/app.rs:604 ./../src/app.rs:595 ./../src/app.rs:604
+msgid "Fast (2s)"
+msgstr ""
+
+#: ./../src/app.rs:596 ./../src/app.rs:605 ./../src/app.rs:596 ./../src/app.rs:605
+msgid "Not fast (5s)"
+msgstr ""
+
+#: ./../src/app.rs:597 ./../src/app.rs:606 ./../src/app.rs:597 ./../src/app.rs:606
+msgid "Normal (10s)"
+msgstr ""
+
+#: ./../src/app.rs:598 ./../src/app.rs:607 ./../src/app.rs:598 ./../src/app.rs:607
+msgid "Not slow (30s)"
+msgstr ""
+
+#: ./../src/app.rs:599 ./../src/app.rs:608 ./../src/app.rs:599 ./../src/app.rs:608
 msgid "Slow (1m)"
 msgstr ""
 
-#: ./../src/main.rs:590
+#: ./../src/app.rs:600 ./../src/app.rs:609 ./../src/app.rs:600 ./../src/app.rs:609
+msgid "Very slow (5m)"
+msgstr ""
+
+#: ./../src/app.rs:614 ./../src/app.rs:614
+msgid "VPN & Privacy:"
+msgstr ""
+
+#: ./../src/app.rs:616 ./../src/app.rs:616
+msgid "Packet Size:"
+msgstr ""
+
+#: ./../src/app.rs:620 ./../src/app.rs:620
+msgid " bytes"
+msgstr ""
+
+#: ./../src/app.rs:623 ./../src/app.rs:623
+msgid "Random Padding"
+msgstr ""
+
+#: ./../src/app.rs:624 ./../src/app.rs:624
+msgid "Adds 0-25% random extra data to each packet to mask traffic patterns"
+msgstr ""
+
+#: ./../src/app.rs:628 ./../src/app.rs:628
 msgid "Show fields:"
 msgstr ""
 
-#: ./../src/main.rs:591
+#: ./../src/app.rs:629 ./../src/app.rs:629
 msgid "Learn more about these metrics"
 msgstr ""
 
-#: ./../src/main.rs:595
+#: ./../src/app.rs:633 ./../src/app.rs:633
 msgid "Host Name"
 msgstr ""
 
-#: ./../src/main.rs:596
+#: ./../src/app.rs:634 ./../src/app.rs:634
 msgid "User-defined name for this host"
 msgstr ""
 
-#: ./../src/main.rs:599
+#: ./../src/app.rs:637 ./../src/app.rs:637
 msgid "Host Address"
 msgstr ""
 
-#: ./../src/main.rs:600
+#: ./../src/app.rs:638 ./../src/app.rs:638
 msgid "IP address or domain name"
 msgstr ""
 
-#: ./../src/main.rs:603
+#: ./../src/app.rs:641 ./../src/app.rs:641
 msgid "Current Latency"
 msgstr ""
 
-#: ./../src/main.rs:604
+#: ./../src/app.rs:642 ./../src/app.rs:642
 msgid "Round-trip time of the last packet"
 msgstr ""
 
-#: ./../src/main.rs:608
+#: ./../src/app.rs:646 ./../src/app.rs:646
 msgid "Average latency (can be skewed by spikes)"
 msgstr ""
 
-#: ./../src/main.rs:612
+#: ./../src/app.rs:650 ./../src/app.rs:650
 msgid "Typical latency (ignores rare spikes)"
 msgstr ""
 
-#: ./../src/main.rs:616
+#: ./../src/app.rs:654 ./../src/app.rs:654
 msgid "Current variation in delay (RFC 3550)"
 msgstr ""
 
-#: ./../src/main.rs:620
+#: ./../src/app.rs:658 ./../src/app.rs:658
 msgid "Average variation over time"
 msgstr ""
 
-#: ./../src/main.rs:624
+#: ./../src/app.rs:662 ./../src/app.rs:662
 msgid "Typical variation over time"
 msgstr ""
 
-#: ./../src/main.rs:628
+#: ./../src/app.rs:666 ./../src/app.rs:666
 msgid "Voice Quality Score (1.0 = Bad, 4.5 = Excellent)"
 msgstr ""
 
-#: ./../src/main.rs:632
+#: ./../src/app.rs:670 ./../src/app.rs:670
 msgid "Percentage of packets successfully delivered"
 msgstr ""
 
-#: ./../src/main.rs:635
+#: ./../src/app.rs:673 ./../src/app.rs:673
 msgid "Outliers"
 msgstr ""
 
-#: ./../src/main.rs:636
+#: ./../src/app.rs:674 ./../src/app.rs:674
 msgid "Count of extremely delayed packets (lags)"
 msgstr ""
 
-#: ./../src/main.rs:640
+#: ./../src/app.rs:678 ./../src/app.rs:678
 msgid "Current consecutive successes or failures"
 msgstr ""
 
-#: ./../src/main.rs:643
+#: ./../src/app.rs:681 ./../src/app.rs:681
 msgid "StdDev"
 msgstr ""
 
-#: ./../src/main.rs:644
+#: ./../src/app.rs:682 ./../src/app.rs:682
 msgid "Standard Deviation (spread of latency values)"
 msgstr ""
 
-#: ./../src/main.rs:648
+#: ./../src/app.rs:686 ./../src/app.rs:686
 msgid "Latency experienced by 95% of packets (worst-case)"
 msgstr ""
 
-#: ./../src/main.rs:652
+#: ./../src/app.rs:690 ./../src/app.rs:690
 msgid "Absolute best and worst latency in history"
 msgstr ""
 
-#: ./../src/main.rs:656
+#: ./../src/app.rs:694 ./../src/app.rs:694
 msgid "Count and percentage of dropped packets"
 msgstr ""
 
-#: ./../src/main.rs:659 ./../src/main.rs:771
+#: ./../src/app.rs:697 ./../src/app.rs:857 ./../src/app.rs:697 ./../src/app.rs:857
 msgid "Close"
 msgstr ""
 
-#: ./../src/main.rs:686
+#: ./../src/app.rs:724 ./../src/app.rs:724
+msgid "Route"
+msgstr ""
+
+#: ./../src/app.rs:732 ./../src/app.rs:732
+msgid "Path to target:"
+msgstr ""
+
+#: ./../src/app.rs:734 ./../src/app.rs:734
+msgid "Discovering route..."
+msgstr ""
+
+#: ./../src/app.rs:745 ./../src/app.rs:745
+msgid "(TIMEOUT)"
+msgstr ""
+
+#: ./../src/app.rs:756 ./../src/app.rs:756
+msgid "Refreshing route..."
+msgstr ""
+
+#: ./../src/app.rs:760 ./../src/app.rs:760
+msgid "No status found for this address."
+msgstr ""
+
+#: ./../src/app.rs:772 ./../src/app.rs:772
 msgid "Network Statistics Information"
 msgstr ""
 
-#: ./../src/main.rs:692
+#: ./../src/app.rs:778 ./../src/app.rs:778
 msgid "Latency"
 msgstr ""
 
-#: ./../src/main.rs:693
+#: ./../src/app.rs:779 ./../src/app.rs:779
 msgid "Jitter"
 msgstr ""
 
-#: ./../src/main.rs:694
+#: ./../src/app.rs:780 ./../src/app.rs:780
 msgid "Quality & MOS"
 msgstr ""
 
-#: ./../src/main.rs:695
+#: ./../src/app.rs:781 ./../src/app.rs:781
 msgid "Reliability"
 msgstr ""
 
-#: ./../src/main.rs:696
+#: ./../src/app.rs:782 ./../src/app.rs:782
 msgid "Internet Check"
 msgstr ""
 
-#: ./../src/main.rs:702
+#: ./../src/app.rs:788 ./../src/app.rs:788
 msgid "Round-Trip Time (RTT) - What is Latency?"
 msgstr ""
 
-#: ./../src/main.rs:703
+#: ./../src/app.rs:789 ./../src/app.rs:789
 msgid "Latency (RTT) is the total time it takes for a signal to go from your computer to the server and back. In network diagnostics, this is the most basic measure of 'speed'."
 msgstr ""
 
-#: ./../src/main.rs:706 ./../src/main.rs:720
+#: ./../src/app.rs:792 ./../src/app.rs:806 ./../src/app.rs:792 ./../src/app.rs:806
 msgid "How it is calculated:"
 msgstr ""
 
-#: ./../src/main.rs:707
+#: ./../src/app.rs:793 ./../src/app.rs:793
 msgid "- Mean (Average): The sum of all RTTs divided by the number of packets. Good for general trends, but can be misleading if you have rare, massive 'lags'."
 msgstr ""
 
-#: ./../src/main.rs:708
+#: ./../src/app.rs:794 ./../src/app.rs:794
 msgid "- Median (Middle Value): We sort all results and pick the one in the middle. This is the 'typical' experience. If you have 100 packets and 1 of them is very slow, the Median stays the same, while the Mean jumps up."
 msgstr ""
 
-#: ./../src/main.rs:709
+#: ./../src/app.rs:795 ./../src/app.rs:795
 msgid "- 95th Percentile (P95): This shows the worst-case scenario for 95% of your traffic. If P95 is low, your connection is stable. If it's much higher than the Median, your connection is 'jittery' and prone to sudden lags."
 msgstr ""
 
-#: ./../src/main.rs:712 ./../src/main.rs:725 ./../src/main.rs:752
+#: ./../src/app.rs:798 ./../src/app.rs:811 ./../src/app.rs:838 ./../src/app.rs:798 ./../src/app.rs:811 ./../src/app.rs:838
 msgid "VoIP Impact:"
 msgstr ""
 
-#: ./../src/main.rs:713
+#: ./../src/app.rs:799 ./../src/app.rs:799
 msgid "Voice is a real-time stream. If latency is over 150ms, you start to notice a delay in the conversation (waiting for the other person to respond). Above 300ms, people will start 'talking over' each other because of the lag."
 msgstr ""
 
-#: ./../src/main.rs:716
+#: ./../src/app.rs:802 ./../src/app.rs:802
 msgid "Jitter - Stability of the Connection"
 msgstr ""
 
-#: ./../src/main.rs:717
+#: ./../src/app.rs:803 ./../src/app.rs:803
 msgid "Jitter is the 'shaking' of your latency. It measures how much the delay between packets changes over time."
 msgstr ""
 
-#: ./../src/main.rs:721
+#: ./../src/app.rs:807 ./../src/app.rs:807
 msgid "We use the RFC 3550 algorithm (Standard for RTP). It doesn't just look at the highest and lowest values; it calculates the difference between consecutive packets and applies a smoothing filter."
 msgstr ""
 
-#: ./../src/main.rs:722
+#: ./../src/app.rs:808 ./../src/app.rs:808
 msgid "Formally: J = J + (|D| - J) / 16, where D is the difference between the current and previous packet delay. This provides a stable 'moving average' of network stability."
 msgstr ""
 
-#: ./../src/main.rs:726
+#: ./../src/app.rs:812 ./../src/app.rs:812
 msgid "Phones expect audio packets to arrive in a steady 'heartbeat' (every 20ms). If Jitter is high (>30ms), packets arrive in 'clumps' or too late to be played. This causes the voice to sound 'robotic', 'choppy', or broken."
 msgstr ""
 
-#: ./../src/main.rs:729
+#: ./../src/app.rs:815 ./../src/app.rs:815
 msgid "MOS - The 'Voice Score'"
 msgstr ""
 
-#: ./../src/main.rs:730
+#: ./../src/app.rs:816 ./../src/app.rs:816
 msgid "MOS (Mean Opinion Score) is a 1.0 to 4.5 rating that predicts how a human would rate the call quality."
 msgstr ""
 
-#: ./../src/main.rs:733
+#: ./../src/app.rs:819 ./../src/app.rs:819
 msgid "How we calculate it:"
 msgstr ""
 
-#: ./../src/main.rs:734
+#: ./../src/app.rs:820 ./../src/app.rs:820
 msgid "We implement a simplified ITU-T G.107 'E-model'. It takes your current Latency, Jitter, and Packet Loss, and calculates an 'R-factor'. This factor is then mapped to the MOS scale."
 msgstr ""
 
-#: ./../src/main.rs:736
+#: ./../src/app.rs:822 ./../src/app.rs:822
 msgid "- 4.3 - 4.5 (Excellent): Crystal clear HD audio, like sitting in the same room."
 msgstr ""
 
-#: ./../src/main.rs:737
+#: ./../src/app.rs:823 ./../src/app.rs:823
 msgid "- 4.0 - 4.2 (Good): Standard clean call. No issues."
 msgstr ""
 
-#: ./../src/main.rs:738
+#: ./../src/app.rs:824 ./../src/app.rs:824
 msgid "- 3.6 - 3.9 (Fair): You can hear 'compression' or minor clicks. Acceptable for business."
 msgstr ""
 
-#: ./../src/main.rs:739
+#: ./../src/app.rs:825 ./../src/app.rs:825
 msgid "- Below 3.0 (Poor): Words are missing, voice is distorted. It's time to hang up and check your router."
 msgstr ""
 
-#: ./../src/main.rs:742
+#: ./../src/app.rs:828 ./../src/app.rs:828
 msgid "Reliability - Packet Loss & Outliers"
 msgstr ""
 
-#: ./../src/main.rs:743
+#: ./../src/app.rs:829 ./../src/app.rs:829
 msgid "This tab tracks if packets are actually reaching their destination and if any are 'statistical anomalies'."
 msgstr ""
 
-#: ./../src/main.rs:746
+#: ./../src/app.rs:832 ./../src/app.rs:832
 msgid "Definitions:"
 msgstr ""
 
-#: ./../src/main.rs:747
+#: ./../src/app.rs:833 ./../src/app.rs:833
 msgid "- Packet Loss: The most critical metric. If a packet is lost, a piece of someone's word is gone forever. VoIP cannot 'redownload' lost audio like a file transfer does."
 msgstr ""
 
-#: ./../src/main.rs:748
+#: ./../src/app.rs:834 ./../src/app.rs:834
 msgid "- Outliers: These are packets that didn't go missing but took much longer than usual (more than 3 standard deviations from the mean). In a call, these cause a temporary 'freeze' or a loud 'pop' in the audio."
 msgstr ""
 
-#: ./../src/main.rs:749
+#: ./../src/app.rs:835 ./../src/app.rs:835
 msgid "- Streak: Shows how many times in a row a host has responded (S) or failed (F). Long 'F' streaks mean the connection is completely down."
 msgstr ""
 
-#: ./../src/main.rs:753
+#: ./../src/app.rs:839 ./../src/app.rs:839
 msgid "While 1% loss might be okay for browsing, for VoIP it means every 100th piece of a word is missing. Above 2-3% loss, the conversation becomes extremely difficult to understand."
 msgstr ""
 
-#: ./../src/main.rs:756
+#: ./../src/app.rs:842 ./../src/app.rs:842
 msgid "Reliable Hosts for Internet Checks"
 msgstr ""
 
-#: ./../src/main.rs:757
+#: ./../src/app.rs:843 ./../src/app.rs:843
 msgid "If you want to check if YOUR internet is working (rather than a specific service), use these stable public DNS servers:"
 msgstr ""
 
-#: ./../src/main.rs:760
+#: ./../src/app.rs:846 ./../src/app.rs:846
 msgid "- Google DNS: 8.8.8.8 or 8.8.4.4"
 msgstr ""
 
-#: ./../src/main.rs:761
+#: ./../src/app.rs:847 ./../src/app.rs:847
 msgid "- Cloudflare: 1.1.1.1 or 1.0.0.1"
 msgstr ""
 
-#: ./../src/main.rs:762
+#: ./../src/app.rs:848 ./../src/app.rs:848
 msgid "- Quad9: 9.9.9.9"
 msgstr ""
 
-#: ./../src/main.rs:765
+#: ./../src/app.rs:851 ./../src/app.rs:851
 msgid "Tip:"
 msgstr ""
 
-#: ./../src/main.rs:766
+#: ./../src/app.rs:852 ./../src/app.rs:852
 msgid "If you can ping 8.8.8.8 but cannot open 'google.com', you likely have a DNS problem, not a connection problem."
-msgstr ""
-
-#: ./../src/main.rs:797
-msgid "egui pinger"
 msgstr ""

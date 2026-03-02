@@ -1,6 +1,6 @@
 [package]
 name = "egui_pinger"
-version = "0.3.0"
+version = "0.3.1"
 edition = "2024"
 authors = ["Volodymyr M. Lisivka <vlisivka@gmail.com>"]
 description = "Simple pinger for multiple servers with graph and jitter."
@@ -20,12 +20,13 @@ wgpu = { version = "27", features = ["glsl", "angle"] }
 egui_extras = { version = "0.33", features = ["all_loaders"] }
 egui_plot = "0.34"
 
-tokio = { version = "1.38", features = ["rt-multi-thread", "macros", "time", "net"] }
+tokio = { version = "1.38", features = ["rt-multi-thread", "macros", "time", "net", "process"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 futures = "0.3"
 rand = "0.10.0"
 ping-async = "1.0.2"
+regex = "1.10"
 
 [features]
 default = []

@@ -59,9 +59,9 @@ fn make_state_with_active_host(name: &str, address: &str, rtt: f64) -> Arc<Mutex
         status.alive = true;
         status.latency = rtt;
         // Add a few samples for realistic stats
-        status.add_sample(rtt);
-        status.add_sample(rtt + 5.0);
-        status.add_sample(rtt - 3.0);
+        status.add_sample(rtt, true);
+        status.add_sample(rtt + 5.0, true);
+        status.add_sample(rtt - 3.0, true);
         s.statuses.insert(address.to_string(), status);
     }
     state
@@ -417,15 +417,15 @@ fn test_new_host_has_vpn_defaults() {
 fn test_long_ipv6_input_not_truncated() {
     let state = Arc::new(Mutex::new(AppState::default()));
     let mut app = EguiPinger::from_state(state.clone());
-    
+
     // Full IPv6 address (39 characters)
     let long_ipv6 = "2001:0db8:85a3:0000:0000:8a2e:0370:7334";
     app.input_address = long_ipv6.to_string();
-    
+
     let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
     harness.get_by_label(&tr!("Add")).click();
     harness.run();
-    
+
     let state_lock = state.lock().unwrap();
     assert_eq!(state_lock.hosts.len(), 1);
     assert_eq!(state_lock.hosts[0].address, long_ipv6);

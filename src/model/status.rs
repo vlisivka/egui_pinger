@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::collections::HashSet;
 
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 pub enum PingMode {
@@ -183,12 +184,51 @@ pub struct HostStatus {
     /// Number of responses not received
     #[serde(skip, default)]
     pub lost: u32,
+
+    // --- Traceroute & Unified Pool Fields ---
+    /// The discovered sequence of IP addresses to reach this host
+    #[serde(skip, default)]
+    pub traceroute_path: Vec<String>,
+
+    /// Whether this status entry is a transit hop (not an explicit target)
+    #[serde(skip, default)]
+    pub is_trace_hop: bool,
+
+    /// List of target addresses that pass through this node
+    #[serde(skip, default)]
+    pub dependent_targets: HashSet<String>,
+
+    /// List of targets for which this node is currently a confirmed failure point
+    #[serde(skip, default)]
+    pub failure_point_for: Vec<String>,
+
+    /// Flag indicating that we are performing high-frequency diagnostic pings on this hop
+    #[serde(skip, default)]
+    pub diagnostic_mode: bool,
+
+    /// The specific hop where the connection is currently broken (if any)
+    #[serde(skip, default)]
+    pub failure_point: Option<String>,
+
+    /// Weather we are currently running a traceroute for this host
+    #[serde(skip, default)]
+    pub tracer_in_progress: bool,
+
+    /// Timestamp of the last ping result
+    #[serde(skip, default)]
+    pub last_updated: Option<std::time::Instant>,
+
+    /// Timestamp of the last successful traceroute discovery
+    #[serde(skip, default)]
+    pub last_traceroute: Option<std::time::Instant>,
 }
 
 impl HostStatus {
     /// Adds a new RTT sample and updates statistics.
-    pub fn add_sample(&mut self, rtt_ms: f64) {
+    pub fn add_sample(&mut self, rtt_ms: f64, alive: bool) {
         self.sent += 1;
+        self.alive = alive;
+        self.last_updated = Some(std::time::Instant::now());
 
         if rtt_ms.is_nan() {
             self.lost += 1;

@@ -3,9 +3,9 @@ use super::*;
 #[test]
 fn test_add_sample_stats() {
     let mut status = HostStatus::default();
-    status.add_sample(10.0);
-    status.add_sample(20.0);
-    status.add_sample(f64::NAN);
+    status.add_sample(10.0, true);
+    status.add_sample(20.0, true);
+    status.add_sample(f64::NAN, false);
 
     assert_eq!(status.sent, 3);
     assert_eq!(status.lost, 1);
@@ -52,23 +52,23 @@ fn test_streaks() {
     let mut status = HostStatus::default();
 
     // Success streak
-    status.add_sample(10.0);
-    status.add_sample(10.0);
-    status.add_sample(10.0);
+    status.add_sample(10.0, true);
+    status.add_sample(10.0, true);
+    status.add_sample(10.0, true);
     assert_eq!(status.streak, 3);
     assert_eq!(status.streak_success, true);
 
     // Switch to fail streak
-    status.add_sample(f64::NAN);
+    status.add_sample(f64::NAN, false);
     assert_eq!(status.streak, 1);
     assert_eq!(status.streak_success, false);
 
-    status.add_sample(f64::NAN);
+    status.add_sample(f64::NAN, false);
     assert_eq!(status.streak, 2);
     assert_eq!(status.streak_success, false);
 
     // Switch back to success
-    status.add_sample(10.0);
+    status.add_sample(10.0, true);
     assert_eq!(status.streak, 1);
     assert_eq!(status.streak_success, true);
 }
@@ -78,25 +78,25 @@ fn test_outliers_detection() {
     let mut status = HostStatus::default();
     // Establish stable baseline
     for _ in 0..10 {
-        status.add_sample(10.0);
+        status.add_sample(10.0, true);
     }
     assert_eq!(status.outliers, 0);
     assert!(status.stddev < 0.1);
 
     // Add some variation to make stddev > 0.1
-    status.add_sample(11.0);
-    status.add_sample(9.0);
+    status.add_sample(11.0, true);
+    status.add_sample(9.0, true);
 
     // Threshold is mean + 3*std
     // Initially stddev=0, then we add 11.0.
     // With 10 samples of 10.0 and one 11.0, stddev is small enough that 11.0 might be an outlier.
     // Let's check status.outliers after the spike.
-    status.add_sample(100.0);
+    status.add_sample(100.0, true);
     assert!(status.outliers >= 1);
 
     let prev_outliers = status.outliers;
     // Another normal sample
-    status.add_sample(10.1);
+    status.add_sample(10.1, true);
     assert_eq!(status.outliers, prev_outliers);
 }
 
@@ -104,7 +104,7 @@ fn test_outliers_detection() {
 fn test_advanced_stats() {
     let mut status = HostStatus::default();
     for &rtt in &[10.0, 20.0, 30.0, 40.0, 50.0] {
-        status.add_sample(rtt);
+        status.add_sample(rtt, true);
     }
 
     assert_eq!(status.min_rtt, 10.0);
@@ -118,7 +118,7 @@ fn test_advanced_stats() {
 fn test_history_limit() {
     let mut status = HostStatus::default();
     for i in 0..400 {
-        status.add_sample(i as f64);
+        status.add_sample(i as f64, true);
     }
     assert_eq!(status.history.len(), 300);
     assert_eq!(status.history[0], 100.0);
@@ -208,23 +208,23 @@ fn test_hostinfo_defaults() {
 fn test_streak_calculation_complex() {
     let mut status = HostStatus::default();
 
-    status.add_sample(10.0);
+    status.add_sample(10.0, true);
     assert!(status.streak_success);
     assert_eq!(status.streak, 1);
 
-    status.add_sample(20.0);
+    status.add_sample(20.0, true);
     assert!(status.streak_success);
     assert_eq!(status.streak, 2);
 
-    status.add_sample(f64::NAN);
+    status.add_sample(f64::NAN, false);
     assert!(!status.streak_success);
     assert_eq!(status.streak, 1);
 
-    status.add_sample(f64::NAN);
+    status.add_sample(f64::NAN, false);
     assert!(!status.streak_success);
     assert_eq!(status.streak, 2);
 
-    status.add_sample(10.0);
+    status.add_sample(10.0, true);
     assert!(status.streak_success);
     assert_eq!(status.streak, 1);
 }
@@ -233,7 +233,7 @@ fn test_streak_calculation_complex() {
 fn test_large_rtt_history_and_statistics() {
     let mut status = HostStatus::default();
     for i in 1..=500 {
-        status.add_sample(i as f64);
+        status.add_sample(i as f64, true);
     }
 
     assert_eq!(status.history.len(), 300);
@@ -254,9 +254,9 @@ fn test_large_rtt_history_and_statistics() {
 fn test_all_nan_samples() {
     // Covers the early return when valid_data is empty (lines 225-228)
     let mut status = HostStatus::default();
-    status.add_sample(f64::NAN);
-    status.add_sample(f64::NAN);
-    status.add_sample(f64::NAN);
+    status.add_sample(f64::NAN, false);
+    status.add_sample(f64::NAN, false);
+    status.add_sample(f64::NAN, false);
 
     assert_eq!(status.sent, 3);
     assert_eq!(status.lost, 3);
@@ -270,7 +270,7 @@ fn test_all_nan_samples() {
 fn test_single_valid_sample() {
     // Covers the early return when valid_data.len() < 2 (lines 231-236)
     let mut status = HostStatus::default();
-    status.add_sample(42.0);
+    status.add_sample(42.0, true);
 
     assert_eq!(status.sent, 1);
     assert_eq!(status.lost, 0);
@@ -284,10 +284,10 @@ fn test_single_valid_sample() {
 fn test_single_valid_after_nans() {
     // Edge case: many NaN then one valid — valid_data has exactly 1 element
     let mut status = HostStatus::default();
-    status.add_sample(f64::NAN);
-    status.add_sample(f64::NAN);
-    status.add_sample(f64::NAN);
-    status.add_sample(50.0);
+    status.add_sample(f64::NAN, false);
+    status.add_sample(f64::NAN, false);
+    status.add_sample(f64::NAN, false);
+    status.add_sample(50.0, true);
 
     assert_eq!(status.sent, 4);
     assert_eq!(status.lost, 3);
@@ -299,13 +299,13 @@ fn test_single_valid_after_nans() {
 fn test_rtp_jitter_calculation() {
     // Verify RFC 3550 jitter calculation
     let mut status = HostStatus::default();
-    status.add_sample(100.0);
-    status.add_sample(110.0);
+    status.add_sample(100.0, true);
+    status.add_sample(110.0, true);
 
     // First jitter: D = |110 - 100| = 10.0, initial jitter = D = 10.0
     assert_eq!(status.rtp_jitter, 10.0);
 
-    status.add_sample(105.0);
+    status.add_sample(105.0, true);
     // D = |105 - 110| = 5.0
     // J = 10.0 + (5.0 - 10.0) / 16.0 = 10.0 - 0.3125 = 9.6875
     assert!((status.rtp_jitter - 9.6875).abs() < 0.001);
@@ -319,7 +319,7 @@ fn test_rtp_jitter_history_limit() {
     // Jitter history should also be capped at 300
     let mut status = HostStatus::default();
     for i in 0..400 {
-        status.add_sample((i % 50) as f64 * 10.0);
+        status.add_sample((i % 50) as f64 * 10.0, true);
     }
     assert!(status.rtp_jitter_history.len() <= 300);
 }
@@ -366,10 +366,10 @@ fn test_availability_always_percentage() {
     let mut status = HostStatus::default();
     // 5 success, 5 fail
     for _ in 0..5 {
-        status.add_sample(10.0);
+        status.add_sample(10.0, true);
     }
     for _ in 0..5 {
-        status.add_sample(f64::NAN);
+        status.add_sample(f64::NAN, false);
     }
     assert!((status.availability - 50.0).abs() < 0.01);
 }

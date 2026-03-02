@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/linux/egui_pinger.svg" width="128" height="128" alt="egui_pinger logo">
+</p>
+
 # egui_pinger
 
 A powerful network diagnostic tool with a graphical interface designed for Windows and Linux, built with Rust and egui. It is specifically optimized for detecting and diagnosing network issues that affect **IP telephony (VoIP/SIP)** quality.
@@ -6,6 +10,10 @@ A powerful network diagnostic tool with a graphical interface designed for Windo
 
 - **Multi-host Monitoring**: Periodically ping multiple servers (e.g., Google DNS, Cloudflare, and your SIP server) simultaneously.
 - **Full IPv6 Support**: Monitor both IPv4 and IPv6 addresses seamlessly.
+- **Intelligent Diagnostics**:
+  - **Traceroute (📍)**: View the full network path to any host with a single click.
+  - **Automated Breakdown Detection**: Automatically pinpoint which router in the chain is failing during a connection drop.
+  - **Unified Ping Pool**: Efficiently monitor shared network hops across multiple targets without redundant traffic.
 - **Advanced Network Analysis**:
   - **RTP Jitter (RFC 3550)**: Standard industrial jitter calculation used in VoIP.
   - **MOS (Mean Opinion Score)**: Estimated voice quality score (1.0 - 4.5).
@@ -30,8 +38,8 @@ A powerful network diagnostic tool with a graphical interface designed for Windo
 - [x] **Phase 2: Advanced Logic**: RFC 3550 Jitter, MOS Score, Outlier detection.
 - [x] **Phase 3: Privacy & VPN**: Packet padding, interval jittering, traffic masking.
 - [x] **Phase 4: UI/UX**: Drag & Drop, Sparklines, Theme support, Column customization.
-- [x] **Phase 5: I18n**: Support for English and Ukrainian (including Windows without C-dependencies).
-- [ ] **Phase 6: Native Diagnostics**: Integrated `mtr`/`traceroute` triggers on failure (In Progress).
+- [x] **Phase 5: I18n**: Support for English and Ukrainian.
+- [x] **Phase 6: Native Diagnostics**: Integrated Traceroute and automated hop-by-hop failure detection.
 
 ## Technical Stack
 

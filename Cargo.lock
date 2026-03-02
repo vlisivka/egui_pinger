@@ -1001,7 +1001,7 @@ dependencies = [
 
 [[package]]
 name = "egui_pinger"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "eframe",
  "egui_extras",
@@ -1010,6 +1010,7 @@ dependencies = [
  "futures",
  "ping-async",
  "rand 0.10.0",
+ "regex",
  "serde",
  "serde_json",
  "tokio",
@@ -3619,9 +3620,11 @@ version = "1.49.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "72a2903cd7736441aac9df9d7688bd0ce48edccaadf181c3b90be801e81d3d86"
 dependencies = [
+ "bytes",
  "libc",
  "mio",
  "pin-project-lite",
+ "signal-hook-registry",
  "socket2",
  "tokio-macros",
  "windows-sys 0.61.2",

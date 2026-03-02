@@ -92,7 +92,7 @@ fn test_jitter_has_sufficient_entropy() {
 fn test_payload_respects_configured_size() {
     let host = test_host(PingMode::Fast, 64, false);
     for _ in 0..50 {
-        let payload = generate_payload(&host);
+        let payload = generate_payload(Some(&host));
         assert_eq!(
             payload.len(),
             64,
@@ -105,12 +105,12 @@ fn test_payload_respects_configured_size() {
 fn test_payload_size_is_clamped() {
     // Too small
     let host_small = test_host(PingMode::Fast, 4, false);
-    let payload = generate_payload(&host_small);
+    let payload = generate_payload(Some(&host_small));
     assert_eq!(payload.len(), 16, "Size below 16 should be clamped to 16");
 
     // Too large
     let host_large = test_host(PingMode::Fast, 9999, false);
-    let payload = generate_payload(&host_large);
+    let payload = generate_payload(Some(&host_large));
     assert_eq!(
         payload.len(),
         1400,
@@ -121,7 +121,9 @@ fn test_payload_size_is_clamped() {
 #[test]
 fn test_random_padding_varies_size() {
     let host = test_host(PingMode::Fast, 100, true);
-    let sizes: Vec<usize> = (0..100).map(|_| generate_payload(&host).len()).collect();
+    let sizes: Vec<usize> = (0..100)
+        .map(|_| generate_payload(Some(&host)).len())
+        .collect();
     let unique: HashSet<usize> = sizes.into_iter().collect();
     // With 0-25% padding on 100 bytes, sizes range from 100 to 125
     assert!(
@@ -136,8 +138,8 @@ fn test_random_padding_varies_size() {
 #[test]
 fn test_payload_content_is_random() {
     let host = test_host(PingMode::Fast, 64, false);
-    let p1 = generate_payload(&host);
-    let p2 = generate_payload(&host);
+    let p1 = generate_payload(Some(&host));
+    let p2 = generate_payload(Some(&host));
     // Two truly random payloads of 64 bytes should differ
     assert_ne!(p1, p2, "Consecutive payloads should not be identical");
 }
@@ -146,7 +148,7 @@ fn test_payload_content_is_random() {
 fn test_payload_bytes_not_constant() {
     // Verify that all bytes are not the same value (not filled with e.g. 42 or 0)
     let host = test_host(PingMode::Fast, 256, false);
-    let payload = generate_payload(&host);
+    let payload = generate_payload(Some(&host));
     let unique_bytes: HashSet<u8> = payload.iter().copied().collect();
     // 256 random bytes should have many distinct values
     assert!(
@@ -160,7 +162,7 @@ fn test_payload_bytes_not_constant() {
 fn test_no_padding_keeps_exact_size() {
     let host = test_host(PingMode::Fast, 200, false);
     for _ in 0..100 {
-        let payload = generate_payload(&host);
+        let payload = generate_payload(Some(&host));
         assert_eq!(
             payload.len(),
             200,
@@ -194,17 +196,17 @@ async fn test_ipv6_bracketed_resolution() {
     // This is where it might fail if we don't bracket IPv6
     // address.parse::<IpAddr>() fails for "[::1]"
     let address = "[::1]";
-    
+
     let clean_address = if address.starts_with('[') && address.ends_with(']') {
         &address[1..address.len() - 1]
     } else {
         &address
     };
-    
+
     let ip = clean_address.parse::<IpAddr>();
     assert!(ip.is_ok());
     assert_eq!(ip.unwrap(), "::1".parse::<IpAddr>().unwrap());
-    
+
     // Test the fallback logic in pinger_task
     let lookup_str = format!("{}:0", address);
     let res = tokio::net::lookup_host(&lookup_str).await;
@@ -216,7 +218,7 @@ async fn test_ipv6_long_address_parsing() {
     // Full IPv6 address (39 characters)
     let address = "2001:0db8:85a3:0000:0000:8a2e:0370:7334";
     assert!(address.parse::<IpAddr>().is_ok());
-    
+
     // Bracketed short IPv6
     let address2 = "[2001:db8::1]";
     let clean = if address2.starts_with('[') && address2.ends_with(']') {
