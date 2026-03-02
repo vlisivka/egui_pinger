@@ -78,8 +78,10 @@ pub async fn pinger_task(state: SharedState) {
                         }
                         None => true,
                     };
-                    if overdue {
+                    let forced = status.manual_trace_requested;
+                    if overdue || forced {
                         status.tracer_in_progress = true;
+                        status.manual_trace_requested = false;
                         needing_trace.push(address);
                     }
                 }
@@ -97,13 +99,29 @@ pub async fn pinger_task(state: SharedState) {
                 let mut state_lock = state_c.lock().expect("Failed to lock state after trace");
 
                 if let Some(status) = state_lock.statuses.get_mut(&addr_c) {
-                    // Do not discard a successfully obtained full trace when searching for failure points (while offline).
-                    // Empty `hops` means traceroute failed, don't overwrite either.
-                    if !hops.is_empty()
-                        && (status.alive
-                            || status.traceroute_path.is_empty()
-                            || hops.len() >= status.traceroute_path.len())
-                    {
+                    // Refined update logic:
+                    // 1. Never overwrite with an empty path.
+                    // 2. If the new path is more complete (last hop is the target), always take it.
+                    // 3. Otherwise, only take it if it's longer or we don't have a path yet.
+                    // 4. This prevents flickering and losing path info when internet is flaky.
+                    let new_reaches_target = hops.last().map(|h| h == &addr_c).unwrap_or(false);
+                    let old_reaches_target = status
+                        .traceroute_path
+                        .last()
+                        .map(|h| h == &addr_c)
+                        .unwrap_or(false);
+
+                    let should_update = !hops.is_empty()
+                        && (status.traceroute_path.is_empty()
+                            || (new_reaches_target
+                                && (!old_reaches_target
+                                    || hops.len() >= status.traceroute_path.len()))
+                            || (!new_reaches_target
+                                && !old_reaches_target
+                                && hops.len() >= status.traceroute_path.len())
+                            || (status.alive && new_reaches_target));
+
+                    if should_update {
                         status.traceroute_path = hops.clone();
                     }
                     status.last_traceroute = Some(Instant::now());

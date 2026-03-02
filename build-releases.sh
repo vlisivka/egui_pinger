@@ -26,7 +26,7 @@ mkdir -p "$RELEASES_DIR" || panic "Cannot create \"$RELEASES_DIR\" directory."
 ARCHES=(
   x86_64-unknown-linux-gnu
   x86_64-pc-windows-msvc
-  aarch64-unknown-linux-gnu
+#  aarch64-unknown-linux-gnu
 )
 
 for TARGET in "${ARCHES[@]}"

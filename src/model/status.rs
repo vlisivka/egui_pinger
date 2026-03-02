@@ -214,6 +214,10 @@ pub struct HostStatus {
     #[serde(skip, default)]
     pub tracer_in_progress: bool,
 
+    /// Manual request to rerun traceroute
+    #[serde(skip, default)]
+    pub manual_trace_requested: bool,
+
     /// Timestamp of the last ping result
     #[serde(skip, default)]
     pub last_updated: Option<std::time::Instant>,

@@ -732,9 +732,21 @@ impl EguiPinger {
                             .default_width(400.0)
                             .show(ctx, |ui| {
                                 egui::ScrollArea::vertical().show(ui, |ui| {
-                                    let state = self.state.lock().unwrap();
+                                    let mut state = self.state.lock().unwrap();
+                                    if let Some(status) = state.statuses.get_mut(addr) {
+                                        ui.horizontal(|ui| {
+                                            ui.heading(tr!("Path to target:"));
+                                            ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
+                                                if ui.button("🔄").on_hover_text(tr!("Refresh")).clicked() {
+                                                    status.manual_trace_requested = true;
+                                                }
+                                            });
+                                        });
+                                    }
+
+                                    // Now re-borrow immutably for the rest
+                                    let state = state; // Downgrade to immutable if needed, or just use as is
                                     if let Some(status) = state.statuses.get(addr) {
-                                        ui.heading(tr!("Path to target:"));
                                         if status.traceroute_path.is_empty() {
                                             ui.label(tr!("Discovering route..."));
                                         } else {
