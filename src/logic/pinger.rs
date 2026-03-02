@@ -1,8 +1,9 @@
 use crate::logic::tracer::run_traceroute;
-use crate::model::{AppState, HostInfo, PingMode};
+use crate::model::{AppState, HostInfo, LogEntry, PingMode};
 use ping_async::{IcmpEchoRequestor, IcmpEchoStatus};
 use rand::RngExt;
 use std::collections::HashMap;
+use std::io::Write;
 use std::net::IpAddr;
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
@@ -122,6 +123,14 @@ pub async fn pinger_task(state: SharedState) {
                             || (status.alive && new_reaches_target));
 
                     if should_update {
+                        let now_ts = chrono::Utc::now().timestamp() as u64;
+                        status.events.push_back(LogEntry::RouteUpdate {
+                            timestamp: now_ts,
+                            path: hops.clone(),
+                        });
+                        if status.events.len() > 100_000 {
+                            status.events.pop_front();
+                        }
                         status.traceroute_path = hops.clone();
                     }
                     status.last_traceroute = Some(Instant::now());
@@ -130,9 +139,10 @@ pub async fn pinger_task(state: SharedState) {
 
                 // Add all discovered hops to the global ping pool (statuses)
                 for hop_addr in hops {
+                    let normalized_hop = hop_addr.trim().to_lowercase();
                     state_lock
                         .statuses
-                        .entry(hop_addr.clone())
+                        .entry(normalized_hop)
                         .or_insert_with(|| {
                             let mut s = crate::model::HostStatus::default();
                             s.is_trace_hop = true;
@@ -215,8 +225,20 @@ pub async fn pinger_task(state: SharedState) {
 
                     // If the new mode's interval is shorter than the remaining wait time,
                     // jump the queue and ping now/soon, rather than waiting the full Slow interval.
-                    // This handles switching from Slow to Fast correctly.
-                    if now + interval < *next {
+                    // This handles switching from Slow to Fast correctly without race conditions.
+                    let max_wait = Duration::from_secs(
+                        match mode {
+                            PingMode::VeryFast => 1,
+                            PingMode::Fast => 2,
+                            PingMode::NotFast => 5,
+                            PingMode::Normal => 10,
+                            PingMode::NotSlow => 30,
+                            PingMode::Slow => 60,
+                            PingMode::VerySlow => 300,
+                        } + 2,
+                    );
+
+                    if now + max_wait < *next {
                         *next = now;
                     }
 
@@ -415,6 +437,91 @@ pub async fn pinger_task(state: SharedState) {
                         .expect("Failed to lock state for updating status");
                     if let Some(status) = state_lock.statuses.get_mut(&address) {
                         status.add_sample(rtt_ms, alive);
+
+                        let now_ts = chrono::Utc::now().timestamp() as u64;
+                        let mut extra_events: Vec<LogEntry> = Vec::new();
+
+                        // 1. Log the ping result
+                        let entry = LogEntry::Ping {
+                            timestamp: now_ts,
+                            seq: status.sent,
+                            rtt: if alive { Some(rtt_ms as f32) } else { None },
+                            bytes: host_info
+                                .as_ref()
+                                .map(|h| h.packet_size as u16)
+                                .unwrap_or(16),
+                        };
+                        status.events.push_back(entry.clone());
+
+                        // 2. Incident Detection (Loss/Restoration)
+                        if !alive && status.streak == 3 && status.incident_start.is_none() {
+                            // Just became "down" officially after 3 failures
+                            status.incident_start = Some(now_ts);
+                            let ev = LogEntry::Incident {
+                                timestamp: now_ts,
+                                is_break: true,
+                                streak: status.streak,
+                                downtime_sec: None,
+                                node: status.failure_point.clone(),
+                            };
+                            status.events.push_back(ev.clone());
+                            extra_events.push(ev);
+                        } else if alive && status.incident_start.is_some() {
+                            // Just restored from being officially "down"
+                            let downtime = status.incident_start.map(|s| now_ts.saturating_sub(s));
+                            let ev = LogEntry::Incident {
+                                timestamp: now_ts,
+                                is_break: false,
+                                streak: status.streak,
+                                downtime_sec: downtime,
+                                node: None,
+                            };
+                            status.events.push_back(ev.clone());
+                            extra_events.push(ev);
+                            status.incident_start = None;
+                        }
+                        status.prev_alive = Some(alive);
+
+                        // 3. Statistics every 300 pings
+                        status.log_pings_since_stats += 1;
+                        if status.log_pings_since_stats >= 300 {
+                            let entry = LogEntry::Statistics {
+                                timestamp: now_ts,
+                                mean: status.mean as f32,
+                                median: status.median as f32,
+                                p95: status.p95 as f32,
+                                jitter: status.rtp_jitter as f32,
+                                mos: status.mos as f32,
+                                loss: (status.lost as f32 / status.sent as f32) * 100.0,
+                                sent: status.sent,
+                                lost: status.lost,
+                            };
+                            status.events.push_back(entry.clone());
+                            extra_events.push(entry);
+                            status.log_pings_since_stats = 0;
+                        }
+
+                        // Cap buffer size
+                        while status.events.len() > 100_000 {
+                            status.events.pop_front();
+                        }
+
+                        // 4. File Logging
+                        if let Some(h) = host_info {
+                            if h.log_to_file && !h.log_file_path.is_empty() {
+                                let line = entry.format(&address);
+                                if let Ok(mut file) = std::fs::OpenOptions::new()
+                                    .create(true)
+                                    .append(true)
+                                    .open(&h.log_file_path)
+                                {
+                                    let _ = writeln!(file, "{}", line);
+                                    for ev in extra_events {
+                                        let _ = writeln!(file, "{}", ev.format(&address));
+                                    }
+                                }
+                            }
+                        }
                     }
                 } else {
                     let mut state_lock = state
@@ -422,6 +529,56 @@ pub async fn pinger_task(state: SharedState) {
                         .expect("Failed to lock state for updating status");
                     if let Some(status) = state_lock.statuses.get_mut(&address) {
                         status.add_sample(f64::NAN, false);
+
+                        let now_ts = chrono::Utc::now().timestamp() as u64;
+                        let (ping_entry, incident_entry) = {
+                            let pe = LogEntry::Ping {
+                                timestamp: now_ts,
+                                seq: status.sent,
+                                rtt: None,
+                                bytes: host_info
+                                    .as_ref()
+                                    .map(|h| h.packet_size as u16)
+                                    .unwrap_or(16),
+                            };
+                            status.events.push_back(pe.clone());
+
+                            // Incident detection for unresolved/unpingable
+                            let mut ie = None;
+                            if status.streak == 3 && status.incident_start.is_none() {
+                                status.incident_start = Some(now_ts);
+                                let e = LogEntry::Incident {
+                                    timestamp: now_ts,
+                                    is_break: true,
+                                    streak: status.streak,
+                                    downtime_sec: None,
+                                    node: status.failure_point.clone(),
+                                };
+                                status.events.push_back(e.clone());
+                                ie = Some(e);
+                            }
+                            status.prev_alive = Some(false);
+                            (pe, ie)
+                        };
+
+                        while status.events.len() > 100_000 {
+                            status.events.pop_front();
+                        }
+
+                        if let Some(h) = host_info {
+                            if h.log_to_file && !h.log_file_path.is_empty() {
+                                if let Ok(mut file) = std::fs::OpenOptions::new()
+                                    .create(true)
+                                    .append(true)
+                                    .open(&h.log_file_path)
+                                {
+                                    let _ = writeln!(file, "{}", ping_entry.format(&address));
+                                    if let Some(ie) = incident_entry {
+                                        let _ = writeln!(file, "{}", ie.format(&address));
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             });

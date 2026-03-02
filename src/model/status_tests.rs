@@ -134,6 +134,8 @@ fn test_hostinfo_is_local() {
         display: DisplaySettings::default(),
         packet_size: 16,
         random_padding: false,
+        log_to_file: false,
+        log_file_path: String::new(),
     };
     assert!(h.is_local(), "127.0.0.1 should be local");
 
@@ -199,6 +201,8 @@ fn test_hostinfo_defaults() {
         display: DisplaySettings::default(),
         packet_size: default_packet_size(),
         random_padding: false,
+        log_to_file: false,
+        log_file_path: String::new(),
     };
     assert_eq!(h.mode, PingMode::Fast);
     assert_eq!(h.packet_size, 16);
@@ -383,6 +387,8 @@ fn test_hostinfo_serde_roundtrip() {
         display: DisplaySettings::default(),
         packet_size: 128,
         random_padding: true,
+        log_to_file: false,
+        log_file_path: String::new(),
     };
 
     let json = serde_json::to_string(&host).unwrap();
@@ -418,6 +424,8 @@ fn test_appstate_serde_roundtrip() {
         display: DisplaySettings::default(),
         packet_size: 64,
         random_padding: true,
+        log_to_file: false,
+        log_file_path: String::new(),
     });
     state.hosts.push(HostInfo {
         name: "Router".to_string(),
@@ -426,6 +434,8 @@ fn test_appstate_serde_roundtrip() {
         display: DisplaySettings::default(),
         packet_size: 16,
         random_padding: false,
+        log_to_file: false,
+        log_file_path: String::new(),
     });
 
     let json = serde_json::to_string_pretty(&state).unwrap();
@@ -455,5 +465,25 @@ fn test_ping_mode_all_variants() {
         let json = serde_json::to_string(&mode).unwrap();
         let restored: PingMode = serde_json::from_str(&json).unwrap();
         assert_eq!(mode, restored, "PingMode roundtrip failed for {:?}", mode);
+    }
+}
+
+#[test]
+fn test_event_log_limit() {
+    let mut status = HostStatus::default();
+    for i in 0..100_005 {
+        status.events.push_back(LogEntry::Ping {
+            timestamp: i,
+            seq: i as u32,
+            rtt: Some(10.0),
+            bytes: 16,
+        });
+        if status.events.len() > 100_000 {
+            status.events.pop_front();
+        }
+    }
+    assert_eq!(status.events.len(), 100_000);
+    if let Some(LogEntry::Ping { timestamp, .. }) = status.events.front() {
+        assert_eq!(*timestamp, 5);
     }
 }

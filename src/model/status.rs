@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
-use std::collections::HashSet;
+use std::collections::{HashSet, VecDeque};
+use tr::tr;
 
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 pub enum PingMode {
@@ -10,6 +11,158 @@ pub enum PingMode {
     NotSlow,  // 30s
     Slow,     // 1m
     VerySlow, // 5m
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum LogEntry {
+    /// Successful ping or timeout
+    Ping {
+        timestamp: u64,
+        seq: u32,
+        rtt: Option<f32>, // None = Timeout
+        bytes: u16,
+    },
+    /// Periodic statistics
+    Statistics {
+        timestamp: u64,
+        mean: f32,
+        median: f32,
+        p95: f32,
+        jitter: f32,
+        mos: f32,
+        loss: f32,
+        sent: u32,
+        lost: u32,
+    },
+    /// Route update
+    RouteUpdate { timestamp: u64, path: Vec<String> },
+    /// Incident (Loss/Restoration)
+    Incident {
+        timestamp: u64,
+        is_break: bool, // true = loss, false = restoration
+        streak: u32,    // number of packets in current state
+        downtime_sec: Option<u64>,
+        node: Option<String>,
+    },
+}
+
+impl LogEntry {
+    pub fn format(&self, address: &str) -> String {
+        let ts = if let Some(dt) = chrono::DateTime::from_timestamp(self.timestamp() as i64, 0) {
+            let local_dt: chrono::DateTime<chrono::Local> = dt.into();
+            local_dt.format("%Y-%m-%d %H:%M:%S").to_string()
+        } else {
+            "????-??-?? ??:??:??".to_string()
+        };
+
+        match self {
+            LogEntry::Ping {
+                seq, rtt, bytes, ..
+            } => {
+                if let Some(rtt_val) = rtt {
+                    format!(
+                        "[{}] {} {} {}: icmp_seq={} {}={:.1} {}",
+                        ts,
+                        bytes,
+                        tr!("bytes from"),
+                        address,
+                        seq,
+                        tr!("time"),
+                        rtt_val,
+                        tr!("ms")
+                    )
+                } else {
+                    format!("[{}] {} icmp_seq={}", ts, tr!("Request timeout for"), seq)
+                }
+            }
+            LogEntry::Statistics {
+                mean,
+                median,
+                p95,
+                jitter,
+                mos,
+                loss,
+                sent,
+                lost,
+                ..
+            } => {
+                format!(
+                    "# [{}] {}: {}={:.1}{} {}={:.1}{} 95%={:.1}{} J={:.1}{} MOS={:.1} {}:{:.1}% ({}/{})",
+                    ts,
+                    tr!("Statistics"),
+                    tr!("M"),
+                    mean,
+                    tr!("ms"),
+                    tr!("Med"),
+                    median,
+                    tr!("ms"),
+                    p95,
+                    tr!("ms"),
+                    jitter,
+                    tr!("ms"),
+                    mos,
+                    tr!("L"),
+                    loss,
+                    lost,
+                    sent
+                )
+            }
+            LogEntry::RouteUpdate { path, .. } => {
+                format!("% [{}] {}: {}", ts, tr!("Route updated"), path.join(" → "))
+            }
+            LogEntry::Incident {
+                is_break,
+                streak,
+                downtime_sec,
+                node,
+                ..
+            } => {
+                if *is_break {
+                    if let Some(n) = node {
+                        let translated_node = if n == "Local Interface" {
+                            tr!("Local Interface").to_string()
+                        } else {
+                            n.clone()
+                        };
+                        format!(
+                            "! [{}] {} ({})",
+                            ts,
+                            tr!("Connectivity lost at {node}").replace("{node}", &translated_node),
+                            tr!("{n} requests without answer").replace("{n}", &streak.to_string())
+                        )
+                    } else {
+                        format!(
+                            "! [{}] {} ({})",
+                            ts,
+                            tr!("Connectivity lost"),
+                            tr!("{n} requests without answer").replace("{n}", &streak.to_string())
+                        )
+                    }
+                } else {
+                    let downtime_str = if let Some(d) = downtime_sec {
+                        format!(" ({}={}{} )", tr!("downtime"), d, tr!("s"))
+                    } else {
+                        "".to_string()
+                    };
+                    format!(
+                        "! [{}] {}{}",
+                        ts,
+                        tr!("Connectivity restored"),
+                        downtime_str
+                    )
+                }
+            }
+        }
+    }
+
+    pub fn timestamp(&self) -> u64 {
+        match self {
+            LogEntry::Ping { timestamp, .. } => *timestamp,
+            LogEntry::Statistics { timestamp, .. } => *timestamp,
+            LogEntry::RouteUpdate { timestamp, .. } => *timestamp,
+            LogEntry::Incident { timestamp, .. } => *timestamp,
+        }
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -78,6 +231,32 @@ impl Default for DisplaySettings {
     }
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub struct LogFilter {
+    #[serde(default = "default_true")]
+    pub show_pings: bool,
+    #[serde(default = "default_true")]
+    pub show_timeouts: bool,
+    #[serde(default = "default_true")]
+    pub show_stats: bool,
+    #[serde(default = "default_true")]
+    pub show_route: bool,
+    #[serde(default = "default_true")]
+    pub show_incidents: bool,
+}
+
+impl Default for LogFilter {
+    fn default() -> Self {
+        Self {
+            show_pings: true,
+            show_timeouts: true,
+            show_stats: true,
+            show_route: true,
+            show_incidents: true,
+        }
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct HostInfo {
     pub name: String,
@@ -90,6 +269,10 @@ pub struct HostInfo {
     pub packet_size: usize,
     #[serde(default = "default_false")]
     pub random_padding: bool,
+    #[serde(default = "default_false")]
+    pub log_to_file: bool,
+    #[serde(default)]
+    pub log_file_path: String,
 }
 
 fn default_ping_mode() -> PingMode {
@@ -225,6 +408,22 @@ pub struct HostStatus {
     /// Timestamp of the last successful traceroute discovery
     #[serde(skip, default)]
     pub last_traceroute: Option<std::time::Instant>,
+
+    /// Typed event log (up to 100,000 events)
+    #[serde(skip, default)]
+    pub events: VecDeque<LogEntry>,
+
+    /// Previous alive state for incident detection
+    #[serde(skip, default)]
+    pub prev_alive: Option<bool>,
+
+    /// Timestamp of the start of the current incident
+    #[serde(skip, default)]
+    pub incident_start: Option<u64>,
+
+    /// Counter of pings since last statistics entry in log
+    #[serde(skip, default)]
+    pub log_pings_since_stats: u32,
 }
 
 impl HostStatus {

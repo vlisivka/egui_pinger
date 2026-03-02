@@ -3,6 +3,7 @@ use crate::model::{AppState, DisplaySettings, HostInfo, HostStatus, PingMode};
 use eframe::egui;
 use eframe::egui::{Color32, RichText};
 use egui_plot::{Bar, BarChart, HLine, Plot};
+use std::io::Write;
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 use tr::tr;
@@ -26,6 +27,7 @@ pub struct EguiPinger {
     pub(crate) help_window_open: bool,
     pub(crate) selected_help_tab: HelpTab,
     pub(crate) viewing_route: Option<String>,
+    pub viewing_log: Option<String>,
 }
 
 /// Helper for application-specific colors adapted for light/dark themes.
@@ -143,6 +145,7 @@ impl EguiPinger {
             help_window_open: false,
             selected_help_tab: HelpTab::default(),
             viewing_route: None,
+            viewing_log: None,
         }
     }
 
@@ -156,6 +159,7 @@ impl EguiPinger {
             help_window_open: false,
             selected_help_tab: HelpTab::default(),
             viewing_route: None,
+            viewing_log: None,
         }
     }
 
@@ -191,7 +195,7 @@ impl EguiPinger {
                             && !self.input_address.trim().is_empty()
                         {
                             let name = self.input_name.trim().to_string();
-                            let address = self.input_address.trim().to_string();
+                            let address = self.input_address.trim().to_lowercase();
 
                             let mut state = self.state.lock().unwrap();
                             if !state.hosts.iter().any(|h| h.address == address) {
@@ -205,6 +209,8 @@ impl EguiPinger {
                                     display: DisplaySettings::default(),
                                     packet_size: 16,
                                     random_padding: false,
+                                    log_to_file: false,
+                                    log_file_path: String::new(),
                                 };
                                 if host_info.is_local() {
                                     host_info.mode = PingMode::Fast;
@@ -412,6 +418,9 @@ impl EguiPinger {
                                     }
                                     if ui.button("📍").clicked() {
                                         self.viewing_route = Some(host_info.address.clone());
+                                    }
+                                    if ui.button("📋").on_hover_text(tr!("View Log")).clicked() {
+                                        self.viewing_log = Some(host_info.address.clone());
                                     }
 
                                     // Графік — тоненькі стовпчики зеленого (для <100 мс), жовтого (для >100 мс ),
@@ -875,6 +884,193 @@ impl EguiPinger {
                             });
                         if !open_var || (window_res.is_some() && window_res.unwrap().inner == Some(true)) {
                             self.help_window_open = false;
+                        }
+                    }
+
+                    // --- Log Window ---
+                    if let Some(ref addr) = self.viewing_log.clone() {
+                        // Initialize default log path if empty (safe to lock here, outside the main loop lock)
+                        {
+                            let mut state = self.state.lock().unwrap();
+                            if let Some(h) = state.hosts.iter_mut().find(|h| h.address == *addr) {
+                                if h.log_file_path.is_empty() {
+                                    let safe_addr = h.address.replace(['.', ':', '/', '[', ']'], "_");
+                                    if let Some(home) = dirs::home_dir() {
+                                        h.log_file_path = home.join(format!("{}.log", safe_addr)).to_string_lossy().to_string();
+                                    }
+                                }
+                            }
+                        }
+
+                        let mut open = true;
+                        egui::Window::new(format!("{} - {}", tr!("Log"), addr))
+                            .open(&mut open)
+                            .resizable(true)
+                            .default_width(600.0)
+                            .default_height(400.0)
+                            .show(ctx, |ui| {
+                                let mut state = self.state.lock().unwrap();
+
+                                // 1. Logging Controls
+                                ui.horizontal(|ui| {
+                                    if let Some(h) = state.hosts.iter_mut().find(|h| h.address == *addr) {
+                                        let was_logging = h.log_to_file;
+                                        ui.checkbox(&mut h.log_to_file, tr!("Append log to file"));
+                                        ui.add_enabled(h.log_to_file, egui::TextEdit::singleline(&mut h.log_file_path).hint_text(tr!("Log file path")).desired_width(300.0));
+
+                                        // Start/Stop markers
+                                        if h.log_to_file && !was_logging && !h.log_file_path.is_empty() {
+                                            if let Ok(mut file) = std::fs::OpenOptions::new().create(true).append(true).open(&h.log_file_path) {
+                                                let ts = chrono::Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
+                                                let _ = writeln!(file, "=== {}: {} ===", tr!("Log started at"), ts);
+                                            }
+                                        } else if !h.log_to_file && was_logging && !h.log_file_path.is_empty() {
+                                            if let Ok(mut file) = std::fs::OpenOptions::new().create(true).append(true).open(&h.log_file_path) {
+                                                let ts = chrono::Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
+                                                let _ = writeln!(file, "=== {}: {} ===", tr!("Log ended at"), ts);
+                                            }
+                                        }
+                                    }
+                                });
+
+                                ui.separator();
+
+                                // 2. Filters
+                                ui.horizontal(|ui| {
+                                    ui.label(format!("{}:", tr!("Filters")));
+                                    ui.checkbox(&mut state.log_filter.show_pings, tr!("Pings"));
+                                    ui.checkbox(&mut state.log_filter.show_timeouts, tr!("Timeouts"));
+                                    ui.checkbox(&mut state.log_filter.show_stats, tr!("Statistics"));
+                                    ui.checkbox(&mut state.log_filter.show_route, tr!("Traceroute"));
+                                    ui.checkbox(&mut state.log_filter.show_incidents, tr!("Incidents"));
+                                });
+
+                                ui.separator();
+
+                                // 3. The Log View
+                                if let Some(status) = state.statuses.get(addr) {
+                                    use crate::model::LogEntry;
+
+                                    let row_height = ui.text_style_height(&egui::TextStyle::Monospace);
+                                    let total_events = status.events.len();
+
+                                    // Limit UI view to the last 10,000 events for performance.
+                                    // 100,000 events in a single UI list is too much for immediate filtering/rendering.
+                                    let max_ui_events = 10000;
+                                    let start_idx = total_events.saturating_sub(max_ui_events);
+
+                                    let all_on = state.log_filter.show_pings
+                                        && state.log_filter.show_timeouts
+                                        && state.log_filter.show_stats
+                                        && state.log_filter.show_route
+                                        && state.log_filter.show_incidents;
+
+                                    if all_on {
+                                        let view_count = total_events - start_idx;
+                                        egui::ScrollArea::vertical()
+                                            .stick_to_bottom(true)
+                                            .show_rows(ui, row_height, view_count, |ui, range| {
+                                                for i in range {
+                                                    if let Some(entry) =
+                                                        status.events.get(start_idx + i)
+                                                    {
+                                                        let text = entry.format(addr);
+                                                        let color = match entry {
+                                                            LogEntry::Ping { rtt: None, .. } => {
+                                                                Color32::from_rgb(230, 159, 0)
+                                                            }
+                                                            LogEntry::Incident {
+                                                                is_break: true,
+                                                                ..
+                                                            } => Color32::from_rgb(213, 94, 0),
+                                                            LogEntry::Incident {
+                                                                is_break: false,
+                                                                ..
+                                                            } => Color32::from_rgb(0, 158, 115),
+                                                            LogEntry::Statistics { .. } => {
+                                                                Color32::from_rgb(0, 158, 115)
+                                                            }
+                                                            LogEntry::RouteUpdate { .. } => {
+                                                                Color32::from_rgb(0, 114, 178)
+                                                            }
+                                                            _ => visuals.latency_color(0.1),
+                                                        };
+                                                        ui.label(
+                                                            RichText::new(text)
+                                                                .monospace()
+                                                                .color(color),
+                                                        );
+                                                    }
+                                                }
+                                            });
+                                    } else {
+                                        // Filtering active: collect only necessary references from the recent range
+                                        let filtered: Vec<&LogEntry> = status
+                                            .events
+                                            .range(start_idx..)
+                                            .filter(|e| match e {
+                                                LogEntry::Ping { rtt, .. } => {
+                                                    if rtt.is_some() {
+                                                        state.log_filter.show_pings
+                                                    } else {
+                                                        state.log_filter.show_timeouts
+                                                    }
+                                                }
+                                                LogEntry::Statistics { .. } => {
+                                                    state.log_filter.show_stats
+                                                }
+                                                LogEntry::RouteUpdate { .. } => {
+                                                    state.log_filter.show_route
+                                                }
+                                                LogEntry::Incident { .. } => {
+                                                    state.log_filter.show_incidents
+                                                }
+                                            })
+                                            .collect();
+
+                                        egui::ScrollArea::vertical()
+                                            .stick_to_bottom(true)
+                                            .show_rows(
+                                                ui,
+                                                row_height,
+                                                filtered.len(),
+                                                |ui, range| {
+                                                    for i in range {
+                                                        let entry = filtered[i];
+                                                        let text = entry.format(addr);
+                                                        let color = match entry {
+                                                            LogEntry::Ping { rtt: None, .. } => {
+                                                                Color32::from_rgb(230, 159, 0)
+                                                            }
+                                                            LogEntry::Incident {
+                                                                is_break: true,
+                                                                ..
+                                                            } => Color32::from_rgb(213, 94, 0),
+                                                            LogEntry::Incident {
+                                                                is_break: false,
+                                                                ..
+                                                            } => Color32::from_rgb(0, 158, 115),
+                                                            LogEntry::Statistics { .. } => {
+                                                                Color32::from_rgb(0, 158, 115)
+                                                            }
+                                                            LogEntry::RouteUpdate { .. } => {
+                                                                Color32::from_rgb(0, 114, 178)
+                                                            }
+                                                            _ => visuals.latency_color(0.1),
+                                                        };
+                                                        ui.label(
+                                                            RichText::new(text)
+                                                                .monospace()
+                                                                .color(color),
+                                                        );
+                                                    }
+                                                },
+                                            );
+                                    }
+                                }
+                            });
+                        if !open {
+                            self.viewing_log = None;
                         }
                     }
                 })

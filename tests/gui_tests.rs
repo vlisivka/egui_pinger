@@ -19,6 +19,8 @@ fn make_state_with_host(name: &str, address: &str, mode: PingMode) -> (Arc<Mutex
             display: DisplaySettings::default(),
             packet_size: 16,
             random_padding: false,
+            log_to_file: false,
+            log_file_path: String::new(),
         });
         s.statuses
             .insert(address.to_string(), HostStatus::default());
@@ -54,6 +56,8 @@ fn make_state_with_active_host(name: &str, address: &str, rtt: f64) -> Arc<Mutex
             },
             packet_size: 64,
             random_padding: true,
+            log_to_file: false,
+            log_file_path: String::new(),
         });
         let mut status = HostStatus::default();
         status.alive = true;
@@ -133,6 +137,8 @@ fn test_status_display_updates() {
             display: DisplaySettings::default(),
             packet_size: 16,
             random_padding: false,
+            log_to_file: false,
+            log_file_path: String::new(),
         });
         let mut status = HostStatus::default();
         status.alive = true;
@@ -429,4 +435,113 @@ fn test_long_ipv6_input_not_truncated() {
     let state_lock = state.lock().unwrap();
     assert_eq!(state_lock.hosts.len(), 1);
     assert_eq!(state_lock.hosts[0].address, long_ipv6);
+}
+
+// === Log Viewer tests ===
+
+#[test]
+fn test_log_viewer_button_does_not_deadlock() {
+    use std::sync::atomic::{AtomicBool, Ordering};
+
+    let done = Arc::new(AtomicBool::new(false));
+    let done_c = done.clone();
+
+    // Watchdog thread: if the test isn't done in 5 seconds, it's a deadlock
+    let watchdog = std::thread::spawn(move || {
+        std::thread::sleep(std::time::Duration::from_secs(5));
+        if !done_c.load(Ordering::SeqCst) {
+            eprintln!("DEADLOCK DETECTED: test_log_viewer_button_does_not_deadlock hung for >5s");
+            std::process::exit(1);
+        }
+    });
+
+    let (state, _) = make_state_with_host("Google", "8.8.8.8", PingMode::Fast);
+    let mut app = EguiPinger::from_state(state.clone());
+
+    {
+        let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
+        harness.set_size(egui::vec2(1200.0, 800.0));
+        harness.run();
+
+        // Click the log viewer button (📋)
+        harness.get_by_label("📋").click();
+        harness.run();
+    }
+    // Harness dropped, `app` is no longer borrowed mutably
+
+    // If we get here, no deadlock occurred
+    assert!(
+        app.viewing_log.is_some(),
+        "Log viewer should be open after clicking the button"
+    );
+
+    done.store(true, Ordering::SeqCst);
+    let _ = watchdog.join();
+}
+
+#[test]
+fn test_log_viewer_renders_entries() {
+    let (state, _) = make_state_with_host("Google", "8.8.8.8", PingMode::Fast);
+
+    // Add some log entries
+    {
+        let mut s = state.lock().unwrap();
+        let status = s.statuses.get_mut("8.8.8.8").unwrap();
+        let now_ts = 1700000000u64;
+        for i in 0..10 {
+            status.events.push_back(LogEntry::Ping {
+                timestamp: now_ts + i,
+                seq: i as u32,
+                rtt: Some(10.0 + i as f32),
+                bytes: 64,
+            });
+        }
+    }
+
+    let mut app = EguiPinger::from_state(state.clone());
+    app.viewing_log = Some("8.8.8.8".to_string());
+
+    {
+        let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
+        harness.set_size(egui::vec2(1200.0, 800.0));
+        // Just run it twice to make sure rendering doesn't crash/hang
+        harness.run();
+        harness.run();
+    }
+
+    // Verify that entries are still in the state
+    let s = state.lock().unwrap();
+    assert_eq!(s.statuses.get("8.8.8.8").unwrap().events.len(), 10);
+}
+
+#[test]
+fn test_log_viewer_default_path_initialized() {
+    let (state, _) = make_state_with_host("Google", "8.8.8.8", PingMode::Fast);
+    let mut app = EguiPinger::from_state(state.clone());
+
+    {
+        let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
+        harness.set_size(egui::vec2(1200.0, 800.0));
+        harness.run();
+
+        // Click log button
+        harness.get_by_label("📋").click();
+        harness.run();
+
+        // Run once more so the log window code executes (which initializes the path)
+        harness.run();
+    }
+
+    // Verify that log_file_path has been set automatically
+    let s = state.lock().unwrap();
+    let host = s.hosts.iter().find(|h| h.address == "8.8.8.8").unwrap();
+    assert!(
+        !host.log_file_path.is_empty(),
+        "Log file path should be automatically initialized when log viewer is opened"
+    );
+    assert!(
+        host.log_file_path.ends_with(".log"),
+        "Log file path should end with .log, got: {}",
+        host.log_file_path
+    );
 }
