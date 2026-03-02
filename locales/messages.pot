@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-02 17:39+0000\n"
+"POT-Creation-Date: 2026-03-02 19:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,608 +17,604 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: scripts/../src/model/status.rs:68 scripts/../src/model/status.rs:68 scripts/../src/model/status.rs:68
+#: ./../src/model/status.rs:67 ./../src/model/status.rs:67 ./../src/model/status.rs:67
 msgid "bytes from"
 msgstr ""
 
-#: scripts/../src/model/status.rs:71 scripts/../src/model/status.rs:71 scripts/../src/model/status.rs:71
+#: ./../src/model/status.rs:70 ./../src/model/status.rs:70 ./../src/model/status.rs:70
 msgid "time"
 msgstr ""
 
-#: scripts/../src/model/status.rs:73 scripts/../src/model/status.rs:102 scripts/../src/model/status.rs:105 scripts/../src/model/status.rs:107 scripts/../src/model/status.rs:109 scripts/../src/model/status.rs:73 scripts/../src/model/status.rs:102 scripts/../src/model/status.rs:105 scripts/../src/model/status.rs:107 scripts/../src/model/status.rs:109 scripts/../src/app.rs:296 scripts/../src/app.rs:516 scripts/../src/model/status.rs:73 scripts/../src/model/status.rs:102 scripts/../src/model/status.rs:105 scripts/../src/model/status.rs:107 scripts/../src/model/status.rs:109 scripts/../src/app.rs:296 scripts/../src/app.rs:516
+#: ./../src/model/status.rs:72 ./../src/model/status.rs:95 ./../src/model/status.rs:98 ./../src/model/status.rs:100 ./../src/model/status.rs:102 ./../src/model/status.rs:72 ./../src/model/status.rs:95 ./../src/model/status.rs:98 ./../src/model/status.rs:100 ./../src/model/status.rs:102 ./../src/app.rs:272 ./../src/app.rs:482 ./../src/model/status.rs:72 ./../src/model/status.rs:95 ./../src/model/status.rs:98 ./../src/model/status.rs:100 ./../src/model/status.rs:102 ./../src/app.rs:272 ./../src/app.rs:482
 msgid "ms"
 msgstr ""
 
-#: scripts/../src/model/status.rs:79 scripts/../src/model/status.rs:79 scripts/../src/model/status.rs:79
+#: ./../src/model/status.rs:75 ./../src/model/status.rs:75 ./../src/model/status.rs:75
 msgid "Request timeout for"
 msgstr ""
 
-#: scripts/../src/model/status.rs:80 scripts/../src/model/status.rs:80 scripts/../src/model/status.rs:80
-msgid "icmp_seq"
-msgstr ""
-
-#: scripts/../src/model/status.rs:99 scripts/../src/model/status.rs:99 scripts/../src/app.rs:964 scripts/../src/model/status.rs:99 scripts/../src/app.rs:964
+#: ./../src/model/status.rs:92 ./../src/model/status.rs:92 ./../src/app.rs:943 ./../src/model/status.rs:92 ./../src/app.rs:943
 msgid "Statistics"
 msgstr ""
 
-#: scripts/../src/model/status.rs:100 scripts/../src/model/status.rs:100 scripts/../src/app.rs:325 scripts/../src/model/status.rs:100 scripts/../src/app.rs:325
+#: ./../src/model/status.rs:93 ./../src/model/status.rs:93 ./../src/app.rs:301 ./../src/model/status.rs:93 ./../src/app.rs:301
 msgid "M"
 msgstr ""
 
-#: scripts/../src/model/status.rs:103 scripts/../src/model/status.rs:103 scripts/../src/app.rs:332 scripts/../src/model/status.rs:103 scripts/../src/app.rs:332
+#: ./../src/model/status.rs:96 ./../src/model/status.rs:96 ./../src/app.rs:308 ./../src/model/status.rs:96 ./../src/app.rs:308
 msgid "Med"
 msgstr ""
 
-#: scripts/../src/model/status.rs:111 scripts/../src/model/status.rs:111 scripts/../src/app.rs:417 scripts/../src/model/status.rs:111 scripts/../src/app.rs:417
+#: ./../src/model/status.rs:104 ./../src/model/status.rs:104 ./../src/app.rs:393 ./../src/model/status.rs:104 ./../src/app.rs:393
 msgid "L"
 msgstr ""
 
-#: scripts/../src/model/status.rs:121 scripts/../src/model/status.rs:121 scripts/../src/model/status.rs:121
+#: ./../src/model/status.rs:111 ./../src/model/status.rs:111 ./../src/model/status.rs:111
 msgid "Route updated"
 msgstr ""
 
-#: scripts/../src/model/status.rs:135 scripts/../src/model/status.rs:135 scripts/../src/app.rs:300 scripts/../src/model/status.rs:135 scripts/../src/app.rs:300
+#: ./../src/model/status.rs:123 ./../src/model/status.rs:123 ./../src/app.rs:276 ./../src/model/status.rs:123 ./../src/app.rs:276
 msgid "Local Interface"
 msgstr ""
 
-#: scripts/../src/model/status.rs:142 scripts/../src/model/status.rs:142 scripts/../src/model/status.rs:142
+#: ./../src/model/status.rs:130 ./../src/model/status.rs:130 ./../src/model/status.rs:130
 msgid "Connectivity lost at {node}"
 msgstr ""
 
-#: scripts/../src/model/status.rs:143 scripts/../src/model/status.rs:150 scripts/../src/model/status.rs:143 scripts/../src/model/status.rs:150 scripts/../src/model/status.rs:143 scripts/../src/model/status.rs:150
+#: ./../src/model/status.rs:131 ./../src/model/status.rs:138 ./../src/model/status.rs:131 ./../src/model/status.rs:138 ./../src/model/status.rs:131 ./../src/model/status.rs:138
 msgid "{n} requests without answer"
 msgstr ""
 
-#: scripts/../src/model/status.rs:149 scripts/../src/model/status.rs:149 scripts/../src/model/status.rs:149
+#: ./../src/model/status.rs:137 ./../src/model/status.rs:137 ./../src/model/status.rs:137
 msgid "Connectivity lost"
 msgstr ""
 
-#: scripts/../src/model/status.rs:155 scripts/../src/model/status.rs:155 scripts/../src/model/status.rs:155
+#: ./../src/model/status.rs:143 ./../src/model/status.rs:143 ./../src/model/status.rs:143
 msgid "downtime"
 msgstr ""
 
-#: scripts/../src/model/status.rs:155 scripts/../src/model/status.rs:155 scripts/../src/model/status.rs:155
+#: ./../src/model/status.rs:143 ./../src/model/status.rs:143 ./../src/model/status.rs:143
 msgid "s"
 msgstr ""
 
-#: scripts/../src/model/status.rs:162 scripts/../src/model/status.rs:162 scripts/../src/model/status.rs:162
+#: ./../src/model/status.rs:150 ./../src/model/status.rs:150 ./../src/model/status.rs:150
 msgid "Connectivity restored"
 msgstr ""
 
-#: scripts/../src/main.rs:15
+#: ./../src/main.rs:15
 msgid "egui pinger"
 msgstr ""
 
-#: scripts/../src/app.rs:202 scripts/../src/app.rs:202
+#: ./../src/app.rs:178 ./../src/app.rs:178
 msgid "Host name"
 msgstr ""
 
-#: scripts/../src/app.rs:210 scripts/../src/app.rs:210
+#: ./../src/app.rs:186 ./../src/app.rs:186
 msgid "Host address"
 msgstr ""
 
 #. When "Add" button is clicked or Enter is pressed in the second field,
 #. add host to the list
-#: scripts/../src/app.rs:216 scripts/../src/app.rs:216
+#: ./../src/app.rs:192 ./../src/app.rs:192
 msgid "Add"
 msgstr ""
 
-#: scripts/../src/app.rs:304 scripts/../src/app.rs:304
+#: ./../src/app.rs:280 ./../src/app.rs:280
 msgid "DOWN (at {node})"
 msgstr ""
 
-#: scripts/../src/app.rs:306 scripts/../src/app.rs:306
+#: ./../src/app.rs:282 ./../src/app.rs:282
 msgid "DOWN"
 msgstr ""
 
-#: scripts/../src/app.rs:326 scripts/../src/app.rs:693 scripts/../src/app.rs:326 scripts/../src/app.rs:693
+#: ./../src/app.rs:302 ./../src/app.rs:659 ./../src/app.rs:302 ./../src/app.rs:659
 msgid "Mean RTT"
 msgstr ""
 
-#: scripts/../src/app.rs:333 scripts/../src/app.rs:697 scripts/../src/app.rs:333 scripts/../src/app.rs:697
+#: ./../src/app.rs:309 ./../src/app.rs:663 ./../src/app.rs:309 ./../src/app.rs:663
 msgid "Median RTT"
 msgstr ""
 
-#: scripts/../src/app.rs:339 scripts/../src/app.rs:339
+#: ./../src/app.rs:315 ./../src/app.rs:315
 msgid "J"
 msgstr ""
 
-#: scripts/../src/app.rs:340 scripts/../src/app.rs:701 scripts/../src/app.rs:340 scripts/../src/app.rs:701
+#: ./../src/app.rs:316 ./../src/app.rs:667 ./../src/app.rs:316 ./../src/app.rs:667
 msgid "RTP Jitter"
 msgstr ""
 
-#: scripts/../src/app.rs:346 scripts/../src/app.rs:346
+#: ./../src/app.rs:322 ./../src/app.rs:322
 msgid "Jm"
 msgstr ""
 
-#: scripts/../src/app.rs:347 scripts/../src/app.rs:705 scripts/../src/app.rs:347 scripts/../src/app.rs:705
+#: ./../src/app.rs:323 ./../src/app.rs:671 ./../src/app.rs:323 ./../src/app.rs:671
 msgid "Mean Jitter"
 msgstr ""
 
-#: scripts/../src/app.rs:353 scripts/../src/app.rs:353
+#: ./../src/app.rs:329 ./../src/app.rs:329
 msgid "Jmed"
 msgstr ""
 
-#: scripts/../src/app.rs:354 scripts/../src/app.rs:709 scripts/../src/app.rs:354 scripts/../src/app.rs:709
+#: ./../src/app.rs:330 ./../src/app.rs:675 ./../src/app.rs:330 ./../src/app.rs:675
 msgid "Median Jitter"
 msgstr ""
 
-#: scripts/../src/app.rs:360 scripts/../src/app.rs:713 scripts/../src/app.rs:360 scripts/../src/app.rs:713
+#: ./../src/app.rs:336 ./../src/app.rs:679 ./../src/app.rs:336 ./../src/app.rs:679
 msgid "MOS"
 msgstr ""
 
-#: scripts/../src/app.rs:361 scripts/../src/app.rs:361
+#: ./../src/app.rs:337 ./../src/app.rs:337
 msgid "Voice Quality (MOS)"
 msgstr ""
 
-#: scripts/../src/app.rs:367 scripts/../src/app.rs:367
+#: ./../src/app.rs:343 ./../src/app.rs:343
 msgid "Av"
 msgstr ""
 
-#: scripts/../src/app.rs:368 scripts/../src/app.rs:717 scripts/../src/app.rs:368 scripts/../src/app.rs:717
+#: ./../src/app.rs:344 ./../src/app.rs:683 ./../src/app.rs:344 ./../src/app.rs:683
 msgid "Availability"
 msgstr ""
 
-#: scripts/../src/app.rs:374 scripts/../src/app.rs:374
+#: ./../src/app.rs:350 ./../src/app.rs:350
 msgid "Out"
 msgstr ""
 
-#: scripts/../src/app.rs:375 scripts/../src/app.rs:375
+#: ./../src/app.rs:351 ./../src/app.rs:351
 msgid "Outliers (Lags)"
 msgstr ""
 
-#: scripts/../src/app.rs:380 scripts/../src/app.rs:380
+#: ./../src/app.rs:356 ./../src/app.rs:356
 msgid "S"
 msgstr ""
 
-#: scripts/../src/app.rs:380 scripts/../src/app.rs:380
+#: ./../src/app.rs:356 ./../src/app.rs:356
 msgid "F"
 msgstr ""
 
-#: scripts/../src/app.rs:389 scripts/../src/app.rs:389
+#: ./../src/app.rs:365 ./../src/app.rs:365
 msgid "Str"
 msgstr ""
 
-#: scripts/../src/app.rs:390 scripts/../src/app.rs:725 scripts/../src/app.rs:390 scripts/../src/app.rs:725
+#: ./../src/app.rs:366 ./../src/app.rs:691 ./../src/app.rs:366 ./../src/app.rs:691
 msgid "Streak"
 msgstr ""
 
-#: scripts/../src/app.rs:396 scripts/../src/app.rs:396
+#: ./../src/app.rs:372 ./../src/app.rs:372
 msgid "SD"
 msgstr ""
 
-#: scripts/../src/app.rs:397 scripts/../src/app.rs:397
+#: ./../src/app.rs:373 ./../src/app.rs:373
 msgid "Standard Deviation"
 msgstr ""
 
-#: scripts/../src/app.rs:404 scripts/../src/app.rs:733 scripts/../src/app.rs:404 scripts/../src/app.rs:733
+#: ./../src/app.rs:380 ./../src/app.rs:699 ./../src/app.rs:380 ./../src/app.rs:699
 msgid "95th Percentile"
 msgstr ""
 
-#: scripts/../src/app.rs:410 scripts/../src/app.rs:410
+#: ./../src/app.rs:386 ./../src/app.rs:386
 msgid "m/M"
 msgstr ""
 
-#: scripts/../src/app.rs:411 scripts/../src/app.rs:737 scripts/../src/app.rs:411 scripts/../src/app.rs:737
+#: ./../src/app.rs:387 ./../src/app.rs:703 ./../src/app.rs:387 ./../src/app.rs:703
 msgid "Min / Max RTT"
 msgstr ""
 
-#: scripts/../src/app.rs:418 scripts/../src/app.rs:741 scripts/../src/app.rs:418 scripts/../src/app.rs:741
+#: ./../src/app.rs:394 ./../src/app.rs:707 ./../src/app.rs:394 ./../src/app.rs:707
 msgid "Packet Loss"
 msgstr ""
 
-#: scripts/../src/app.rs:446 scripts/../src/app.rs:446
+#: ./../src/app.rs:422 ./../src/app.rs:422
 msgid "View Log"
 msgstr ""
 
-#: scripts/../src/app.rs:514 scripts/../src/app.rs:514
+#: ./../src/app.rs:480 ./../src/app.rs:480
 msgid "Timeout"
 msgstr ""
 
-#: scripts/../src/app.rs:586 scripts/../src/app.rs:586
+#: ./../src/app.rs:552 ./../src/app.rs:552
 msgid "Confirm Deletion"
 msgstr ""
 
-#: scripts/../src/app.rs:593 scripts/../src/app.rs:593
+#: ./../src/app.rs:559 ./../src/app.rs:559
 msgid "Are you sure you want to remove this host"
 msgstr ""
 
-#: scripts/../src/app.rs:599 scripts/../src/app.rs:599
+#: ./../src/app.rs:565 ./../src/app.rs:565
 msgid "Delete"
 msgstr ""
 
-#: scripts/../src/app.rs:605 scripts/../src/app.rs:605
+#: ./../src/app.rs:571 ./../src/app.rs:571
 msgid "Cancel"
 msgstr ""
 
-#: scripts/../src/app.rs:625 scripts/../src/app.rs:625
+#: ./../src/app.rs:591 ./../src/app.rs:591
 msgid "Host Settings"
 msgstr ""
 
-#: scripts/../src/app.rs:629 scripts/../src/app.rs:629
+#: ./../src/app.rs:595 ./../src/app.rs:595
 msgid "Host"
 msgstr ""
 
-#: scripts/../src/app.rs:633 scripts/../src/app.rs:633
+#: ./../src/app.rs:599 ./../src/app.rs:599
 msgid "Name"
 msgstr ""
 
-#: scripts/../src/app.rs:639 scripts/../src/app.rs:639
+#: ./../src/app.rs:605 ./../src/app.rs:605
 msgid "Ping Interval:"
 msgstr ""
 
-#: scripts/../src/app.rs:642 scripts/../src/app.rs:651 scripts/../src/app.rs:642 scripts/../src/app.rs:651
+#: ./../src/app.rs:608 ./../src/app.rs:617 ./../src/app.rs:608 ./../src/app.rs:617
 msgid "Very fast (1s)"
 msgstr ""
 
-#: scripts/../src/app.rs:643 scripts/../src/app.rs:652 scripts/../src/app.rs:643 scripts/../src/app.rs:652
+#: ./../src/app.rs:609 ./../src/app.rs:618 ./../src/app.rs:609 ./../src/app.rs:618
 msgid "Fast (2s)"
 msgstr ""
 
-#: scripts/../src/app.rs:644 scripts/../src/app.rs:653 scripts/../src/app.rs:644 scripts/../src/app.rs:653
+#: ./../src/app.rs:610 ./../src/app.rs:619 ./../src/app.rs:610 ./../src/app.rs:619
 msgid "Not fast (5s)"
 msgstr ""
 
-#: scripts/../src/app.rs:645 scripts/../src/app.rs:654 scripts/../src/app.rs:645 scripts/../src/app.rs:654
+#: ./../src/app.rs:611 ./../src/app.rs:620 ./../src/app.rs:611 ./../src/app.rs:620
 msgid "Normal (10s)"
 msgstr ""
 
-#: scripts/../src/app.rs:646 scripts/../src/app.rs:655 scripts/../src/app.rs:646 scripts/../src/app.rs:655
+#: ./../src/app.rs:612 ./../src/app.rs:621 ./../src/app.rs:612 ./../src/app.rs:621
 msgid "Not slow (30s)"
 msgstr ""
 
-#: scripts/../src/app.rs:647 scripts/../src/app.rs:656 scripts/../src/app.rs:647 scripts/../src/app.rs:656
+#: ./../src/app.rs:613 ./../src/app.rs:622 ./../src/app.rs:613 ./../src/app.rs:622
 msgid "Slow (1m)"
 msgstr ""
 
-#: scripts/../src/app.rs:648 scripts/../src/app.rs:657 scripts/../src/app.rs:648 scripts/../src/app.rs:657
+#: ./../src/app.rs:614 ./../src/app.rs:623 ./../src/app.rs:614 ./../src/app.rs:623
 msgid "Very slow (5m)"
 msgstr ""
 
-#: scripts/../src/app.rs:662 scripts/../src/app.rs:662
+#: ./../src/app.rs:628 ./../src/app.rs:628
 msgid "VPN & Privacy:"
 msgstr ""
 
-#: scripts/../src/app.rs:664 scripts/../src/app.rs:664
+#: ./../src/app.rs:630 ./../src/app.rs:630
 msgid "Packet Size:"
 msgstr ""
 
-#: scripts/../src/app.rs:668 scripts/../src/app.rs:668
+#: ./../src/app.rs:634 ./../src/app.rs:634
 msgid " bytes"
 msgstr ""
 
-#: scripts/../src/app.rs:671 scripts/../src/app.rs:671
+#: ./../src/app.rs:637 ./../src/app.rs:637
 msgid "Random Padding"
 msgstr ""
 
-#: scripts/../src/app.rs:672 scripts/../src/app.rs:672
+#: ./../src/app.rs:638 ./../src/app.rs:638
 msgid "Adds 0-25% random extra data to each packet to mask traffic patterns"
 msgstr ""
 
-#: scripts/../src/app.rs:676 scripts/../src/app.rs:676
+#: ./../src/app.rs:642 ./../src/app.rs:642
 msgid "Show fields:"
 msgstr ""
 
-#: scripts/../src/app.rs:677 scripts/../src/app.rs:677
+#: ./../src/app.rs:643 ./../src/app.rs:643
 msgid "Learn more about these metrics"
 msgstr ""
 
-#: scripts/../src/app.rs:681 scripts/../src/app.rs:681
+#: ./../src/app.rs:647 ./../src/app.rs:647
 msgid "Host Name"
 msgstr ""
 
-#: scripts/../src/app.rs:682 scripts/../src/app.rs:682
+#: ./../src/app.rs:648 ./../src/app.rs:648
 msgid "User-defined name for this host"
 msgstr ""
 
-#: scripts/../src/app.rs:685 scripts/../src/app.rs:685
+#: ./../src/app.rs:651 ./../src/app.rs:651
 msgid "Host Address"
 msgstr ""
 
-#: scripts/../src/app.rs:686 scripts/../src/app.rs:686
+#: ./../src/app.rs:652 ./../src/app.rs:652
 msgid "IP address or domain name"
 msgstr ""
 
-#: scripts/../src/app.rs:689 scripts/../src/app.rs:689
+#: ./../src/app.rs:655 ./../src/app.rs:655
 msgid "Current Latency"
 msgstr ""
 
-#: scripts/../src/app.rs:690 scripts/../src/app.rs:690
+#: ./../src/app.rs:656 ./../src/app.rs:656
 msgid "Round-trip time of the last packet"
 msgstr ""
 
-#: scripts/../src/app.rs:694 scripts/../src/app.rs:694
+#: ./../src/app.rs:660 ./../src/app.rs:660
 msgid "Average latency (can be skewed by spikes)"
 msgstr ""
 
-#: scripts/../src/app.rs:698 scripts/../src/app.rs:698
+#: ./../src/app.rs:664 ./../src/app.rs:664
 msgid "Typical latency (ignores rare spikes)"
 msgstr ""
 
-#: scripts/../src/app.rs:702 scripts/../src/app.rs:702
+#: ./../src/app.rs:668 ./../src/app.rs:668
 msgid "Current variation in delay (RFC 3550)"
 msgstr ""
 
-#: scripts/../src/app.rs:706 scripts/../src/app.rs:706
+#: ./../src/app.rs:672 ./../src/app.rs:672
 msgid "Average variation over time"
 msgstr ""
 
-#: scripts/../src/app.rs:710 scripts/../src/app.rs:710
+#: ./../src/app.rs:676 ./../src/app.rs:676
 msgid "Typical variation over time"
 msgstr ""
 
-#: scripts/../src/app.rs:714 scripts/../src/app.rs:714
+#: ./../src/app.rs:680 ./../src/app.rs:680
 msgid "Voice Quality Score (1.0 = Bad, 4.5 = Excellent)"
 msgstr ""
 
-#: scripts/../src/app.rs:718 scripts/../src/app.rs:718
+#: ./../src/app.rs:684 ./../src/app.rs:684
 msgid "Percentage of packets successfully delivered"
 msgstr ""
 
-#: scripts/../src/app.rs:721 scripts/../src/app.rs:721
+#: ./../src/app.rs:687 ./../src/app.rs:687
 msgid "Outliers"
 msgstr ""
 
-#: scripts/../src/app.rs:722 scripts/../src/app.rs:722
+#: ./../src/app.rs:688 ./../src/app.rs:688
 msgid "Count of extremely delayed packets (lags)"
 msgstr ""
 
-#: scripts/../src/app.rs:726 scripts/../src/app.rs:726
+#: ./../src/app.rs:692 ./../src/app.rs:692
 msgid "Current consecutive successes or failures"
 msgstr ""
 
-#: scripts/../src/app.rs:729 scripts/../src/app.rs:729
+#: ./../src/app.rs:695 ./../src/app.rs:695
 msgid "StdDev"
 msgstr ""
 
-#: scripts/../src/app.rs:730 scripts/../src/app.rs:730
+#: ./../src/app.rs:696 ./../src/app.rs:696
 msgid "Standard Deviation (spread of latency values)"
 msgstr ""
 
-#: scripts/../src/app.rs:734 scripts/../src/app.rs:734
+#: ./../src/app.rs:700 ./../src/app.rs:700
 msgid "Latency experienced by 95% of packets (worst-case)"
 msgstr ""
 
-#: scripts/../src/app.rs:738 scripts/../src/app.rs:738
+#: ./../src/app.rs:704 ./../src/app.rs:704
 msgid "Absolute best and worst latency in history"
 msgstr ""
 
-#: scripts/../src/app.rs:742 scripts/../src/app.rs:742
+#: ./../src/app.rs:708 ./../src/app.rs:708
 msgid "Count and percentage of dropped packets"
 msgstr ""
 
-#: scripts/../src/app.rs:745 scripts/../src/app.rs:917 scripts/../src/app.rs:745 scripts/../src/app.rs:917
+#: ./../src/app.rs:711 ./../src/app.rs:883 ./../src/app.rs:711 ./../src/app.rs:883
 msgid "Close"
 msgstr ""
 
-#: scripts/../src/app.rs:772 scripts/../src/app.rs:772
+#: ./../src/app.rs:738 ./../src/app.rs:738
 msgid "Route"
 msgstr ""
 
-#: scripts/../src/app.rs:781 scripts/../src/app.rs:781
+#: ./../src/app.rs:747 ./../src/app.rs:747
 msgid "Path to target:"
 msgstr ""
 
-#: scripts/../src/app.rs:783 scripts/../src/app.rs:783
+#: ./../src/app.rs:749 ./../src/app.rs:749
 msgid "Refresh"
 msgstr ""
 
-#: scripts/../src/app.rs:794 scripts/../src/app.rs:794
+#: ./../src/app.rs:760 ./../src/app.rs:760
 msgid "Discovering route..."
 msgstr ""
 
-#: scripts/../src/app.rs:805 scripts/../src/app.rs:805
+#: ./../src/app.rs:771 ./../src/app.rs:771
 msgid "(TIMEOUT)"
 msgstr ""
 
-#: scripts/../src/app.rs:816 scripts/../src/app.rs:816
+#: ./../src/app.rs:782 ./../src/app.rs:782
 msgid "Refreshing route..."
 msgstr ""
 
-#: scripts/../src/app.rs:820 scripts/../src/app.rs:820
+#: ./../src/app.rs:786 ./../src/app.rs:786
 msgid "No status found for this address."
 msgstr ""
 
-#: scripts/../src/app.rs:832 scripts/../src/app.rs:832
+#: ./../src/app.rs:798 ./../src/app.rs:798
 msgid "Network Statistics Information"
 msgstr ""
 
-#: scripts/../src/app.rs:838 scripts/../src/app.rs:838
+#: ./../src/app.rs:804 ./../src/app.rs:804
 msgid "Latency"
 msgstr ""
 
-#: scripts/../src/app.rs:839 scripts/../src/app.rs:839
+#: ./../src/app.rs:805 ./../src/app.rs:805
 msgid "Jitter"
 msgstr ""
 
-#: scripts/../src/app.rs:840 scripts/../src/app.rs:840
+#: ./../src/app.rs:806 ./../src/app.rs:806
 msgid "Quality & MOS"
 msgstr ""
 
-#: scripts/../src/app.rs:841 scripts/../src/app.rs:841
+#: ./../src/app.rs:807 ./../src/app.rs:807
 msgid "Reliability"
 msgstr ""
 
-#: scripts/../src/app.rs:842 scripts/../src/app.rs:842
+#: ./../src/app.rs:808 ./../src/app.rs:808
 msgid "Internet Check"
 msgstr ""
 
-#: scripts/../src/app.rs:848 scripts/../src/app.rs:848
+#: ./../src/app.rs:814 ./../src/app.rs:814
 msgid "Round-Trip Time (RTT) - What is Latency?"
 msgstr ""
 
-#: scripts/../src/app.rs:849 scripts/../src/app.rs:849
+#: ./../src/app.rs:815 ./../src/app.rs:815
 msgid "Latency (RTT) is the total time it takes for a signal to go from your computer to the server and back. In network diagnostics, this is the most basic measure of 'speed'."
 msgstr ""
 
-#: scripts/../src/app.rs:852 scripts/../src/app.rs:866 scripts/../src/app.rs:852 scripts/../src/app.rs:866
+#: ./../src/app.rs:818 ./../src/app.rs:832 ./../src/app.rs:818 ./../src/app.rs:832
 msgid "How it is calculated:"
 msgstr ""
 
-#: scripts/../src/app.rs:853 scripts/../src/app.rs:853
+#: ./../src/app.rs:819 ./../src/app.rs:819
 msgid "- Mean (Average): The sum of all RTTs divided by the number of packets. Good for general trends, but can be misleading if you have rare, massive 'lags'."
 msgstr ""
 
-#: scripts/../src/app.rs:854 scripts/../src/app.rs:854
+#: ./../src/app.rs:820 ./../src/app.rs:820
 msgid "- Median (Middle Value): We sort all results and pick the one in the middle. This is the 'typical' experience. If you have 100 packets and 1 of them is very slow, the Median stays the same, while the Mean jumps up."
 msgstr ""
 
-#: scripts/../src/app.rs:855 scripts/../src/app.rs:855
+#: ./../src/app.rs:821 ./../src/app.rs:821
 msgid "- 95th Percentile (P95): This shows the worst-case scenario for 95% of your traffic. If P95 is low, your connection is stable. If it's much higher than the Median, your connection is 'jittery' and prone to sudden lags."
 msgstr ""
 
-#: scripts/../src/app.rs:858 scripts/../src/app.rs:871 scripts/../src/app.rs:898 scripts/../src/app.rs:858 scripts/../src/app.rs:871 scripts/../src/app.rs:898
+#: ./../src/app.rs:824 ./../src/app.rs:837 ./../src/app.rs:864 ./../src/app.rs:824 ./../src/app.rs:837 ./../src/app.rs:864
 msgid "VoIP Impact:"
 msgstr ""
 
-#: scripts/../src/app.rs:859 scripts/../src/app.rs:859
+#: ./../src/app.rs:825 ./../src/app.rs:825
 msgid "Voice is a real-time stream. If latency is over 150ms, you start to notice a delay in the conversation (waiting for the other person to respond). Above 300ms, people will start 'talking over' each other because of the lag."
 msgstr ""
 
-#: scripts/../src/app.rs:862 scripts/../src/app.rs:862
+#: ./../src/app.rs:828 ./../src/app.rs:828
 msgid "Jitter - Stability of the Connection"
 msgstr ""
 
-#: scripts/../src/app.rs:863 scripts/../src/app.rs:863
+#: ./../src/app.rs:829 ./../src/app.rs:829
 msgid "Jitter is the 'shaking' of your latency. It measures how much the delay between packets changes over time."
 msgstr ""
 
-#: scripts/../src/app.rs:867 scripts/../src/app.rs:867
+#: ./../src/app.rs:833 ./../src/app.rs:833
 msgid "We use the RFC 3550 algorithm (Standard for RTP). It doesn't just look at the highest and lowest values; it calculates the difference between consecutive packets and applies a smoothing filter."
 msgstr ""
 
-#: scripts/../src/app.rs:868 scripts/../src/app.rs:868
+#: ./../src/app.rs:834 ./../src/app.rs:834
 msgid "Formally: J = J + (|D| - J) / 16, where D is the difference between the current and previous packet delay. This provides a stable 'moving average' of network stability."
 msgstr ""
 
-#: scripts/../src/app.rs:872 scripts/../src/app.rs:872
+#: ./../src/app.rs:838 ./../src/app.rs:838
 msgid "Phones expect audio packets to arrive in a steady 'heartbeat' (every 20ms). If Jitter is high (>30ms), packets arrive in 'clumps' or too late to be played. This causes the voice to sound 'robotic', 'choppy', or broken."
 msgstr ""
 
-#: scripts/../src/app.rs:875 scripts/../src/app.rs:875
+#: ./../src/app.rs:841 ./../src/app.rs:841
 msgid "MOS - The 'Voice Score'"
 msgstr ""
 
-#: scripts/../src/app.rs:876 scripts/../src/app.rs:876
+#: ./../src/app.rs:842 ./../src/app.rs:842
 msgid "MOS (Mean Opinion Score) is a 1.0 to 4.5 rating that predicts how a human would rate the call quality."
 msgstr ""
 
-#: scripts/../src/app.rs:879 scripts/../src/app.rs:879
+#: ./../src/app.rs:845 ./../src/app.rs:845
 msgid "How we calculate it:"
 msgstr ""
 
-#: scripts/../src/app.rs:880 scripts/../src/app.rs:880
+#: ./../src/app.rs:846 ./../src/app.rs:846
 msgid "We implement a simplified ITU-T G.107 'E-model'. It takes your current Latency, Jitter, and Packet Loss, and calculates an 'R-factor'. This factor is then mapped to the MOS scale."
 msgstr ""
 
-#: scripts/../src/app.rs:882 scripts/../src/app.rs:882
+#: ./../src/app.rs:848 ./../src/app.rs:848
 msgid "- 4.3 - 4.5 (Excellent): Crystal clear HD audio, like sitting in the same room."
 msgstr ""
 
-#: scripts/../src/app.rs:883 scripts/../src/app.rs:883
+#: ./../src/app.rs:849 ./../src/app.rs:849
 msgid "- 4.0 - 4.2 (Good): Standard clean call. No issues."
 msgstr ""
 
-#: scripts/../src/app.rs:884 scripts/../src/app.rs:884
+#: ./../src/app.rs:850 ./../src/app.rs:850
 msgid "- 3.6 - 3.9 (Fair): You can hear 'compression' or minor clicks. Acceptable for business."
 msgstr ""
 
-#: scripts/../src/app.rs:885 scripts/../src/app.rs:885
+#: ./../src/app.rs:851 ./../src/app.rs:851
 msgid "- Below 3.0 (Poor): Words are missing, voice is distorted. It's time to hang up and check your router."
 msgstr ""
 
-#: scripts/../src/app.rs:888 scripts/../src/app.rs:888
+#: ./../src/app.rs:854 ./../src/app.rs:854
 msgid "Reliability - Packet Loss & Outliers"
 msgstr ""
 
-#: scripts/../src/app.rs:889 scripts/../src/app.rs:889
+#: ./../src/app.rs:855 ./../src/app.rs:855
 msgid "This tab tracks if packets are actually reaching their destination and if any are 'statistical anomalies'."
 msgstr ""
 
-#: scripts/../src/app.rs:892 scripts/../src/app.rs:892
+#: ./../src/app.rs:858 ./../src/app.rs:858
 msgid "Definitions:"
 msgstr ""
 
-#: scripts/../src/app.rs:893 scripts/../src/app.rs:893
+#: ./../src/app.rs:859 ./../src/app.rs:859
 msgid "- Packet Loss: The most critical metric. If a packet is lost, a piece of someone's word is gone forever. VoIP cannot 'redownload' lost audio like a file transfer does."
 msgstr ""
 
-#: scripts/../src/app.rs:894 scripts/../src/app.rs:894
+#: ./../src/app.rs:860 ./../src/app.rs:860
 msgid "- Outliers: These are packets that didn't go missing but took much longer than usual (more than 3 standard deviations from the mean). In a call, these cause a temporary 'freeze' or a loud 'pop' in the audio."
 msgstr ""
 
-#: scripts/../src/app.rs:895 scripts/../src/app.rs:895
+#: ./../src/app.rs:861 ./../src/app.rs:861
 msgid "- Streak: Shows how many times in a row a host has responded (S) or failed (F). Long 'F' streaks mean the connection is completely down."
 msgstr ""
 
-#: scripts/../src/app.rs:899 scripts/../src/app.rs:899
+#: ./../src/app.rs:865 ./../src/app.rs:865
 msgid "While 1% loss might be okay for browsing, for VoIP it means every 100th piece of a word is missing. Above 2-3% loss, the conversation becomes extremely difficult to understand."
 msgstr ""
 
-#: scripts/../src/app.rs:902 scripts/../src/app.rs:902
+#: ./../src/app.rs:868 ./../src/app.rs:868
 msgid "Reliable Hosts for Internet Checks"
 msgstr ""
 
-#: scripts/../src/app.rs:903 scripts/../src/app.rs:903
+#: ./../src/app.rs:869 ./../src/app.rs:869
 msgid "If you want to check if YOUR internet is working (rather than a specific service), use these stable public DNS servers:"
 msgstr ""
 
-#: scripts/../src/app.rs:906 scripts/../src/app.rs:906
+#: ./../src/app.rs:872 ./../src/app.rs:872
 msgid "- Google DNS: 8.8.8.8 or 8.8.4.4"
 msgstr ""
 
-#: scripts/../src/app.rs:907 scripts/../src/app.rs:907
+#: ./../src/app.rs:873 ./../src/app.rs:873
 msgid "- Cloudflare: 1.1.1.1 or 1.0.0.1"
 msgstr ""
 
-#: scripts/../src/app.rs:908 scripts/../src/app.rs:908
+#: ./../src/app.rs:874 ./../src/app.rs:874
 msgid "- Quad9: 9.9.9.9"
 msgstr ""
 
-#: scripts/../src/app.rs:911 scripts/../src/app.rs:911
+#: ./../src/app.rs:877 ./../src/app.rs:877
 msgid "Tip:"
 msgstr ""
 
-#: scripts/../src/app.rs:912 scripts/../src/app.rs:912
+#: ./../src/app.rs:878 ./../src/app.rs:878
 msgid "If you can ping 8.8.8.8 but cannot open 'google.com', you likely have a DNS problem, not a connection problem."
 msgstr ""
 
-#: scripts/../src/app.rs:927 scripts/../src/app.rs:927
+#: ./../src/app.rs:906 ./../src/app.rs:906
 msgid "Log"
 msgstr ""
 
-#: scripts/../src/app.rs:939 scripts/../src/app.rs:939
+#: ./../src/app.rs:918 ./../src/app.rs:918
 msgid "Append log to file"
 msgstr ""
 
-#: scripts/../src/app.rs:940 scripts/../src/app.rs:940
+#: ./../src/app.rs:919 ./../src/app.rs:919
 msgid "Log file path"
 msgstr ""
 
-#: scripts/../src/app.rs:946 scripts/../src/app.rs:946
+#: ./../src/app.rs:925 ./../src/app.rs:925
 msgid "Log started at"
 msgstr ""
 
-#: scripts/../src/app.rs:951 scripts/../src/app.rs:951
+#: ./../src/app.rs:930 ./../src/app.rs:930
 msgid "Log ended at"
 msgstr ""
 
-#: scripts/../src/app.rs:961 scripts/../src/app.rs:961
+#: ./../src/app.rs:940 ./../src/app.rs:940
 msgid "Filters"
 msgstr ""
 
-#: scripts/../src/app.rs:962 scripts/../src/app.rs:962
+#: ./../src/app.rs:941 ./../src/app.rs:941
 msgid "Pings"
 msgstr ""
 
-#: scripts/../src/app.rs:963 scripts/../src/app.rs:963
+#: ./../src/app.rs:942 ./../src/app.rs:942
 msgid "Timeouts"
 msgstr ""
 
-#: scripts/../src/app.rs:965 scripts/../src/app.rs:965
+#: ./../src/app.rs:944 ./../src/app.rs:944
 msgid "Traceroute"
 msgstr ""
 
-#: scripts/../src/app.rs:966 scripts/../src/app.rs:966
+#: ./../src/app.rs:945 ./../src/app.rs:945
 msgid "Incidents"
 msgstr ""
