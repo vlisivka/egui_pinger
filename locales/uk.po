@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: egui_pinger\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-02 07:19+0000\n"
+"POT-Creation-Date: 2026-03-02 16:21+0000\n"
 "PO-Revision-Date: 2026-02-25 16:30+0200\n"
 "Last-Translator: Volodymyr M. Lisivka <vlisivka@gmail.com>\n"
 "Language-Team: Ukrainian\n"
@@ -315,7 +315,7 @@ msgstr "Поточна кількість підряд успіхів або п�
 
 #: ../src/app.rs:686
 msgid "StdDev"
-msgstr "СтВідх"
+msgstr "Стандартне відхилення"
 
 #: ../src/app.rs:687
 msgid "Standard Deviation (spread of latency values)"
