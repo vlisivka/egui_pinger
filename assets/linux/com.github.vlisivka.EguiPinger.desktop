@@ -2,7 +2,8 @@
 Type=Application
 Name=egui_pinger
 GenericName=Network Monitor
-Comment=Simple pinger for multiple servers with graph and jitter
+Comment=Simple ping for multiple servers with graph and jitter
+Comment[uk]=Простий ping для багатьох серверів з графіком та тремтінням
 Exec=egui_pinger
 Icon=egui_pinger
 Terminal=false

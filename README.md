@@ -88,6 +88,9 @@ You can install the pre-built Linux release into your local home directory witho
 2.  Unpack it into `~/.local`:
     ```bash
     tar -xf x86_64-unknown-linux-gnu-0.2.0.tar.gz -C ~/.local
+    # Update system databases
+    update-desktop-database ~/.local/share/applications
+    gtk-update-icon-cache ~/.local/share/icons/hicolor
     ```
 3.  Ensure `~/.local/bin` is in your `PATH` (add `export PATH="$HOME/.local/bin:$PATH"` to your `.bashrc` or `.zshrc` if needed).
 4.  The application will now appear in your system menus as "egui_pinger".
