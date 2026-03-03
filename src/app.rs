@@ -136,7 +136,7 @@ impl EguiPinger {
                 .block_on(pinger_task(state_clone));
         });
 
-        Self {
+        let app = Self {
             state,
             input_name: String::new(),
             input_address: String::new(),
@@ -146,6 +146,52 @@ impl EguiPinger {
             selected_help_tab: HelpTab::default(),
             viewing_route: None,
             viewing_log: None,
+        };
+
+        // Add startup markers for hosts with logging enabled
+        app.add_marker_to_all_active_logs(true);
+
+        app
+    }
+
+    fn add_marker_to_all_active_logs(&self, is_start: bool) {
+        let mut state = self.state.lock().unwrap();
+        let msg = if is_start {
+            tr!("Journal started at")
+        } else {
+            tr!("Journal ended at")
+        };
+        let ts = chrono::Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
+        let now_ts = chrono::Utc::now().timestamp() as u64;
+
+        // Collect info to avoid borrow conflicts
+        let targets: Vec<(String, String)> = state
+            .hosts
+            .iter()
+            .filter(|h| h.log_to_file && !h.log_file_path.is_empty())
+            .map(|h| (h.address.clone(), h.log_file_path.clone()))
+            .collect();
+
+        for (addr, path) in targets {
+            // Write to file
+            if let Ok(mut file) = std::fs::OpenOptions::new()
+                .create(true)
+                .append(true)
+                .open(&path)
+            {
+                let _ = writeln!(file, "=== {}: {} ===", msg, ts);
+            }
+
+            // Write to internal log (for viewer)
+            if let Some(status) = state.statuses.get_mut(&addr) {
+                status.events.push_back(crate::model::LogEntry::Marker {
+                    timestamp: now_ts,
+                    message: msg.to_string(),
+                });
+                while status.events.len() > 100_000 {
+                    status.events.pop_front();
+                }
+            }
         }
     }
 
@@ -913,25 +959,37 @@ impl EguiPinger {
 
                                 // 1. Logging Controls
                                 ui.horizontal(|ui| {
-                                    if let Some(h) = state.hosts.iter_mut().find(|h| h.address == *addr) {
-                                        let was_logging = h.log_to_file;
-                                        ui.checkbox(&mut h.log_to_file, tr!("Append log to file"));
-                                        ui.add_enabled(h.log_to_file, egui::TextEdit::singleline(&mut h.log_file_path).hint_text(tr!("Log file path")).desired_width(300.0));
+                                        // Get data and handle checkbox (ends borrow of h early)
+                                        let (changed, log_file_path, is_active) = if let Some(h) = state.hosts.iter_mut().find(|h| h.address == *addr) {
+                                            let res = ui.checkbox(&mut h.log_to_file, tr!("Append log to file"));
+                                            (res.changed(), h.log_file_path.clone(), h.log_to_file)
+                                        } else {
+                                            (false, String::new(), false)
+                                        };
 
-                                        // Start/Stop markers
-                                        if h.log_to_file && !was_logging && !h.log_file_path.is_empty() {
-                                            if let Ok(mut file) = std::fs::OpenOptions::new().create(true).append(true).open(&h.log_file_path) {
-                                                let ts = chrono::Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
-                                                let _ = writeln!(file, "=== {}: {} ===", tr!("Log started at"), ts);
+                                        if changed && !log_file_path.is_empty() {
+                                            let ts = chrono::Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
+                                            let msg = if is_active { tr!("Journal started at") } else { tr!("Journal ended at") };
+
+                                            // Write to file
+                                            if let Ok(mut file) = std::fs::OpenOptions::new().create(true).append(true).open(&log_file_path) {
+                                                let _ = writeln!(file, "=== {}: {} ===", msg, ts);
                                             }
-                                        } else if !h.log_to_file && was_logging && !h.log_file_path.is_empty() {
-                                            if let Ok(mut file) = std::fs::OpenOptions::new().create(true).append(true).open(&h.log_file_path) {
-                                                let ts = chrono::Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
-                                                let _ = writeln!(file, "=== {}: {} ===", tr!("Log ended at"), ts);
+
+                                            // Write to internal log (for viewer)
+                                            if let Some(status) = state.statuses.get_mut(addr) {
+                                                status.events.push_back(crate::model::LogEntry::Marker {
+                                                    timestamp: chrono::Utc::now().timestamp() as u64,
+                                                    message: msg.to_string(),
+                                                });
                                             }
                                         }
-                                    }
-                                });
+
+                                        // Re-borrow for the text edit
+                                        if let Some(h) = state.hosts.iter_mut().find(|h| h.address == *addr) {
+                                            ui.add_enabled(h.log_to_file, egui::TextEdit::singleline(&mut h.log_file_path).hint_text(tr!("Log file path")).desired_width(300.0));
+                                        }
+                                    });
 
                                 ui.separator();
 
@@ -965,6 +1023,8 @@ impl EguiPinger {
                                         && state.log_filter.show_route
                                         && state.log_filter.show_incidents;
 
+                                    let display_settings = state.hosts.iter().find(|h| h.address == *addr).map(|h| h.display.clone());
+
                                     if all_on {
                                         let view_count = total_events - start_idx;
                                         egui::ScrollArea::vertical()
@@ -974,7 +1034,7 @@ impl EguiPinger {
                                                     if let Some(entry) =
                                                         status.events.get(start_idx + i)
                                                     {
-                                                        let text = entry.format(addr);
+                                                        let text = entry.format(addr, display_settings.as_ref());
                                                         let color = match entry {
                                                             LogEntry::Ping { rtt: None, .. } => {
                                                                 Color32::from_rgb(230, 159, 0)
@@ -993,6 +1053,7 @@ impl EguiPinger {
                                                             LogEntry::RouteUpdate { .. } => {
                                                                 Color32::from_rgb(0, 114, 178)
                                                             }
+                                                            LogEntry::Marker { .. } => Color32::from_rgb(204, 121, 167), // Purple/Pink
                                                             _ => visuals.latency_color(0.1),
                                                         };
                                                         ui.label(
@@ -1025,6 +1086,7 @@ impl EguiPinger {
                                                 LogEntry::Incident { .. } => {
                                                     state.log_filter.show_incidents
                                                 }
+                                                LogEntry::Marker { .. } => true,
                                             })
                                             .collect();
 
@@ -1037,7 +1099,7 @@ impl EguiPinger {
                                                 |ui, range| {
                                                     for i in range {
                                                         let entry = filtered[i];
-                                                        let text = entry.format(addr);
+                                                        let text = entry.format(addr, display_settings.as_ref());
                                                         let color = match entry {
                                                             LogEntry::Ping { rtt: None, .. } => {
                                                                 Color32::from_rgb(230, 159, 0)
@@ -1056,6 +1118,7 @@ impl EguiPinger {
                                                             LogEntry::RouteUpdate { .. } => {
                                                                 Color32::from_rgb(0, 114, 178)
                                                             }
+                                                            LogEntry::Marker { .. } => Color32::from_rgb(204, 121, 167),
                                                             _ => visuals.latency_color(0.1),
                                                         };
                                                         ui.label(
@@ -1083,6 +1146,10 @@ impl eframe::App for EguiPinger {
     fn save(&mut self, storage: &mut dyn eframe::Storage) {
         let serialized = serde_json::to_string_pretty(&self.state).unwrap_or_default();
         storage.set_string(eframe::APP_KEY, serialized);
+    }
+
+    fn on_exit(&mut self, _gl: Option<&eframe::glow::Context>) {
+        self.add_marker_to_all_active_logs(false);
     }
 
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {

@@ -487,3 +487,80 @@ fn test_event_log_limit() {
         assert_eq!(*timestamp, 5);
     }
 }
+
+#[test]
+fn test_log_entry_statistics_formatting() {
+    let entry = LogEntry::Statistics {
+        timestamp: 1672531200, // Fixed time to avoid test flakiness, though format uses local timezone.
+        mean: 10.0,
+        median: 10.0,
+        p95: 15.0,
+        jitter: 1.0,
+        mos: 4.4,
+        loss: 0.0,
+        sent: 100,
+        lost: 0,
+        rtp_mean_jitter: 1.2,
+        rtp_median_jitter: 1.1,
+        availability: 100.0,
+        outliers: 2,
+        streak: 100,
+        stddev: 0.5,
+        min_rtt: 5.0,
+        max_rtt: 20.0,
+    };
+
+    let mut display = DisplaySettings {
+        show_name: true,
+        show_address: true,
+        show_latency: true,
+        show_mean: true,
+        show_median: true,
+        show_rtp_jitter: true,
+        show_rtp_mean_jitter: true,
+        show_rtp_median_jitter: true,
+        show_mos: true,
+        show_availability: true,
+        show_outliers: true,
+        show_streak: true,
+        show_stddev: true,
+        show_p95: true,
+        show_min_max: true,
+        show_loss: true,
+    };
+
+    let formatted_all = entry.format("127.0.0.1", Some(&display));
+    assert!(formatted_all.contains("M="));
+    assert!(formatted_all.contains("Med="));
+    assert!(formatted_all.contains("95%="));
+    assert!(formatted_all.contains("J="));
+    assert!(formatted_all.contains("Jm="));
+    assert!(formatted_all.contains("Jmed="));
+    assert!(formatted_all.contains("MOS="));
+    assert!(formatted_all.contains("Av="));
+    assert!(formatted_all.contains("Out="));
+    assert!(formatted_all.contains("Str="));
+    assert!(formatted_all.contains("SD="));
+    assert!(formatted_all.contains("m/M="));
+    assert!(formatted_all.contains("L:")); // Because of translated loss
+
+    // Test with all disabled
+    display.show_mean = false;
+    display.show_median = false;
+    display.show_rtp_jitter = false;
+    display.show_rtp_mean_jitter = false;
+    display.show_rtp_median_jitter = false;
+    display.show_mos = false;
+    display.show_availability = false;
+    display.show_outliers = false;
+    display.show_streak = false;
+    display.show_stddev = false;
+    display.show_p95 = false;
+    display.show_min_max = false;
+    display.show_loss = false;
+
+    let formatted_none = entry.format("127.0.0.1", Some(&display));
+    assert!(!formatted_none.contains("M="));
+    assert!(!formatted_none.contains("Av="));
+    assert!(formatted_none.contains("L:")); // Fallback
+}

@@ -20,7 +20,7 @@ which clang >/dev/null 2>&1 || panic "clang is not installed. Install it: sudo d
 which llvm-lib >/dev/null 2>&1 || panic "llvm-lib is not installed. Install it: sudo dnf install llvm"
 
 cargo clean || panic "Cannot clean \"target\" directory."
-rm -rf "$RELEASES_DIR/*" || panic "Cannot clean \"$RELEASES_DIR\" directory."
+rm -rf "$RELEASES_DIR/"* || panic "Cannot clean \"$RELEASES_DIR\" directory."
 mkdir -p "$RELEASES_DIR" || panic "Cannot create \"$RELEASES_DIR\" directory."
 
 ARCHES=(

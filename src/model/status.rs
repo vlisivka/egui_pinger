@@ -33,6 +33,14 @@ pub enum LogEntry {
         loss: f32,
         sent: u32,
         lost: u32,
+        rtp_mean_jitter: f32,
+        rtp_median_jitter: f32,
+        availability: f32,
+        outliers: u32,
+        streak: u32,
+        stddev: f32,
+        min_rtt: f32,
+        max_rtt: f32,
     },
     /// Route update
     RouteUpdate { timestamp: u64, path: Vec<String> },
@@ -44,10 +52,12 @@ pub enum LogEntry {
         downtime_sec: Option<u64>,
         node: Option<String>,
     },
+    /// Custom message marker
+    Marker { timestamp: u64, message: String },
 }
 
 impl LogEntry {
-    pub fn format(&self, address: &str) -> String {
+    pub fn format(&self, address: &str, display: Option<&DisplaySettings>) -> String {
         let ts = if let Some(dt) = chrono::DateTime::from_timestamp(self.timestamp() as i64, 0) {
             let local_dt: chrono::DateTime<chrono::Local> = dt.into();
             local_dt.format("%Y-%m-%d %H:%M:%S").to_string()
@@ -84,28 +94,72 @@ impl LogEntry {
                 loss,
                 sent,
                 lost,
+                rtp_mean_jitter,
+                rtp_median_jitter,
+                availability,
+                outliers,
+                streak,
+                stddev,
+                min_rtt,
+                max_rtt,
                 ..
             } => {
-                format!(
-                    "# [{}] {}: {}={:.1}{} {}={:.1}{} 95%={:.1}{} J={:.1}{} MOS={:.1} {}:{:.1}% ({}/{})",
-                    ts,
-                    tr!("Statistics"),
-                    tr!("M"),
-                    mean,
-                    tr!("ms"),
-                    tr!("Med"),
-                    median,
-                    tr!("ms"),
-                    p95,
-                    tr!("ms"),
-                    jitter,
-                    tr!("ms"),
-                    mos,
-                    tr!("L"),
-                    loss,
-                    lost,
-                    sent
-                )
+                let mut parts = Vec::new();
+
+                let d_def = DisplaySettings::default();
+                let d = display.unwrap_or(&d_def);
+
+                if d.show_mean {
+                    parts.push(format!("{}={:.1}{}", tr!("M"), mean, tr!("ms")));
+                }
+                if d.show_median {
+                    parts.push(format!("{}={:.1}{}", tr!("Med"), median, tr!("ms")));
+                }
+                if d.show_p95 {
+                    parts.push(format!("{}={:.1}{}", tr!("95%"), p95, tr!("ms")));
+                }
+                if d.show_rtp_jitter {
+                    parts.push(format!("{}={:.1}{}", tr!("J"), jitter, tr!("ms")));
+                }
+                if d.show_rtp_mean_jitter {
+                    parts.push(format!("{}={:.1}{}", tr!("Jm"), rtp_mean_jitter, tr!("ms")));
+                }
+                if d.show_rtp_median_jitter {
+                    parts.push(format!(
+                        "{}={:.1}{}",
+                        tr!("Jmed"),
+                        rtp_median_jitter,
+                        tr!("ms")
+                    ));
+                }
+                if d.show_mos {
+                    parts.push(format!("{}={:.1}", tr!("MOS"), mos));
+                }
+                if d.show_availability {
+                    parts.push(format!("{}={:.0}%", tr!("Av"), availability));
+                }
+                if d.show_outliers {
+                    parts.push(format!("{}={}", tr!("Out"), outliers));
+                }
+                if d.show_streak {
+                    parts.push(format!("{}={}", tr!("Str"), streak));
+                }
+                if d.show_stddev {
+                    parts.push(format!("{}={:.1}", tr!("SD"), stddev));
+                }
+                if d.show_min_max {
+                    parts.push(format!("{}={:.0}-{:.0}", tr!("m/M"), min_rtt, max_rtt));
+                }
+                if d.show_loss {
+                    parts.push(format!("{}:{:.1}% ({}/{})", tr!("L"), loss, lost, sent));
+                }
+
+                if parts.is_empty() {
+                    // Fallback to minimal info if everything is disabled
+                    parts.push(format!("{}:{:.1}% ({}/{})", tr!("L"), loss, lost, sent));
+                }
+
+                format!("# [{}] {}: {}", ts, tr!("Statistics"), parts.join(" "))
             }
             LogEntry::RouteUpdate { path, .. } => {
                 format!("% [{}] {}: {}", ts, tr!("Route updated"), path.join(" → "))
@@ -152,6 +206,15 @@ impl LogEntry {
                     )
                 }
             }
+            LogEntry::Marker { message, timestamp } => {
+                let dts = if let Some(dt) = chrono::DateTime::from_timestamp(*timestamp as i64, 0) {
+                    let local_dt: chrono::DateTime<chrono::Local> = dt.into();
+                    local_dt.format("%Y-%m-%d %H:%M:%S").to_string()
+                } else {
+                    ts
+                };
+                format!("=== {}: {} ===", message, dts)
+            }
         }
     }
 
@@ -161,6 +224,7 @@ impl LogEntry {
             LogEntry::Statistics { timestamp, .. } => *timestamp,
             LogEntry::RouteUpdate { timestamp, .. } => *timestamp,
             LogEntry::Incident { timestamp, .. } => *timestamp,
+            LogEntry::Marker { timestamp, .. } => *timestamp,
         }
     }
 }

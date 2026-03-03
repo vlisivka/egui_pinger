@@ -495,6 +495,14 @@ pub async fn pinger_task(state: SharedState) {
                                 loss: (status.lost as f32 / status.sent as f32) * 100.0,
                                 sent: status.sent,
                                 lost: status.lost,
+                                rtp_mean_jitter: status.rtp_jitter_mean as f32,
+                                rtp_median_jitter: status.rtp_jitter_median as f32,
+                                availability: status.availability as f32,
+                                outliers: status.outliers,
+                                streak: status.streak,
+                                stddev: status.stddev as f32,
+                                min_rtt: status.min_rtt as f32,
+                                max_rtt: status.max_rtt as f32,
                             };
                             status.events.push_back(entry.clone());
                             extra_events.push(entry);
@@ -509,7 +517,7 @@ pub async fn pinger_task(state: SharedState) {
                         // 4. File Logging
                         if let Some(h) = host_info {
                             if h.log_to_file && !h.log_file_path.is_empty() {
-                                let line = entry.format(&address);
+                                let line = entry.format(&address, Some(&h.display));
                                 if let Ok(mut file) = std::fs::OpenOptions::new()
                                     .create(true)
                                     .append(true)
@@ -517,7 +525,11 @@ pub async fn pinger_task(state: SharedState) {
                                 {
                                     let _ = writeln!(file, "{}", line);
                                     for ev in extra_events {
-                                        let _ = writeln!(file, "{}", ev.format(&address));
+                                        let _ = writeln!(
+                                            file,
+                                            "{}",
+                                            ev.format(&address, Some(&h.display))
+                                        );
                                     }
                                 }
                             }
@@ -572,9 +584,17 @@ pub async fn pinger_task(state: SharedState) {
                                     .append(true)
                                     .open(&h.log_file_path)
                                 {
-                                    let _ = writeln!(file, "{}", ping_entry.format(&address));
+                                    let _ = writeln!(
+                                        file,
+                                        "{}",
+                                        ping_entry.format(&address, Some(&h.display))
+                                    );
                                     if let Some(ie) = incident_entry {
-                                        let _ = writeln!(file, "{}", ie.format(&address));
+                                        let _ = writeln!(
+                                            file,
+                                            "{}",
+                                            ie.format(&address, Some(&h.display))
+                                        );
                                     }
                                 }
                             }

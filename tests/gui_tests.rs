@@ -545,3 +545,44 @@ fn test_log_viewer_default_path_initialized() {
         host.log_file_path
     );
 }
+
+#[test]
+fn test_log_viewer_markers() {
+    let (state, _) = make_state_with_host("Google", "8.8.8.8", PingMode::Fast);
+    let mut app = EguiPinger::from_state(state.clone());
+    app.viewing_log = Some("8.8.8.8".to_string());
+
+    let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
+    harness.set_size(egui::vec2(1200.0, 800.0));
+    harness.run();
+
+    // 1. Initially, no markers.
+    // We expect the text "Log started at" NOT to be there in the internal log view initially.
+    // (Actually it might be there if we already fixed it, but let's assume it's missing)
+
+    // 2. Toggle "Append log to file" ON
+    harness.get_by_label(&tr!("Append log to file")).click();
+    harness.run();
+
+    // 3. Verify marker is there
+    assert!(
+        harness
+            .query_all(egui_kittest::kittest::By::new().label_contains(&tr!("Journal started at")))
+            .count()
+            > 0,
+        "Log started marker should be visible in the log viewer after hearting"
+    );
+
+    // 4. Toggle "Append log to file" OFF
+    harness.get_by_label(&tr!("Append log to file")).click();
+    harness.run();
+
+    // 5. Verify end marker is there
+    assert!(
+        harness
+            .query_all(egui_kittest::kittest::By::new().label_contains(&tr!("Journal ended at")))
+            .count()
+            > 0,
+        "Log ended marker should be visible in the log viewer after stopping"
+    );
+}
