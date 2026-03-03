@@ -183,14 +183,16 @@ impl EguiPinger {
             }
 
             // Write to internal log (for viewer)
-            if let Some(status) = state.statuses.get_mut(&addr) {
-                status.events.push_back(crate::model::LogEntry::Marker {
-                    timestamp: now_ts,
-                    message: msg.to_string(),
-                });
-                while status.events.len() > 100_000 {
-                    status.events.pop_front();
-                }
+            let status = state
+                .statuses
+                .entry(addr.clone())
+                .or_insert_with(crate::model::HostStatus::default);
+            status.events.push_back(crate::model::LogEntry::Marker {
+                timestamp: now_ts,
+                message: msg.to_string(),
+            });
+            while status.events.len() > 100_000 {
+                status.events.pop_front();
             }
         }
     }

@@ -564,3 +564,101 @@ fn test_log_entry_statistics_formatting() {
     assert!(!formatted_none.contains("Av="));
     assert!(formatted_none.contains("L:")); // Fallback
 }
+
+#[test]
+fn test_mos_uses_sliding_window() {
+    let mut status = HostStatus::default();
+
+    // 100 losses that will be pushed out of the window
+    for _ in 0..100 {
+        status.add_sample(f64::NAN, false);
+    }
+
+    // 300 successes (fills the sliding window)
+    for _ in 0..300 {
+        status.add_sample(10.0, true);
+    }
+
+    // The window only sees successes. Availability should be 100%.
+    assert_eq!(status.availability, 100.0);
+    // Loss % for MOS should be 0%, so MOS > 4.4
+    assert!(status.mos > 4.4, "MOS was {}", status.mos);
+}
+
+#[test]
+fn test_first_packet_stats() {
+    let mut status = HostStatus::default();
+    status.add_sample(50.0, true);
+
+    // Stats for a single successful packet
+    assert_eq!(status.min_rtt, 50.0);
+    assert_eq!(status.max_rtt, 50.0);
+    assert_eq!(status.stddev, 0.0);
+    assert_eq!(status.outliers, 0);
+}
+
+#[test]
+fn test_jitter_startup() {
+    let mut status = HostStatus::default();
+
+    // First packet lost (sent = 1)
+    status.add_sample(f64::NAN, false);
+
+    // Next two successful packets (sent = 2, 3)
+    status.add_sample(20.0, true);
+    status.add_sample(30.0, true);
+
+    // Difference is exactly 10.0. It should initialize jitter to exactly 10.0,
+    // not (10.0 - 0.0) / 16.0 = 0.625
+    assert_eq!(status.rtp_jitter, 10.0);
+}
+
+#[test]
+fn test_all_stats_use_sliding_window() {
+    let mut status = HostStatus::default();
+
+    // Fill the window with bad data (300 pings)
+    // - Poor RTT, High Jitter (varying RTT to ensure stddev/outliers)
+    for i in 0..300 {
+        if i % 2 == 0 {
+            status.add_sample(300.0, true);
+        } else {
+            // Drop some to lower availability
+            status.add_sample(f64::NAN, false);
+        }
+    }
+
+    assert!(status.availability < 100.0);
+    assert!(status.mos < 4.0);
+    assert!(status.mean >= 300.0);
+
+    // Now push exactly window-size (300) of perfect data
+    // to strictly flush the old bad data out of `history` and `rtp_jitter_history`.
+    for _ in 0..300 {
+        status.add_sample(10.0, true);
+    }
+
+    // Check global counters (they SHOULD remember)
+    assert_eq!(status.sent, 600);
+    assert_eq!(status.lost, 150);
+
+    // Check sliding window metrics (they should be PERFECT)
+    assert_eq!(status.availability, 100.0);
+    assert!(status.mos > 4.4, "MOS was {}", status.mos);
+    assert_eq!(status.mean, 10.0);
+    assert_eq!(status.median, 10.0);
+    assert_eq!(status.p95, 10.0);
+    assert_eq!(status.min_rtt, 10.0);
+    assert_eq!(status.max_rtt, 10.0);
+    // StdDev shouldn't have old outliers
+    assert_eq!(status.stddev, 0.0);
+    assert_eq!(status.outliers, 0);
+
+    // RTP jitter requires 1 packet to transition, but after 300 flat identical intervals,
+    // it will have decayed completely.
+    assert!(status.rtp_jitter < 0.1);
+    // The history contains the decay curve from 290.0 down to 0, so the mean over those 300 elements
+    // won't be practically 0, but it will be quite small (around ~0.96).
+    assert!(status.rtp_jitter_mean < 1.0);
+    assert!(status.rtp_jitter_median < 1.0);
+}

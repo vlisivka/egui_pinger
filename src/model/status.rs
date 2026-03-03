@@ -520,7 +520,15 @@ impl HostStatus {
             self.history.remove(0);
         }
 
-        self.availability = (self.sent - self.lost) as f64 / self.sent as f64 * 100.0;
+        // Availability is calculated as a sliding window (unlike total Packet Loss)
+        let total_window = self.history.len();
+        if total_window > 0 {
+            let lost_in_window = self.history.iter().filter(|rtt| rtt.is_nan()).count();
+            self.availability =
+                (total_window - lost_in_window) as f64 / total_window as f64 * 100.0;
+        } else {
+            self.availability = 100.0;
+        }
 
         let valid_data: Vec<f64> = self
             .history
@@ -538,7 +546,12 @@ impl HostStatus {
         if valid_data.len() < 2 {
             self.mean = valid_data[0];
             self.median = valid_data[0];
-            self.mos = calculate_mos(self.mean, self.rtp_jitter, 0.0);
+            self.min_rtt = valid_data[0];
+            self.max_rtt = valid_data[0];
+            self.stddev = 0.0;
+            self.p95 = valid_data[0];
+            self.outliers = 0;
+            self.mos = calculate_mos(self.mean, self.rtp_jitter, 100.0 - self.availability);
             return;
         }
 
@@ -554,7 +567,7 @@ impl HostStatus {
             let prev_rtt = valid_data[last_idx - 1];
             let d = (current_rtt - prev_rtt).abs();
 
-            if self.sent == 2 {
+            if self.rtp_jitter_history.is_empty() {
                 // Initial value for jitter
                 self.rtp_jitter = d;
             } else {
@@ -592,12 +605,14 @@ impl HostStatus {
 
         // Calculate Outliers
         let threshold = self.mean + 3.0 * self.stddev;
-        if !rtt_ms.is_nan() && rtt_ms > threshold && self.stddev > 0.1 {
-            self.outliers += 1;
+        if self.stddev > 0.1 {
+            self.outliers = valid_data.iter().filter(|&&v| v > threshold).count() as u32;
+        } else {
+            self.outliers = 0;
         }
 
         // Calculate MOS
-        let loss_pct = (self.lost as f64 / self.sent as f64) * 100.0;
+        let loss_pct = 100.0 - self.availability;
         self.mos = calculate_mos(self.mean, self.rtp_jitter, loss_pct);
     }
 }
