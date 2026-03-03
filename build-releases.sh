@@ -57,8 +57,8 @@ do
     mkdir -p "$TEMP_DIR/bin" "$TEMP_DIR/share/applications" "$TEMP_DIR/share/icons/hicolor/scalable/apps"
 
     cp "$TARGET_BUILD_DIR/$EXECUTABLE" "$TEMP_DIR/bin/"
-    cp "assets/linux/egui_pinger.desktop" "$TEMP_DIR/share/applications/"
-    cp "assets/linux/egui_pinger.svg" "$TEMP_DIR/share/icons/hicolor/scalable/apps/"
+    cp "assets/linux/com.github.vlisivka.EguiPinger.desktop" "$TEMP_DIR/share/applications/"
+    cp "assets/linux/com.github.vlisivka.EguiPinger.svg" "$TEMP_DIR/share/icons/hicolor/scalable/apps/"
 
     rm -f "$ARCHIVE"
     tar -zcf "$ARCHIVE" -C "$TEMP_DIR" bin share || panic "Cannot make archive \"$ARCHIVE\" from \"$TEMP_DIR\"."

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/linux/egui_pinger.svg" width="128" height="128" alt="egui_pinger logo">
+  <img src="assets/linux/com.github.vlisivka.EguiPinger.svg" width="128" height="128" alt="egui_pinger logo">
 </p>
 
 # egui_pinger

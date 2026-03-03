@@ -1,6 +1,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // hide console window on Windows in release
 
 use eframe::egui;
+use std::sync::Arc;
 #[cfg(any(feature = "embed-locales", target_os = "windows"))]
 use tr::MoTranslator;
 use tr::tr;
@@ -10,17 +11,25 @@ use tr::tr_init;
 use egui_pinger::EguiPinger;
 
 fn main() -> eframe::Result {
+    let mut viewport = egui::ViewportBuilder::default()
+        .with_title(tr!("egui_pinger"))
+        .with_inner_size([800.0, 520.0])
+        .with_resizable(true);
+    let icon_data = eframe::icon_data::from_png_bytes(include_bytes!(
+        "../assets/linux/com.github.vlisivka.EguiPinger.png"
+    ))
+    .expect("The icon data must be valid");
+    viewport.icon = Some(Arc::new(icon_data));
+    viewport.app_id = Some("com.github.vlisivka.EguiPinger".to_string());
+
     let options = eframe::NativeOptions {
-        viewport: egui::ViewportBuilder::default()
-            .with_title(tr!("egui pinger"))
-            .with_inner_size([800.0, 520.0])
-            .with_resizable(true),
+        viewport,
         renderer: eframe::Renderer::Wgpu,
         ..Default::default()
     };
 
     #[cfg(not(any(feature = "embed-locales", target_os = "windows")))]
-    tr_init!("./locales");
+    tr_init!("./locales"); // TODO: use the system locale directory when built in release mode
 
     #[cfg(any(feature = "embed-locales", target_os = "windows"))]
     {
@@ -40,7 +49,7 @@ fn main() -> eframe::Result {
     }
 
     eframe::run_native(
-        "egui_pinger",
+        "com.github.vlisivka.EguiPinger",
         options,
         Box::new(|cc| Ok(Box::new(EguiPinger::new(cc)))),
     )
