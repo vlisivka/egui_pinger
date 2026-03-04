@@ -1,5 +1,6 @@
 use crate::logic::{SharedState, pinger_task};
 use crate::model::{AppState, DisplaySettings, HostInfo, HostStatus, PingMode};
+use crate::ui::system_tools::{SystemToolsState, ui_system_tools_window};
 use eframe::egui;
 use eframe::egui::{Color32, RichText};
 use egui_plot::{Bar, BarChart, HLine, Plot};
@@ -28,6 +29,8 @@ pub struct EguiPinger {
     pub(crate) selected_help_tab: HelpTab,
     pub(crate) viewing_route: Option<String>,
     pub viewing_log: Option<String>,
+    pub(crate) system_tools_open: bool,
+    pub(crate) system_tools: SystemToolsState,
 }
 
 /// Helper for application-specific colors adapted for light/dark themes.
@@ -152,6 +155,8 @@ impl EguiPinger {
             selected_help_tab: HelpTab::default(),
             viewing_route: None,
             viewing_log: None,
+            system_tools_open: false,
+            system_tools: SystemToolsState::default(),
         };
 
         // Add startup markers for hosts with logging enabled
@@ -214,6 +219,8 @@ impl EguiPinger {
             selected_help_tab: HelpTab::default(),
             viewing_route: None,
             viewing_log: None,
+            system_tools_open: false,
+            system_tools: SystemToolsState::default(),
         }
     }
 
@@ -284,13 +291,16 @@ impl EguiPinger {
                             ui.memory_mut(|mem| mem.request_focus(addr_field_id));
                         }
 
-                        // Перемикач тем (справа)
+                        // Перемикач тем та кнопка інструментів (справа)
                         ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                             let mut theme = ui.ctx().options(|o| o.theme_preference);
                             let old_theme = theme;
                             theme.radio_buttons(ui);
                             if theme != old_theme {
                                 ui.ctx().options_mut(|o| o.theme_preference = theme);
+                            }
+                            if ui.button("🔧").on_hover_text(tr!("System Tools")).clicked() {
+                                self.system_tools_open = !self.system_tools_open;
                             }
                         });
                     });
@@ -992,6 +1002,11 @@ impl EguiPinger {
                         if !open_var || (window_res.is_some() && window_res.unwrap().inner == Some(true)) {
                             self.help_window_open = false;
                         }
+                    }
+
+                    // --- System Tools Window ---
+                    if self.system_tools_open {
+                        ui_system_tools_window(ctx, &mut self.system_tools_open, &mut self.system_tools);
                     }
 
                     // --- Log Window ---

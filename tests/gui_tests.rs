@@ -657,3 +657,26 @@ fn test_log_viewer_markers() {
         "Log ended marker should be visible in the log viewer after stopping"
     );
 }
+
+#[test]
+fn test_system_tools_window_opens() {
+    let state = Arc::new(Mutex::new(AppState::default()));
+    let mut app = EguiPinger::from_state(state);
+
+    // 1. Click the 🔧 button to open System Tools
+    {
+        let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
+        harness.get_by_label("🔧").click();
+        harness.run();
+    }
+
+    // 2. Verify the window appeared with the Guide tab
+    {
+        let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
+        harness.run();
+        harness.get_by_label_contains(&tr!("System Tools"));
+        harness.get_by_label_contains(&tr!("Guide"));
+        harness.get_by_label_contains(&tr!("Run Command"));
+        harness.get_by_label_contains(&tr!("Command:"));
+    }
+}

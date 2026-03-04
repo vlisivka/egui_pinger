@@ -13,7 +13,6 @@ A powerful network diagnostic tool with a graphical interface designed for Windo
 - **Intelligent Diagnostics**:
   - **Traceroute (📍)**: View the full network path to any host with a single click.
   - **Automated Breakdown Detection**: Automatically pinpoint which router in the chain is failing during a connection drop.
-  - **Individual Stop/Start**: Stop monitoring for specific hosts to keep the UI clean. Stopping clears all history, statistics, and logs for that host.
   - **Unified Ping Pool**: Efficiently monitor shared network hops across multiple targets without redundant traffic.
 - **Advanced Network Analysis**:
   - **RTP Jitter (RFC 3550)**: Standard industrial jitter calculation used in VoIP.
@@ -32,6 +31,7 @@ A powerful network diagnostic tool with a graphical interface designed for Windo
   - **Column Customization**: Select which metrics to display for each host individually.
   - **Theme Support**: Adaptive dark/light mode following system settings.
 - **Data Persistence**: Automatically saves host lists and individual display settings.
+- **System Tools (🔧)**: Built-in window for running common network diagnostic commands (`ip addr`, `ss`, `dig`, `ipconfig`, `netstat`, etc.) directly from the GUI, with a step-by-step troubleshooting guide.
 
 ## Roadmap & Progress
 
@@ -41,6 +41,7 @@ A powerful network diagnostic tool with a graphical interface designed for Windo
 - [x] **Phase 4: UI/UX**: Drag & Drop, Sparklines, Theme support, Column customization.
 - [x] **Phase 5: I18n**: Support for English and Ukrainian.
 - [x] **Phase 6: Native Diagnostics**: Integrated Traceroute and automated hop-by-hop failure detection.
+- [x] **Phase 7: System Tools**: Built-in network diagnostic commands with troubleshooting guide.
 
 ## Technical Stack
 
