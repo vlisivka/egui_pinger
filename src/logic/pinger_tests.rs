@@ -12,6 +12,7 @@ fn test_host(mode: PingMode, packet_size: usize, random_padding: bool) -> HostIn
         random_padding,
         log_to_file: false,
         log_file_path: String::new(),
+        is_stopped: false,
     }
 }
 

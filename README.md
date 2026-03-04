@@ -13,6 +13,7 @@ A powerful network diagnostic tool with a graphical interface designed for Windo
 - **Intelligent Diagnostics**:
   - **Traceroute (📍)**: View the full network path to any host with a single click.
   - **Automated Breakdown Detection**: Automatically pinpoint which router in the chain is failing during a connection drop.
+  - **Individual Stop/Start**: Stop monitoring for specific hosts to keep the UI clean. Stopping clears all history, statistics, and logs for that host.
   - **Unified Ping Pool**: Efficiently monitor shared network hops across multiple targets without redundant traffic.
 - **Advanced Network Analysis**:
   - **RTP Jitter (RFC 3550)**: Standard industrial jitter calculation used in VoIP.

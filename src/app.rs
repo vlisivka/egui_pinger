@@ -105,8 +105,14 @@ impl PingVisuals {
         }
     }
 
-    fn status_color(&self, alive: bool, latency: f64) -> Color32 {
-        if !alive {
+    fn status_color(&self, is_stopped: bool, alive: bool, latency: f64) -> Color32 {
+        if is_stopped {
+            if self.is_dark {
+                Color32::from_gray(128)
+            } else {
+                Color32::from_gray(160)
+            }
+        } else if !alive {
             self.latency_color(f64::NAN)
         } else {
             self.latency_color(latency)
@@ -259,6 +265,7 @@ impl EguiPinger {
                                     random_padding: false,
                                     log_to_file: false,
                                     log_file_path: String::new(),
+                                    is_stopped: false,
                                 };
                                 if host_info.is_local() {
                                     host_info.mode = PingMode::Fast;
@@ -295,6 +302,7 @@ impl EguiPinger {
                     let visuals = PingVisuals::from_ctx(ctx);
                     let default_host_status = HostStatus::default();
                     let mut moved = None;
+                    let mut toggled_stop = None;
 
                     {
                         let state = state_arc.lock().unwrap();
@@ -304,7 +312,7 @@ impl EguiPinger {
                                 .get(&host_info.address)
                                 .unwrap_or(&default_host_status);
 
-                        let color = visuals.status_color(status.alive, status.latency);
+                        let color = visuals.status_color(host_info.is_stopped, status.alive, status.latency);
 
                         let mut parts = Vec::new();
                         if host_info.display.show_name {
@@ -316,7 +324,9 @@ impl EguiPinger {
                         parts.push("→".to_string());
 
                         if host_info.display.show_latency {
-                            if status.alive {
+                            if host_info.is_stopped {
+                                parts.push(tr!("STOPPED").to_string());
+                            } else if status.alive {
                                 parts.push(format!("{:4.0}{}", status.latency, tr!("ms")));
                             } else {
                                 let down_text = if let Some(ref fp) = status.failure_point {
@@ -340,6 +350,7 @@ impl EguiPinger {
                         }
                         let mut stats = Vec::new();
 
+                        if !host_info.is_stopped {
                         let loss_pct = (status.lost as f64
                             / if status.sent == 0 { 1 } else { status.sent } as f64)
                             * 100.0;
@@ -443,6 +454,7 @@ impl EguiPinger {
                                 color: visuals.value_color(loss_pct, 1.0, 3.0, false),
                             });
                         }
+                        }
 
                         let row_id = egui::Id::new("host_row").with(&host_info.address);
                         let (inner_res, dropped_payload) =
@@ -469,6 +481,12 @@ impl EguiPinger {
                                     }
                                     if ui.button("📋").on_hover_text(tr!("View Log")).clicked() {
                                         self.viewing_log = Some(host_info.address.clone());
+                                    }
+
+                                    let stop_icon = if host_info.is_stopped { "▶" } else { "⏹" };
+                                    let stop_tooltip = if host_info.is_stopped { tr!("Start monitoring") } else { tr!("Stop monitoring") };
+                                    if ui.button(stop_icon).on_hover_text(stop_tooltip).clicked() {
+                                        toggled_stop = Some(idx);
                                     }
 
                                     // Графік — тоненькі стовпчики зеленого (для <100 мс), жовтого (для >100 мс ),
@@ -584,6 +602,47 @@ impl EguiPinger {
                             let item = state.hosts.remove(from);
                             state.hosts.insert(to, item);
                         }
+
+                    if let Some(idx) = toggled_stop {
+                        let mut state = self.state.lock().unwrap();
+                        if let Some(host) = state.hosts.get_mut(idx) {
+                            host.is_stopped = !host.is_stopped;
+                            let host_is_stopped = host.is_stopped;
+                            let msg = if host_is_stopped {
+                                tr!("Monitoring stopped")
+                            } else {
+                                tr!("Monitoring started")
+                            };
+                            let ts = chrono::Utc::now().timestamp() as u64;
+                            let path = host.log_file_path.clone();
+                            let addr = host.address.clone();
+                            let log_to_file = host.log_to_file;
+
+                            if log_to_file && !path.is_empty() {
+                                if let Ok(mut file) = std::fs::OpenOptions::new()
+                                    .create(true)
+                                    .append(true)
+                                    .open(&path)
+                                {
+                                    let file_ts = chrono::Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
+                                    let _ = writeln!(file, "=== {}: {} ===", msg, file_ts);
+                                }
+                            }
+
+                            if let Some(status) = state.statuses.get_mut(&addr) {
+                                if host_is_stopped {
+                                     status.reset_statistics();
+                                }
+                                status.events.push_back(crate::model::LogEntry::Marker {
+                                    timestamp: ts,
+                                    message: msg.to_string(),
+                                });
+                                while status.events.len() > 100_000 {
+                                    status.events.pop_front();
+                                }
+                            }
+                        }
+                    }
 
                     // Діалог підтвердження видалення
                     if let Some(address) = self.deleting_host.clone() {

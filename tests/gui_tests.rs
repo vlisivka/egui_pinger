@@ -21,6 +21,7 @@ fn make_state_with_host(name: &str, address: &str, mode: PingMode) -> (Arc<Mutex
             random_padding: false,
             log_to_file: false,
             log_file_path: String::new(),
+            is_stopped: false,
         });
         s.statuses
             .insert(address.to_string(), HostStatus::default());
@@ -58,6 +59,7 @@ fn make_state_with_active_host(name: &str, address: &str, rtt: f64) -> Arc<Mutex
             random_padding: true,
             log_to_file: false,
             log_file_path: String::new(),
+            is_stopped: false,
         });
         let mut status = HostStatus::default();
         status.alive = true;
@@ -139,6 +141,7 @@ fn test_status_display_updates() {
             random_padding: false,
             log_to_file: false,
             log_file_path: String::new(),
+            is_stopped: false,
         });
         let mut status = HostStatus::default();
         status.alive = true;
@@ -152,6 +155,74 @@ fn test_status_display_updates() {
     harness.run();
 
     harness.get_by_label_contains("123ms");
+}
+
+#[test]
+fn test_stop_start_flow() {
+    let state = Arc::new(Mutex::new(AppState::default()));
+    {
+        let mut s = state.lock().unwrap();
+        s.hosts.push(HostInfo {
+            name: "Test".to_string(),
+            address: "1.1.1.1".to_string(),
+            mode: PingMode::Fast,
+            display: DisplaySettings::default(),
+            packet_size: 16,
+            random_padding: false,
+            log_to_file: false,
+            log_file_path: String::new(),
+            is_stopped: false,
+        });
+        let mut status = HostStatus::default();
+        status.sent = 10;
+        status.latency = 42.0;
+        status.alive = true;
+        s.statuses.insert("1.1.1.1".to_string(), status);
+    }
+
+    let mut app = EguiPinger::from_state(state.clone());
+
+    // 1. Initial state - should show 42ms
+    {
+        let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
+        harness.run();
+        harness.get_by_label_contains("42ms");
+    }
+
+    // 2. Click STOP (⏹)
+    {
+        let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
+        harness.get_by_label("⏹").click();
+        harness.run();
+    }
+
+    // 3. Verify it shows STOPPED and stats are reset
+    {
+        let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
+        harness.run();
+        harness.get_by_label_contains(&tr!("STOPPED"));
+
+        let s = state.lock().unwrap();
+        let status = s.statuses.get("1.1.1.1").unwrap();
+        assert_eq!(status.sent, 0);
+        assert!(s.hosts[0].is_stopped);
+    }
+
+    // 4. Click START (▶)
+    {
+        let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
+        harness.get_by_label("▶").click();
+        harness.run();
+    }
+
+    // 5. Verify it's no longer stopped
+    {
+        let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
+        harness.run();
+        // Label "STOPPED" should be gone, but 42ms is also gone (was reset)
+        let s = state.lock().unwrap();
+        assert!(!s.hosts[0].is_stopped);
+    }
 }
 
 // === Duplicate host prevention ===

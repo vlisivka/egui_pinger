@@ -64,6 +64,11 @@ pub async fn pinger_task(state: SharedState) {
             let mut needing_trace = Vec::new();
 
             for address in target_addrs {
+                if let Some(host_info) = state_lock.hosts.iter().find(|h| h.address == address) {
+                    if host_info.is_stopped {
+                        continue;
+                    }
+                }
                 if let Some(status) = state_lock.statuses.get_mut(&address) {
                     if status.tracer_in_progress {
                         continue;
@@ -165,11 +170,15 @@ pub async fn pinger_task(state: SharedState) {
                 .map(|h| {
                     (
                         h.address.clone(),
-                        state_lock
-                            .statuses
-                            .get(&h.address)
-                            .map(|s| s.alive)
-                            .unwrap_or(true),
+                        if h.is_stopped {
+                            true
+                        } else {
+                            state_lock
+                                .statuses
+                                .get(&h.address)
+                                .map(|s| s.alive)
+                                .unwrap_or(true)
+                        },
                     )
                 })
                 .collect();
@@ -208,6 +217,12 @@ pub async fn pinger_task(state: SharedState) {
                 .filter_map(|(addr, status)| {
                     let next = next_pings.entry(addr.clone()).or_insert(now);
                     let host_info = target_configs.get(addr);
+
+                    if let Some(h) = host_info {
+                        if h.is_stopped {
+                            return None;
+                        }
+                    }
 
                     // Effective mode logic:
                     // - If diagnostic_mode is ON -> Fast (2s)
@@ -263,11 +278,21 @@ pub async fn pinger_task(state: SharedState) {
                 state_lock.hosts.iter().map(|h| h.address.clone()).collect();
 
             for target_addr in target_addresses {
-                let target_down = state_lock
-                    .statuses
-                    .get(&target_addr)
-                    .map(|s| !s.streak_success && s.streak >= 3)
+                let is_stopped = state_lock
+                    .hosts
+                    .iter()
+                    .find(|h| h.address == target_addr)
+                    .map(|h| h.is_stopped)
                     .unwrap_or(false);
+                let target_down = if is_stopped {
+                    false
+                } else {
+                    state_lock
+                        .statuses
+                        .get(&target_addr)
+                        .map(|s| !s.streak_success && s.streak >= 3)
+                        .unwrap_or(false)
+                };
 
                 if target_down {
                     let path = state_lock

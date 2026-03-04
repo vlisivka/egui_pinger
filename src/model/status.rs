@@ -337,6 +337,8 @@ pub struct HostInfo {
     pub log_to_file: bool,
     #[serde(default)]
     pub log_file_path: String,
+    #[serde(default = "default_false")]
+    pub is_stopped: bool,
 }
 
 fn default_ping_mode() -> PingMode {
@@ -614,6 +616,35 @@ impl HostStatus {
         // Calculate MOS
         let loss_pct = 100.0 - self.availability;
         self.mos = calculate_mos(self.mean, self.rtp_jitter, loss_pct);
+    }
+
+    /// Resets all statistics fields, typically used when stopping the host pinging.
+    pub fn reset_statistics(&mut self) {
+        self.alive = false;
+        self.latency = f64::NAN;
+        self.history.clear();
+        self.mean = 0.0;
+        self.rtp_jitter = 0.0;
+        self.rtp_jitter_history.clear();
+        self.median = 0.0;
+        self.p95 = 0.0;
+        self.stddev = 0.0;
+        self.min_rtt = f64::INFINITY;
+        self.max_rtt = f64::NEG_INFINITY;
+        self.rtp_jitter_mean = 0.0;
+        self.rtp_jitter_median = 0.0;
+        self.mos = 0.0;
+        self.availability = 0.0;
+        self.outliers = 0;
+        self.streak = 0;
+        self.streak_success = false;
+        self.sent = 0;
+        self.lost = 0;
+        self.prev_alive = None;
+        self.incident_start = None;
+        self.log_pings_since_stats = 0;
+        self.events.clear();
+        // Do not reset traceroute_path, tracking states for traceroute
     }
 }
 

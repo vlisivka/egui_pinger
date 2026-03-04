@@ -136,6 +136,7 @@ fn test_hostinfo_is_local() {
         random_padding: false,
         log_to_file: false,
         log_file_path: String::new(),
+        is_stopped: false,
     };
     assert!(h.is_local(), "127.0.0.1 should be local");
 
@@ -203,6 +204,7 @@ fn test_hostinfo_defaults() {
         random_padding: false,
         log_to_file: false,
         log_file_path: String::new(),
+        is_stopped: false,
     };
     assert_eq!(h.mode, PingMode::Fast);
     assert_eq!(h.packet_size, 16);
@@ -389,6 +391,7 @@ fn test_hostinfo_serde_roundtrip() {
         random_padding: true,
         log_to_file: false,
         log_file_path: String::new(),
+        is_stopped: false,
     };
 
     let json = serde_json::to_string(&host).unwrap();
@@ -399,6 +402,7 @@ fn test_hostinfo_serde_roundtrip() {
     assert_eq!(host.mode, restored.mode);
     assert_eq!(host.packet_size, restored.packet_size);
     assert_eq!(host.random_padding, restored.random_padding);
+    assert_eq!(host.is_stopped, restored.is_stopped);
 }
 
 #[test]
@@ -410,6 +414,7 @@ fn test_hostinfo_serde_defaults() {
     assert_eq!(host.mode, PingMode::Fast); // default_ping_mode
     assert_eq!(host.packet_size, 16); // default_packet_size
     assert!(!host.random_padding); // default_false
+    assert!(!host.is_stopped); // default_false
 }
 
 #[test]
@@ -426,6 +431,7 @@ fn test_appstate_serde_roundtrip() {
         random_padding: true,
         log_to_file: false,
         log_file_path: String::new(),
+        is_stopped: false,
     });
     state.hosts.push(HostInfo {
         name: "Router".to_string(),
@@ -436,6 +442,7 @@ fn test_appstate_serde_roundtrip() {
         random_padding: false,
         log_to_file: false,
         log_file_path: String::new(),
+        is_stopped: false,
     });
 
     let json = serde_json::to_string_pretty(&state).unwrap();
@@ -661,4 +668,30 @@ fn test_all_stats_use_sliding_window() {
     // won't be practically 0, but it will be quite small (around ~0.96).
     assert!(status.rtp_jitter_mean < 1.0);
     assert!(status.rtp_jitter_median < 1.0);
+}
+
+#[test]
+fn test_reset_statistics() {
+    let mut status = HostStatus::default();
+    status.add_sample(100.0, true);
+    status.add_sample(110.0, true);
+    status.add_sample(f64::NAN, false);
+    status.events.push_back(crate::model::LogEntry::Marker {
+        timestamp: 123,
+        message: "Test".to_string(),
+    });
+
+    assert_eq!(status.sent, 3);
+    assert_eq!(status.events.len(), 1);
+    assert!(!status.history.is_empty());
+
+    status.reset_statistics();
+
+    assert_eq!(status.sent, 0);
+    assert_eq!(status.lost, 0);
+    assert!(status.history.is_empty());
+    assert!(status.events.is_empty());
+    assert!(status.latency.is_nan());
+    assert_eq!(status.mean, 0.0);
+    assert_eq!(status.rtp_jitter, 0.0);
 }
