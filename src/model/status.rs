@@ -15,6 +15,20 @@ pub enum PingMode {
     VerySlow, // 5m
 }
 
+impl PingMode {
+    pub fn label(&self) -> String {
+        match self {
+            PingMode::VeryFast => tr!("Very fast (1s)"),
+            PingMode::Fast => tr!("Fast (2s)"),
+            PingMode::NotFast => tr!("Not fast (5s)"),
+            PingMode::Normal => tr!("Normal (10s)"),
+            PingMode::NotSlow => tr!("Not slow (30s)"),
+            PingMode::Slow => tr!("Slow (1m)"),
+            PingMode::VerySlow => tr!("Very slow (5m)"),
+        }
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum LogEntry {
     /// Successful ping or timeout
@@ -352,6 +366,22 @@ fn default_packet_size() -> usize {
 }
 
 impl HostInfo {
+    /// Appends formatted log lines to the host's log file (if logging is enabled).
+    pub fn append_to_log(&self, lines: &[String]) {
+        if !self.log_to_file || self.log_file_path.is_empty() {
+            return;
+        }
+        if let Ok(mut file) = std::fs::OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(&self.log_file_path)
+        {
+            for line in lines {
+                let _ = writeln!(file, "{}", line);
+            }
+        }
+    }
+
     pub fn is_local(&self) -> bool {
         if let Ok(ip) = self.address.parse::<std::net::IpAddr>() {
             match ip {
@@ -653,39 +683,6 @@ impl HostStatus {
     pub fn trim_events(&mut self) {
         while self.events.len() > MAX_EVENTS_PER_HOST {
             self.events.pop_front();
-        }
-    }
-}
-
-impl PingMode {
-    /// Returns a localized human-readable label for this ping mode.
-    pub fn label(&self) -> String {
-        match self {
-            PingMode::VeryFast => tr!("Very fast (1s)"),
-            PingMode::Fast => tr!("Fast (2s)"),
-            PingMode::NotFast => tr!("Not fast (5s)"),
-            PingMode::Normal => tr!("Normal (10s)"),
-            PingMode::NotSlow => tr!("Not slow (30s)"),
-            PingMode::Slow => tr!("Slow (1m)"),
-            PingMode::VerySlow => tr!("Very slow (5m)"),
-        }
-    }
-}
-
-impl HostInfo {
-    /// Appends formatted log lines to the host's log file (if logging is enabled).
-    pub fn append_to_log(&self, lines: &[String]) {
-        if !self.log_to_file || self.log_file_path.is_empty() {
-            return;
-        }
-        if let Ok(mut file) = std::fs::OpenOptions::new()
-            .create(true)
-            .append(true)
-            .open(&self.log_file_path)
-        {
-            for line in lines {
-                let _ = writeln!(file, "{}", line);
-            }
         }
     }
 }

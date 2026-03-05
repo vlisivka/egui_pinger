@@ -3,7 +3,6 @@ use crate::model::{AppState, DisplaySettings, HostInfo, HostStatus, PingMode};
 use crate::ui::system_tools::{SystemToolsState, ui_system_tools_window};
 use eframe::egui;
 use eframe::egui::Color32;
-use std::io::Write;
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 use tr::tr;
@@ -175,22 +174,17 @@ impl EguiPinger {
         let now_ts = chrono::Utc::now().timestamp() as u64;
 
         // Collect info to avoid borrow conflicts
-        let targets: Vec<(String, String)> = state
+        let targets: Vec<crate::model::HostInfo> = state
             .hosts
             .iter()
             .filter(|h| h.log_to_file && !h.log_file_path.is_empty())
-            .map(|h| (h.address.clone(), h.log_file_path.clone()))
+            .cloned()
             .collect();
 
-        for (addr, path) in targets {
+        for host in targets {
+            let addr = host.address.clone();
             // Write to file
-            if let Ok(mut file) = std::fs::OpenOptions::new()
-                .create(true)
-                .append(true)
-                .open(&path)
-            {
-                let _ = writeln!(file, "=== {}: {} ===", msg, ts);
-            }
+            host.append_to_log(&[format!("=== {}: {} ===", msg, ts)]);
 
             // Write to internal log (for viewer)
             let status = state.statuses.entry(addr.clone()).or_default();
@@ -353,21 +347,11 @@ impl EguiPinger {
                                 tr!("Monitoring started")
                             };
                             let ts = chrono::Utc::now().timestamp() as u64;
-                            let path = host.log_file_path.clone();
                             let addr = host.address.clone();
-                            let log_to_file = host.log_to_file;
 
-                            if log_to_file
-                                && !path.is_empty()
-                                && let Ok(mut file) = std::fs::OpenOptions::new()
-                                    .create(true)
-                                    .append(true)
-                                    .open(&path)
-                            {
-                                let file_ts =
-                                    chrono::Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
-                                let _ = writeln!(file, "=== {}: {} ===", msg, file_ts);
-                            }
+                            let file_ts =
+                                chrono::Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
+                            host.append_to_log(&[format!("=== {}: {} ===", msg, file_ts)]);
 
                             if let Some(status) = state.statuses.get_mut(&addr) {
                                 if host_is_stopped {

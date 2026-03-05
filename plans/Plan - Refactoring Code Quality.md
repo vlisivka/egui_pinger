@@ -242,7 +242,7 @@
 Мета: розбити «God Function» `pinger_task()` (589 рядків) на тестовані функції.
 
 #### 3.1 Виокремити логіку traceroute
-- [ ] Створити функцію:
+- [x] Створити функцію:
   ```rust
   /// Checks which hosts need traceroute updates and spawns traceroute tasks.
   fn check_and_spawn_traceroutes(
@@ -251,40 +251,40 @@
       now: Instant,
   );
   ```
-- [ ] Перенести код з рядків ~60–160 `pinger_task()`.
-- [ ] `cargo test`.
+- [x] Перенести код з рядків ~60–160 `pinger_task()`.
+- [x] `cargo test`.
 
 #### 3.2 Виокремити діагностичний режим
-- [ ] Створити функцію:
+- [x] Створити функцію:
   ```rust
   /// Enables/disables diagnostic (high-frequency) pinging for hops of down hosts.
   fn update_diagnostic_modes(state: &SharedState);
   ```
-- [ ] Перенести код з рядків ~162–196.
-- [ ] `cargo test`.
+- [x] Перенести код з рядків ~162–196.
+- [x] `cargo test`.
 
 #### 3.3 Виокремити планування пінгів
-- [ ] Створити функцію:
+- [x] Створити функцію:
   ```rust
   /// Collects the list of addresses that need pinging in the current cycle.
   fn collect_ping_targets(state: &SharedState, now: Instant) -> Vec<PingTarget>;
   ```
   де `PingTarget` — невеликий struct з адресою, режимом та метаданими.
-- [ ] Перенести код з рядків ~198–268.
-- [ ] `cargo test`.
+- [x] Перенести код з рядків ~198–268.
+- [x] `cargo test`.
 
 #### 3.4 Виокремити failure deduction
-- [ ] Створити функцію:
+- [x] Створити функцію:
   ```rust
   /// Analyzes hop-by-hop data to deduce which node caused a connectivity failure.
   fn deduce_failure_points(state: &SharedState);
   ```
-- [ ] Перенести код з рядків ~270–388.
-- [ ] **Обов'язково:** ця функція має бути публічною (або `pub(crate)`) для тестування у Фазі 4.
-- [ ] `cargo test`.
+- [x] Перенести код з рядків ~270–388.
+- [x] **Обов'язково:** ця функція має бути публічною (або `pub(crate)`) для тестування у Фазі 4.
+- [x] `cargo test`.
 
 #### 3.5 Виокремити обробку результатів пінгу
-- [ ] Створити функцію:
+- [x] Створити функцію:
   ```rust
   /// Processes a single ping result: updates stats, creates log entries, detects incidents.
   fn process_ping_result(
@@ -296,11 +296,11 @@
       bytes: u16,
   );
   ```
-- [ ] Замінити два дубльованих блоки (рядки ~460–561 та ~564–627) єдиною функцією.
-- [ ] `cargo test`.
+- [x] Замінити два дубльованих блоки (рядки ~460–561 та ~564–627) єдиною функцією.
+- [x] `cargo test`.
 
 #### 3.6 `HostInfo::append_to_log()`
-- [ ] Додати метод до `HostInfo`:
+- [x] Додати метод до `HostInfo`:
   ```rust
   /// Appends formatted log lines to the host's log file (if logging is enabled).
   pub fn append_to_log(&self, lines: &[String]) {
@@ -318,12 +318,12 @@
       }
   }
   ```
-- [ ] Замінити 4 дублювання у `pinger.rs` та `app.rs`.
-- [ ] `cargo test`.
+- [x] Замінити 4 дублювання у `pinger.rs` та `app.rs`.
+- [x] `cargo test`.
 
 #### 3.7 Валідація декомпозиції
-- [ ] Переконатися, що `pinger_task()` залишився тонким основним циклом (~100–150 рядків).
-- [ ] `cargo test` + `cargo clippy`.
+- [x] Переконатися, що `pinger_task()` залишився тонким основним циклом (~100–150 рядків).
+- [x] `cargo test` + `cargo clippy`.
 
 ---
 
