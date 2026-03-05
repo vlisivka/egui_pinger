@@ -5,7 +5,7 @@ use eframe::egui::{Color32, RichText};
 use std::collections::HashMap;
 use tr::tr;
 
-/// Renders the traceroute path viewer window.
+/// Renders the traceroute path viewer window for a specific host.
 pub fn render_route_window(
     ctx: &egui::Context,
     visuals: &PingVisuals,

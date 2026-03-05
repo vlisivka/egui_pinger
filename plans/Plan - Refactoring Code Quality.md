@@ -366,41 +366,35 @@
 Мета: усунути залишкові проблеми продуктивності та якості.
 
 #### 5.1 `Vec<f64>` → `VecDeque<f64>` для history
-- [ ] Замінити `history: Vec<f64>` на `history: VecDeque<f64>` у `HostStatus`.
-- [ ] Замінити `self.history.push(rtt_ms)` + `self.history.remove(0)` на `self.history.push_back(rtt_ms)` + `self.history.pop_front()`.
-- [ ] Аналогічно для `rtp_jitter_history`.
-- [ ] Оновити `add_sample()`: замінити `self.history.iter()...collect::<Vec>` на пряму ітерацію де можливо.
-- [ ] `cargo test`.
+- [x] Замінити `history: Vec<f64>` на `history: VecDeque<f64>` у `HostStatus`.
+- [x] Замінити `self.history.push(rtt_ms)` + `self.history.remove(0)` на `self.history.push_back(rtt_ms)` + `self.history.pop_front()`.
+- [x] Аналогічно для `rtp_jitter_history`.
+- [x] Оновити `add_sample()`: замінити `self.history.iter()...collect::<Vec>` на пряму ітерацію де можливо.
+- [x] `cargo test`.
 
 #### 5.2 `LazyLock` для Regex у `tracer.rs`
-- [ ] Замінити `Regex::new(...)` всередині `parse_traceroute_output()` на:
-  ```rust
-  use std::sync::LazyLock;
-  static IP_RE: LazyLock<Regex> = LazyLock::new(|| {
-      Regex::new(r"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})|([0-9a-fA-F:]+:[0-9a-fA-F:]+)").unwrap()
-  });
-  ```
-- [ ] `cargo test`.
+- [x] Замінити `Regex::new(...)` всередині `parse_traceroute_output()` на `LazyLock<Regex>`.
+- [x] `cargo test`.
 
 #### 5.3 Покращення обробки `Mutex::lock()`
-- [ ] Замінити `self.state.lock().unwrap()` на `self.state.lock().expect("State mutex poisoned")` у 14 місцях `app.rs`.
+- [x] Замінити `self.state.lock().unwrap()` на `self.state.lock().expect("State mutex poisoned")` у 14 місцях `app.rs`.
 - [ ] Розглянути можливість використання `let Ok(state) = self.state.lock() else { return; };` для UI-функцій, щоб уникнути паніки при отруєному mutex.
-- [ ] `cargo test`.
+- [x] `cargo test`.
 
 #### 5.4 Doc-коментарі на pub-елементах
-- [ ] Додати `///` doc-коментарі до:
-  - [ ] `HostStatus` — загальний опис ролі у системі.
-  - [ ] `LogEntry` — опис кожного варіанту enum.
-  - [ ] `EguiPinger` — загальний опис головного вікна.
-  - [ ] `TracerouteHop` — опис полів.
-  - [ ] `PingVisuals` — опис ролі.
-  - [ ] Усіх `pub fn` у нових модулях `src/ui/`.
-- [ ] `cargo doc --no-deps` — переконатися, що документація генерується без помилок.
+- [x] Додати `///` doc-коментарі до:
+  - [x] `HostStatus` — загальний опис ролі у системі.
+  - [x] `LogEntry` — опис кожного варіанту enum.
+  - [x] `EguiPinger` — загальний опис головного вікна.
+  - [x] `TracerouteHop` — опис полів.
+  - [x] `PingVisuals` — опис ролі.
+  - [x] Усіх `pub fn` у нових модулях `src/ui/`.
+- [x] `cargo doc --no-deps` — переконатися, що документація генерується без помилок.
 
 #### 5.5 Фінальна валідація
-- [ ] `cargo test` — усі тести проходять.
-- [ ] `cargo clippy` — 0 попереджень.
-- [ ] `cargo doc --no-deps` — без помилок.
+- [x] `cargo test` — усі тести проходять.
+- [x] `cargo clippy` — 0 попереджень.
+- [x] `cargo doc --no-deps` — без помилок.
 - [ ] Запустити програму та перевірити всі UI-вікна вручну.
 
 ---

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: egui_pinger\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-05 06:25+0000\n"
+"POT-Creation-Date: 2026-03-05 06:33+0000\n"
 "PO-Revision-Date: 2026-02-25 16:30+0200\n"
 "Last-Translator: Volodymyr M. Lisivka <vlisivka@gmail.com>\n"
 "Language-Team: Ukrainian\n"
@@ -86,7 +86,7 @@ msgid "Jmed"
 msgstr "Тм"
 
 #: scripts/../src/model/status.rs:156 scripts/../src/ui/host_row.rs:102
-#: scripts/../src/ui/host_settings.rs:95
+#: scripts/../src/ui/host_settings.rs:97
 msgid "MOS"
 msgstr "MOS"
 
@@ -155,54 +155,54 @@ msgstr "Зв'язок відновлено"
 msgid "egui_pinger"
 msgstr "egui_pinger"
 
-#: scripts/../src/app.rs:177 scripts/../src/ui/log_viewer.rs:69
+#: scripts/../src/app.rs:183 scripts/../src/ui/log_viewer.rs:69
 msgid "Journal started at"
 msgstr "Журнал почато"
 
-#: scripts/../src/app.rs:179 scripts/../src/ui/log_viewer.rs:71
+#: scripts/../src/app.rs:185 scripts/../src/ui/log_viewer.rs:71
 msgid "Journal ended at"
 msgstr "Журнал закінчено"
 
-#: scripts/../src/app.rs:235
+#: scripts/../src/app.rs:242
 msgid "Host name"
 msgstr "Імʼя хоста"
 
-#: scripts/../src/app.rs:243
+#: scripts/../src/app.rs:250
 msgid "Host address"
 msgstr "Адреса хоста"
 
 #. When "Add" button is clicked or Enter is pressed in the second field,
 #. add host to the list
-#: scripts/../src/app.rs:249
+#: scripts/../src/app.rs:256
 msgid "Add"
 msgstr "Додати"
 
 # --- System Tools ---
-#: scripts/../src/app.rs:298 scripts/../src/ui/system_tools.rs:360
+#: scripts/../src/app.rs:305 scripts/../src/ui/system_tools.rs:360
 msgid "System Tools"
 msgstr "Системні інструменти"
 
-#: scripts/../src/app.rs:353
+#: scripts/../src/app.rs:360
 msgid "Monitoring stopped"
 msgstr "Моніторинг зупинено"
 
-#: scripts/../src/app.rs:355
+#: scripts/../src/app.rs:362
 msgid "Monitoring started"
 msgstr "Моніторинг розпочато"
 
-#: scripts/../src/app.rs:389
+#: scripts/../src/app.rs:396
 msgid "Confirm Deletion"
 msgstr "Підтвердження видалення"
 
-#: scripts/../src/app.rs:396
+#: scripts/../src/app.rs:403
 msgid "Are you sure you want to remove this host"
 msgstr "Ви впевнені, що хочете видалити цей хост"
 
-#: scripts/../src/app.rs:402
+#: scripts/../src/app.rs:409
 msgid "Delete"
 msgstr "Видалити"
 
-#: scripts/../src/app.rs:408
+#: scripts/../src/app.rs:416
 msgid "Cancel"
 msgstr "Скасувати"
 
@@ -473,7 +473,7 @@ msgstr ""
 "Якщо ви можете пінгувати 8.8.8.8, але не можете відкрити 'google.com', у "
 "вас, швидше за все, проблема з DNS, а не з підключенням."
 
-#: scripts/../src/ui/help.rs:93 scripts/../src/ui/host_settings.rs:113
+#: scripts/../src/ui/help.rs:93 scripts/../src/ui/host_settings.rs:115
 msgid "Close"
 msgstr "Закрити"
 
@@ -489,23 +489,23 @@ msgstr "ОБРИВ (на {node})"
 msgid "DOWN"
 msgstr "НЕМА"
 
-#: scripts/../src/ui/host_row.rs:68 scripts/../src/ui/host_settings.rs:85
+#: scripts/../src/ui/host_row.rs:68 scripts/../src/ui/host_settings.rs:87
 msgid "Mean RTT"
 msgstr "Середній час повернення"
 
-#: scripts/../src/ui/host_row.rs:75 scripts/../src/ui/host_settings.rs:87
+#: scripts/../src/ui/host_row.rs:75 scripts/../src/ui/host_settings.rs:89
 msgid "Median RTT"
 msgstr "Медіанний час повернення"
 
-#: scripts/../src/ui/host_row.rs:82 scripts/../src/ui/host_settings.rs:89
+#: scripts/../src/ui/host_row.rs:82 scripts/../src/ui/host_settings.rs:91
 msgid "RTP Jitter"
 msgstr "Тремтіння по стандарту RTP"
 
-#: scripts/../src/ui/host_row.rs:89 scripts/../src/ui/host_settings.rs:91
+#: scripts/../src/ui/host_row.rs:89 scripts/../src/ui/host_settings.rs:93
 msgid "Mean Jitter"
 msgstr "Середнє тремтіння"
 
-#: scripts/../src/ui/host_row.rs:96 scripts/../src/ui/host_settings.rs:93
+#: scripts/../src/ui/host_row.rs:96 scripts/../src/ui/host_settings.rs:95
 msgid "Median Jitter"
 msgstr "Медіанне тремтіння"
 
@@ -513,7 +513,7 @@ msgstr "Медіанне тремтіння"
 msgid "Voice Quality (MOS)"
 msgstr "Якість голосу (1.0-3.0-4.5)"
 
-#: scripts/../src/ui/host_row.rs:110 scripts/../src/ui/host_settings.rs:97
+#: scripts/../src/ui/host_row.rs:110 scripts/../src/ui/host_settings.rs:99
 msgid "Availability"
 msgstr "Доступність"
 
@@ -529,7 +529,7 @@ msgstr "У"
 msgid "F"
 msgstr "Н"
 
-#: scripts/../src/ui/host_row.rs:144 scripts/../src/ui/host_settings.rs:101
+#: scripts/../src/ui/host_row.rs:144 scripts/../src/ui/host_settings.rs:103
 msgid "Streak"
 msgstr "Страйк (Серія Успішних/Неуспішних)"
 
@@ -537,15 +537,15 @@ msgstr "Страйк (Серія Успішних/Неуспішних)"
 msgid "Standard Deviation"
 msgstr "Стандартне відхилення"
 
-#: scripts/../src/ui/host_row.rs:158 scripts/../src/ui/host_settings.rs:105
+#: scripts/../src/ui/host_row.rs:158 scripts/../src/ui/host_settings.rs:107
 msgid "95th Percentile"
 msgstr "Найгірший з 95%"
 
-#: scripts/../src/ui/host_row.rs:170 scripts/../src/ui/host_settings.rs:107
+#: scripts/../src/ui/host_row.rs:170 scripts/../src/ui/host_settings.rs:109
 msgid "Min / Max RTT"
 msgstr "Мін/Макс час повернення"
 
-#: scripts/../src/ui/host_row.rs:183 scripts/../src/ui/host_settings.rs:109
+#: scripts/../src/ui/host_row.rs:183 scripts/../src/ui/host_settings.rs:111
 msgid "Packet Loss"
 msgstr "Втрати пакетів"
 
@@ -565,133 +565,133 @@ msgstr "Зупинити моніторинг"
 msgid "Timeout"
 msgstr "Без відповіді"
 
-#: scripts/../src/ui/host_settings.rs:21
+#: scripts/../src/ui/host_settings.rs:23
 msgid "Host Settings"
 msgstr "Налаштування хоста"
 
-#: scripts/../src/ui/host_settings.rs:25
+#: scripts/../src/ui/host_settings.rs:27
 msgid "Host"
 msgstr "Хост"
 
-#: scripts/../src/ui/host_settings.rs:29
+#: scripts/../src/ui/host_settings.rs:31
 msgid "Name"
 msgstr "Назва"
 
-#: scripts/../src/ui/host_settings.rs:35
+#: scripts/../src/ui/host_settings.rs:37
 msgid "Ping Interval:"
 msgstr "Інтервал пінгу:"
 
-#: scripts/../src/ui/host_settings.rs:54
+#: scripts/../src/ui/host_settings.rs:56
 msgid "VPN & Privacy:"
 msgstr "VPN та приватність:"
 
-#: scripts/../src/ui/host_settings.rs:56
+#: scripts/../src/ui/host_settings.rs:58
 msgid "Packet Size:"
 msgstr "Розмір пакета:"
 
-#: scripts/../src/ui/host_settings.rs:60
+#: scripts/../src/ui/host_settings.rs:62
 msgid " bytes"
 msgstr " байт"
 
-#: scripts/../src/ui/host_settings.rs:63
+#: scripts/../src/ui/host_settings.rs:65
 msgid "Random Padding"
 msgstr "Випадкове заповнення"
 
-#: scripts/../src/ui/host_settings.rs:65
+#: scripts/../src/ui/host_settings.rs:67
 msgid "Adds 0-25% random extra data to each packet to mask traffic patterns"
 msgstr ""
 "Додає 0-25% випадкових даних до кожного пакета для маскування мережевого "
 "патерна"
 
-#: scripts/../src/ui/host_settings.rs:70
+#: scripts/../src/ui/host_settings.rs:72
 msgid "Show fields:"
 msgstr "Показувати поля:"
 
-#: scripts/../src/ui/host_settings.rs:73
+#: scripts/../src/ui/host_settings.rs:75
 msgid "Learn more about these metrics"
 msgstr "Взнай більше про ці метрики"
 
-#: scripts/../src/ui/host_settings.rs:79
+#: scripts/../src/ui/host_settings.rs:81
 msgid "Host Name"
 msgstr "Назва хоста"
 
-#: scripts/../src/ui/host_settings.rs:80
+#: scripts/../src/ui/host_settings.rs:82
 msgid "User-defined name for this host"
 msgstr "Зрозуміла власна назва для цього хоста"
 
-#: scripts/../src/ui/host_settings.rs:81
+#: scripts/../src/ui/host_settings.rs:83
 msgid "Host Address"
 msgstr "Адреса хоста"
 
-#: scripts/../src/ui/host_settings.rs:82
+#: scripts/../src/ui/host_settings.rs:84
 msgid "IP address or domain name"
 msgstr "IP-адреса або доменне ім'я"
 
-#: scripts/../src/ui/host_settings.rs:83
+#: scripts/../src/ui/host_settings.rs:85
 msgid "Current Latency"
 msgstr "Поточна затримка"
 
-#: scripts/../src/ui/host_settings.rs:84
+#: scripts/../src/ui/host_settings.rs:86
 msgid "Round-trip time of the last packet"
 msgstr "Час проходження туди й назад останнього пакета"
 
-#: scripts/../src/ui/host_settings.rs:86
+#: scripts/../src/ui/host_settings.rs:88
 msgid "Average latency (can be skewed by spikes)"
 msgstr "Середня затримка (на неї можуть впливати сплески)"
 
-#: scripts/../src/ui/host_settings.rs:88
+#: scripts/../src/ui/host_settings.rs:90
 msgid "Typical latency (ignores rare spikes)"
 msgstr "Типова затримка (ігнорує рідкісні сплески)"
 
-#: scripts/../src/ui/host_settings.rs:90
+#: scripts/../src/ui/host_settings.rs:92
 msgid "Current variation in delay (RFC 3550)"
 msgstr "Поточне тремтіння часу доставки (RFC 3550)"
 
-#: scripts/../src/ui/host_settings.rs:92
+#: scripts/../src/ui/host_settings.rs:94
 msgid "Average variation over time"
 msgstr "Середнє коливання затримки з часом"
 
-#: scripts/../src/ui/host_settings.rs:94
+#: scripts/../src/ui/host_settings.rs:96
 msgid "Typical variation over time"
 msgstr "Типове коливання затримки з часом"
 
-#: scripts/../src/ui/host_settings.rs:96
+#: scripts/../src/ui/host_settings.rs:98
 msgid "Voice Quality Score (1.0 = Bad, 4.5 = Excellent)"
 msgstr "Оцінка якості голосу (1.0 = Погано, 4.5 = Відмінно)"
 
-#: scripts/../src/ui/host_settings.rs:98
+#: scripts/../src/ui/host_settings.rs:100
 msgid "Percentage of packets successfully delivered"
 msgstr "Відсоток успішно доставлених пакетів"
 
-#: scripts/../src/ui/host_settings.rs:99
+#: scripts/../src/ui/host_settings.rs:101
 msgid "Outliers"
 msgstr "Аномалії"
 
-#: scripts/../src/ui/host_settings.rs:100
+#: scripts/../src/ui/host_settings.rs:102
 msgid "Count of extremely delayed packets (lags)"
 msgstr "Кількість надзвичайно повільних пакетів (лагів)"
 
-#: scripts/../src/ui/host_settings.rs:102
+#: scripts/../src/ui/host_settings.rs:104
 msgid "Current consecutive successes or failures"
 msgstr "Поточна кількість підряд успіхів або помилок"
 
-#: scripts/../src/ui/host_settings.rs:103
+#: scripts/../src/ui/host_settings.rs:105
 msgid "StdDev"
 msgstr "Стандартне відхилення"
 
-#: scripts/../src/ui/host_settings.rs:104
+#: scripts/../src/ui/host_settings.rs:106
 msgid "Standard Deviation (spread of latency values)"
 msgstr "Стандартне відхилення (розкид значень затримки)"
 
-#: scripts/../src/ui/host_settings.rs:106
+#: scripts/../src/ui/host_settings.rs:108
 msgid "Latency experienced by 95% of packets (worst-case)"
 msgstr "Затримка для 95% пакетів (найгірший стабільний показник)"
 
-#: scripts/../src/ui/host_settings.rs:108
+#: scripts/../src/ui/host_settings.rs:110
 msgid "Absolute best and worst latency in history"
 msgstr "Абсолютно найкраща та найгірша затримка за історію"
 
-#: scripts/../src/ui/host_settings.rs:110
+#: scripts/../src/ui/host_settings.rs:112
 msgid "Count and percentage of dropped packets"
 msgstr "Кількість та відсоток втрачених пакетів"
 

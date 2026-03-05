@@ -45,12 +45,14 @@ pub struct PingVisuals {
 }
 
 impl PingVisuals {
+    /// Creates a new `PingVisuals` based on the current UI theme.
     pub fn from_ctx(ctx: &egui::Context) -> Self {
         Self {
             is_dark: ctx.style().visuals.dark_mode,
         }
     }
 
+    /// Returns the color for limit lines in charts.
     pub fn limit_line_color(&self) -> Color32 {
         if self.is_dark {
             Color32::from_gray(80)
@@ -59,6 +61,7 @@ impl PingVisuals {
         }
     }
 
+    /// Returns a theme-aware color representing the given latency range.
     pub fn latency_color(&self, rtt: f64) -> Color32 {
         if rtt.is_nan() {
             Color32::from_rgb(213, 94, 0) // Vermilion
@@ -77,6 +80,7 @@ impl PingVisuals {
         }
     }
 
+    /// Returns an optional alert color if a value exceeds thresholds.
     pub fn value_color(
         &self,
         value: f64,
@@ -114,6 +118,7 @@ impl PingVisuals {
         }
     }
 
+    /// Returns a color representing the combined availability and latency state.
     pub fn status_color(&self, is_stopped: bool, alive: bool, latency: f64) -> Color32 {
         if is_stopped {
             if self.is_dark {
@@ -130,6 +135,7 @@ impl PingVisuals {
 }
 
 impl EguiPinger {
+    /// Creates a new application instance, restoring state from storage if available.
     pub fn new(cc: &eframe::CreationContext<'_>) -> Self {
         let state = Arc::new(Mutex::new(match cc.storage {
             Some(storage) => {
@@ -220,6 +226,7 @@ impl EguiPinger {
         }
     }
 
+    /// The main UI decomposition function that orchestrates all sub-windows and the host list.
     pub fn ui_layout(&mut self, ctx: &egui::Context) {
         egui::CentralPanel::default().show(ctx, |ui| {
             egui::ScrollArea::vertical().show(ui, |ui| {
@@ -472,7 +479,8 @@ impl EguiPinger {
 
 impl eframe::App for EguiPinger {
     fn save(&mut self, storage: &mut dyn eframe::Storage) {
-        let serialized = serde_json::to_string_pretty(&self.state).unwrap_or_default();
+        let state = self.state.lock().expect("State mutex poisoned");
+        let serialized = serde_json::to_string_pretty(&*state).unwrap_or_default();
         storage.set_string(eframe::APP_KEY, serialized);
     }
 
