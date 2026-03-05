@@ -1,9 +1,12 @@
+use crate::constants::{
+    HOP_DATA_FRESHNESS_SEC, STATE_CONFIRMATION_STREAK, STATS_SNAPSHOT_INTERVAL,
+    TRACEROUTE_INTERVAL_SEC, TRACEROUTE_MIN_COOLDOWN_SEC,
+};
 use crate::logic::tracer::run_traceroute;
 use crate::model::{AppState, HostInfo, LogEntry, PingMode};
 use ping_async::{IcmpEchoRequestor, IcmpEchoStatus};
 use rand::RngExt;
 use std::collections::HashMap;
-use std::io::Write;
 use std::net::IpAddr;
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
@@ -64,23 +67,25 @@ pub async fn pinger_task(state: SharedState) {
             let mut needing_trace = Vec::new();
 
             for address in target_addrs {
-                if let Some(host_info) = state_lock.hosts.iter().find(|h| h.address == address) {
-                    if host_info.is_stopped {
-                        continue;
-                    }
+                if let Some(host_info) = state_lock.hosts.iter().find(|h| h.address == address)
+                    && host_info.is_stopped
+                {
+                    continue;
                 }
                 if let Some(status) = state_lock.statuses.get_mut(&address) {
                     if status.tracer_in_progress {
                         continue;
                     }
-                    let just_became_down = !status.streak_success && status.streak == 3;
-                    let just_became_up = status.streak_success && status.streak == 3;
+                    let just_became_down =
+                        !status.streak_success && status.streak == STATE_CONFIRMATION_STREAK;
+                    let just_became_up =
+                        status.streak_success && status.streak == STATE_CONFIRMATION_STREAK;
                     let overdue = match last_trace_times.get(&address) {
                         Some(last) => {
                             let duration = now.duration_since(*last);
-                            duration > Duration::from_secs(3600)
+                            duration > Duration::from_secs(TRACEROUTE_INTERVAL_SEC)
                                 || ((just_became_down || just_became_up)
-                                    && duration > Duration::from_secs(60))
+                                    && duration > Duration::from_secs(TRACEROUTE_MIN_COOLDOWN_SEC))
                         }
                         None => true,
                     };
@@ -119,12 +124,9 @@ pub async fn pinger_task(state: SharedState) {
 
                     let should_update = !hops.is_empty()
                         && (status.traceroute_path.is_empty()
-                            || (new_reaches_target
-                                && (!old_reaches_target
-                                    || hops.len() >= status.traceroute_path.len()))
-                            || (!new_reaches_target
-                                && !old_reaches_target
-                                && hops.len() >= status.traceroute_path.len())
+                            || (new_reaches_target && !old_reaches_target)
+                            || (new_reaches_target && hops.len() >= status.traceroute_path.len())
+                            || (!old_reaches_target && hops.len() >= status.traceroute_path.len())
                             || (status.alive && new_reaches_target));
 
                     if should_update {
@@ -133,9 +135,7 @@ pub async fn pinger_task(state: SharedState) {
                             timestamp: now_ts,
                             path: hops.clone(),
                         });
-                        if status.events.len() > 100_000 {
-                            status.events.pop_front();
-                        }
+                        status.trim_events();
                         status.traceroute_path = hops.clone();
                     }
                     status.last_traceroute = Some(Instant::now());
@@ -148,10 +148,9 @@ pub async fn pinger_task(state: SharedState) {
                     state_lock
                         .statuses
                         .entry(normalized_hop)
-                        .or_insert_with(|| {
-                            let mut s = crate::model::HostStatus::default();
-                            s.is_trace_hop = true;
-                            s
+                        .or_insert_with(|| crate::model::HostStatus {
+                            is_trace_hop: true,
+                            ..Default::default()
                         })
                         .dependent_targets
                         .insert(addr_c.clone());
@@ -218,10 +217,10 @@ pub async fn pinger_task(state: SharedState) {
                     let next = next_pings.entry(addr.clone()).or_insert(now);
                     let host_info = target_configs.get(addr);
 
-                    if let Some(h) = host_info {
-                        if h.is_stopped {
-                            return None;
-                        }
+                    if let Some(h) = host_info
+                        && h.is_stopped
+                    {
+                        return None;
                     }
 
                     // Effective mode logic:
@@ -290,7 +289,7 @@ pub async fn pinger_task(state: SharedState) {
                     state_lock
                         .statuses
                         .get(&target_addr)
-                        .map(|s| !s.streak_success && s.streak >= 3)
+                        .map(|s| !s.streak_success && s.streak >= STATE_CONFIRMATION_STREAK)
                         .unwrap_or(false)
                 };
 
@@ -311,10 +310,13 @@ pub async fn pinger_task(state: SharedState) {
                         if let Some(first_hop_status) = state_lock.statuses.get(&path[0]) {
                             let data_is_fresh = first_hop_status
                                 .last_updated
-                                .map(|t| now.duration_since(t) < Duration::from_secs(15))
+                                .map(|t| {
+                                    now.duration_since(t)
+                                        < Duration::from_secs(HOP_DATA_FRESHNESS_SEC)
+                                })
                                 .unwrap_or(false);
-                            let hop_is_broken =
-                                !first_hop_status.streak_success && first_hop_status.streak >= 3;
+                            let hop_is_broken = !first_hop_status.streak_success
+                                && first_hop_status.streak >= STATE_CONFIRMATION_STREAK;
                             let hop_is_stale = !data_is_fresh;
 
                             if hop_is_broken || hop_is_stale {
@@ -330,10 +332,13 @@ pub async fn pinger_task(state: SharedState) {
                                 if let Some(h_status) = state_lock.statuses.get(hop) {
                                     let data_is_fresh = h_status
                                         .last_updated
-                                        .map(|t| now.duration_since(t) < Duration::from_secs(15))
+                                        .map(|t| {
+                                            now.duration_since(t)
+                                                < Duration::from_secs(HOP_DATA_FRESHNESS_SEC)
+                                        })
                                         .unwrap_or(false);
-                                    let hop_is_broken =
-                                        !h_status.streak_success && h_status.streak >= 3;
+                                    let hop_is_broken = !h_status.streak_success
+                                        && h_status.streak >= STATE_CONFIRMATION_STREAK;
                                     let hop_is_stale = !data_is_fresh;
 
                                     if hop_is_broken || hop_is_stale {
@@ -347,13 +352,15 @@ pub async fn pinger_task(state: SharedState) {
                                                     .last_updated
                                                     .map(|t| {
                                                         now.duration_since(t)
-                                                            < Duration::from_secs(15)
+                                                            < Duration::from_secs(
+                                                                HOP_DATA_FRESHNESS_SEC,
+                                                            )
                                                     })
                                                     .unwrap_or(false);
                                                 let nh_is_stale = !nh_data_is_fresh;
 
                                                 if (nh_status.streak_success
-                                                    || nh_status.streak < 3)
+                                                    || nh_status.streak < STATE_CONFIRMATION_STREAK)
                                                     && !nh_is_stale
                                                 {
                                                     all_further_broken = false;
@@ -379,10 +386,8 @@ pub async fn pinger_task(state: SharedState) {
                     if let Some(status) = state_lock.statuses.get_mut(&target_addr) {
                         status.failure_point = found_point;
                     }
-                } else {
-                    if let Some(status) = state_lock.statuses.get_mut(&target_addr) {
-                        status.failure_point = None;
-                    }
+                } else if let Some(status) = state_lock.statuses.get_mut(&target_addr) {
+                    status.failure_point = None;
                 }
             }
         }
@@ -479,7 +484,10 @@ pub async fn pinger_task(state: SharedState) {
                         status.events.push_back(entry.clone());
 
                         // 2. Incident Detection (Loss/Restoration)
-                        if !alive && status.streak == 3 && status.incident_start.is_none() {
+                        if !alive
+                            && status.streak == STATE_CONFIRMATION_STREAK
+                            && status.incident_start.is_none()
+                        {
                             // Just became "down" officially after 3 failures
                             status.incident_start = Some(now_ts);
                             let ev = LogEntry::Incident {
@@ -509,7 +517,7 @@ pub async fn pinger_task(state: SharedState) {
 
                         // 3. Statistics every 300 pings
                         status.log_pings_since_stats += 1;
-                        if status.log_pings_since_stats >= 300 {
+                        if status.log_pings_since_stats >= STATS_SNAPSHOT_INTERVAL {
                             let entry = LogEntry::Statistics {
                                 timestamp: now_ts,
                                 mean: status.mean as f32,
@@ -535,29 +543,15 @@ pub async fn pinger_task(state: SharedState) {
                         }
 
                         // Cap buffer size
-                        while status.events.len() > 100_000 {
-                            status.events.pop_front();
-                        }
+                        status.trim_events();
 
                         // 4. File Logging
-                        if let Some(h) = host_info {
-                            if h.log_to_file && !h.log_file_path.is_empty() {
-                                let line = entry.format(&address, Some(&h.display));
-                                if let Ok(mut file) = std::fs::OpenOptions::new()
-                                    .create(true)
-                                    .append(true)
-                                    .open(&h.log_file_path)
-                                {
-                                    let _ = writeln!(file, "{}", line);
-                                    for ev in extra_events {
-                                        let _ = writeln!(
-                                            file,
-                                            "{}",
-                                            ev.format(&address, Some(&h.display))
-                                        );
-                                    }
-                                }
+                        if let Some(ref h) = host_info {
+                            let mut lines = vec![entry.format(&address, Some(&h.display))];
+                            for ev in extra_events {
+                                lines.push(ev.format(&address, Some(&h.display)));
                             }
+                            h.append_to_log(&lines);
                         }
                     }
                 } else {
@@ -582,7 +576,9 @@ pub async fn pinger_task(state: SharedState) {
 
                             // Incident detection for unresolved/unpingable
                             let mut ie = None;
-                            if status.streak == 3 && status.incident_start.is_none() {
+                            if status.streak == STATE_CONFIRMATION_STREAK
+                                && status.incident_start.is_none()
+                            {
                                 status.incident_start = Some(now_ts);
                                 let e = LogEntry::Incident {
                                     timestamp: now_ts,
@@ -598,31 +594,14 @@ pub async fn pinger_task(state: SharedState) {
                             (pe, ie)
                         };
 
-                        while status.events.len() > 100_000 {
-                            status.events.pop_front();
-                        }
+                        status.trim_events();
 
-                        if let Some(h) = host_info {
-                            if h.log_to_file && !h.log_file_path.is_empty() {
-                                if let Ok(mut file) = std::fs::OpenOptions::new()
-                                    .create(true)
-                                    .append(true)
-                                    .open(&h.log_file_path)
-                                {
-                                    let _ = writeln!(
-                                        file,
-                                        "{}",
-                                        ping_entry.format(&address, Some(&h.display))
-                                    );
-                                    if let Some(ie) = incident_entry {
-                                        let _ = writeln!(
-                                            file,
-                                            "{}",
-                                            ie.format(&address, Some(&h.display))
-                                        );
-                                    }
-                                }
+                        if let Some(ref h) = host_info {
+                            let mut lines = vec![ping_entry.format(&address, Some(&h.display))];
+                            if let Some(ie) = incident_entry {
+                                lines.push(ie.format(&address, Some(&h.display)));
                             }
+                            h.append_to_log(&lines);
                         }
                     }
                 }

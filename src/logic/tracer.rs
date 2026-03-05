@@ -77,13 +77,13 @@ pub fn parse_traceroute_output(output: &str) -> Vec<String> {
 
         // Windows output might have "*" for timeouts.
         // We only care about lines with actual IPs.
-        if let Some(caps) = ip_re.captures(line) {
-            if let Some(m) = caps.get(0) {
-                let ip = m.as_str().to_string();
-                // Avoid empty strings or just colons
-                if ip.len() > 3 && !ips.contains(&ip) {
-                    ips.push(ip);
-                }
+        if let Some(caps) = ip_re.captures(line)
+            && let Some(m) = caps.get(0)
+        {
+            let ip = m.as_str().to_string();
+            // Avoid empty strings or just colons
+            if ip.len() > 3 && !ips.contains(&ip) {
+                ips.push(ip);
             }
         }
     }

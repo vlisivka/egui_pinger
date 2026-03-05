@@ -348,13 +348,12 @@ fn run_command_background(cmd: String, args: Vec<String>, result_slot: Arc<Mutex
 /// Draws the System Tools window. Call from `EguiPinger::ui_layout()`.
 pub fn ui_system_tools_window(ctx: &egui::Context, open: &mut bool, state: &mut SystemToolsState) {
     // Poll for background command result
-    if state.is_running {
-        if let Ok(mut slot) = state.pending_result.lock() {
-            if let Some(result) = slot.take() {
-                state.output.push_str(&result);
-                state.is_running = false;
-            }
-        }
+    if state.is_running
+        && let Ok(mut slot) = state.pending_result.lock()
+        && let Some(result) = slot.take()
+    {
+        state.output.push_str(&result);
+        state.is_running = false;
     }
 
     let mut open_var = *open;

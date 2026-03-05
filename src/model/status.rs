@@ -1,5 +1,7 @@
+use crate::constants::{HISTORY_WINDOW_SIZE, MAX_EVENTS_PER_HOST, RTP_JITTER_SMOOTHING_DIVISOR};
 use serde::{Deserialize, Serialize};
 use std::collections::{HashSet, VecDeque};
+use std::io::Write;
 use tr::tr;
 
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
@@ -379,7 +381,7 @@ pub struct HostStatus {
     /// Last RTT in milliseconds
     #[serde(skip, default)]
     pub latency: f64,
-    /// Last 99 RTTs in milliseconds (NaN = loss)
+    /// RTT history (sliding window, last HISTORY_WINDOW_SIZE samples; NaN = loss)
     #[serde(skip, default)]
     pub history: Vec<f64>,
     /// Mean of latency
@@ -388,7 +390,7 @@ pub struct HostStatus {
     /// Standard RTP Jitter according to RFC 3550
     #[serde(skip, default)]
     pub rtp_jitter: f64,
-    /// History of RTP Jitter values (last 99)
+    /// History of RTP Jitter values (sliding window, last HISTORY_WINDOW_SIZE samples)
     #[serde(skip, default)]
     pub rtp_jitter_history: Vec<f64>,
     /// Median RTT
@@ -516,9 +518,9 @@ impl HostStatus {
 
         self.latency = rtt_ms;
 
-        // Add to history (maximum 300 samples)
+        // Add to history (sliding window)
         self.history.push(rtt_ms);
-        if self.history.len() > 300 {
+        if self.history.len() > HISTORY_WINDOW_SIZE {
             self.history.remove(0);
         }
 
@@ -573,11 +575,11 @@ impl HostStatus {
                 // Initial value for jitter
                 self.rtp_jitter = d;
             } else {
-                self.rtp_jitter += (d - self.rtp_jitter) / 16.0;
+                self.rtp_jitter += (d - self.rtp_jitter) / RTP_JITTER_SMOOTHING_DIVISOR;
             }
 
             self.rtp_jitter_history.push(self.rtp_jitter);
-            if self.rtp_jitter_history.len() > 300 {
+            if self.rtp_jitter_history.len() > HISTORY_WINDOW_SIZE {
                 self.rtp_jitter_history.remove(0);
             }
         }
@@ -645,6 +647,46 @@ impl HostStatus {
         self.log_pings_since_stats = 0;
         self.events.clear();
         // Do not reset traceroute_path, tracking states for traceroute
+    }
+
+    /// Trims the event log to the maximum allowed size.
+    pub fn trim_events(&mut self) {
+        while self.events.len() > MAX_EVENTS_PER_HOST {
+            self.events.pop_front();
+        }
+    }
+}
+
+impl PingMode {
+    /// Returns a localized human-readable label for this ping mode.
+    pub fn label(&self) -> String {
+        match self {
+            PingMode::VeryFast => tr!("Very fast (1s)"),
+            PingMode::Fast => tr!("Fast (2s)"),
+            PingMode::NotFast => tr!("Not fast (5s)"),
+            PingMode::Normal => tr!("Normal (10s)"),
+            PingMode::NotSlow => tr!("Not slow (30s)"),
+            PingMode::Slow => tr!("Slow (1m)"),
+            PingMode::VerySlow => tr!("Very slow (5m)"),
+        }
+    }
+}
+
+impl HostInfo {
+    /// Appends formatted log lines to the host's log file (if logging is enabled).
+    pub fn append_to_log(&self, lines: &[String]) {
+        if !self.log_to_file || self.log_file_path.is_empty() {
+            return;
+        }
+        if let Ok(mut file) = std::fs::OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(&self.log_file_path)
+        {
+            for line in lines {
+                let _ = writeln!(file, "{}", line);
+            }
+        }
     }
 }
 

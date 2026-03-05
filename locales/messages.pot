@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-04 19:13+0000\n"
+"POT-Creation-Date: 2026-03-05 05:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,949 +17,949 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: scripts/../src/model/status.rs:77 scripts/../src/model/status.rs:77 scripts/../src/model/status.rs:77
+#: ./../src/model/status.rs:79 ./../src/model/status.rs:79 ./../src/model/status.rs:79
 msgid "bytes from"
 msgstr ""
 
-#: scripts/../src/model/status.rs:80 scripts/../src/model/status.rs:80 scripts/../src/model/status.rs:80
+#: ./../src/model/status.rs:82 ./../src/model/status.rs:82 ./../src/model/status.rs:82
 msgid "time"
 msgstr ""
 
-#: scripts/../src/model/status.rs:82 scripts/../src/model/status.rs:113 scripts/../src/model/status.rs:116 scripts/../src/model/status.rs:119 scripts/../src/model/status.rs:122 scripts/../src/model/status.rs:125 scripts/../src/model/status.rs:132 scripts/../src/model/status.rs:82 scripts/../src/model/status.rs:113 scripts/../src/model/status.rs:116 scripts/../src/model/status.rs:119 scripts/../src/model/status.rs:122 scripts/../src/model/status.rs:125 scripts/../src/model/status.rs:132 scripts/../src/app.rs:340 scripts/../src/app.rs:558 scripts/../src/model/status.rs:82 scripts/../src/model/status.rs:113 scripts/../src/model/status.rs:116 scripts/../src/model/status.rs:119 scripts/../src/model/status.rs:122 scripts/../src/model/status.rs:125 scripts/../src/model/status.rs:132 scripts/../src/app.rs:340 scripts/../src/app.rs:558
+#: ./../src/model/status.rs:84 ./../src/model/status.rs:115 ./../src/model/status.rs:118 ./../src/model/status.rs:121 ./../src/model/status.rs:124 ./../src/model/status.rs:127 ./../src/model/status.rs:134 ./../src/model/status.rs:84 ./../src/model/status.rs:115 ./../src/model/status.rs:118 ./../src/model/status.rs:121 ./../src/model/status.rs:124 ./../src/model/status.rs:127 ./../src/model/status.rs:134 ./../src/model/status.rs:84 ./../src/model/status.rs:115 ./../src/model/status.rs:118 ./../src/model/status.rs:121 ./../src/model/status.rs:124 ./../src/model/status.rs:127 ./../src/model/status.rs:134 ./../src/ui/host_row.rs:37 ./../src/ui/host_row.rs:284 ./../src/ui/host_row.rs:37 ./../src/ui/host_row.rs:284 ./../src/ui/host_row.rs:37 ./../src/ui/host_row.rs:284
 msgid "ms"
 msgstr ""
 
-#: scripts/../src/model/status.rs:85 scripts/../src/model/status.rs:85 scripts/../src/model/status.rs:85
+#: ./../src/model/status.rs:87 ./../src/model/status.rs:87 ./../src/model/status.rs:87
 msgid "Request timeout for"
 msgstr ""
 
-#: scripts/../src/model/status.rs:113 scripts/../src/model/status.rs:113 scripts/../src/app.rs:370 scripts/../src/model/status.rs:113 scripts/../src/app.rs:370
+#: ./../src/model/status.rs:115 ./../src/model/status.rs:115 ./../src/model/status.rs:115 ./../src/ui/host_row.rs:66 ./../src/ui/host_row.rs:66 ./../src/ui/host_row.rs:66
 msgid "M"
 msgstr ""
 
-#: scripts/../src/model/status.rs:116 scripts/../src/model/status.rs:116 scripts/../src/app.rs:377 scripts/../src/model/status.rs:116 scripts/../src/app.rs:377
+#: ./../src/model/status.rs:118 ./../src/model/status.rs:118 ./../src/model/status.rs:118 ./../src/ui/host_row.rs:73 ./../src/ui/host_row.rs:73 ./../src/ui/host_row.rs:73
 msgid "Med"
 msgstr ""
 
-#: scripts/../src/model/status.rs:119 scripts/../src/model/status.rs:119 scripts/../src/model/status.rs:119
+#: ./../src/model/status.rs:121 ./../src/model/status.rs:121 ./../src/model/status.rs:121
 msgid "95%"
 msgstr ""
 
-#: scripts/../src/model/status.rs:122 scripts/../src/model/status.rs:122 scripts/../src/app.rs:384 scripts/../src/model/status.rs:122 scripts/../src/app.rs:384
+#: ./../src/model/status.rs:124 ./../src/model/status.rs:124 ./../src/model/status.rs:124 ./../src/ui/host_row.rs:80 ./../src/ui/host_row.rs:80 ./../src/ui/host_row.rs:80
 msgid "J"
 msgstr ""
 
-#: scripts/../src/model/status.rs:125 scripts/../src/model/status.rs:125 scripts/../src/app.rs:391 scripts/../src/model/status.rs:125 scripts/../src/app.rs:391
+#: ./../src/model/status.rs:127 ./../src/model/status.rs:127 ./../src/model/status.rs:127 ./../src/ui/host_row.rs:87 ./../src/ui/host_row.rs:87 ./../src/ui/host_row.rs:87
 msgid "Jm"
 msgstr ""
 
-#: scripts/../src/model/status.rs:130 scripts/../src/model/status.rs:130 scripts/../src/app.rs:398 scripts/../src/model/status.rs:130 scripts/../src/app.rs:398
+#: ./../src/model/status.rs:132 ./../src/model/status.rs:132 ./../src/model/status.rs:132 ./../src/ui/host_row.rs:94 ./../src/ui/host_row.rs:94 ./../src/ui/host_row.rs:94
 msgid "Jmed"
 msgstr ""
 
-#: scripts/../src/model/status.rs:136 scripts/../src/model/status.rs:136 scripts/../src/app.rs:405 scripts/../src/app.rs:796 scripts/../src/model/status.rs:136 scripts/../src/app.rs:405 scripts/../src/app.rs:796
+#: ./../src/model/status.rs:138 ./../src/model/status.rs:138 ./../src/model/status.rs:138 ./../src/ui/host_row.rs:101 ./../src/ui/host_settings.rs:95 ./../src/ui/host_row.rs:101 ./../src/ui/host_settings.rs:95 ./../src/ui/host_settings.rs:95 ./../src/ui/host_row.rs:101
 msgid "MOS"
 msgstr ""
 
-#: scripts/../src/model/status.rs:139 scripts/../src/model/status.rs:139 scripts/../src/app.rs:412 scripts/../src/model/status.rs:139 scripts/../src/app.rs:412
+#: ./../src/model/status.rs:141 ./../src/model/status.rs:141 ./../src/model/status.rs:141 ./../src/ui/host_row.rs:108 ./../src/ui/host_row.rs:108 ./../src/ui/host_row.rs:108
 msgid "Av"
 msgstr ""
 
-#: scripts/../src/model/status.rs:142 scripts/../src/model/status.rs:142 scripts/../src/app.rs:419 scripts/../src/model/status.rs:142 scripts/../src/app.rs:419
+#: ./../src/model/status.rs:144 ./../src/model/status.rs:144 ./../src/model/status.rs:144 ./../src/ui/host_row.rs:115 ./../src/ui/host_row.rs:115 ./../src/ui/host_row.rs:115
 msgid "Out"
 msgstr ""
 
-#: scripts/../src/model/status.rs:145 scripts/../src/model/status.rs:145 scripts/../src/app.rs:434 scripts/../src/model/status.rs:145 scripts/../src/app.rs:434
+#: ./../src/model/status.rs:147 ./../src/model/status.rs:147 ./../src/model/status.rs:147 ./../src/ui/host_row.rs:142 ./../src/ui/host_row.rs:142 ./../src/ui/host_row.rs:142
 msgid "Str"
 msgstr ""
 
-#: scripts/../src/model/status.rs:148 scripts/../src/model/status.rs:148 scripts/../src/app.rs:441 scripts/../src/model/status.rs:148 scripts/../src/app.rs:441
+#: ./../src/model/status.rs:150 ./../src/model/status.rs:150 ./../src/model/status.rs:150 ./../src/ui/host_row.rs:149 ./../src/ui/host_row.rs:149 ./../src/ui/host_row.rs:149
 msgid "SD"
 msgstr ""
 
-#: scripts/../src/model/status.rs:151 scripts/../src/model/status.rs:151 scripts/../src/app.rs:455 scripts/../src/model/status.rs:151 scripts/../src/app.rs:455
+#: ./../src/model/status.rs:153 ./../src/model/status.rs:153 ./../src/model/status.rs:153 ./../src/ui/host_row.rs:165 ./../src/ui/host_row.rs:165 ./../src/ui/host_row.rs:165
 msgid "m/M"
 msgstr ""
 
-#: scripts/../src/model/status.rs:154 scripts/../src/model/status.rs:159 scripts/../src/model/status.rs:154 scripts/../src/model/status.rs:159 scripts/../src/app.rs:462 scripts/../src/model/status.rs:154 scripts/../src/model/status.rs:159 scripts/../src/app.rs:462
+#: ./../src/model/status.rs:156 ./../src/model/status.rs:161 ./../src/model/status.rs:156 ./../src/model/status.rs:161 ./../src/model/status.rs:156 ./../src/model/status.rs:161 ./../src/ui/host_row.rs:177 ./../src/ui/host_row.rs:177 ./../src/ui/host_row.rs:177
 msgid "L"
 msgstr ""
 
-#: scripts/../src/model/status.rs:162 scripts/../src/model/status.rs:162 scripts/../src/app.rs:1077 scripts/../src/model/status.rs:162 scripts/../src/app.rs:1077
+#: ./../src/model/status.rs:164 ./../src/model/status.rs:164 ./../src/model/status.rs:164 ./../src/ui/log_viewer.rs:110 ./../src/ui/log_viewer.rs:110 ./../src/ui/log_viewer.rs:110
 msgid "Statistics"
 msgstr ""
 
-#: scripts/../src/model/status.rs:165 scripts/../src/model/status.rs:165 scripts/../src/model/status.rs:165
+#: ./../src/model/status.rs:167 ./../src/model/status.rs:167 ./../src/model/status.rs:167
 msgid "Route updated"
 msgstr ""
 
-#: scripts/../src/model/status.rs:177 scripts/../src/model/status.rs:177 scripts/../src/app.rs:344 scripts/../src/model/status.rs:177 scripts/../src/app.rs:344
+#: ./../src/model/status.rs:179 ./../src/model/status.rs:179 ./../src/model/status.rs:179 ./../src/ui/host_row.rs:41 ./../src/ui/host_row.rs:41 ./../src/ui/host_row.rs:41
 msgid "Local Interface"
 msgstr ""
 
-#: scripts/../src/model/status.rs:184 scripts/../src/model/status.rs:184 scripts/../src/model/status.rs:184
+#: ./../src/model/status.rs:186 ./../src/model/status.rs:186 ./../src/model/status.rs:186
 msgid "Connectivity lost at {node}"
 msgstr ""
 
-#: scripts/../src/model/status.rs:185 scripts/../src/model/status.rs:192 scripts/../src/model/status.rs:185 scripts/../src/model/status.rs:192 scripts/../src/model/status.rs:185 scripts/../src/model/status.rs:192
+#: ./../src/model/status.rs:187 ./../src/model/status.rs:194 ./../src/model/status.rs:187 ./../src/model/status.rs:194 ./../src/model/status.rs:187 ./../src/model/status.rs:194
 msgid "{n} requests without answer"
 msgstr ""
 
-#: scripts/../src/model/status.rs:191 scripts/../src/model/status.rs:191 scripts/../src/model/status.rs:191
+#: ./../src/model/status.rs:193 ./../src/model/status.rs:193 ./../src/model/status.rs:193
 msgid "Connectivity lost"
 msgstr ""
 
-#: scripts/../src/model/status.rs:197 scripts/../src/model/status.rs:197 scripts/../src/model/status.rs:197
+#: ./../src/model/status.rs:199 ./../src/model/status.rs:199 ./../src/model/status.rs:199
 msgid "downtime"
 msgstr ""
 
-#: scripts/../src/model/status.rs:197 scripts/../src/model/status.rs:197 scripts/../src/model/status.rs:197
+#: ./../src/model/status.rs:199 ./../src/model/status.rs:199 ./../src/model/status.rs:199
 msgid "s"
 msgstr ""
 
-#: scripts/../src/model/status.rs:204 scripts/../src/model/status.rs:204 scripts/../src/model/status.rs:204
+#: ./../src/model/status.rs:206 ./../src/model/status.rs:206 ./../src/model/status.rs:206
 msgid "Connectivity restored"
 msgstr ""
 
-#: scripts/../src/main.rs:15
+#: ./../src/model/status.rs:664 ./../src/model/status.rs:664 ./../src/model/status.rs:664
+msgid "Very fast (1s)"
+msgstr ""
+
+#: ./../src/model/status.rs:665 ./../src/model/status.rs:665 ./../src/model/status.rs:665
+msgid "Fast (2s)"
+msgstr ""
+
+#: ./../src/model/status.rs:666 ./../src/model/status.rs:666 ./../src/model/status.rs:666
+msgid "Not fast (5s)"
+msgstr ""
+
+#: ./../src/model/status.rs:667 ./../src/model/status.rs:667 ./../src/model/status.rs:667
+msgid "Normal (10s)"
+msgstr ""
+
+#: ./../src/model/status.rs:668 ./../src/model/status.rs:668 ./../src/model/status.rs:668
+msgid "Not slow (30s)"
+msgstr ""
+
+#: ./../src/model/status.rs:669 ./../src/model/status.rs:669 ./../src/model/status.rs:669
+msgid "Slow (1m)"
+msgstr ""
+
+#: ./../src/model/status.rs:670 ./../src/model/status.rs:670 ./../src/model/status.rs:670
+msgid "Very slow (5m)"
+msgstr ""
+
+#: ./../src/main.rs:15
 msgid "egui_pinger"
 msgstr ""
 
-#: scripts/../src/app.rs:171 scripts/../src/app.rs:1048 scripts/../src/app.rs:171 scripts/../src/app.rs:1048
+#: ./../src/app.rs:170 ./../src/ui/log_viewer.rs:69 ./../src/app.rs:170 ./../src/ui/log_viewer.rs:69 ./../src/ui/log_viewer.rs:69
 msgid "Journal started at"
 msgstr ""
 
-#: scripts/../src/app.rs:173 scripts/../src/app.rs:1048 scripts/../src/app.rs:173 scripts/../src/app.rs:1048
+#: ./../src/app.rs:172 ./../src/ui/log_viewer.rs:71 ./../src/app.rs:172 ./../src/ui/log_viewer.rs:71 ./../src/ui/log_viewer.rs:71
 msgid "Journal ended at"
 msgstr ""
 
-#: scripts/../src/app.rs:239 scripts/../src/app.rs:239
+#: ./../src/app.rs:233 ./../src/app.rs:233
 msgid "Host name"
 msgstr ""
 
-#: scripts/../src/app.rs:247 scripts/../src/app.rs:247
+#: ./../src/app.rs:241 ./../src/app.rs:241
 msgid "Host address"
 msgstr ""
 
 #. When "Add" button is clicked or Enter is pressed in the second field,
 #. add host to the list
-#: scripts/../src/app.rs:253 scripts/../src/app.rs:253
+#: ./../src/app.rs:247 ./../src/app.rs:247
 msgid "Add"
 msgstr ""
 
-#: scripts/../src/app.rs:302 scripts/../src/ui/system_tools.rs:303 scripts/../src/app.rs:302 scripts/../src/ui/system_tools.rs:303 scripts/../src/ui/system_tools.rs:303
+#: ./../src/app.rs:296 ./../src/ui/system_tools.rs:360 ./../src/app.rs:296 ./../src/ui/system_tools.rs:360 ./../src/ui/system_tools.rs:360
 msgid "System Tools"
 msgstr ""
 
-#: scripts/../src/app.rs:338 scripts/../src/app.rs:338
-msgid "STOPPED"
-msgstr ""
-
-#: scripts/../src/app.rs:348 scripts/../src/app.rs:348
-msgid "DOWN (at {node})"
-msgstr ""
-
-#: scripts/../src/app.rs:350 scripts/../src/app.rs:350
-msgid "DOWN"
-msgstr ""
-
-#: scripts/../src/app.rs:371 scripts/../src/app.rs:776 scripts/../src/app.rs:371 scripts/../src/app.rs:776
-msgid "Mean RTT"
-msgstr ""
-
-#: scripts/../src/app.rs:378 scripts/../src/app.rs:780 scripts/../src/app.rs:378 scripts/../src/app.rs:780
-msgid "Median RTT"
-msgstr ""
-
-#: scripts/../src/app.rs:385 scripts/../src/app.rs:784 scripts/../src/app.rs:385 scripts/../src/app.rs:784
-msgid "RTP Jitter"
-msgstr ""
-
-#: scripts/../src/app.rs:392 scripts/../src/app.rs:788 scripts/../src/app.rs:392 scripts/../src/app.rs:788
-msgid "Mean Jitter"
-msgstr ""
-
-#: scripts/../src/app.rs:399 scripts/../src/app.rs:792 scripts/../src/app.rs:399 scripts/../src/app.rs:792
-msgid "Median Jitter"
-msgstr ""
-
-#: scripts/../src/app.rs:406 scripts/../src/app.rs:406
-msgid "Voice Quality (MOS)"
-msgstr ""
-
-#: scripts/../src/app.rs:413 scripts/../src/app.rs:800 scripts/../src/app.rs:413 scripts/../src/app.rs:800
-msgid "Availability"
-msgstr ""
-
-#: scripts/../src/app.rs:420 scripts/../src/app.rs:420
-msgid "Outliers (Lags)"
-msgstr ""
-
-#: scripts/../src/app.rs:425 scripts/../src/app.rs:425
-msgid "S"
-msgstr ""
-
-#: scripts/../src/app.rs:425 scripts/../src/app.rs:425
-msgid "F"
-msgstr ""
-
-#: scripts/../src/app.rs:435 scripts/../src/app.rs:808 scripts/../src/app.rs:435 scripts/../src/app.rs:808
-msgid "Streak"
-msgstr ""
-
-#: scripts/../src/app.rs:442 scripts/../src/app.rs:442
-msgid "Standard Deviation"
-msgstr ""
-
-#: scripts/../src/app.rs:449 scripts/../src/app.rs:816 scripts/../src/app.rs:449 scripts/../src/app.rs:816
-msgid "95th Percentile"
-msgstr ""
-
-#: scripts/../src/app.rs:456 scripts/../src/app.rs:820 scripts/../src/app.rs:456 scripts/../src/app.rs:820
-msgid "Min / Max RTT"
-msgstr ""
-
-#: scripts/../src/app.rs:463 scripts/../src/app.rs:824 scripts/../src/app.rs:463 scripts/../src/app.rs:824
-msgid "Packet Loss"
-msgstr ""
-
-#: scripts/../src/app.rs:492 scripts/../src/app.rs:492
-msgid "View Log"
-msgstr ""
-
-#: scripts/../src/app.rs:497 scripts/../src/app.rs:497
-msgid "Start monitoring"
-msgstr ""
-
-#: scripts/../src/app.rs:497 scripts/../src/app.rs:497
-msgid "Stop monitoring"
-msgstr ""
-
-#: scripts/../src/app.rs:556 scripts/../src/app.rs:556
-msgid "Timeout"
-msgstr ""
-
-#: scripts/../src/app.rs:622 scripts/../src/app.rs:622
+#: ./../src/app.rs:351 ./../src/app.rs:351
 msgid "Monitoring stopped"
 msgstr ""
 
-#: scripts/../src/app.rs:624 scripts/../src/app.rs:624
+#: ./../src/app.rs:353 ./../src/app.rs:353
 msgid "Monitoring started"
 msgstr ""
 
-#: scripts/../src/app.rs:669 scripts/../src/app.rs:669
+#: ./../src/app.rs:397 ./../src/app.rs:397
 msgid "Confirm Deletion"
 msgstr ""
 
-#: scripts/../src/app.rs:676 scripts/../src/app.rs:676
+#: ./../src/app.rs:404 ./../src/app.rs:404
 msgid "Are you sure you want to remove this host"
 msgstr ""
 
-#: scripts/../src/app.rs:682 scripts/../src/app.rs:682
+#: ./../src/app.rs:410 ./../src/app.rs:410
 msgid "Delete"
 msgstr ""
 
-#: scripts/../src/app.rs:688 scripts/../src/app.rs:688
+#: ./../src/app.rs:416 ./../src/app.rs:416
 msgid "Cancel"
 msgstr ""
 
-#: scripts/../src/app.rs:708 scripts/../src/app.rs:708
-msgid "Host Settings"
-msgstr ""
-
-#: scripts/../src/app.rs:712 scripts/../src/app.rs:712
-msgid "Host"
-msgstr ""
-
-#: scripts/../src/app.rs:716 scripts/../src/app.rs:716
-msgid "Name"
-msgstr ""
-
-#: scripts/../src/app.rs:722 scripts/../src/app.rs:722
-msgid "Ping Interval:"
-msgstr ""
-
-#: scripts/../src/app.rs:725 scripts/../src/app.rs:734 scripts/../src/app.rs:725 scripts/../src/app.rs:734
-msgid "Very fast (1s)"
-msgstr ""
-
-#: scripts/../src/app.rs:726 scripts/../src/app.rs:735 scripts/../src/app.rs:726 scripts/../src/app.rs:735
-msgid "Fast (2s)"
-msgstr ""
-
-#: scripts/../src/app.rs:727 scripts/../src/app.rs:736 scripts/../src/app.rs:727 scripts/../src/app.rs:736
-msgid "Not fast (5s)"
-msgstr ""
-
-#: scripts/../src/app.rs:728 scripts/../src/app.rs:737 scripts/../src/app.rs:728 scripts/../src/app.rs:737
-msgid "Normal (10s)"
-msgstr ""
-
-#: scripts/../src/app.rs:729 scripts/../src/app.rs:738 scripts/../src/app.rs:729 scripts/../src/app.rs:738
-msgid "Not slow (30s)"
-msgstr ""
-
-#: scripts/../src/app.rs:730 scripts/../src/app.rs:739 scripts/../src/app.rs:730 scripts/../src/app.rs:739
-msgid "Slow (1m)"
-msgstr ""
-
-#: scripts/../src/app.rs:731 scripts/../src/app.rs:740 scripts/../src/app.rs:731 scripts/../src/app.rs:740
-msgid "Very slow (5m)"
-msgstr ""
-
-#: scripts/../src/app.rs:745 scripts/../src/app.rs:745
-msgid "VPN & Privacy:"
-msgstr ""
-
-#: scripts/../src/app.rs:747 scripts/../src/app.rs:747
-msgid "Packet Size:"
-msgstr ""
-
-#: scripts/../src/app.rs:751 scripts/../src/app.rs:751
-msgid " bytes"
-msgstr ""
-
-#: scripts/../src/app.rs:754 scripts/../src/app.rs:754
-msgid "Random Padding"
-msgstr ""
-
-#: scripts/../src/app.rs:755 scripts/../src/app.rs:755
-msgid "Adds 0-25% random extra data to each packet to mask traffic patterns"
-msgstr ""
-
-#: scripts/../src/app.rs:759 scripts/../src/app.rs:759
-msgid "Show fields:"
-msgstr ""
-
-#: scripts/../src/app.rs:760 scripts/../src/app.rs:760
-msgid "Learn more about these metrics"
-msgstr ""
-
-#: scripts/../src/app.rs:764 scripts/../src/app.rs:764
-msgid "Host Name"
-msgstr ""
-
-#: scripts/../src/app.rs:765 scripts/../src/app.rs:765
-msgid "User-defined name for this host"
-msgstr ""
-
-#: scripts/../src/app.rs:768 scripts/../src/app.rs:768
-msgid "Host Address"
-msgstr ""
-
-#: scripts/../src/app.rs:769 scripts/../src/app.rs:769
-msgid "IP address or domain name"
-msgstr ""
-
-#: scripts/../src/app.rs:772 scripts/../src/app.rs:772
-msgid "Current Latency"
-msgstr ""
-
-#: scripts/../src/app.rs:773 scripts/../src/app.rs:773
-msgid "Round-trip time of the last packet"
-msgstr ""
-
-#: scripts/../src/app.rs:777 scripts/../src/app.rs:777
-msgid "Average latency (can be skewed by spikes)"
-msgstr ""
-
-#: scripts/../src/app.rs:781 scripts/../src/app.rs:781
-msgid "Typical latency (ignores rare spikes)"
-msgstr ""
-
-#: scripts/../src/app.rs:785 scripts/../src/app.rs:785
-msgid "Current variation in delay (RFC 3550)"
-msgstr ""
-
-#: scripts/../src/app.rs:789 scripts/../src/app.rs:789
-msgid "Average variation over time"
-msgstr ""
-
-#: scripts/../src/app.rs:793 scripts/../src/app.rs:793
-msgid "Typical variation over time"
-msgstr ""
-
-#: scripts/../src/app.rs:797 scripts/../src/app.rs:797
-msgid "Voice Quality Score (1.0 = Bad, 4.5 = Excellent)"
-msgstr ""
-
-#: scripts/../src/app.rs:801 scripts/../src/app.rs:801
-msgid "Percentage of packets successfully delivered"
-msgstr ""
-
-#: scripts/../src/app.rs:804 scripts/../src/app.rs:804
-msgid "Outliers"
-msgstr ""
-
-#: scripts/../src/app.rs:805 scripts/../src/app.rs:805
-msgid "Count of extremely delayed packets (lags)"
-msgstr ""
-
-#: scripts/../src/app.rs:809 scripts/../src/app.rs:809
-msgid "Current consecutive successes or failures"
-msgstr ""
-
-#: scripts/../src/app.rs:812 scripts/../src/app.rs:812
-msgid "StdDev"
-msgstr ""
-
-#: scripts/../src/app.rs:813 scripts/../src/app.rs:813
-msgid "Standard Deviation (spread of latency values)"
-msgstr ""
-
-#: scripts/../src/app.rs:817 scripts/../src/app.rs:817
-msgid "Latency experienced by 95% of packets (worst-case)"
-msgstr ""
-
-#: scripts/../src/app.rs:821 scripts/../src/app.rs:821
-msgid "Absolute best and worst latency in history"
-msgstr ""
-
-#: scripts/../src/app.rs:825 scripts/../src/app.rs:825
-msgid "Count and percentage of dropped packets"
-msgstr ""
-
-#: scripts/../src/app.rs:828 scripts/../src/app.rs:1000 scripts/../src/app.rs:828 scripts/../src/app.rs:1000
-msgid "Close"
-msgstr ""
-
-#: scripts/../src/app.rs:855 scripts/../src/app.rs:855
-msgid "Route"
-msgstr ""
-
-#: scripts/../src/app.rs:864 scripts/../src/app.rs:864
-msgid "Path to target:"
-msgstr ""
-
-#: scripts/../src/app.rs:866 scripts/../src/app.rs:866
-msgid "Refresh"
-msgstr ""
-
-#: scripts/../src/app.rs:877 scripts/../src/app.rs:877
-msgid "Discovering route..."
-msgstr ""
-
-#: scripts/../src/app.rs:888 scripts/../src/app.rs:888
-msgid "(TIMEOUT)"
-msgstr ""
-
-#: scripts/../src/app.rs:899 scripts/../src/app.rs:899
-msgid "Refreshing route..."
-msgstr ""
-
-#: scripts/../src/app.rs:903 scripts/../src/app.rs:903
-msgid "No status found for this address."
-msgstr ""
-
-#: scripts/../src/app.rs:915 scripts/../src/app.rs:915
+#: ./../src/ui/help.rs:8 ./../src/ui/help.rs:8 ./../src/ui/help.rs:8
 msgid "Network Statistics Information"
 msgstr ""
 
-#: scripts/../src/app.rs:921 scripts/../src/app.rs:921
+#: ./../src/ui/help.rs:14 ./../src/ui/help.rs:14 ./../src/ui/help.rs:14
 msgid "Latency"
 msgstr ""
 
-#: scripts/../src/app.rs:922 scripts/../src/app.rs:922
+#: ./../src/ui/help.rs:15 ./../src/ui/help.rs:15 ./../src/ui/help.rs:15
 msgid "Jitter"
 msgstr ""
 
-#: scripts/../src/app.rs:923 scripts/../src/app.rs:923
+#: ./../src/ui/help.rs:16 ./../src/ui/help.rs:16 ./../src/ui/help.rs:16
 msgid "Quality & MOS"
 msgstr ""
 
-#: scripts/../src/app.rs:924 scripts/../src/app.rs:924
+#: ./../src/ui/help.rs:17 ./../src/ui/help.rs:17 ./../src/ui/help.rs:17
 msgid "Reliability"
 msgstr ""
 
-#: scripts/../src/app.rs:925 scripts/../src/app.rs:925
+#: ./../src/ui/help.rs:18 ./../src/ui/help.rs:18 ./../src/ui/help.rs:18
 msgid "Internet Check"
 msgstr ""
 
-#: scripts/../src/app.rs:931 scripts/../src/app.rs:931
+#: ./../src/ui/help.rs:24 ./../src/ui/help.rs:24 ./../src/ui/help.rs:24
 msgid "Round-Trip Time (RTT) - What is Latency?"
 msgstr ""
 
-#: scripts/../src/app.rs:932 scripts/../src/app.rs:932
+#: ./../src/ui/help.rs:25 ./../src/ui/help.rs:25 ./../src/ui/help.rs:25
 msgid "Latency (RTT) is the total time it takes for a signal to go from your computer to the server and back. In network diagnostics, this is the most basic measure of 'speed'."
 msgstr ""
 
-#: scripts/../src/app.rs:935 scripts/../src/app.rs:949 scripts/../src/app.rs:935 scripts/../src/app.rs:949
+#: ./../src/ui/help.rs:28 ./../src/ui/help.rs:42 ./../src/ui/help.rs:28 ./../src/ui/help.rs:42 ./../src/ui/help.rs:28 ./../src/ui/help.rs:42
 msgid "How it is calculated:"
 msgstr ""
 
-#: scripts/../src/app.rs:936 scripts/../src/app.rs:936
+#: ./../src/ui/help.rs:29 ./../src/ui/help.rs:29 ./../src/ui/help.rs:29
 msgid "- Mean (Average): The sum of all RTTs divided by the number of packets. Good for general trends, but can be misleading if you have rare, massive 'lags'."
 msgstr ""
 
-#: scripts/../src/app.rs:937 scripts/../src/app.rs:937
+#: ./../src/ui/help.rs:30 ./../src/ui/help.rs:30 ./../src/ui/help.rs:30
 msgid "- Median (Middle Value): We sort all results and pick the one in the middle. This is the 'typical' experience. If you have 100 packets and 1 of them is very slow, the Median stays the same, while the Mean jumps up."
 msgstr ""
 
-#: scripts/../src/app.rs:938 scripts/../src/app.rs:938
+#: ./../src/ui/help.rs:31 ./../src/ui/help.rs:31 ./../src/ui/help.rs:31
 msgid "- 95th Percentile (P95): This shows the worst-case scenario for 95% of your traffic. If P95 is low, your connection is stable. If it's much higher than the Median, your connection is 'jittery' and prone to sudden lags."
 msgstr ""
 
-#: scripts/../src/app.rs:941 scripts/../src/app.rs:954 scripts/../src/app.rs:981 scripts/../src/app.rs:941 scripts/../src/app.rs:954 scripts/../src/app.rs:981
+#: ./../src/ui/help.rs:34 ./../src/ui/help.rs:47 ./../src/ui/help.rs:74 ./../src/ui/help.rs:34 ./../src/ui/help.rs:47 ./../src/ui/help.rs:74 ./../src/ui/help.rs:34 ./../src/ui/help.rs:47 ./../src/ui/help.rs:74
 msgid "VoIP Impact:"
 msgstr ""
 
-#: scripts/../src/app.rs:942 scripts/../src/app.rs:942
+#: ./../src/ui/help.rs:35 ./../src/ui/help.rs:35 ./../src/ui/help.rs:35
 msgid "Voice is a real-time stream. If latency is over 150ms, you start to notice a delay in the conversation (waiting for the other person to respond). Above 300ms, people will start 'talking over' each other because of the lag."
 msgstr ""
 
-#: scripts/../src/app.rs:945 scripts/../src/app.rs:945
+#: ./../src/ui/help.rs:38 ./../src/ui/help.rs:38 ./../src/ui/help.rs:38
 msgid "Jitter - Stability of the Connection"
 msgstr ""
 
-#: scripts/../src/app.rs:946 scripts/../src/app.rs:946
+#: ./../src/ui/help.rs:39 ./../src/ui/help.rs:39 ./../src/ui/help.rs:39
 msgid "Jitter is the 'shaking' of your latency. It measures how much the delay between packets changes over time."
 msgstr ""
 
-#: scripts/../src/app.rs:950 scripts/../src/app.rs:950
+#: ./../src/ui/help.rs:43 ./../src/ui/help.rs:43 ./../src/ui/help.rs:43
 msgid "We use the RFC 3550 algorithm (Standard for RTP). It doesn't just look at the highest and lowest values; it calculates the difference between consecutive packets and applies a smoothing filter."
 msgstr ""
 
-#: scripts/../src/app.rs:951 scripts/../src/app.rs:951
+#: ./../src/ui/help.rs:44 ./../src/ui/help.rs:44 ./../src/ui/help.rs:44
 msgid "Formally: J = J + (|D| - J) / 16, where D is the difference between the current and previous packet delay. This provides a stable 'moving average' of network stability."
 msgstr ""
 
-#: scripts/../src/app.rs:955 scripts/../src/app.rs:955
+#: ./../src/ui/help.rs:48 ./../src/ui/help.rs:48 ./../src/ui/help.rs:48
 msgid "Phones expect audio packets to arrive in a steady 'heartbeat' (every 20ms). If Jitter is high (>30ms), packets arrive in 'clumps' or too late to be played. This causes the voice to sound 'robotic', 'choppy', or broken."
 msgstr ""
 
-#: scripts/../src/app.rs:958 scripts/../src/app.rs:958
+#: ./../src/ui/help.rs:51 ./../src/ui/help.rs:51 ./../src/ui/help.rs:51
 msgid "MOS - The 'Voice Score'"
 msgstr ""
 
-#: scripts/../src/app.rs:959 scripts/../src/app.rs:959
+#: ./../src/ui/help.rs:52 ./../src/ui/help.rs:52 ./../src/ui/help.rs:52
 msgid "MOS (Mean Opinion Score) is a 1.0 to 4.5 rating that predicts how a human would rate the call quality."
 msgstr ""
 
-#: scripts/../src/app.rs:962 scripts/../src/app.rs:962
+#: ./../src/ui/help.rs:55 ./../src/ui/help.rs:55 ./../src/ui/help.rs:55
 msgid "How we calculate it:"
 msgstr ""
 
-#: scripts/../src/app.rs:963 scripts/../src/app.rs:963
+#: ./../src/ui/help.rs:56 ./../src/ui/help.rs:56 ./../src/ui/help.rs:56
 msgid "We implement a simplified ITU-T G.107 'E-model'. It takes your current Latency, Jitter, and Packet Loss, and calculates an 'R-factor'. This factor is then mapped to the MOS scale."
 msgstr ""
 
-#: scripts/../src/app.rs:965 scripts/../src/app.rs:965
+#: ./../src/ui/help.rs:58 ./../src/ui/help.rs:58 ./../src/ui/help.rs:58
 msgid "- 4.3 - 4.5 (Excellent): Crystal clear HD audio, like sitting in the same room."
 msgstr ""
 
-#: scripts/../src/app.rs:966 scripts/../src/app.rs:966
+#: ./../src/ui/help.rs:59 ./../src/ui/help.rs:59 ./../src/ui/help.rs:59
 msgid "- 4.0 - 4.2 (Good): Standard clean call. No issues."
 msgstr ""
 
-#: scripts/../src/app.rs:967 scripts/../src/app.rs:967
+#: ./../src/ui/help.rs:60 ./../src/ui/help.rs:60 ./../src/ui/help.rs:60
 msgid "- 3.6 - 3.9 (Fair): You can hear 'compression' or minor clicks. Acceptable for business."
 msgstr ""
 
-#: scripts/../src/app.rs:968 scripts/../src/app.rs:968
+#: ./../src/ui/help.rs:61 ./../src/ui/help.rs:61 ./../src/ui/help.rs:61
 msgid "- Below 3.0 (Poor): Words are missing, voice is distorted. It's time to hang up and check your router."
 msgstr ""
 
-#: scripts/../src/app.rs:971 scripts/../src/app.rs:971
+#: ./../src/ui/help.rs:64 ./../src/ui/help.rs:64 ./../src/ui/help.rs:64
 msgid "Reliability - Packet Loss & Outliers"
 msgstr ""
 
-#: scripts/../src/app.rs:972 scripts/../src/app.rs:972
+#: ./../src/ui/help.rs:65 ./../src/ui/help.rs:65 ./../src/ui/help.rs:65
 msgid "This tab tracks if packets are actually reaching their destination and if any are 'statistical anomalies'."
 msgstr ""
 
-#: scripts/../src/app.rs:975 scripts/../src/app.rs:975
+#: ./../src/ui/help.rs:68 ./../src/ui/help.rs:68 ./../src/ui/help.rs:68
 msgid "Definitions:"
 msgstr ""
 
-#: scripts/../src/app.rs:976 scripts/../src/app.rs:976
+#: ./../src/ui/help.rs:69 ./../src/ui/help.rs:69 ./../src/ui/help.rs:69
 msgid "- Packet Loss: The most critical metric. If a packet is lost, a piece of someone's word is gone forever. VoIP cannot 'redownload' lost audio like a file transfer does."
 msgstr ""
 
-#: scripts/../src/app.rs:977 scripts/../src/app.rs:977
+#: ./../src/ui/help.rs:70 ./../src/ui/help.rs:70 ./../src/ui/help.rs:70
 msgid "- Outliers: These are packets that didn't go missing but took much longer than usual (more than 3 standard deviations from the mean). In a call, these cause a temporary 'freeze' or a loud 'pop' in the audio."
 msgstr ""
 
-#: scripts/../src/app.rs:978 scripts/../src/app.rs:978
+#: ./../src/ui/help.rs:71 ./../src/ui/help.rs:71 ./../src/ui/help.rs:71
 msgid "- Streak: Shows how many times in a row a host has responded (S) or failed (F). Long 'F' streaks mean the connection is completely down."
 msgstr ""
 
-#: scripts/../src/app.rs:982 scripts/../src/app.rs:982
+#: ./../src/ui/help.rs:75 ./../src/ui/help.rs:75 ./../src/ui/help.rs:75
 msgid "While 1% loss might be okay for browsing, for VoIP it means every 100th piece of a word is missing. Above 2-3% loss, the conversation becomes extremely difficult to understand."
 msgstr ""
 
-#: scripts/../src/app.rs:985 scripts/../src/app.rs:985
+#: ./../src/ui/help.rs:78 ./../src/ui/help.rs:78 ./../src/ui/help.rs:78
 msgid "Reliable Hosts for Internet Checks"
 msgstr ""
 
-#: scripts/../src/app.rs:986 scripts/../src/app.rs:986
+#: ./../src/ui/help.rs:79 ./../src/ui/help.rs:79 ./../src/ui/help.rs:79
 msgid "If you want to check if YOUR internet is working (rather than a specific service), use these stable public DNS servers:"
 msgstr ""
 
-#: scripts/../src/app.rs:989 scripts/../src/app.rs:989
+#: ./../src/ui/help.rs:82 ./../src/ui/help.rs:82 ./../src/ui/help.rs:82
 msgid "- Google DNS: 8.8.8.8 or 8.8.4.4"
 msgstr ""
 
-#: scripts/../src/app.rs:990 scripts/../src/app.rs:990
+#: ./../src/ui/help.rs:83 ./../src/ui/help.rs:83 ./../src/ui/help.rs:83
 msgid "- Cloudflare: 1.1.1.1 or 1.0.0.1"
 msgstr ""
 
-#: scripts/../src/app.rs:991 scripts/../src/app.rs:991
+#: ./../src/ui/help.rs:84 ./../src/ui/help.rs:84 ./../src/ui/help.rs:84
 msgid "- Quad9: 9.9.9.9"
 msgstr ""
 
-#: scripts/../src/app.rs:994 scripts/../src/app.rs:994
+#: ./../src/ui/help.rs:87 ./../src/ui/help.rs:87 ./../src/ui/help.rs:87
 msgid "Tip:"
 msgstr ""
 
-#: scripts/../src/app.rs:995 scripts/../src/app.rs:995
+#: ./../src/ui/help.rs:88 ./../src/ui/help.rs:88 ./../src/ui/help.rs:88
 msgid "If you can ping 8.8.8.8 but cannot open 'google.com', you likely have a DNS problem, not a connection problem."
 msgstr ""
 
-#: scripts/../src/app.rs:1028 scripts/../src/app.rs:1028
+#: ./../src/ui/help.rs:93 ./../src/ui/host_settings.rs:113 ./../src/ui/help.rs:93 ./../src/ui/host_settings.rs:113 ./../src/ui/help.rs:93 ./../src/ui/host_settings.rs:113
+msgid "Close"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:35 ./../src/ui/host_row.rs:35 ./../src/ui/host_row.rs:35
+msgid "STOPPED"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:45 ./../src/ui/host_row.rs:45 ./../src/ui/host_row.rs:45
+msgid "DOWN (at {node})"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:47 ./../src/ui/host_row.rs:47 ./../src/ui/host_row.rs:47
+msgid "DOWN"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:67 ./../src/ui/host_settings.rs:85 ./../src/ui/host_row.rs:67 ./../src/ui/host_settings.rs:85 ./../src/ui/host_settings.rs:85 ./../src/ui/host_row.rs:67
+msgid "Mean RTT"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:74 ./../src/ui/host_settings.rs:87 ./../src/ui/host_row.rs:74 ./../src/ui/host_settings.rs:87 ./../src/ui/host_settings.rs:87 ./../src/ui/host_row.rs:74
+msgid "Median RTT"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:81 ./../src/ui/host_settings.rs:89 ./../src/ui/host_row.rs:81 ./../src/ui/host_settings.rs:89 ./../src/ui/host_settings.rs:89 ./../src/ui/host_row.rs:81
+msgid "RTP Jitter"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:88 ./../src/ui/host_settings.rs:91 ./../src/ui/host_row.rs:88 ./../src/ui/host_settings.rs:91 ./../src/ui/host_settings.rs:91 ./../src/ui/host_row.rs:88
+msgid "Mean Jitter"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:95 ./../src/ui/host_settings.rs:93 ./../src/ui/host_row.rs:95 ./../src/ui/host_settings.rs:93 ./../src/ui/host_settings.rs:93 ./../src/ui/host_row.rs:95
+msgid "Median Jitter"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:102 ./../src/ui/host_row.rs:102 ./../src/ui/host_row.rs:102
+msgid "Voice Quality (MOS)"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:109 ./../src/ui/host_settings.rs:97 ./../src/ui/host_row.rs:109 ./../src/ui/host_settings.rs:97 ./../src/ui/host_settings.rs:97 ./../src/ui/host_row.rs:109
+msgid "Availability"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:116 ./../src/ui/host_row.rs:116 ./../src/ui/host_row.rs:116
+msgid "Outliers (Lags)"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:126 ./../src/ui/host_row.rs:126 ./../src/ui/host_row.rs:126
+msgid "S"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:128 ./../src/ui/host_row.rs:128 ./../src/ui/host_row.rs:128
+msgid "F"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:143 ./../src/ui/host_settings.rs:101 ./../src/ui/host_row.rs:143 ./../src/ui/host_settings.rs:101 ./../src/ui/host_settings.rs:101 ./../src/ui/host_row.rs:143
+msgid "Streak"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:150 ./../src/ui/host_row.rs:150 ./../src/ui/host_row.rs:150
+msgid "Standard Deviation"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:157 ./../src/ui/host_settings.rs:105 ./../src/ui/host_row.rs:157 ./../src/ui/host_settings.rs:105 ./../src/ui/host_settings.rs:105 ./../src/ui/host_row.rs:157
+msgid "95th Percentile"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:169 ./../src/ui/host_settings.rs:107 ./../src/ui/host_row.rs:169 ./../src/ui/host_settings.rs:107 ./../src/ui/host_settings.rs:107 ./../src/ui/host_row.rs:169
+msgid "Min / Max RTT"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:182 ./../src/ui/host_settings.rs:109 ./../src/ui/host_row.rs:182 ./../src/ui/host_settings.rs:109 ./../src/ui/host_settings.rs:109 ./../src/ui/host_row.rs:182
+msgid "Packet Loss"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:210 ./../src/ui/host_row.rs:210 ./../src/ui/host_row.rs:210
+msgid "View Log"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:216 ./../src/ui/host_row.rs:216 ./../src/ui/host_row.rs:216
+msgid "Start monitoring"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:218 ./../src/ui/host_row.rs:218 ./../src/ui/host_row.rs:218
+msgid "Stop monitoring"
+msgstr ""
+
+#: ./../src/ui/host_row.rs:282 ./../src/ui/host_row.rs:282 ./../src/ui/host_row.rs:282
+msgid "Timeout"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:21 ./../src/ui/host_settings.rs:21 ./../src/ui/host_settings.rs:21
+msgid "Host Settings"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:25 ./../src/ui/host_settings.rs:25 ./../src/ui/host_settings.rs:25
+msgid "Host"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:29 ./../src/ui/host_settings.rs:29 ./../src/ui/host_settings.rs:29
+msgid "Name"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:35 ./../src/ui/host_settings.rs:35 ./../src/ui/host_settings.rs:35
+msgid "Ping Interval:"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:54 ./../src/ui/host_settings.rs:54 ./../src/ui/host_settings.rs:54
+msgid "VPN & Privacy:"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:56 ./../src/ui/host_settings.rs:56 ./../src/ui/host_settings.rs:56
+msgid "Packet Size:"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:60 ./../src/ui/host_settings.rs:60 ./../src/ui/host_settings.rs:60
+msgid " bytes"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:63 ./../src/ui/host_settings.rs:63 ./../src/ui/host_settings.rs:63
+msgid "Random Padding"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:65 ./../src/ui/host_settings.rs:65 ./../src/ui/host_settings.rs:65
+msgid "Adds 0-25% random extra data to each packet to mask traffic patterns"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:70 ./../src/ui/host_settings.rs:70 ./../src/ui/host_settings.rs:70
+msgid "Show fields:"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:73 ./../src/ui/host_settings.rs:73 ./../src/ui/host_settings.rs:73
+msgid "Learn more about these metrics"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:79 ./../src/ui/host_settings.rs:79 ./../src/ui/host_settings.rs:79
+msgid "Host Name"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:80 ./../src/ui/host_settings.rs:80 ./../src/ui/host_settings.rs:80
+msgid "User-defined name for this host"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:81 ./../src/ui/host_settings.rs:81 ./../src/ui/host_settings.rs:81
+msgid "Host Address"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:82 ./../src/ui/host_settings.rs:82 ./../src/ui/host_settings.rs:82
+msgid "IP address or domain name"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:83 ./../src/ui/host_settings.rs:83 ./../src/ui/host_settings.rs:83
+msgid "Current Latency"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:84 ./../src/ui/host_settings.rs:84 ./../src/ui/host_settings.rs:84
+msgid "Round-trip time of the last packet"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:86 ./../src/ui/host_settings.rs:86 ./../src/ui/host_settings.rs:86
+msgid "Average latency (can be skewed by spikes)"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:88 ./../src/ui/host_settings.rs:88 ./../src/ui/host_settings.rs:88
+msgid "Typical latency (ignores rare spikes)"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:90 ./../src/ui/host_settings.rs:90 ./../src/ui/host_settings.rs:90
+msgid "Current variation in delay (RFC 3550)"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:92 ./../src/ui/host_settings.rs:92 ./../src/ui/host_settings.rs:92
+msgid "Average variation over time"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:94 ./../src/ui/host_settings.rs:94 ./../src/ui/host_settings.rs:94
+msgid "Typical variation over time"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:96 ./../src/ui/host_settings.rs:96 ./../src/ui/host_settings.rs:96
+msgid "Voice Quality Score (1.0 = Bad, 4.5 = Excellent)"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:98 ./../src/ui/host_settings.rs:98 ./../src/ui/host_settings.rs:98
+msgid "Percentage of packets successfully delivered"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:99 ./../src/ui/host_settings.rs:99 ./../src/ui/host_settings.rs:99
+msgid "Outliers"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:100 ./../src/ui/host_settings.rs:100 ./../src/ui/host_settings.rs:100
+msgid "Count of extremely delayed packets (lags)"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:102 ./../src/ui/host_settings.rs:102 ./../src/ui/host_settings.rs:102
+msgid "Current consecutive successes or failures"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:103 ./../src/ui/host_settings.rs:103 ./../src/ui/host_settings.rs:103
+msgid "StdDev"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:104 ./../src/ui/host_settings.rs:104 ./../src/ui/host_settings.rs:104
+msgid "Standard Deviation (spread of latency values)"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:106 ./../src/ui/host_settings.rs:106 ./../src/ui/host_settings.rs:106
+msgid "Latency experienced by 95% of packets (worst-case)"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:108 ./../src/ui/host_settings.rs:108 ./../src/ui/host_settings.rs:108
+msgid "Absolute best and worst latency in history"
+msgstr ""
+
+#: ./../src/ui/host_settings.rs:110 ./../src/ui/host_settings.rs:110 ./../src/ui/host_settings.rs:110
+msgid "Count and percentage of dropped packets"
+msgstr ""
+
+#: ./../src/ui/log_viewer.rs:49 ./../src/ui/log_viewer.rs:49 ./../src/ui/log_viewer.rs:49
 msgid "Log"
 msgstr ""
 
-#: scripts/../src/app.rs:1040 scripts/../src/app.rs:1040
+#: ./../src/ui/log_viewer.rs:60 ./../src/ui/log_viewer.rs:60 ./../src/ui/log_viewer.rs:60
 msgid "Append log to file"
 msgstr ""
 
-#: scripts/../src/app.rs:1066 scripts/../src/app.rs:1066
+#: ./../src/ui/log_viewer.rs:97 ./../src/ui/log_viewer.rs:97 ./../src/ui/log_viewer.rs:97
 msgid "Log file path"
 msgstr ""
 
-#: scripts/../src/app.rs:1074 scripts/../src/app.rs:1074
+#: ./../src/ui/log_viewer.rs:107 ./../src/ui/log_viewer.rs:107 ./../src/ui/log_viewer.rs:107
 msgid "Filters"
 msgstr ""
 
-#: scripts/../src/app.rs:1075 scripts/../src/app.rs:1075
+#: ./../src/ui/log_viewer.rs:108 ./../src/ui/log_viewer.rs:108 ./../src/ui/log_viewer.rs:108
 msgid "Pings"
 msgstr ""
 
-#: scripts/../src/app.rs:1076 scripts/../src/app.rs:1076
+#: ./../src/ui/log_viewer.rs:109 ./../src/ui/log_viewer.rs:109 ./../src/ui/log_viewer.rs:109
 msgid "Timeouts"
 msgstr ""
 
-#: scripts/../src/app.rs:1078 scripts/../src/app.rs:1078
+#: ./../src/ui/log_viewer.rs:111 ./../src/ui/log_viewer.rs:111 ./../src/ui/log_viewer.rs:111
 msgid "Traceroute"
 msgstr ""
 
-#: scripts/../src/app.rs:1079 scripts/../src/app.rs:1079
+#: ./../src/ui/log_viewer.rs:112 ./../src/ui/log_viewer.rs:112 ./../src/ui/log_viewer.rs:112
 msgid "Incidents"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:96 scripts/../src/ui/system_tools.rs:102 scripts/../src/ui/system_tools.rs:185 scripts/../src/ui/system_tools.rs:96 scripts/../src/ui/system_tools.rs:102 scripts/../src/ui/system_tools.rs:185 scripts/../src/ui/system_tools.rs:96 scripts/../src/ui/system_tools.rs:102 scripts/../src/ui/system_tools.rs:185
+#: ./../src/ui/route_viewer.rs:19 ./../src/ui/route_viewer.rs:19 ./../src/ui/route_viewer.rs:19
+msgid "Route"
+msgstr ""
+
+#: ./../src/ui/route_viewer.rs:28 ./../src/ui/route_viewer.rs:28 ./../src/ui/route_viewer.rs:28
+msgid "Path to target:"
+msgstr ""
+
+#: ./../src/ui/route_viewer.rs:30 ./../src/ui/route_viewer.rs:30 ./../src/ui/route_viewer.rs:30
+msgid "Refresh"
+msgstr ""
+
+#: ./../src/ui/route_viewer.rs:40 ./../src/ui/route_viewer.rs:40 ./../src/ui/route_viewer.rs:40
+msgid "Discovering route..."
+msgstr ""
+
+#: ./../src/ui/route_viewer.rs:55 ./../src/ui/route_viewer.rs:55 ./../src/ui/route_viewer.rs:55
+msgid "(TIMEOUT)"
+msgstr ""
+
+#: ./../src/ui/route_viewer.rs:68 ./../src/ui/route_viewer.rs:68 ./../src/ui/route_viewer.rs:68
+msgid "Refreshing route..."
+msgstr ""
+
+#: ./../src/ui/route_viewer.rs:72 ./../src/ui/route_viewer.rs:72 ./../src/ui/route_viewer.rs:72
+msgid "No status found for this address."
+msgstr ""
+
+#: ./../src/ui/system_tools.rs:90 ./../src/ui/system_tools.rs:99 ./../src/ui/system_tools.rs:221 ./../src/ui/system_tools.rs:90 ./../src/ui/system_tools.rs:99 ./../src/ui/system_tools.rs:221 ./../src/ui/system_tools.rs:90 ./../src/ui/system_tools.rs:99 ./../src/ui/system_tools.rs:221
 msgid "Basic Info"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:97 scripts/../src/ui/system_tools.rs:97 scripts/../src/ui/system_tools.rs:97
+#: ./../src/ui/system_tools.rs:91 ./../src/ui/system_tools.rs:91 ./../src/ui/system_tools.rs:91
 msgid "Network Interfaces"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:98 scripts/../src/ui/system_tools.rs:98 scripts/../src/ui/system_tools.rs:98
+#: ./../src/ui/system_tools.rs:93 ./../src/ui/system_tools.rs:93 ./../src/ui/system_tools.rs:93
 msgid "Shows all network interfaces with their IP addresses, subnet masks, and status (UP/DOWN). Look for your main interface (eth0, wlan0, enp*) and check if it has an IP address assigned."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:103 scripts/../src/ui/system_tools.rs:103 scripts/../src/ui/system_tools.rs:103
+#: ./../src/ui/system_tools.rs:100 ./../src/ui/system_tools.rs:100 ./../src/ui/system_tools.rs:100
 msgid "Interface Status"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:104 scripts/../src/ui/system_tools.rs:104 scripts/../src/ui/system_tools.rs:104
+#: ./../src/ui/system_tools.rs:102 ./../src/ui/system_tools.rs:102 ./../src/ui/system_tools.rs:102
 msgid "Shows link-layer status of all interfaces: MTU, MAC address, and whether the link is physically UP. If your interface shows 'state DOWN', the cable might be unplugged or Wi-Fi is disconnected."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:108 scripts/../src/ui/system_tools.rs:114 scripts/../src/ui/system_tools.rs:191 scripts/../src/ui/system_tools.rs:108 scripts/../src/ui/system_tools.rs:114 scripts/../src/ui/system_tools.rs:191 scripts/../src/ui/system_tools.rs:108 scripts/../src/ui/system_tools.rs:114 scripts/../src/ui/system_tools.rs:191
+#: ./../src/ui/system_tools.rs:108 ./../src/ui/system_tools.rs:117 ./../src/ui/system_tools.rs:230 ./../src/ui/system_tools.rs:108 ./../src/ui/system_tools.rs:117 ./../src/ui/system_tools.rs:230 ./../src/ui/system_tools.rs:108 ./../src/ui/system_tools.rs:117 ./../src/ui/system_tools.rs:230
 msgid "Routing"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:109 scripts/../src/ui/system_tools.rs:192 scripts/../src/ui/system_tools.rs:109 scripts/../src/ui/system_tools.rs:192 scripts/../src/ui/system_tools.rs:109 scripts/../src/ui/system_tools.rs:192
+#: ./../src/ui/system_tools.rs:109 ./../src/ui/system_tools.rs:231 ./../src/ui/system_tools.rs:109 ./../src/ui/system_tools.rs:231 ./../src/ui/system_tools.rs:109 ./../src/ui/system_tools.rs:231
 msgid "Routing Table"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:110 scripts/../src/ui/system_tools.rs:110 scripts/../src/ui/system_tools.rs:110
+#: ./../src/ui/system_tools.rs:111 ./../src/ui/system_tools.rs:111 ./../src/ui/system_tools.rs:111
 msgid "Displays the IPv4 routing table. Look for the 'default via' line — this is your gateway (router). If this line is missing, your system doesn't know how to reach the internet."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:115 scripts/../src/ui/system_tools.rs:115 scripts/../src/ui/system_tools.rs:115
+#: ./../src/ui/system_tools.rs:118 ./../src/ui/system_tools.rs:118 ./../src/ui/system_tools.rs:118
 msgid "IPv6 Routing Table"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:116 scripts/../src/ui/system_tools.rs:116 scripts/../src/ui/system_tools.rs:116
+#: ./../src/ui/system_tools.rs:120 ./../src/ui/system_tools.rs:120 ./../src/ui/system_tools.rs:120
 msgid "Displays the IPv6 routing table. Similar to IPv4, look for a 'default via' entry for your IPv6 gateway."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:120 scripts/../src/ui/system_tools.rs:126 scripts/../src/ui/system_tools.rs:132 scripts/../src/ui/system_tools.rs:197 scripts/../src/ui/system_tools.rs:203 scripts/../src/ui/system_tools.rs:120 scripts/../src/ui/system_tools.rs:126 scripts/../src/ui/system_tools.rs:132 scripts/../src/ui/system_tools.rs:197 scripts/../src/ui/system_tools.rs:203 scripts/../src/ui/system_tools.rs:120 scripts/../src/ui/system_tools.rs:126 scripts/../src/ui/system_tools.rs:132 scripts/../src/ui/system_tools.rs:197 scripts/../src/ui/system_tools.rs:203
+#: ./../src/ui/system_tools.rs:126 ./../src/ui/system_tools.rs:135 ./../src/ui/system_tools.rs:144 ./../src/ui/system_tools.rs:239 ./../src/ui/system_tools.rs:248 ./../src/ui/system_tools.rs:126 ./../src/ui/system_tools.rs:135 ./../src/ui/system_tools.rs:144 ./../src/ui/system_tools.rs:239 ./../src/ui/system_tools.rs:248 ./../src/ui/system_tools.rs:126 ./../src/ui/system_tools.rs:135 ./../src/ui/system_tools.rs:144 ./../src/ui/system_tools.rs:239 ./../src/ui/system_tools.rs:248
 msgid "DNS"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:121 scripts/../src/ui/system_tools.rs:121 scripts/../src/ui/system_tools.rs:121
+#: ./../src/ui/system_tools.rs:127 ./../src/ui/system_tools.rs:127 ./../src/ui/system_tools.rs:127
 msgid "DNS Configuration"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:122 scripts/../src/ui/system_tools.rs:122 scripts/../src/ui/system_tools.rs:122
+#: ./../src/ui/system_tools.rs:129 ./../src/ui/system_tools.rs:129 ./../src/ui/system_tools.rs:129
 msgid "Shows which DNS servers your system is using. If DNS is misconfigured, you can ping IP addresses (like 8.8.8.8) but cannot open websites by name."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:127 scripts/../src/ui/system_tools.rs:204 scripts/../src/ui/system_tools.rs:127 scripts/../src/ui/system_tools.rs:204 scripts/../src/ui/system_tools.rs:127 scripts/../src/ui/system_tools.rs:204
+#: ./../src/ui/system_tools.rs:136 ./../src/ui/system_tools.rs:249 ./../src/ui/system_tools.rs:136 ./../src/ui/system_tools.rs:249 ./../src/ui/system_tools.rs:136 ./../src/ui/system_tools.rs:249
 msgid "DNS Lookup (google.com)"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:128 scripts/../src/ui/system_tools.rs:128 scripts/../src/ui/system_tools.rs:128
+#: ./../src/ui/system_tools.rs:138 ./../src/ui/system_tools.rs:138 ./../src/ui/system_tools.rs:138
 msgid "Performs a DNS query for google.com. If this fails but pinging 8.8.8.8 works, you have a DNS problem. The result should show one or more IP addresses."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:133 scripts/../src/ui/system_tools.rs:133 scripts/../src/ui/system_tools.rs:133
+#: ./../src/ui/system_tools.rs:145 ./../src/ui/system_tools.rs:145 ./../src/ui/system_tools.rs:145
 msgid "Reverse DNS (8.8.8.8)"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:134 scripts/../src/ui/system_tools.rs:134 scripts/../src/ui/system_tools.rs:134
+#: ./../src/ui/system_tools.rs:147 ./../src/ui/system_tools.rs:147 ./../src/ui/system_tools.rs:147
 msgid "Looks up the hostname for IP address 8.8.8.8. This tests if reverse DNS resolution works. Should return 'dns.google'."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:138 scripts/../src/ui/system_tools.rs:209 scripts/../src/ui/system_tools.rs:215 scripts/../src/ui/system_tools.rs:138 scripts/../src/ui/system_tools.rs:209 scripts/../src/ui/system_tools.rs:215 scripts/../src/ui/system_tools.rs:138 scripts/../src/ui/system_tools.rs:209 scripts/../src/ui/system_tools.rs:215
+#: ./../src/ui/system_tools.rs:153 ./../src/ui/system_tools.rs:257 ./../src/ui/system_tools.rs:266 ./../src/ui/system_tools.rs:153 ./../src/ui/system_tools.rs:257 ./../src/ui/system_tools.rs:266 ./../src/ui/system_tools.rs:153 ./../src/ui/system_tools.rs:257 ./../src/ui/system_tools.rs:266
 msgid "Connections"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:139 scripts/../src/ui/system_tools.rs:139 scripts/../src/ui/system_tools.rs:139
+#: ./../src/ui/system_tools.rs:154 ./../src/ui/system_tools.rs:154 ./../src/ui/system_tools.rs:154
 msgid "Listening Ports (TCP/UDP)"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:140 scripts/../src/ui/system_tools.rs:140 scripts/../src/ui/system_tools.rs:140
+#: ./../src/ui/system_tools.rs:156 ./../src/ui/system_tools.rs:156 ./../src/ui/system_tools.rs:156
 msgid "Shows all TCP and UDP ports that are currently listening for incoming connections. Useful for checking if a service (like a SIP server) is running and listening on the expected port."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:144 scripts/../src/ui/system_tools.rs:221 scripts/../src/ui/system_tools.rs:144 scripts/../src/ui/system_tools.rs:221 scripts/../src/ui/system_tools.rs:144 scripts/../src/ui/system_tools.rs:221
+#: ./../src/ui/system_tools.rs:162 ./../src/ui/system_tools.rs:275 ./../src/ui/system_tools.rs:162 ./../src/ui/system_tools.rs:275 ./../src/ui/system_tools.rs:162 ./../src/ui/system_tools.rs:275
 msgid "Neighbors"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:145 scripts/../src/ui/system_tools.rs:222 scripts/../src/ui/system_tools.rs:145 scripts/../src/ui/system_tools.rs:222 scripts/../src/ui/system_tools.rs:145 scripts/../src/ui/system_tools.rs:222
+#: ./../src/ui/system_tools.rs:163 ./../src/ui/system_tools.rs:276 ./../src/ui/system_tools.rs:163 ./../src/ui/system_tools.rs:276 ./../src/ui/system_tools.rs:163 ./../src/ui/system_tools.rs:276
 msgid "ARP Table"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:146 scripts/../src/ui/system_tools.rs:146 scripts/../src/ui/system_tools.rs:146
+#: ./../src/ui/system_tools.rs:165 ./../src/ui/system_tools.rs:165 ./../src/ui/system_tools.rs:165
 msgid "Shows the ARP cache — a mapping of IP addresses to MAC addresses on your local network. If your gateway's entry is missing or shows 'FAILED', you have a local network connectivity issue."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:150 scripts/../src/ui/system_tools.rs:156 scripts/../src/ui/system_tools.rs:227 scripts/../src/ui/system_tools.rs:233 scripts/../src/ui/system_tools.rs:150 scripts/../src/ui/system_tools.rs:156 scripts/../src/ui/system_tools.rs:227 scripts/../src/ui/system_tools.rs:233 scripts/../src/ui/system_tools.rs:150 scripts/../src/ui/system_tools.rs:156 scripts/../src/ui/system_tools.rs:227 scripts/../src/ui/system_tools.rs:233
+#: ./../src/ui/system_tools.rs:171 ./../src/ui/system_tools.rs:180 ./../src/ui/system_tools.rs:284 ./../src/ui/system_tools.rs:293 ./../src/ui/system_tools.rs:171 ./../src/ui/system_tools.rs:180 ./../src/ui/system_tools.rs:284 ./../src/ui/system_tools.rs:293 ./../src/ui/system_tools.rs:171 ./../src/ui/system_tools.rs:180 ./../src/ui/system_tools.rs:284 ./../src/ui/system_tools.rs:293
 msgid "Wi-Fi"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:151 scripts/../src/ui/system_tools.rs:228 scripts/../src/ui/system_tools.rs:151 scripts/../src/ui/system_tools.rs:228 scripts/../src/ui/system_tools.rs:151 scripts/../src/ui/system_tools.rs:228
+#: ./../src/ui/system_tools.rs:172 ./../src/ui/system_tools.rs:285 ./../src/ui/system_tools.rs:172 ./../src/ui/system_tools.rs:285 ./../src/ui/system_tools.rs:172 ./../src/ui/system_tools.rs:285
 msgid "Wi-Fi Connection Status"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:152 scripts/../src/ui/system_tools.rs:152 scripts/../src/ui/system_tools.rs:152
+#: ./../src/ui/system_tools.rs:174 ./../src/ui/system_tools.rs:174 ./../src/ui/system_tools.rs:174
 msgid "Shows details about your current Wi-Fi connection: SSID, signal strength, frequency, and link speed. Low signal strength (below -70 dBm) can cause packet loss and high latency."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:157 scripts/../src/ui/system_tools.rs:234 scripts/../src/ui/system_tools.rs:157 scripts/../src/ui/system_tools.rs:234 scripts/../src/ui/system_tools.rs:157 scripts/../src/ui/system_tools.rs:234
+#: ./../src/ui/system_tools.rs:181 ./../src/ui/system_tools.rs:294 ./../src/ui/system_tools.rs:181 ./../src/ui/system_tools.rs:294 ./../src/ui/system_tools.rs:181 ./../src/ui/system_tools.rs:294
 msgid "Available Wi-Fi Networks"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:158 scripts/../src/ui/system_tools.rs:158 scripts/../src/ui/system_tools.rs:158
+#: ./../src/ui/system_tools.rs:183 ./../src/ui/system_tools.rs:183 ./../src/ui/system_tools.rs:183
 msgid "Lists all visible Wi-Fi networks with their signal strength, channel, and security. Useful for identifying channel congestion if many networks share the same channel."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:162 scripts/../src/ui/system_tools.rs:168 scripts/../src/ui/system_tools.rs:174 scripts/../src/ui/system_tools.rs:239 scripts/../src/ui/system_tools.rs:162 scripts/../src/ui/system_tools.rs:168 scripts/../src/ui/system_tools.rs:174 scripts/../src/ui/system_tools.rs:239 scripts/../src/ui/system_tools.rs:162 scripts/../src/ui/system_tools.rs:168 scripts/../src/ui/system_tools.rs:174 scripts/../src/ui/system_tools.rs:239
+#: ./../src/ui/system_tools.rs:189 ./../src/ui/system_tools.rs:198 ./../src/ui/system_tools.rs:207 ./../src/ui/system_tools.rs:302 ./../src/ui/system_tools.rs:189 ./../src/ui/system_tools.rs:198 ./../src/ui/system_tools.rs:207 ./../src/ui/system_tools.rs:302 ./../src/ui/system_tools.rs:189 ./../src/ui/system_tools.rs:198 ./../src/ui/system_tools.rs:207 ./../src/ui/system_tools.rs:302
 msgid "System"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:163 scripts/../src/ui/system_tools.rs:163 scripts/../src/ui/system_tools.rs:163
+#: ./../src/ui/system_tools.rs:190 ./../src/ui/system_tools.rs:190 ./../src/ui/system_tools.rs:190
 msgid "Interface Statistics"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:164 scripts/../src/ui/system_tools.rs:164 scripts/../src/ui/system_tools.rs:164
+#: ./../src/ui/system_tools.rs:192 ./../src/ui/system_tools.rs:192 ./../src/ui/system_tools.rs:192
 msgid "Shows detailed packet/byte counters and error statistics for each interface. High values in 'errors', 'dropped', or 'overrun' indicate hardware or driver problems."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:169 scripts/../src/ui/system_tools.rs:169 scripts/../src/ui/system_tools.rs:169
+#: ./../src/ui/system_tools.rs:199 ./../src/ui/system_tools.rs:199 ./../src/ui/system_tools.rs:199
 msgid "System Uptime"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:170 scripts/../src/ui/system_tools.rs:170 scripts/../src/ui/system_tools.rs:170
+#: ./../src/ui/system_tools.rs:201 ./../src/ui/system_tools.rs:201 ./../src/ui/system_tools.rs:201
 msgid "Shows how long the system has been running, number of users, and load averages. High load averages (above the number of CPU cores) can indicate system overload affecting network performance."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:175 scripts/../src/ui/system_tools.rs:175 scripts/../src/ui/system_tools.rs:175
+#: ./../src/ui/system_tools.rs:208 ./../src/ui/system_tools.rs:208 ./../src/ui/system_tools.rs:208
 msgid "Network Manager Log (last 30 lines)"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:176 scripts/../src/ui/system_tools.rs:176 scripts/../src/ui/system_tools.rs:176
+#: ./../src/ui/system_tools.rs:210 ./../src/ui/system_tools.rs:210 ./../src/ui/system_tools.rs:210
 msgid "Shows recent NetworkManager journal entries. Look for connection drops, DHCP failures, or Wi-Fi roaming events that might explain network instability."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:186 scripts/../src/ui/system_tools.rs:186 scripts/../src/ui/system_tools.rs:186
+#: ./../src/ui/system_tools.rs:222 ./../src/ui/system_tools.rs:222 ./../src/ui/system_tools.rs:222
 msgid "Network Configuration"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:187 scripts/../src/ui/system_tools.rs:187 scripts/../src/ui/system_tools.rs:187
+#: ./../src/ui/system_tools.rs:224 ./../src/ui/system_tools.rs:224 ./../src/ui/system_tools.rs:224
 msgid "Shows detailed information about all network adapters: IP addresses, subnet masks, default gateways, DNS servers, and DHCP status. This is the most comprehensive overview of your network setup."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:193 scripts/../src/ui/system_tools.rs:193 scripts/../src/ui/system_tools.rs:193
+#: ./../src/ui/system_tools.rs:233 ./../src/ui/system_tools.rs:233 ./../src/ui/system_tools.rs:233
 msgid "Displays the IPv4 and IPv6 routing tables. Look for the '0.0.0.0' route — its gateway is your router. If this entry is missing, your system cannot reach the internet."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:198 scripts/../src/ui/system_tools.rs:198 scripts/../src/ui/system_tools.rs:198
+#: ./../src/ui/system_tools.rs:240 ./../src/ui/system_tools.rs:240 ./../src/ui/system_tools.rs:240
 msgid "DNS Cache"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:199 scripts/../src/ui/system_tools.rs:199 scripts/../src/ui/system_tools.rs:199
+#: ./../src/ui/system_tools.rs:242 ./../src/ui/system_tools.rs:242 ./../src/ui/system_tools.rs:242
 msgid "Shows the local DNS resolver cache. This reveals which domain names have been recently resolved. If a domain shows an incorrect IP, you may have a stale cache entry."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:205 scripts/../src/ui/system_tools.rs:205 scripts/../src/ui/system_tools.rs:205
+#: ./../src/ui/system_tools.rs:251 ./../src/ui/system_tools.rs:251 ./../src/ui/system_tools.rs:251
 msgid "Performs a DNS query for google.com using the system's default DNS server. If this fails but pinging 8.8.8.8 works, you have a DNS problem."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:210 scripts/../src/ui/system_tools.rs:210 scripts/../src/ui/system_tools.rs:210
+#: ./../src/ui/system_tools.rs:258 ./../src/ui/system_tools.rs:258 ./../src/ui/system_tools.rs:258
 msgid "Active Connections"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:211 scripts/../src/ui/system_tools.rs:211 scripts/../src/ui/system_tools.rs:211
+#: ./../src/ui/system_tools.rs:260 ./../src/ui/system_tools.rs:260 ./../src/ui/system_tools.rs:260
 msgid "Shows all active TCP/UDP connections and listening ports. Useful for checking if a service is running on the expected port, or if there are unusual outgoing connections."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:216 scripts/../src/ui/system_tools.rs:216 scripts/../src/ui/system_tools.rs:216
+#: ./../src/ui/system_tools.rs:267 ./../src/ui/system_tools.rs:267 ./../src/ui/system_tools.rs:267
 msgid "Protocol Statistics"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:217 scripts/../src/ui/system_tools.rs:217 scripts/../src/ui/system_tools.rs:217
+#: ./../src/ui/system_tools.rs:269 ./../src/ui/system_tools.rs:269 ./../src/ui/system_tools.rs:269
 msgid "Shows per-protocol statistics (TCP, UDP, ICMP, IP). High error counts or retransmissions indicate network problems."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:223 scripts/../src/ui/system_tools.rs:223 scripts/../src/ui/system_tools.rs:223
+#: ./../src/ui/system_tools.rs:278 ./../src/ui/system_tools.rs:278 ./../src/ui/system_tools.rs:278
 msgid "Shows the ARP cache — IP-to-MAC address mappings on your local network. Missing or incomplete entries for your gateway suggest a local connectivity problem."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:229 scripts/../src/ui/system_tools.rs:229 scripts/../src/ui/system_tools.rs:229
+#: ./../src/ui/system_tools.rs:287 ./../src/ui/system_tools.rs:287 ./../src/ui/system_tools.rs:287
 msgid "Shows current Wi-Fi adapter details: SSID, signal quality, radio type, channel, and authentication. Signal quality below 50% typically causes packet loss."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:235 scripts/../src/ui/system_tools.rs:235 scripts/../src/ui/system_tools.rs:235
+#: ./../src/ui/system_tools.rs:296 ./../src/ui/system_tools.rs:296 ./../src/ui/system_tools.rs:296
 msgid "Lists all visible Wi-Fi networks with signal strength, channel, and encryption. Helps identify Wi-Fi congestion if many networks overlap on the same channel."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:240 scripts/../src/ui/system_tools.rs:240 scripts/../src/ui/system_tools.rs:240
+#: ./../src/ui/system_tools.rs:303 ./../src/ui/system_tools.rs:303 ./../src/ui/system_tools.rs:303
 msgid "Firewall Status"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:241 scripts/../src/ui/system_tools.rs:241 scripts/../src/ui/system_tools.rs:241
+#: ./../src/ui/system_tools.rs:305 ./../src/ui/system_tools.rs:305 ./../src/ui/system_tools.rs:305
 msgid "Shows the current Windows Firewall profile status. If the firewall is blocking ICMP, pings will fail even though the network is working."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:311 scripts/../src/ui/system_tools.rs:311 scripts/../src/ui/system_tools.rs:311
+#: ./../src/ui/system_tools.rs:368 ./../src/ui/system_tools.rs:368 ./../src/ui/system_tools.rs:368
 msgid "No commands available for this platform."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:317 scripts/../src/ui/system_tools.rs:317 scripts/../src/ui/system_tools.rs:317
+#: ./../src/ui/system_tools.rs:374 ./../src/ui/system_tools.rs:374 ./../src/ui/system_tools.rs:374
 msgid "Command:"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:353 scripts/../src/ui/system_tools.rs:353 scripts/../src/ui/system_tools.rs:353
+#: ./../src/ui/system_tools.rs:401 ./../src/ui/system_tools.rs:401 ./../src/ui/system_tools.rs:401
 msgid "Guide"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:358 scripts/../src/ui/system_tools.rs:358 scripts/../src/ui/system_tools.rs:358
+#: ./../src/ui/system_tools.rs:405 ./../src/ui/system_tools.rs:405 ./../src/ui/system_tools.rs:405
 msgid "Run Command"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:385 scripts/../src/ui/system_tools.rs:385 scripts/../src/ui/system_tools.rs:385
+#: ./../src/ui/system_tools.rs:432 ./../src/ui/system_tools.rs:432 ./../src/ui/system_tools.rs:432
 msgid "▶ Run"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:399 scripts/../src/ui/system_tools.rs:399 scripts/../src/ui/system_tools.rs:399
+#: ./../src/ui/system_tools.rs:446 ./../src/ui/system_tools.rs:446 ./../src/ui/system_tools.rs:446
 msgid "Running..."
 msgstr ""
 
 #. Section 1: No internet
-#: scripts/../src/ui/system_tools.rs:424 scripts/../src/ui/system_tools.rs:424 scripts/../src/ui/system_tools.rs:424
+#: ./../src/ui/system_tools.rs:471 ./../src/ui/system_tools.rs:471 ./../src/ui/system_tools.rs:471
 msgid "1. Internet is completely down"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:425 scripts/../src/ui/system_tools.rs:425 scripts/../src/ui/system_tools.rs:425
+#: ./../src/ui/system_tools.rs:472 ./../src/ui/system_tools.rs:472 ./../src/ui/system_tools.rs:472
 msgid "If you cannot access any website or service:"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:426 scripts/../src/ui/system_tools.rs:426 scripts/../src/ui/system_tools.rs:426
+#: ./../src/ui/system_tools.rs:473 ./../src/ui/system_tools.rs:473 ./../src/ui/system_tools.rs:473
 msgid "  • Run 'Network Interfaces' — check if your adapter has an IP address. If no IP is assigned, DHCP may have failed."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:427 scripts/../src/ui/system_tools.rs:427 scripts/../src/ui/system_tools.rs:427
+#: ./../src/ui/system_tools.rs:474 ./../src/ui/system_tools.rs:474 ./../src/ui/system_tools.rs:474
 msgid "  • Run 'Routing Table' — look for a 'default' route. If missing, the system doesn't know how to reach the internet."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:428 scripts/../src/ui/system_tools.rs:428 scripts/../src/ui/system_tools.rs:428
+#: ./../src/ui/system_tools.rs:475 ./../src/ui/system_tools.rs:475 ./../src/ui/system_tools.rs:475
 msgid "  • Run 'DNS Lookup (google.com)' — if this fails but pinging 8.8.8.8 works in the main window, you have a DNS problem, not a connection problem."
 msgstr ""
 
 #. Section 2: Intermittent connectivity
-#: scripts/../src/ui/system_tools.rs:432 scripts/../src/ui/system_tools.rs:432 scripts/../src/ui/system_tools.rs:432
+#: ./../src/ui/system_tools.rs:479 ./../src/ui/system_tools.rs:479 ./../src/ui/system_tools.rs:479
 msgid "2. Connection drops or is unstable"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:433 scripts/../src/ui/system_tools.rs:433 scripts/../src/ui/system_tools.rs:433
+#: ./../src/ui/system_tools.rs:480 ./../src/ui/system_tools.rs:480 ./../src/ui/system_tools.rs:480
 msgid "If the connection works sometimes but keeps cutting out:"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:434 scripts/../src/ui/system_tools.rs:434 scripts/../src/ui/system_tools.rs:434
+#: ./../src/ui/system_tools.rs:481 ./../src/ui/system_tools.rs:481 ./../src/ui/system_tools.rs:481
 msgid "  • Run 'ARP Table' — if the gateway entry shows 'FAILED' or 'INCOMPLETE', there is a problem on your local network (cable, switch, or router)."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:435 scripts/../src/ui/system_tools.rs:435 scripts/../src/ui/system_tools.rs:435
+#: ./../src/ui/system_tools.rs:482 ./../src/ui/system_tools.rs:482 ./../src/ui/system_tools.rs:482
 msgid "  • Run 'Interface Statistics' — look for high 'errors' or 'dropped' counters. These indicate hardware, driver, or cable problems."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:436 scripts/../src/ui/system_tools.rs:436 scripts/../src/ui/system_tools.rs:436
+#: ./../src/ui/system_tools.rs:483 ./../src/ui/system_tools.rs:483 ./../src/ui/system_tools.rs:483
 msgid "  • Run 'Network Manager Log' — look for repeated 'connection dropped' or 'DHCP lease expired' messages."
 msgstr ""
 
 #. Section 3: Slow internet
-#: scripts/../src/ui/system_tools.rs:440 scripts/../src/ui/system_tools.rs:440 scripts/../src/ui/system_tools.rs:440
+#: ./../src/ui/system_tools.rs:487 ./../src/ui/system_tools.rs:487 ./../src/ui/system_tools.rs:487
 msgid "3. Internet is slow"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:441 scripts/../src/ui/system_tools.rs:441 scripts/../src/ui/system_tools.rs:441
+#: ./../src/ui/system_tools.rs:488 ./../src/ui/system_tools.rs:488 ./../src/ui/system_tools.rs:488
 msgid "If pages load slowly or VoIP calls have bad quality:"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:442 scripts/../src/ui/system_tools.rs:442 scripts/../src/ui/system_tools.rs:442
+#: ./../src/ui/system_tools.rs:489 ./../src/ui/system_tools.rs:489 ./../src/ui/system_tools.rs:489
 msgid "  • Run 'Wi-Fi Connection Status' — check signal strength. Below -70 dBm (or below 50% on Windows) causes packet loss and jitter."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:443 scripts/../src/ui/system_tools.rs:443 scripts/../src/ui/system_tools.rs:443
+#: ./../src/ui/system_tools.rs:490 ./../src/ui/system_tools.rs:490 ./../src/ui/system_tools.rs:490
 msgid "  • Run 'Available Wi-Fi Networks' — if many networks use the same channel, interference is likely. Consider switching to a less crowded channel or 5 GHz band."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:444 scripts/../src/ui/system_tools.rs:444 scripts/../src/ui/system_tools.rs:444
+#: ./../src/ui/system_tools.rs:491 ./../src/ui/system_tools.rs:491 ./../src/ui/system_tools.rs:491
 msgid "  • Run 'Listening Ports' — check if many connections are open. A torrent client or large download can saturate your bandwidth."
 msgstr ""
 
 #. Section 4: DNS problems
-#: scripts/../src/ui/system_tools.rs:448 scripts/../src/ui/system_tools.rs:448 scripts/../src/ui/system_tools.rs:448
+#: ./../src/ui/system_tools.rs:495 ./../src/ui/system_tools.rs:495 ./../src/ui/system_tools.rs:495
 msgid "4. Websites don't open, but ping works"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:449 scripts/../src/ui/system_tools.rs:449 scripts/../src/ui/system_tools.rs:449
+#: ./../src/ui/system_tools.rs:496 ./../src/ui/system_tools.rs:496 ./../src/ui/system_tools.rs:496
 msgid "If you can ping 8.8.8.8 in the main window but cannot open websites:"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:450 scripts/../src/ui/system_tools.rs:450 scripts/../src/ui/system_tools.rs:450
+#: ./../src/ui/system_tools.rs:497 ./../src/ui/system_tools.rs:497 ./../src/ui/system_tools.rs:497
 msgid "  • Run 'DNS Configuration' — verify your DNS servers are correctly set. Common public DNS: 8.8.8.8, 1.1.1.1, 9.9.9.9."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:451 scripts/../src/ui/system_tools.rs:451 scripts/../src/ui/system_tools.rs:451
+#: ./../src/ui/system_tools.rs:498 ./../src/ui/system_tools.rs:498 ./../src/ui/system_tools.rs:498
 msgid "  • Run 'DNS Lookup (google.com)' — if it fails or returns wrong IPs, your DNS server may be down or misconfigured."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:453 scripts/../src/ui/system_tools.rs:453 scripts/../src/ui/system_tools.rs:453
+#: ./../src/ui/system_tools.rs:500 ./../src/ui/system_tools.rs:500 ./../src/ui/system_tools.rs:500
 msgid "  • Run 'DNS Cache' — check for stale entries. You can flush the cache with: ipconfig /flushdns (requires admin)."
 msgstr ""
 
 #. Section 5: Advanced (admin-only)
-#: scripts/../src/ui/system_tools.rs:458 scripts/../src/ui/system_tools.rs:458 scripts/../src/ui/system_tools.rs:458
+#: ./../src/ui/system_tools.rs:505 ./../src/ui/system_tools.rs:505 ./../src/ui/system_tools.rs:505
 msgid "5. Advanced diagnostics (require administrator privileges)"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:459 scripts/../src/ui/system_tools.rs:459 scripts/../src/ui/system_tools.rs:459
+#: ./../src/ui/system_tools.rs:506 ./../src/ui/system_tools.rs:506 ./../src/ui/system_tools.rs:506
 msgid "These commands require elevated privileges and must be run from a terminal:"
 msgstr ""
