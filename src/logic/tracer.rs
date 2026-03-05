@@ -1,6 +1,8 @@
 use regex::Regex;
 use std::time::Duration;
 use tokio::process::Command as TokioCommand;
+#[cfg(windows)]
+use crate::constants::CREATE_NO_WINDOW;
 
 /// Represents a single hop in a traceroute path.
 #[derive(Debug, Clone, Default)]
@@ -15,12 +17,14 @@ pub struct TracerouteHop {
 pub async fn run_traceroute(address: &str) -> Vec<String> {
     let child = if cfg!(windows) {
         // Windows: tracert -d -h 20 -w 2000 <address>
-        match TokioCommand::new("tracert")
-            .args(["-d", "-h", "20", "-w", "2000", address])
+        let mut cmd = TokioCommand::new("tracert");
+        cmd.args(["-d", "-h", "20", "-w", "2000", address])
             .stdout(std::process::Stdio::piped())
-            .stderr(std::process::Stdio::piped())
-            .spawn()
-        {
+            .stderr(std::process::Stdio::piped());
+        #[cfg(windows)]
+        cmd.creation_flags(CREATE_NO_WINDOW);
+
+        match cmd.spawn() {
             Ok(c) => c,
             Err(e) => {
                 eprintln!("Failed to spawn tracert: {}", e);

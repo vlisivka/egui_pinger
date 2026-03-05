@@ -39,9 +39,10 @@ src/ui/
 |----------------------|-------------------------------|--------------------------------------|
 | Базова інформація    | Мережеві інтерфейси           | `ip -c addr`                         |
 | Базова інформація    | Стан інтерфейсів              | `ip -c link`                         |
+| Базова інформація    | Зовнішня IP-адреса           | `curl -s ifconfig.me`                |
 | Маршрутизація        | Таблиця маршрутів             | `ip route`                           |
 | Маршрутизація        | Таблиця маршрутів IPv6        | `ip -6 route`                        |
-| DNS                  | Налаштування DNS              | `resolvectl status` (або `cat /etc/resolv.conf`) |
+| DNS                  | Налаштування DNS              | `cat /etc/resolv.conf`               |
 | DNS                  | DNS-запит google.com          | `dig google.com +short`              |
 | DNS                  | Зворотний DNS (8.8.8.8)      | `dig -x 8.8.8.8 +short`             |
 | З'єднання            | Активні TCP/UDP з'єднання     | `ss -tuln`                           |
@@ -57,8 +58,11 @@ src/ui/
 | Категорія            | Назва                         | Команда                              |
 |----------------------|-------------------------------|--------------------------------------|
 | Базова інформація    | Налаштування мережі           | `ipconfig /all`                      |
+| Базова інформація    | MAC-адреси мережевих адаптерів | `getmac /v`                          |
+| Базова інформація    | Статус мережевих інтерфейсів  | `netsh interface show interface`     |
 | Маршрутизація        | Таблиця маршрутів             | `route print`                        |
 | DNS                  | Кеш DNS                       | `ipconfig /displaydns`               |
+| DNS                  | Очищення DNS-кешу             | `ipconfig /flushdns`                 |
 | DNS                  | DNS-запит google.com          | `nslookup google.com`                |
 | З'єднання            | Активні з'єднання             | `netstat -an`                        |
 | З'єднання            | Статистика протоколів         | `netstat -s`                         |
@@ -66,6 +70,7 @@ src/ui/
 | Wi-Fi                | Стан Wi-Fi з'єднання          | `netsh wlan show interfaces`         |
 | Wi-Fi                | Список Wi-Fi мереж            | `netsh wlan show networks mode=bssid`|
 | Система              | Стан Firewall                 | `netsh advfirewall show currentprofile` |
+| Система              | Глобальні налаштування TCP    | `netsh interface tcp show global`    |
 | Система              | Час роботи системи            | `systeminfo | findstr /C:"System Boot Time"` |
 
 ## Покроковий довідник (вкладка «Guide»)
@@ -107,8 +112,8 @@ src/ui/
   - Забезпечити `tr!()` для назв та описів.
 
 - [x] 3. **Реалізувати UI вікна в `ui_system_tools_window()`**:
-  - Дві вкладки: «Guide» (довідник) та «Commands» (команди).
-  - На вкладці «Commands»:
+  - Дві вкладки: «Guide» (довідник) та «Command Output» (вивід команди).
+  - На вкладці «Command Output»:
     - `ComboBox` із назвами команд.
     - Опис обраної команди під комбобоксом.
     - Кнопка «▶ Run» (не активна під час виконання).

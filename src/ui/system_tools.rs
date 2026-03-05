@@ -2,6 +2,11 @@ use eframe::egui;
 use eframe::egui::RichText;
 use std::sync::{Arc, Mutex};
 use tr::tr;
+#[cfg(windows)]
+use std::os::windows::process::CommandExt;
+
+#[cfg(windows)]
+use crate::constants::CREATE_NO_WINDOW;
 
 // --- Data structures ---
 
@@ -123,13 +128,22 @@ fn get_linux_commands() -> Vec<SystemCommand> {
             &["-6", "route", "show"],
         ),
         SystemCommand::new(
+            &tr!("Basic Info"),
+            &tr!("External IP Address"),
+            &tr!(
+                "Shows your public IP address as seen from the internet. Useful for checking if you are behind a NAT, using a VPN, or to confirm internet connectivity even if DNS is failing."
+            ),
+            "curl",
+            &["-s", "ifconfig.me"],
+        ),
+        SystemCommand::new(
             &tr!("DNS"),
             &tr!("DNS Configuration"),
             &tr!(
-                "Shows which DNS servers your system is using. If DNS is misconfigured, you can ping IP addresses (like 8.8.8.8) but cannot open websites by name."
+                "Shows which DNS servers your system is using (via /etc/resolv.conf). If DNS is misconfigured, you can ping IP addresses (like 8.8.8.8) but cannot open websites by name."
             ),
-            "resolvectl",
-            &["status"],
+            "cat",
+            &["/etc/resolv.conf"],
         ),
         SystemCommand::new(
             &tr!("DNS"),
@@ -227,6 +241,22 @@ fn get_windows_commands() -> Vec<SystemCommand> {
             &["/all"],
         ),
         SystemCommand::new(
+            &tr!("Basic Info"),
+            &tr!("MAC Addresses"),
+            &tr!("Shows physical (MAC) addresses for all network adapters in the system."),
+            "getmac",
+            &["/v"],
+        ),
+        SystemCommand::new(
+            &tr!("Basic Info"),
+            &tr!("Interface Status"),
+            &tr!(
+                "Shows the administrative and operational status of all network interfaces (Connected/Disconnected)."
+            ),
+            "netsh",
+            &["interface", "show", "interface"],
+        ),
+        SystemCommand::new(
             &tr!("Routing"),
             &tr!("Routing Table"),
             &tr!(
@@ -243,6 +273,15 @@ fn get_windows_commands() -> Vec<SystemCommand> {
             ),
             "ipconfig",
             &["/displaydns"],
+        ),
+        SystemCommand::new(
+            &tr!("DNS"),
+            &tr!("Flush DNS Cache"),
+            &tr!(
+                "Clears the local DNS resolver cache. This is often the first step to fix 'website not found' errors if the connection otherwise seems fine."
+            ),
+            "ipconfig",
+            &["/flushdns"],
         ),
         SystemCommand::new(
             &tr!("DNS"),
@@ -307,6 +346,15 @@ fn get_windows_commands() -> Vec<SystemCommand> {
             "netsh",
             &["advfirewall", "show", "currentprofile"],
         ),
+        SystemCommand::new(
+            &tr!("System"),
+            &tr!("TCP Global Settings"),
+            &tr!(
+                "Shows global TCP parameters like Receive Window Auto-Tuning and Chimney Offload. Useful for troubleshooting throughput issues."
+            ),
+            "netsh",
+            &["interface", "tcp", "show", "global"],
+        ),
     ]
 }
 
@@ -316,11 +364,15 @@ fn get_windows_commands() -> Vec<SystemCommand> {
 /// Result is written to the shared `pending_result` buffer.
 fn run_command_background(cmd: String, args: Vec<String>, result_slot: Arc<Mutex<Option<String>>>) {
     std::thread::spawn(move || {
-        let output = std::process::Command::new(&cmd)
-            .args(&args)
+        let mut cmd_builder = std::process::Command::new(&cmd);
+        cmd_builder.args(&args)
             .stdout(std::process::Stdio::piped())
-            .stderr(std::process::Stdio::piped())
-            .output();
+            .stderr(std::process::Stdio::piped());
+
+        #[cfg(windows)]
+        cmd_builder.creation_flags(CREATE_NO_WINDOW);
+
+        let output = cmd_builder.output();
 
         let text = match output {
             Ok(out) => {
@@ -402,7 +454,7 @@ pub fn ui_system_tools_window(ctx: &egui::Context, open: &mut bool, state: &mut 
                 ui.selectable_value(
                     &mut state.selected_tab,
                     ToolsTab::Commands,
-                    tr!("Run Command"),
+                    tr!("Command Output"),
                 );
             });
 
@@ -471,6 +523,7 @@ fn render_guide(ui: &mut egui::Ui) {
         ui.strong(tr!("1. Internet is completely down"));
         ui.label(tr!("If you cannot access any website or service:"));
         ui.label(tr!("  • Run 'Network Interfaces' — check if your adapter has an IP address. If no IP is assigned, DHCP may have failed."));
+        ui.label(tr!("  • Run 'External IP Address' — confirms you have internet access and shows your public IP. If this works, your basic connection is fine."));
         ui.label(tr!("  • Run 'Routing Table' — look for a 'default' route. If missing, the system doesn't know how to reach the internet."));
         ui.label(tr!("  • Run 'DNS Lookup (google.com)' — if this fails but pinging 8.8.8.8 works in the main window, you have a DNS problem, not a connection problem."));
         ui.add_space(8.0);
