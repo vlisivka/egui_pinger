@@ -1,5 +1,5 @@
 use super::*;
-use crate::model::DisplaySettings;
+use crate::model::{DisplaySettings, HostStatus};
 use std::collections::HashSet;
 
 fn test_host(mode: PingMode, packet_size: usize, random_padding: bool) -> HostInfo {
@@ -230,4 +230,489 @@ async fn test_ipv6_long_address_parsing() {
         &address2
     };
     assert!(clean.parse::<IpAddr>().is_ok());
+}
+
+// --- Failure deduction tests ---
+
+#[test]
+fn test_failure_deduction_host_down_hops_up() {
+    let state = Arc::new(Mutex::new(AppState::default()));
+    let target_addr = "8.8.8.8".to_string();
+    let hop1 = "192.168.1.1".to_string();
+
+    {
+        let mut sl = state.lock().unwrap();
+        sl.hosts.push(test_host(PingMode::Fast, 16, false));
+        sl.hosts[0].address = target_addr.clone();
+
+        let mut status = HostStatus::default();
+        status.streak_success = false;
+        status.streak = 3; // officially down
+        status.traceroute_path = vec![hop1.clone(), target_addr.clone()];
+        sl.statuses.insert(target_addr.clone(), status);
+
+        // Hop 1 is alive
+        let mut h1_status = HostStatus::default();
+        h1_status.streak_success = true;
+        h1_status.streak = 10;
+        h1_status.last_updated = Some(Instant::now());
+        sl.statuses.insert(hop1.clone(), h1_status);
+    }
+
+    deduce_failure_points(&state, Instant::now());
+
+    let sl = state.lock().unwrap();
+    let status = sl.statuses.get(&target_addr).unwrap();
+    assert_eq!(
+        status.failure_point, None,
+        "Problem on host itself, failure_point should be None"
+    );
+}
+
+#[test]
+fn test_failure_deduction_hop_down() {
+    let state = Arc::new(Mutex::new(AppState::default()));
+    let target_addr = "8.8.8.8".to_string();
+    let hop1 = "192.168.1.1".to_string();
+
+    {
+        let mut sl = state.lock().unwrap();
+        sl.hosts.push(test_host(PingMode::Fast, 16, false));
+        sl.hosts[0].address = target_addr.clone();
+
+        let mut status = HostStatus::default();
+        status.streak_success = false;
+        status.streak = 3;
+        status.traceroute_path = vec![hop1.clone(), target_addr.clone()];
+        sl.statuses.insert(target_addr.clone(), status);
+
+        // Hop 1 is broken
+        let mut h1_status = HostStatus::default();
+        h1_status.streak_success = false;
+        h1_status.streak = 3;
+        h1_status.last_updated = Some(Instant::now());
+        sl.statuses.insert(hop1.clone(), h1_status);
+    }
+
+    deduce_failure_points(&state, Instant::now());
+
+    let sl = state.lock().unwrap();
+    let status = sl.statuses.get(&target_addr).unwrap();
+    assert_eq!(
+        status.failure_point,
+        Some("Local Interface".to_string()),
+        "Hop 1 is local and broken, should be reported as Local Interface"
+    );
+}
+
+#[test]
+fn test_failure_deduction_remote_hop_down() {
+    let state = Arc::new(Mutex::new(AppState::default()));
+    let target_addr = "8.8.8.8".to_string();
+    let hop1 = "192.168.1.1".to_string();
+    let hop2 = "9.9.9.9".to_string();
+
+    {
+        let mut sl = state.lock().unwrap();
+        sl.hosts.push(test_host(PingMode::Fast, 16, false));
+        sl.hosts[0].address = target_addr.clone();
+
+        let mut status = HostStatus::default();
+        status.streak_success = false;
+        status.streak = 3;
+        status.traceroute_path = vec![hop1.clone(), hop2.clone(), target_addr.clone()];
+        sl.statuses.insert(target_addr.clone(), status);
+
+        // Hop 1 is alive
+        let mut h1_status = HostStatus::default();
+        h1_status.streak_success = true;
+        h1_status.streak = 10;
+        h1_status.last_updated = Some(Instant::now());
+        sl.statuses.insert(hop1.clone(), h1_status);
+
+        // Hop 2 is broken
+        let mut h2_status = HostStatus::default();
+        h2_status.streak_success = false;
+        h2_status.streak = 3;
+        h2_status.last_updated = Some(Instant::now());
+        sl.statuses.insert(hop2.clone(), h2_status);
+    }
+
+    deduce_failure_points(&state, Instant::now());
+
+    let sl = state.lock().unwrap();
+    let status = sl.statuses.get(&target_addr).unwrap();
+    assert_eq!(
+        status.failure_point,
+        Some(hop2),
+        "Hop 2 (remote) is broken, should be the failure point"
+    );
+}
+
+#[test]
+fn test_failure_deduction_local_breakdown() {
+    let state = Arc::new(Mutex::new(AppState::default()));
+    let target_addr = "8.8.8.8".to_string();
+
+    {
+        let mut sl = state.lock().unwrap();
+        sl.hosts.push(test_host(PingMode::Fast, 16, false));
+        sl.hosts[0].address = target_addr.clone();
+
+        // Path only contains target
+        let mut status = HostStatus::default();
+        status.streak_success = false;
+        status.streak = 3;
+        status.traceroute_path = vec![target_addr.clone()];
+        sl.statuses.insert(target_addr.clone(), status);
+    }
+
+    deduce_failure_points(&state, Instant::now());
+
+    let sl = state.lock().unwrap();
+    let status = sl.statuses.get(&target_addr).unwrap();
+    assert_eq!(status.failure_point, Some("Local Interface".to_string()));
+}
+
+#[test]
+fn test_failure_deduction_gateway_down() {
+    let state = Arc::new(Mutex::new(AppState::default()));
+    let target_addr = "8.8.8.8".to_string();
+    let hop1 = "10.0.0.1".to_string(); // gateway
+
+    {
+        let mut sl = state.lock().unwrap();
+        sl.hosts.push(test_host(PingMode::Fast, 16, false));
+        sl.hosts[0].address = target_addr.clone();
+
+        let mut status = HostStatus::default();
+        status.streak_success = false;
+        status.streak = 3;
+        status.traceroute_path = vec![hop1.clone(), "2.2.2.2".to_string(), target_addr.clone()];
+        sl.statuses.insert(target_addr.clone(), status);
+
+        // Gateway is broken
+        let mut h1_status = HostStatus::default();
+        h1_status.streak_success = false;
+        h1_status.streak = 3;
+        h1_status.last_updated = Some(Instant::now());
+        sl.statuses.insert(hop1.clone(), h1_status);
+    }
+
+    deduce_failure_points(&state, Instant::now());
+
+    let sl = state.lock().unwrap();
+    let status = sl.statuses.get(&target_addr).unwrap();
+    assert_eq!(status.failure_point, Some("Local Interface".to_string()));
+}
+
+#[test]
+fn test_failure_deduction_stale_data() {
+    let state = Arc::new(Mutex::new(AppState::default()));
+    let target_addr = "8.8.8.8".to_string();
+    let hop1 = "192.168.1.1".to_string();
+
+    {
+        let mut sl = state.lock().unwrap();
+        sl.hosts.push(test_host(PingMode::Fast, 16, false));
+        sl.hosts[0].address = target_addr.clone();
+
+        let mut status = HostStatus::default();
+        status.streak_success = false;
+        status.streak = 3;
+        status.traceroute_path = vec![hop1.clone(), target_addr.clone()];
+        sl.statuses.insert(target_addr.clone(), status);
+
+        // Hop 1 has stale data
+        let mut h1_status = HostStatus::default();
+        h1_status.streak_success = true;
+        h1_status.streak = 10;
+        h1_status.last_updated = Some(Instant::now() - Duration::from_secs(3600));
+        sl.statuses.insert(hop1.clone(), h1_status);
+    }
+
+    deduce_failure_points(&state, Instant::now());
+
+    let sl = state.lock().unwrap();
+    let status = sl.statuses.get(&target_addr).unwrap();
+    assert_eq!(
+        status.failure_point,
+        Some("Local Interface".to_string()),
+        "Hop 1 is local (stale), so it counts as Local Interface failure"
+    );
+}
+
+// --- Incident detection tests ---
+
+#[tokio::test]
+async fn test_incident_detection_timeout_streak() {
+    let state = Arc::new(Mutex::new(AppState::default()));
+    let address = "1.2.3.4".to_string();
+
+    {
+        let mut sl = state.lock().unwrap();
+        sl.statuses.insert(address.clone(), HostStatus::default());
+    }
+
+    // Simulate 3 timeouts
+    for _ in 0..STATE_CONFIRMATION_STREAK {
+        process_ping_result(&state, &address, false, f64::NAN, None);
+    }
+
+    let sl = state.lock().unwrap();
+    let status = sl.statuses.get(&address).unwrap();
+
+    // Check events
+    let incidents: Vec<_> = status
+        .events
+        .iter()
+        .filter(|e| matches!(e, LogEntry::Incident { .. }))
+        .collect();
+    assert_eq!(incidents.len(), 1, "Should have one incident");
+    if let Some(LogEntry::Incident { is_break, .. }) = incidents.get(0) {
+        assert!(is_break, "Incident should be a break");
+    }
+}
+
+#[tokio::test]
+async fn test_incident_restoration() {
+    let state = Arc::new(Mutex::new(AppState::default()));
+    let address = "1.2.3.4".to_string();
+
+    {
+        let mut sl = state.lock().unwrap();
+        sl.statuses.insert(address.clone(), HostStatus::default());
+    }
+
+    // Streak failures
+    for _ in 0..STATE_CONFIRMATION_STREAK {
+        process_ping_result(&state, &address, false, f64::NAN, None);
+    }
+
+    // Now one success
+    process_ping_result(&state, &address, true, 10.0, None);
+
+    let sl = state.lock().unwrap();
+    let status = sl.statuses.get(&address).unwrap();
+
+    let incidents: Vec<_> = status
+        .events
+        .iter()
+        .filter(|e| matches!(e, LogEntry::Incident { .. }))
+        .collect();
+    assert_eq!(
+        incidents.len(),
+        2,
+        "Should have two incidents: break and restoration"
+    );
+
+    if let Some(LogEntry::Incident {
+        is_break,
+        downtime_sec,
+        ..
+    }) = incidents.get(1)
+    {
+        assert!(!is_break, "Incident should be a restoration");
+        assert!(downtime_sec.is_some(), "Downtime should be recorded");
+    }
+}
+
+// --- Traceroute update tests ---
+
+#[test]
+fn test_traceroute_path_update_logic() {
+    let target = "8.8.8.8";
+    let old_full = vec!["1.1.1.1".to_string(), target.to_string()];
+    let new_incomplete = vec!["1.1.1.1".to_string()];
+    let new_empty: Vec<String> = vec![];
+
+    // 1. Empty doesn't overwrite
+    assert!(!should_update_traceroute_path(
+        &old_full, &new_empty, true, target
+    ));
+
+    // 2. Incomplete doesn't overwrite full
+    assert!(!should_update_traceroute_path(
+        &old_full,
+        &new_incomplete,
+        true,
+        target
+    ));
+
+    // 3. New full replaces old full (equal or longer)
+    assert!(should_update_traceroute_path(
+        &old_full, &old_full, true, target
+    ));
+
+    // 4. Full replaces incomplete
+    assert!(should_update_traceroute_path(
+        &new_incomplete,
+        &old_full,
+        true,
+        target
+    ));
+
+    // 5. Short incomplete doesn't replace long incomplete
+    let long_incomplete = vec!["1.1.1.1".to_string(), "2.2.2.2".to_string()];
+    assert!(!should_update_traceroute_path(
+        &long_incomplete,
+        &new_incomplete,
+        true,
+        target
+    ));
+}
+
+#[tokio::test]
+async fn test_traceroute_spawn_logic() {
+    let state = Arc::new(Mutex::new(AppState::default()));
+    let address = "1.2.3.4".to_string();
+    let mut last_trace_times = HashMap::new();
+    let now = Instant::now();
+
+    {
+        let mut sl = state.lock().unwrap();
+        sl.hosts.push(test_host(PingMode::Fast, 16, false));
+        sl.hosts[0].address = address.clone();
+        sl.statuses.insert(address.clone(), HostStatus::default());
+    }
+
+    // Initial call: should trigger trace
+    check_and_spawn_traceroutes(&state, &mut last_trace_times, now);
+
+    {
+        let sl = state.lock().unwrap();
+        let status = sl.statuses.get(&address).unwrap();
+        assert!(
+            status.tracer_in_progress,
+            "Tracer should be in progress after first call"
+        );
+    }
+
+    // Call again immediately: should NOT trigger trace (already in progress)
+    check_and_spawn_traceroutes(&state, &mut last_trace_times, now);
+
+    // Finish trace
+    {
+        let mut sl = state.lock().unwrap();
+        sl.statuses.get_mut(&address).unwrap().tracer_in_progress = false;
+        last_trace_times.insert(address.clone(), now);
+    }
+
+    // Call again immediately: should NOT trigger trace (cooldown)
+    check_and_spawn_traceroutes(&state, &mut last_trace_times, now + Duration::from_secs(10));
+    {
+        let sl = state.lock().unwrap();
+        let status = sl.statuses.get(&address).unwrap();
+        assert!(
+            !status.tracer_in_progress,
+            "Tracer should NOT be in progress during cooldown"
+        );
+    }
+
+    // Trigger "just became down"
+    {
+        let mut sl = state.lock().unwrap();
+        let status = sl.statuses.get_mut(&address).unwrap();
+        status.streak_success = false;
+        status.streak = STATE_CONFIRMATION_STREAK;
+    }
+
+    // Call after cooldown (but before interval): should trigger because it just became down
+    check_and_spawn_traceroutes(
+        &state,
+        &mut last_trace_times,
+        now + Duration::from_secs(TRACEROUTE_MIN_COOLDOWN_SEC + 1),
+    );
+    {
+        let sl = state.lock().unwrap();
+        let status = sl.statuses.get(&address).unwrap();
+        assert!(
+            status.tracer_in_progress,
+            "Tracer should be in progress after status change"
+        );
+    }
+}
+
+#[test]
+fn test_failure_deduction_skips_unknown_hops() {
+    let state = Arc::new(Mutex::new(AppState::default()));
+    let target_addr = "8.8.8.8".to_string();
+    let hop1 = "*".to_string();
+
+    {
+        let mut sl = state.lock().unwrap();
+        sl.hosts.push(test_host(PingMode::Fast, 16, false));
+        sl.hosts[0].address = target_addr.clone();
+
+        let mut status = HostStatus::default();
+        status.streak_success = false;
+        status.streak = 3;
+        status.traceroute_path = vec![hop1.clone(), target_addr.clone()];
+        sl.statuses.insert(target_addr.clone(), status);
+    }
+
+    deduce_failure_points(&state, Instant::now());
+
+    let sl = state.lock().unwrap();
+    let status = sl.statuses.get(&target_addr).unwrap();
+    assert_eq!(
+        status.failure_point, None,
+        "Unknown hop '*' should not be considered a failure point"
+    );
+}
+
+#[test]
+fn test_failure_deduction_multiple_targets_same_node() {
+    let state = Arc::new(Mutex::new(AppState::default()));
+    let h1_addr = "1.1.1.1".to_string();
+    let h2_addr = "2.2.2.2".to_string();
+    let gateway = "10.0.0.1".to_string();
+    let common_hop = "9.9.9.9".to_string();
+
+    {
+        let mut sl = state.lock().unwrap();
+        // Gateway is UP
+        let mut g_s = HostStatus::default();
+        g_s.streak_success = true;
+        g_s.streak = 10;
+        g_s.last_updated = Some(Instant::now());
+        sl.statuses.insert(gateway.clone(), g_s);
+
+        // Host 1
+        sl.hosts.push(test_host(PingMode::Fast, 16, false));
+        sl.hosts[0].address = h1_addr.clone();
+        let mut s1 = HostStatus::default();
+        s1.streak_success = false;
+        s1.streak = 3;
+        s1.traceroute_path = vec![gateway.clone(), common_hop.clone(), h1_addr.clone()];
+        sl.statuses.insert(h1_addr.clone(), s1);
+
+        // Host 2
+        sl.hosts.push(test_host(PingMode::Fast, 16, false));
+        sl.hosts[1].address = h2_addr.clone();
+        let mut s2 = HostStatus::default();
+        s2.streak_success = false;
+        s2.streak = 3;
+        s2.traceroute_path = vec![gateway.clone(), common_hop.clone(), h2_addr.clone()];
+        sl.statuses.insert(h2_addr.clone(), s2);
+
+        // Common hop is broken
+        let mut hop_s = HostStatus::default();
+        hop_s.streak_success = false;
+        hop_s.streak = 3;
+        hop_s.last_updated = Some(Instant::now());
+        sl.statuses.insert(common_hop.clone(), hop_s);
+    }
+
+    deduce_failure_points(&state, Instant::now());
+
+    let sl = state.lock().unwrap();
+    assert_eq!(
+        sl.statuses.get(&h1_addr).unwrap().failure_point,
+        Some(common_hop.clone())
+    );
+    assert_eq!(
+        sl.statuses.get(&h2_addr).unwrap().failure_point,
+        Some(common_hop.clone())
+    );
 }

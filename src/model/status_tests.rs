@@ -18,13 +18,13 @@ fn test_add_sample_stats() {
 #[test]
 fn test_calculate_percentile() {
     let data = vec![1.0, 2.0, 3.0, 4.0, 5.0];
-    assert_eq!(calculate_percentile(&data, 0.0), 1.0);
-    assert_eq!(calculate_percentile(&data, 50.0), 3.0);
-    assert_eq!(calculate_percentile(&data, 100.0), 5.0);
-    assert_eq!(calculate_percentile(&data, 25.0), 2.0); // (0.25 * 4) = 1.0 -> idx 1 -> 2.0
+    assert_eq!(calculate_percentile(data.iter().copied(), 0.0), 1.0);
+    assert_eq!(calculate_percentile(data.iter().copied(), 50.0), 3.0);
+    assert_eq!(calculate_percentile(data.iter().copied(), 100.0), 5.0);
+    assert_eq!(calculate_percentile(data.iter().copied(), 25.0), 2.0); // (0.25 * 4) = 1.0 -> idx 1 -> 2.0
 
     let data2 = vec![10.0, 20.0];
-    assert_eq!(calculate_percentile(&data2, 50.0), 15.0); // interpolation
+    assert_eq!(calculate_percentile(data2.iter().copied(), 50.0), 15.0); // interpolation
 }
 
 #[test]
@@ -243,8 +243,8 @@ fn test_large_rtt_history_and_statistics() {
     }
 
     assert_eq!(status.history.len(), 300);
-    assert_eq!(*status.history.first().unwrap(), 201.0);
-    assert_eq!(*status.history.last().unwrap(), 500.0);
+    assert_eq!(*status.history.front().unwrap(), 201.0);
+    assert_eq!(*status.history.back().unwrap(), 500.0);
 
     assert_eq!(status.min_rtt, 201.0);
     assert_eq!(status.max_rtt, 500.0);
@@ -357,14 +357,14 @@ fn test_mos_is_clamped() {
 
 #[test]
 fn test_calculate_percentile_empty() {
-    assert_eq!(calculate_percentile(&[], 50.0), 0.0);
+    assert_eq!(calculate_percentile(std::iter::empty::<f64>(), 50.0), 0.0);
 }
 
 #[test]
 fn test_calculate_percentile_single() {
-    assert_eq!(calculate_percentile(&[42.0], 0.0), 42.0);
-    assert_eq!(calculate_percentile(&[42.0], 50.0), 42.0);
-    assert_eq!(calculate_percentile(&[42.0], 100.0), 42.0);
+    assert_eq!(calculate_percentile([42.0].iter().copied(), 0.0), 42.0);
+    assert_eq!(calculate_percentile([42.0].iter().copied(), 50.0), 42.0);
+    assert_eq!(calculate_percentile([42.0].iter().copied(), 100.0), 42.0);
 }
 
 #[test]

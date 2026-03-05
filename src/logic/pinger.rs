@@ -107,19 +107,12 @@ fn check_and_spawn_traceroutes(
                 // 2. If the new path is more complete (last hop is the target), always take it.
                 // 3. Otherwise, only take it if it's longer or we don't have a path yet.
                 // 4. This prevents flickering and losing path info when internet is flaky.
-                let new_reaches_target = hops.last().map(|h| h == &addr_c).unwrap_or(false);
-                let old_reaches_target = status
-                    .traceroute_path
-                    .last()
-                    .map(|h| h == &addr_c)
-                    .unwrap_or(false);
-
-                let should_update = !hops.is_empty()
-                    && (status.traceroute_path.is_empty()
-                        || (new_reaches_target && !old_reaches_target)
-                        || (new_reaches_target && hops.len() >= status.traceroute_path.len())
-                        || (!old_reaches_target && hops.len() >= status.traceroute_path.len())
-                        || (status.alive && new_reaches_target));
+                let should_update = should_update_traceroute_path(
+                    &status.traceroute_path,
+                    &hops,
+                    status.alive,
+                    &addr_c,
+                );
 
                 if should_update {
                     let now_ts = chrono::Utc::now().timestamp() as u64;
@@ -149,6 +142,49 @@ fn check_and_spawn_traceroutes(
             }
         });
     }
+}
+
+/// Decides whether the newly discovered traceroute path or part of it should replace the current one.
+fn should_update_traceroute_path(
+    current: &[String],
+    new: &[String],
+    is_alive: bool,
+    target: &str,
+) -> bool {
+    // 1. Never overwrite with an empty path.
+    if new.is_empty() {
+        return false;
+    }
+
+    // 2. Initial state
+    if current.is_empty() {
+        return true;
+    }
+
+    let new_reaches_target = new.last().map(|h| h == target).unwrap_or(false);
+    let old_reaches_target = current.last().map(|h| h == target).unwrap_or(false);
+
+    // 3. If new path is "better" (full reaching vs incomplete)
+    if new_reaches_target && !old_reaches_target {
+        return true;
+    }
+
+    // 4. Incomplete vs incomplete: prefer longer or equal
+    if !new_reaches_target && !old_reaches_target {
+        return new.len() >= current.len();
+    }
+
+    // 5. Full vs full: prefer equal or longer (to catch potentially more detailed path)
+    if new_reaches_target && old_reaches_target {
+        return new.len() >= current.len();
+    }
+
+    // 6. Target is back online: if we reach it now, take it
+    if is_alive && new_reaches_target {
+        return true;
+    }
+
+    false
 }
 
 /// Enables/disables diagnostic (high-frequency) pinging for hops of down hosts.
@@ -368,7 +404,34 @@ pub(crate) fn deduce_failure_points(state: &SharedState, now: Instant) {
                                 }
 
                                 if all_further_broken {
-                                    found_point = Some(hop.clone());
+                                    if hop == &target_addr {
+                                        found_point = None;
+                                    } else {
+                                        // Check if it's local
+                                        let is_local =
+                                            if let Ok(ip) = hop.parse::<std::net::IpAddr>() {
+                                                match ip {
+                                                    std::net::IpAddr::V4(v4) => {
+                                                        v4.is_private()
+                                                            || v4.is_loopback()
+                                                            || v4.is_link_local()
+                                                    }
+                                                    std::net::IpAddr::V6(v6) => {
+                                                        v6.is_loopback()
+                                                            || (v6.segments()[0] & 0xfe00 == 0xfc00)
+                                                            || v6.is_unicast_link_local()
+                                                    }
+                                                }
+                                            } else {
+                                                false
+                                            };
+
+                                        if is_local {
+                                            found_point = Some(String::from("Local Interface"));
+                                        } else {
+                                            found_point = Some(hop.clone());
+                                        }
+                                    }
                                     break;
                                 }
                             }

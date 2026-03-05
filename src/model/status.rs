@@ -29,6 +29,10 @@ impl PingMode {
     }
 }
 
+/// Represents a single event in a host's history log.
+///
+/// Log entries are used for both persistent logging to files and displaying
+/// events in the UI's log viewer.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum LogEntry {
     /// Successful ping or timeout
@@ -403,6 +407,10 @@ impl HostInfo {
     }
 }
 
+/// Current monitoring status and statistics for a single host.
+///
+/// This struct holds all real-time and historical data for a target, including
+/// latency history, jitter calculations, and discovered traceroute paths.
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct HostStatus {
     /// Whether we received a response from the host this time
@@ -413,7 +421,7 @@ pub struct HostStatus {
     pub latency: f64,
     /// RTT history (sliding window, last HISTORY_WINDOW_SIZE samples; NaN = loss)
     #[serde(skip, default)]
-    pub history: Vec<f64>,
+    pub history: VecDeque<f64>,
     /// Mean of latency
     #[serde(skip, default)]
     pub mean: f64,
@@ -422,7 +430,7 @@ pub struct HostStatus {
     pub rtp_jitter: f64,
     /// History of RTP Jitter values (sliding window, last HISTORY_WINDOW_SIZE samples)
     #[serde(skip, default)]
-    pub rtp_jitter_history: Vec<f64>,
+    pub rtp_jitter_history: VecDeque<f64>,
     /// Median RTT
     #[serde(skip, default)]
     pub median: f64,
@@ -549,9 +557,9 @@ impl HostStatus {
         self.latency = rtt_ms;
 
         // Add to history (sliding window)
-        self.history.push(rtt_ms);
+        self.history.push_back(rtt_ms);
         if self.history.len() > HISTORY_WINDOW_SIZE {
-            self.history.remove(0);
+            self.history.pop_front();
         }
 
         // Availability is calculated as a sliding window (unlike total Packet Loss)
@@ -608,15 +616,15 @@ impl HostStatus {
                 self.rtp_jitter += (d - self.rtp_jitter) / RTP_JITTER_SMOOTHING_DIVISOR;
             }
 
-            self.rtp_jitter_history.push(self.rtp_jitter);
+            self.rtp_jitter_history.push_back(self.rtp_jitter);
             if self.rtp_jitter_history.len() > HISTORY_WINDOW_SIZE {
-                self.rtp_jitter_history.remove(0);
+                self.rtp_jitter_history.pop_front();
             }
         }
 
         // Calculate statistics for RTT
-        self.median = calculate_percentile(&valid_data, 50.0);
-        self.p95 = calculate_percentile(&valid_data, 95.0);
+        self.median = calculate_percentile(valid_data.iter().copied(), 50.0);
+        self.p95 = calculate_percentile(valid_data.iter().copied(), 95.0);
         self.min_rtt = valid_data.iter().copied().fold(f64::INFINITY, f64::min);
         self.max_rtt = valid_data.iter().copied().fold(f64::NEG_INFINITY, f64::max);
 
@@ -634,7 +642,8 @@ impl HostStatus {
         if !self.rtp_jitter_history.is_empty() {
             self.rtp_jitter_mean =
                 self.rtp_jitter_history.iter().sum::<f64>() / self.rtp_jitter_history.len() as f64;
-            self.rtp_jitter_median = calculate_percentile(&self.rtp_jitter_history, 50.0);
+            self.rtp_jitter_median =
+                calculate_percentile(self.rtp_jitter_history.iter().copied(), 50.0);
         }
 
         // Calculate Outliers
@@ -709,12 +718,12 @@ pub fn calculate_mos(rtt: f64, jitter: f64, loss_pct: f64) -> f64 {
     1.0 + 0.035 * r + 0.000007 * r * (r - 60.0) * (100.0 - r)
 }
 
-/// Calculates a percentile from a slice of data.
-pub fn calculate_percentile(data: &[f64], percentile: f64) -> f64 {
-    if data.is_empty() {
+/// Calculates a percentile from a sequence of data.
+pub fn calculate_percentile(data: impl IntoIterator<Item = f64>, percentile: f64) -> f64 {
+    let mut sorted: Vec<f64> = data.into_iter().collect();
+    if sorted.is_empty() {
         return 0.0;
     }
-    let mut sorted = data.to_vec();
     sorted.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
     let pos = (percentile / 100.0) * (sorted.len() - 1) as f64;
     let base = pos.floor() as usize;

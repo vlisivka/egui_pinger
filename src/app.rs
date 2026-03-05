@@ -17,6 +17,10 @@ pub enum HelpTab {
     Internet,
 }
 
+/// The main application state and UI controller.
+///
+/// This struct holds the shared state (list of hosts and their statuses)
+/// as well as the UI state (modal window flags, input fields, etc.).
 pub struct EguiPinger {
     pub(crate) state: SharedState,
     pub input_name: String,
@@ -32,6 +36,10 @@ pub struct EguiPinger {
 }
 
 /// Helper for application-specific colors adapted for light/dark themes.
+/// Encapsulates visual styling rules for the dashboard.
+///
+/// Uses theme-aware (light/dark) color palettes to represent latency ranges,
+/// status changes, and grid styles.
 pub struct PingVisuals {
     pub is_dark: bool,
 }
@@ -164,7 +172,7 @@ impl EguiPinger {
     }
 
     fn add_marker_to_all_active_logs(&self, is_start: bool) {
-        let mut state = self.state.lock().unwrap();
+        let mut state = self.state.lock().expect("State mutex poisoned");
         let msg = if is_start {
             tr!("Journal started at")
         } else {
@@ -246,7 +254,7 @@ impl EguiPinger {
                             let name = self.input_name.trim().to_string();
                             let address = self.input_address.trim().to_lowercase();
 
-                            let mut state = self.state.lock().unwrap();
+                            let mut state = self.state.lock().expect("State mutex poisoned");
                             if !state.hosts.iter().any(|h| h.address == address) {
                                 state
                                     .statuses
@@ -303,7 +311,7 @@ impl EguiPinger {
                     let mut toggled_stop = None;
 
                     {
-                        let state = state_arc.lock().unwrap();
+                        let state = state_arc.lock().expect("State mutex poisoned");
 
                         for (idx, host_info) in state.hosts.iter().enumerate() {
                             let status = state
@@ -331,13 +339,13 @@ impl EguiPinger {
                     if let Some((from, to)) = moved
                         && from != to
                     {
-                        let mut state = self.state.lock().unwrap();
+                        let mut state = self.state.lock().expect("State mutex poisoned");
                         let item = state.hosts.remove(from);
                         state.hosts.insert(to, item);
                     }
 
                     if let Some(idx) = toggled_stop {
-                        let mut state = self.state.lock().unwrap();
+                        let mut state = self.state.lock().expect("State mutex poisoned");
                         if let Some(host) = state.hosts.get_mut(idx) {
                             host.is_stopped = !host.is_stopped;
                             let host_is_stopped = host.is_stopped;
@@ -369,7 +377,7 @@ impl EguiPinger {
                     // Deletion confirmation dialog
                     if let Some(address) = self.deleting_host.clone() {
                         let name = {
-                            let state = self.state.lock().unwrap();
+                            let state = self.state.lock().expect("State mutex poisoned");
                             state
                                 .hosts
                                 .iter()
@@ -392,7 +400,8 @@ impl EguiPinger {
                                 ui.add_space(12.0);
                                 ui.horizontal(|ui| {
                                     if ui.button(tr!("Delete")).clicked() {
-                                        let mut state = self.state.lock().unwrap();
+                                        let mut state =
+                                            self.state.lock().expect("State mutex poisoned");
                                         state.hosts.retain(|h| h.address != address);
                                         state.statuses.remove(&address);
                                         self.deleting_host = None;
@@ -406,7 +415,7 @@ impl EguiPinger {
 
                     // Host settings dialog
                     if self.editing_host.is_some() {
-                        let mut state = self.state.lock().unwrap();
+                        let mut state = self.state.lock().expect("State mutex poisoned");
                         if crate::ui::host_settings::render_host_settings_window(
                             ctx,
                             &mut state.hosts,
@@ -418,7 +427,7 @@ impl EguiPinger {
 
                     // Traceroute viewer dialog
                     if self.viewing_route.is_some() {
-                        let mut state = self.state.lock().unwrap();
+                        let mut state = self.state.lock().expect("State mutex poisoned");
                         crate::ui::route_viewer::render_route_window(
                             ctx,
                             &visuals,
@@ -447,7 +456,7 @@ impl EguiPinger {
 
                     // --- Log Window ---
                     if self.viewing_log.is_some() {
-                        let mut state = self.state.lock().unwrap();
+                        let mut state = self.state.lock().expect("State mutex poisoned");
                         crate::ui::log_viewer::render_log_window(
                             ctx,
                             &visuals,

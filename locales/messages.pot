@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-05 06:05+0000\n"
+"POT-Creation-Date: 2026-03-05 06:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,107 +45,107 @@ msgstr ""
 msgid "Very slow (5m)"
 msgstr ""
 
-#: scripts/../src/model/status.rs:93 scripts/../src/model/status.rs:93 scripts/../src/model/status.rs:93
+#: scripts/../src/model/status.rs:97 scripts/../src/model/status.rs:97 scripts/../src/model/status.rs:97
 msgid "bytes from"
 msgstr ""
 
-#: scripts/../src/model/status.rs:96 scripts/../src/model/status.rs:96 scripts/../src/model/status.rs:96
+#: scripts/../src/model/status.rs:100 scripts/../src/model/status.rs:100 scripts/../src/model/status.rs:100
 msgid "time"
 msgstr ""
 
-#: scripts/../src/model/status.rs:98 scripts/../src/model/status.rs:129 scripts/../src/model/status.rs:132 scripts/../src/model/status.rs:135 scripts/../src/model/status.rs:138 scripts/../src/model/status.rs:141 scripts/../src/model/status.rs:148 scripts/../src/model/status.rs:98 scripts/../src/model/status.rs:129 scripts/../src/model/status.rs:132 scripts/../src/model/status.rs:135 scripts/../src/model/status.rs:138 scripts/../src/model/status.rs:141 scripts/../src/model/status.rs:148 scripts/../src/model/status.rs:98 scripts/../src/model/status.rs:129 scripts/../src/model/status.rs:132 scripts/../src/model/status.rs:135 scripts/../src/model/status.rs:138 scripts/../src/model/status.rs:141 scripts/../src/model/status.rs:148 scripts/../src/ui/host_row.rs:37 scripts/../src/ui/host_row.rs:284 scripts/../src/ui/host_row.rs:37 scripts/../src/ui/host_row.rs:284 scripts/../src/ui/host_row.rs:37 scripts/../src/ui/host_row.rs:284
+#: scripts/../src/model/status.rs:102 scripts/../src/model/status.rs:133 scripts/../src/model/status.rs:136 scripts/../src/model/status.rs:139 scripts/../src/model/status.rs:142 scripts/../src/model/status.rs:145 scripts/../src/model/status.rs:152 scripts/../src/model/status.rs:102 scripts/../src/model/status.rs:133 scripts/../src/model/status.rs:136 scripts/../src/model/status.rs:139 scripts/../src/model/status.rs:142 scripts/../src/model/status.rs:145 scripts/../src/model/status.rs:152 scripts/../src/model/status.rs:102 scripts/../src/model/status.rs:133 scripts/../src/model/status.rs:136 scripts/../src/model/status.rs:139 scripts/../src/model/status.rs:142 scripts/../src/model/status.rs:145 scripts/../src/model/status.rs:152 scripts/../src/ui/host_row.rs:38 scripts/../src/ui/host_row.rs:285 scripts/../src/ui/host_row.rs:38 scripts/../src/ui/host_row.rs:285 scripts/../src/ui/host_row.rs:38 scripts/../src/ui/host_row.rs:285
 msgid "ms"
 msgstr ""
 
-#: scripts/../src/model/status.rs:101 scripts/../src/model/status.rs:101 scripts/../src/model/status.rs:101
+#: scripts/../src/model/status.rs:105 scripts/../src/model/status.rs:105 scripts/../src/model/status.rs:105
 msgid "Request timeout for"
 msgstr ""
 
-#: scripts/../src/model/status.rs:129 scripts/../src/model/status.rs:129 scripts/../src/model/status.rs:129 scripts/../src/ui/host_row.rs:66 scripts/../src/ui/host_row.rs:66 scripts/../src/ui/host_row.rs:66
+#: scripts/../src/model/status.rs:133 scripts/../src/model/status.rs:133 scripts/../src/model/status.rs:133 scripts/../src/ui/host_row.rs:67 scripts/../src/ui/host_row.rs:67 scripts/../src/ui/host_row.rs:67
 msgid "M"
 msgstr ""
 
-#: scripts/../src/model/status.rs:132 scripts/../src/model/status.rs:132 scripts/../src/model/status.rs:132 scripts/../src/ui/host_row.rs:73 scripts/../src/ui/host_row.rs:73 scripts/../src/ui/host_row.rs:73
+#: scripts/../src/model/status.rs:136 scripts/../src/model/status.rs:136 scripts/../src/model/status.rs:136 scripts/../src/ui/host_row.rs:74 scripts/../src/ui/host_row.rs:74 scripts/../src/ui/host_row.rs:74
 msgid "Med"
 msgstr ""
 
-#: scripts/../src/model/status.rs:135 scripts/../src/model/status.rs:135 scripts/../src/model/status.rs:135
+#: scripts/../src/model/status.rs:139 scripts/../src/model/status.rs:139 scripts/../src/model/status.rs:139
 msgid "95%"
 msgstr ""
 
-#: scripts/../src/model/status.rs:138 scripts/../src/model/status.rs:138 scripts/../src/model/status.rs:138 scripts/../src/ui/host_row.rs:80 scripts/../src/ui/host_row.rs:80 scripts/../src/ui/host_row.rs:80
+#: scripts/../src/model/status.rs:142 scripts/../src/model/status.rs:142 scripts/../src/model/status.rs:142 scripts/../src/ui/host_row.rs:81 scripts/../src/ui/host_row.rs:81 scripts/../src/ui/host_row.rs:81
 msgid "J"
 msgstr ""
 
-#: scripts/../src/model/status.rs:141 scripts/../src/model/status.rs:141 scripts/../src/model/status.rs:141 scripts/../src/ui/host_row.rs:87 scripts/../src/ui/host_row.rs:87 scripts/../src/ui/host_row.rs:87
+#: scripts/../src/model/status.rs:145 scripts/../src/model/status.rs:145 scripts/../src/model/status.rs:145 scripts/../src/ui/host_row.rs:88 scripts/../src/ui/host_row.rs:88 scripts/../src/ui/host_row.rs:88
 msgid "Jm"
 msgstr ""
 
-#: scripts/../src/model/status.rs:146 scripts/../src/model/status.rs:146 scripts/../src/model/status.rs:146 scripts/../src/ui/host_row.rs:94 scripts/../src/ui/host_row.rs:94 scripts/../src/ui/host_row.rs:94
+#: scripts/../src/model/status.rs:150 scripts/../src/model/status.rs:150 scripts/../src/model/status.rs:150 scripts/../src/ui/host_row.rs:95 scripts/../src/ui/host_row.rs:95 scripts/../src/ui/host_row.rs:95
 msgid "Jmed"
 msgstr ""
 
-#: scripts/../src/model/status.rs:152 scripts/../src/model/status.rs:152 scripts/../src/model/status.rs:152 scripts/../src/ui/host_row.rs:101 scripts/../src/ui/host_settings.rs:95 scripts/../src/ui/host_row.rs:101 scripts/../src/ui/host_settings.rs:95 scripts/../src/ui/host_settings.rs:95 scripts/../src/ui/host_row.rs:101
+#: scripts/../src/model/status.rs:156 scripts/../src/model/status.rs:156 scripts/../src/model/status.rs:156 scripts/../src/ui/host_row.rs:102 scripts/../src/ui/host_settings.rs:95 scripts/../src/ui/host_row.rs:102 scripts/../src/ui/host_settings.rs:95 scripts/../src/ui/host_settings.rs:95 scripts/../src/ui/host_row.rs:102
 msgid "MOS"
 msgstr ""
 
-#: scripts/../src/model/status.rs:155 scripts/../src/model/status.rs:155 scripts/../src/model/status.rs:155 scripts/../src/ui/host_row.rs:108 scripts/../src/ui/host_row.rs:108 scripts/../src/ui/host_row.rs:108
+#: scripts/../src/model/status.rs:159 scripts/../src/model/status.rs:159 scripts/../src/model/status.rs:159 scripts/../src/ui/host_row.rs:109 scripts/../src/ui/host_row.rs:109 scripts/../src/ui/host_row.rs:109
 msgid "Av"
 msgstr ""
 
-#: scripts/../src/model/status.rs:158 scripts/../src/model/status.rs:158 scripts/../src/model/status.rs:158 scripts/../src/ui/host_row.rs:115 scripts/../src/ui/host_row.rs:115 scripts/../src/ui/host_row.rs:115
+#: scripts/../src/model/status.rs:162 scripts/../src/model/status.rs:162 scripts/../src/model/status.rs:162 scripts/../src/ui/host_row.rs:116 scripts/../src/ui/host_row.rs:116 scripts/../src/ui/host_row.rs:116
 msgid "Out"
 msgstr ""
 
-#: scripts/../src/model/status.rs:161 scripts/../src/model/status.rs:161 scripts/../src/model/status.rs:161 scripts/../src/ui/host_row.rs:142 scripts/../src/ui/host_row.rs:142 scripts/../src/ui/host_row.rs:142
+#: scripts/../src/model/status.rs:165 scripts/../src/model/status.rs:165 scripts/../src/model/status.rs:165 scripts/../src/ui/host_row.rs:143 scripts/../src/ui/host_row.rs:143 scripts/../src/ui/host_row.rs:143
 msgid "Str"
 msgstr ""
 
-#: scripts/../src/model/status.rs:164 scripts/../src/model/status.rs:164 scripts/../src/model/status.rs:164 scripts/../src/ui/host_row.rs:149 scripts/../src/ui/host_row.rs:149 scripts/../src/ui/host_row.rs:149
+#: scripts/../src/model/status.rs:168 scripts/../src/model/status.rs:168 scripts/../src/model/status.rs:168 scripts/../src/ui/host_row.rs:150 scripts/../src/ui/host_row.rs:150 scripts/../src/ui/host_row.rs:150
 msgid "SD"
 msgstr ""
 
-#: scripts/../src/model/status.rs:167 scripts/../src/model/status.rs:167 scripts/../src/model/status.rs:167 scripts/../src/ui/host_row.rs:165 scripts/../src/ui/host_row.rs:165 scripts/../src/ui/host_row.rs:165
+#: scripts/../src/model/status.rs:171 scripts/../src/model/status.rs:171 scripts/../src/model/status.rs:171 scripts/../src/ui/host_row.rs:166 scripts/../src/ui/host_row.rs:166 scripts/../src/ui/host_row.rs:166
 msgid "m/M"
 msgstr ""
 
-#: scripts/../src/model/status.rs:170 scripts/../src/model/status.rs:175 scripts/../src/model/status.rs:170 scripts/../src/model/status.rs:175 scripts/../src/model/status.rs:170 scripts/../src/model/status.rs:175 scripts/../src/ui/host_row.rs:177 scripts/../src/ui/host_row.rs:177 scripts/../src/ui/host_row.rs:177
+#: scripts/../src/model/status.rs:174 scripts/../src/model/status.rs:179 scripts/../src/model/status.rs:174 scripts/../src/model/status.rs:179 scripts/../src/model/status.rs:174 scripts/../src/model/status.rs:179 scripts/../src/ui/host_row.rs:178 scripts/../src/ui/host_row.rs:178 scripts/../src/ui/host_row.rs:178
 msgid "L"
 msgstr ""
 
-#: scripts/../src/model/status.rs:178 scripts/../src/model/status.rs:178 scripts/../src/model/status.rs:178 scripts/../src/ui/log_viewer.rs:110 scripts/../src/ui/log_viewer.rs:110 scripts/../src/ui/log_viewer.rs:110
+#: scripts/../src/model/status.rs:182 scripts/../src/model/status.rs:182 scripts/../src/model/status.rs:182 scripts/../src/ui/log_viewer.rs:110 scripts/../src/ui/log_viewer.rs:110 scripts/../src/ui/log_viewer.rs:110
 msgid "Statistics"
 msgstr ""
 
-#: scripts/../src/model/status.rs:181 scripts/../src/model/status.rs:181 scripts/../src/model/status.rs:181
+#: scripts/../src/model/status.rs:185 scripts/../src/model/status.rs:185 scripts/../src/model/status.rs:185
 msgid "Route updated"
 msgstr ""
 
-#: scripts/../src/model/status.rs:193 scripts/../src/model/status.rs:193 scripts/../src/model/status.rs:193 scripts/../src/ui/host_row.rs:41 scripts/../src/ui/host_row.rs:41 scripts/../src/ui/host_row.rs:41
+#: scripts/../src/model/status.rs:197 scripts/../src/model/status.rs:197 scripts/../src/model/status.rs:197 scripts/../src/ui/host_row.rs:42 scripts/../src/ui/host_row.rs:42 scripts/../src/ui/host_row.rs:42
 msgid "Local Interface"
 msgstr ""
 
-#: scripts/../src/model/status.rs:200 scripts/../src/model/status.rs:200 scripts/../src/model/status.rs:200
+#: scripts/../src/model/status.rs:204 scripts/../src/model/status.rs:204 scripts/../src/model/status.rs:204
 msgid "Connectivity lost at {node}"
 msgstr ""
 
-#: scripts/../src/model/status.rs:201 scripts/../src/model/status.rs:208 scripts/../src/model/status.rs:201 scripts/../src/model/status.rs:208 scripts/../src/model/status.rs:201 scripts/../src/model/status.rs:208
+#: scripts/../src/model/status.rs:205 scripts/../src/model/status.rs:212 scripts/../src/model/status.rs:205 scripts/../src/model/status.rs:212 scripts/../src/model/status.rs:205 scripts/../src/model/status.rs:212
 msgid "{n} requests without answer"
 msgstr ""
 
-#: scripts/../src/model/status.rs:207 scripts/../src/model/status.rs:207 scripts/../src/model/status.rs:207
+#: scripts/../src/model/status.rs:211 scripts/../src/model/status.rs:211 scripts/../src/model/status.rs:211
 msgid "Connectivity lost"
 msgstr ""
 
-#: scripts/../src/model/status.rs:213 scripts/../src/model/status.rs:213 scripts/../src/model/status.rs:213
+#: scripts/../src/model/status.rs:217 scripts/../src/model/status.rs:217 scripts/../src/model/status.rs:217
 msgid "downtime"
 msgstr ""
 
-#: scripts/../src/model/status.rs:213 scripts/../src/model/status.rs:213 scripts/../src/model/status.rs:213
+#: scripts/../src/model/status.rs:217 scripts/../src/model/status.rs:217 scripts/../src/model/status.rs:217
 msgid "s"
 msgstr ""
 
-#: scripts/../src/model/status.rs:220 scripts/../src/model/status.rs:220 scripts/../src/model/status.rs:220
+#: scripts/../src/model/status.rs:224 scripts/../src/model/status.rs:224 scripts/../src/model/status.rs:224
 msgid "Connectivity restored"
 msgstr ""
 
@@ -153,53 +153,53 @@ msgstr ""
 msgid "egui_pinger"
 msgstr ""
 
-#: scripts/../src/app.rs:169 scripts/../src/ui/log_viewer.rs:69 scripts/../src/app.rs:169 scripts/../src/ui/log_viewer.rs:69 scripts/../src/ui/log_viewer.rs:69
+#: scripts/../src/app.rs:177 scripts/../src/ui/log_viewer.rs:69 scripts/../src/app.rs:177 scripts/../src/ui/log_viewer.rs:69 scripts/../src/ui/log_viewer.rs:69
 msgid "Journal started at"
 msgstr ""
 
-#: scripts/../src/app.rs:171 scripts/../src/ui/log_viewer.rs:71 scripts/../src/app.rs:171 scripts/../src/ui/log_viewer.rs:71 scripts/../src/ui/log_viewer.rs:71
+#: scripts/../src/app.rs:179 scripts/../src/ui/log_viewer.rs:71 scripts/../src/app.rs:179 scripts/../src/ui/log_viewer.rs:71 scripts/../src/ui/log_viewer.rs:71
 msgid "Journal ended at"
 msgstr ""
 
-#: scripts/../src/app.rs:227 scripts/../src/app.rs:227
+#: scripts/../src/app.rs:235 scripts/../src/app.rs:235
 msgid "Host name"
 msgstr ""
 
-#: scripts/../src/app.rs:235 scripts/../src/app.rs:235
+#: scripts/../src/app.rs:243 scripts/../src/app.rs:243
 msgid "Host address"
 msgstr ""
 
 #. When "Add" button is clicked or Enter is pressed in the second field,
 #. add host to the list
-#: scripts/../src/app.rs:241 scripts/../src/app.rs:241
+#: scripts/../src/app.rs:249 scripts/../src/app.rs:249
 msgid "Add"
 msgstr ""
 
-#: scripts/../src/app.rs:290 scripts/../src/ui/system_tools.rs:360 scripts/../src/app.rs:290 scripts/../src/ui/system_tools.rs:360 scripts/../src/ui/system_tools.rs:360
+#: scripts/../src/app.rs:298 scripts/../src/ui/system_tools.rs:360 scripts/../src/app.rs:298 scripts/../src/ui/system_tools.rs:360 scripts/../src/ui/system_tools.rs:360
 msgid "System Tools"
 msgstr ""
 
-#: scripts/../src/app.rs:345 scripts/../src/app.rs:345
+#: scripts/../src/app.rs:353 scripts/../src/app.rs:353
 msgid "Monitoring stopped"
 msgstr ""
 
-#: scripts/../src/app.rs:347 scripts/../src/app.rs:347
+#: scripts/../src/app.rs:355 scripts/../src/app.rs:355
 msgid "Monitoring started"
 msgstr ""
 
-#: scripts/../src/app.rs:381 scripts/../src/app.rs:381
+#: scripts/../src/app.rs:389 scripts/../src/app.rs:389
 msgid "Confirm Deletion"
 msgstr ""
 
-#: scripts/../src/app.rs:388 scripts/../src/app.rs:388
+#: scripts/../src/app.rs:396 scripts/../src/app.rs:396
 msgid "Are you sure you want to remove this host"
 msgstr ""
 
-#: scripts/../src/app.rs:394 scripts/../src/app.rs:394
+#: scripts/../src/app.rs:402 scripts/../src/app.rs:402
 msgid "Delete"
 msgstr ""
 
-#: scripts/../src/app.rs:400 scripts/../src/app.rs:400
+#: scripts/../src/app.rs:408 scripts/../src/app.rs:408
 msgid "Cancel"
 msgstr ""
 
@@ -371,91 +371,91 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:35 scripts/../src/ui/host_row.rs:35 scripts/../src/ui/host_row.rs:35
+#: scripts/../src/ui/host_row.rs:36 scripts/../src/ui/host_row.rs:36 scripts/../src/ui/host_row.rs:36
 msgid "STOPPED"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:45 scripts/../src/ui/host_row.rs:45 scripts/../src/ui/host_row.rs:45
+#: scripts/../src/ui/host_row.rs:46 scripts/../src/ui/host_row.rs:46 scripts/../src/ui/host_row.rs:46
 msgid "DOWN (at {node})"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:47 scripts/../src/ui/host_row.rs:47 scripts/../src/ui/host_row.rs:47
+#: scripts/../src/ui/host_row.rs:48 scripts/../src/ui/host_row.rs:48 scripts/../src/ui/host_row.rs:48
 msgid "DOWN"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:67 scripts/../src/ui/host_settings.rs:85 scripts/../src/ui/host_row.rs:67 scripts/../src/ui/host_settings.rs:85 scripts/../src/ui/host_settings.rs:85 scripts/../src/ui/host_row.rs:67
+#: scripts/../src/ui/host_row.rs:68 scripts/../src/ui/host_settings.rs:85 scripts/../src/ui/host_row.rs:68 scripts/../src/ui/host_settings.rs:85 scripts/../src/ui/host_settings.rs:85 scripts/../src/ui/host_row.rs:68
 msgid "Mean RTT"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:74 scripts/../src/ui/host_settings.rs:87 scripts/../src/ui/host_row.rs:74 scripts/../src/ui/host_settings.rs:87 scripts/../src/ui/host_settings.rs:87 scripts/../src/ui/host_row.rs:74
+#: scripts/../src/ui/host_row.rs:75 scripts/../src/ui/host_settings.rs:87 scripts/../src/ui/host_row.rs:75 scripts/../src/ui/host_settings.rs:87 scripts/../src/ui/host_settings.rs:87 scripts/../src/ui/host_row.rs:75
 msgid "Median RTT"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:81 scripts/../src/ui/host_settings.rs:89 scripts/../src/ui/host_row.rs:81 scripts/../src/ui/host_settings.rs:89 scripts/../src/ui/host_settings.rs:89 scripts/../src/ui/host_row.rs:81
+#: scripts/../src/ui/host_row.rs:82 scripts/../src/ui/host_settings.rs:89 scripts/../src/ui/host_row.rs:82 scripts/../src/ui/host_settings.rs:89 scripts/../src/ui/host_settings.rs:89 scripts/../src/ui/host_row.rs:82
 msgid "RTP Jitter"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:88 scripts/../src/ui/host_settings.rs:91 scripts/../src/ui/host_row.rs:88 scripts/../src/ui/host_settings.rs:91 scripts/../src/ui/host_settings.rs:91 scripts/../src/ui/host_row.rs:88
+#: scripts/../src/ui/host_row.rs:89 scripts/../src/ui/host_settings.rs:91 scripts/../src/ui/host_row.rs:89 scripts/../src/ui/host_settings.rs:91 scripts/../src/ui/host_settings.rs:91 scripts/../src/ui/host_row.rs:89
 msgid "Mean Jitter"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:95 scripts/../src/ui/host_settings.rs:93 scripts/../src/ui/host_row.rs:95 scripts/../src/ui/host_settings.rs:93 scripts/../src/ui/host_settings.rs:93 scripts/../src/ui/host_row.rs:95
+#: scripts/../src/ui/host_row.rs:96 scripts/../src/ui/host_settings.rs:93 scripts/../src/ui/host_row.rs:96 scripts/../src/ui/host_settings.rs:93 scripts/../src/ui/host_settings.rs:93 scripts/../src/ui/host_row.rs:96
 msgid "Median Jitter"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:102 scripts/../src/ui/host_row.rs:102 scripts/../src/ui/host_row.rs:102
+#: scripts/../src/ui/host_row.rs:103 scripts/../src/ui/host_row.rs:103 scripts/../src/ui/host_row.rs:103
 msgid "Voice Quality (MOS)"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:109 scripts/../src/ui/host_settings.rs:97 scripts/../src/ui/host_row.rs:109 scripts/../src/ui/host_settings.rs:97 scripts/../src/ui/host_settings.rs:97 scripts/../src/ui/host_row.rs:109
+#: scripts/../src/ui/host_row.rs:110 scripts/../src/ui/host_settings.rs:97 scripts/../src/ui/host_row.rs:110 scripts/../src/ui/host_settings.rs:97 scripts/../src/ui/host_settings.rs:97 scripts/../src/ui/host_row.rs:110
 msgid "Availability"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:116 scripts/../src/ui/host_row.rs:116 scripts/../src/ui/host_row.rs:116
+#: scripts/../src/ui/host_row.rs:117 scripts/../src/ui/host_row.rs:117 scripts/../src/ui/host_row.rs:117
 msgid "Outliers (Lags)"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:126 scripts/../src/ui/host_row.rs:126 scripts/../src/ui/host_row.rs:126
+#: scripts/../src/ui/host_row.rs:127 scripts/../src/ui/host_row.rs:127 scripts/../src/ui/host_row.rs:127
 msgid "S"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:128 scripts/../src/ui/host_row.rs:128 scripts/../src/ui/host_row.rs:128
+#: scripts/../src/ui/host_row.rs:129 scripts/../src/ui/host_row.rs:129 scripts/../src/ui/host_row.rs:129
 msgid "F"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:143 scripts/../src/ui/host_settings.rs:101 scripts/../src/ui/host_row.rs:143 scripts/../src/ui/host_settings.rs:101 scripts/../src/ui/host_settings.rs:101 scripts/../src/ui/host_row.rs:143
+#: scripts/../src/ui/host_row.rs:144 scripts/../src/ui/host_settings.rs:101 scripts/../src/ui/host_row.rs:144 scripts/../src/ui/host_settings.rs:101 scripts/../src/ui/host_settings.rs:101 scripts/../src/ui/host_row.rs:144
 msgid "Streak"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:150 scripts/../src/ui/host_row.rs:150 scripts/../src/ui/host_row.rs:150
+#: scripts/../src/ui/host_row.rs:151 scripts/../src/ui/host_row.rs:151 scripts/../src/ui/host_row.rs:151
 msgid "Standard Deviation"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:157 scripts/../src/ui/host_settings.rs:105 scripts/../src/ui/host_row.rs:157 scripts/../src/ui/host_settings.rs:105 scripts/../src/ui/host_settings.rs:105 scripts/../src/ui/host_row.rs:157
+#: scripts/../src/ui/host_row.rs:158 scripts/../src/ui/host_settings.rs:105 scripts/../src/ui/host_row.rs:158 scripts/../src/ui/host_settings.rs:105 scripts/../src/ui/host_settings.rs:105 scripts/../src/ui/host_row.rs:158
 msgid "95th Percentile"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:169 scripts/../src/ui/host_settings.rs:107 scripts/../src/ui/host_row.rs:169 scripts/../src/ui/host_settings.rs:107 scripts/../src/ui/host_settings.rs:107 scripts/../src/ui/host_row.rs:169
+#: scripts/../src/ui/host_row.rs:170 scripts/../src/ui/host_settings.rs:107 scripts/../src/ui/host_row.rs:170 scripts/../src/ui/host_settings.rs:107 scripts/../src/ui/host_settings.rs:107 scripts/../src/ui/host_row.rs:170
 msgid "Min / Max RTT"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:182 scripts/../src/ui/host_settings.rs:109 scripts/../src/ui/host_row.rs:182 scripts/../src/ui/host_settings.rs:109 scripts/../src/ui/host_settings.rs:109 scripts/../src/ui/host_row.rs:182
+#: scripts/../src/ui/host_row.rs:183 scripts/../src/ui/host_settings.rs:109 scripts/../src/ui/host_row.rs:183 scripts/../src/ui/host_settings.rs:109 scripts/../src/ui/host_settings.rs:109 scripts/../src/ui/host_row.rs:183
 msgid "Packet Loss"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:210 scripts/../src/ui/host_row.rs:210 scripts/../src/ui/host_row.rs:210
+#: scripts/../src/ui/host_row.rs:211 scripts/../src/ui/host_row.rs:211 scripts/../src/ui/host_row.rs:211
 msgid "View Log"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:216 scripts/../src/ui/host_row.rs:216 scripts/../src/ui/host_row.rs:216
+#: scripts/../src/ui/host_row.rs:217 scripts/../src/ui/host_row.rs:217 scripts/../src/ui/host_row.rs:217
 msgid "Start monitoring"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:218 scripts/../src/ui/host_row.rs:218 scripts/../src/ui/host_row.rs:218
+#: scripts/../src/ui/host_row.rs:219 scripts/../src/ui/host_row.rs:219 scripts/../src/ui/host_row.rs:219
 msgid "Stop monitoring"
 msgstr ""
 
-#: scripts/../src/ui/host_row.rs:282 scripts/../src/ui/host_row.rs:282 scripts/../src/ui/host_row.rs:282
+#: scripts/../src/ui/host_row.rs:283 scripts/../src/ui/host_row.rs:283 scripts/../src/ui/host_row.rs:283
 msgid "Timeout"
 msgstr ""
 

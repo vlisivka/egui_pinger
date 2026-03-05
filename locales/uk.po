@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: egui_pinger\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-05 06:05+0000\n"
+"POT-Creation-Date: 2026-03-05 06:25+0000\n"
 "PO-Revision-Date: 2026-02-25 16:30+0200\n"
 "Last-Translator: Volodymyr M. Lisivka <vlisivka@gmail.com>\n"
 "Language-Team: Ukrainian\n"
@@ -41,113 +41,113 @@ msgstr "Повільно (1хв)"
 msgid "Very slow (5m)"
 msgstr "Дуже повільно (5хв)"
 
-#: scripts/../src/model/status.rs:93
+#: scripts/../src/model/status.rs:97
 msgid "bytes from"
 msgstr "байт від"
 
-#: scripts/../src/model/status.rs:96
+#: scripts/../src/model/status.rs:100
 msgid "time"
 msgstr "час"
 
-#: scripts/../src/model/status.rs:98 scripts/../src/model/status.rs:129
-#: scripts/../src/model/status.rs:132 scripts/../src/model/status.rs:135
-#: scripts/../src/model/status.rs:138 scripts/../src/model/status.rs:141
-#: scripts/../src/model/status.rs:148 scripts/../src/ui/host_row.rs:37
-#: scripts/../src/ui/host_row.rs:284
+#: scripts/../src/model/status.rs:102 scripts/../src/model/status.rs:133
+#: scripts/../src/model/status.rs:136 scripts/../src/model/status.rs:139
+#: scripts/../src/model/status.rs:142 scripts/../src/model/status.rs:145
+#: scripts/../src/model/status.rs:152 scripts/../src/ui/host_row.rs:38
+#: scripts/../src/ui/host_row.rs:285
 msgid "ms"
 msgstr "мс"
 
-#: scripts/../src/model/status.rs:101
+#: scripts/../src/model/status.rs:105
 msgid "Request timeout for"
 msgstr "Тайм-аут запиту для"
 
-#: scripts/../src/model/status.rs:129 scripts/../src/ui/host_row.rs:66
+#: scripts/../src/model/status.rs:133 scripts/../src/ui/host_row.rs:67
 msgid "M"
 msgstr "С"
 
-#: scripts/../src/model/status.rs:132 scripts/../src/ui/host_row.rs:73
+#: scripts/../src/model/status.rs:136 scripts/../src/ui/host_row.rs:74
 msgid "Med"
 msgstr "Мд"
 
-#: scripts/../src/model/status.rs:135
+#: scripts/../src/model/status.rs:139
 msgid "95%"
 msgstr "95%"
 
-#: scripts/../src/model/status.rs:138 scripts/../src/ui/host_row.rs:80
+#: scripts/../src/model/status.rs:142 scripts/../src/ui/host_row.rs:81
 msgid "J"
 msgstr "Т"
 
-#: scripts/../src/model/status.rs:141 scripts/../src/ui/host_row.rs:87
+#: scripts/../src/model/status.rs:145 scripts/../src/ui/host_row.rs:88
 msgid "Jm"
 msgstr "Тс"
 
-#: scripts/../src/model/status.rs:146 scripts/../src/ui/host_row.rs:94
+#: scripts/../src/model/status.rs:150 scripts/../src/ui/host_row.rs:95
 msgid "Jmed"
 msgstr "Тм"
 
-#: scripts/../src/model/status.rs:152 scripts/../src/ui/host_row.rs:101
+#: scripts/../src/model/status.rs:156 scripts/../src/ui/host_row.rs:102
 #: scripts/../src/ui/host_settings.rs:95
 msgid "MOS"
 msgstr "MOS"
 
-#: scripts/../src/model/status.rs:155 scripts/../src/ui/host_row.rs:108
+#: scripts/../src/model/status.rs:159 scripts/../src/ui/host_row.rs:109
 msgid "Av"
 msgstr "Дс"
 
-#: scripts/../src/model/status.rs:158 scripts/../src/ui/host_row.rs:115
+#: scripts/../src/model/status.rs:162 scripts/../src/ui/host_row.rs:116
 msgid "Out"
 msgstr "Ан"
 
-#: scripts/../src/model/status.rs:161 scripts/../src/ui/host_row.rs:142
+#: scripts/../src/model/status.rs:165 scripts/../src/ui/host_row.rs:143
 msgid "Str"
 msgstr "Стр"
 
-#: scripts/../src/model/status.rs:164 scripts/../src/ui/host_row.rs:149
+#: scripts/../src/model/status.rs:168 scripts/../src/ui/host_row.rs:150
 msgid "SD"
 msgstr "СВ"
 
-#: scripts/../src/model/status.rs:167 scripts/../src/ui/host_row.rs:165
+#: scripts/../src/model/status.rs:171 scripts/../src/ui/host_row.rs:166
 msgid "m/M"
 msgstr "м/М"
 
-#: scripts/../src/model/status.rs:170 scripts/../src/model/status.rs:175
-#: scripts/../src/ui/host_row.rs:177
+#: scripts/../src/model/status.rs:174 scripts/../src/model/status.rs:179
+#: scripts/../src/ui/host_row.rs:178
 msgid "L"
 msgstr "В"
 
-#: scripts/../src/model/status.rs:178 scripts/../src/ui/log_viewer.rs:110
+#: scripts/../src/model/status.rs:182 scripts/../src/ui/log_viewer.rs:110
 msgid "Statistics"
 msgstr "Статистика"
 
-#: scripts/../src/model/status.rs:181
+#: scripts/../src/model/status.rs:185
 msgid "Route updated"
 msgstr "Маршрут оновлено"
 
-#: scripts/../src/model/status.rs:193 scripts/../src/ui/host_row.rs:41
+#: scripts/../src/model/status.rs:197 scripts/../src/ui/host_row.rs:42
 msgid "Local Interface"
 msgstr "Локальний інтерфейс"
 
-#: scripts/../src/model/status.rs:200
+#: scripts/../src/model/status.rs:204
 msgid "Connectivity lost at {node}"
 msgstr "Зв'язок втрачено на {node}"
 
-#: scripts/../src/model/status.rs:201 scripts/../src/model/status.rs:208
+#: scripts/../src/model/status.rs:205 scripts/../src/model/status.rs:212
 msgid "{n} requests without answer"
 msgstr "{n} запит(ів) без відповіді"
 
-#: scripts/../src/model/status.rs:207
+#: scripts/../src/model/status.rs:211
 msgid "Connectivity lost"
 msgstr "Зв'язок втрачено"
 
-#: scripts/../src/model/status.rs:213
+#: scripts/../src/model/status.rs:217
 msgid "downtime"
 msgstr "час простою"
 
-#: scripts/../src/model/status.rs:213
+#: scripts/../src/model/status.rs:217
 msgid "s"
 msgstr "с"
 
-#: scripts/../src/model/status.rs:220
+#: scripts/../src/model/status.rs:224
 msgid "Connectivity restored"
 msgstr "Зв'язок відновлено"
 
@@ -155,54 +155,54 @@ msgstr "Зв'язок відновлено"
 msgid "egui_pinger"
 msgstr "egui_pinger"
 
-#: scripts/../src/app.rs:169 scripts/../src/ui/log_viewer.rs:69
+#: scripts/../src/app.rs:177 scripts/../src/ui/log_viewer.rs:69
 msgid "Journal started at"
 msgstr "Журнал почато"
 
-#: scripts/../src/app.rs:171 scripts/../src/ui/log_viewer.rs:71
+#: scripts/../src/app.rs:179 scripts/../src/ui/log_viewer.rs:71
 msgid "Journal ended at"
 msgstr "Журнал закінчено"
 
-#: scripts/../src/app.rs:227
+#: scripts/../src/app.rs:235
 msgid "Host name"
 msgstr "Імʼя хоста"
 
-#: scripts/../src/app.rs:235
+#: scripts/../src/app.rs:243
 msgid "Host address"
 msgstr "Адреса хоста"
 
 #. When "Add" button is clicked or Enter is pressed in the second field,
 #. add host to the list
-#: scripts/../src/app.rs:241
+#: scripts/../src/app.rs:249
 msgid "Add"
 msgstr "Додати"
 
 # --- System Tools ---
-#: scripts/../src/app.rs:290 scripts/../src/ui/system_tools.rs:360
+#: scripts/../src/app.rs:298 scripts/../src/ui/system_tools.rs:360
 msgid "System Tools"
 msgstr "Системні інструменти"
 
-#: scripts/../src/app.rs:345
+#: scripts/../src/app.rs:353
 msgid "Monitoring stopped"
 msgstr "Моніторинг зупинено"
 
-#: scripts/../src/app.rs:347
+#: scripts/../src/app.rs:355
 msgid "Monitoring started"
 msgstr "Моніторинг розпочато"
 
-#: scripts/../src/app.rs:381
+#: scripts/../src/app.rs:389
 msgid "Confirm Deletion"
 msgstr "Підтвердження видалення"
 
-#: scripts/../src/app.rs:388
+#: scripts/../src/app.rs:396
 msgid "Are you sure you want to remove this host"
 msgstr "Ви впевнені, що хочете видалити цей хост"
 
-#: scripts/../src/app.rs:394
+#: scripts/../src/app.rs:402
 msgid "Delete"
 msgstr "Видалити"
 
-#: scripts/../src/app.rs:400
+#: scripts/../src/app.rs:408
 msgid "Cancel"
 msgstr "Скасувати"
 
@@ -477,91 +477,91 @@ msgstr ""
 msgid "Close"
 msgstr "Закрити"
 
-#: scripts/../src/ui/host_row.rs:35
+#: scripts/../src/ui/host_row.rs:36
 msgid "STOPPED"
 msgstr "ЗУПИНЕНО"
 
-#: scripts/../src/ui/host_row.rs:45
+#: scripts/../src/ui/host_row.rs:46
 msgid "DOWN (at {node})"
 msgstr "ОБРИВ (на {node})"
 
-#: scripts/../src/ui/host_row.rs:47
+#: scripts/../src/ui/host_row.rs:48
 msgid "DOWN"
 msgstr "НЕМА"
 
-#: scripts/../src/ui/host_row.rs:67 scripts/../src/ui/host_settings.rs:85
+#: scripts/../src/ui/host_row.rs:68 scripts/../src/ui/host_settings.rs:85
 msgid "Mean RTT"
 msgstr "Середній час повернення"
 
-#: scripts/../src/ui/host_row.rs:74 scripts/../src/ui/host_settings.rs:87
+#: scripts/../src/ui/host_row.rs:75 scripts/../src/ui/host_settings.rs:87
 msgid "Median RTT"
 msgstr "Медіанний час повернення"
 
-#: scripts/../src/ui/host_row.rs:81 scripts/../src/ui/host_settings.rs:89
+#: scripts/../src/ui/host_row.rs:82 scripts/../src/ui/host_settings.rs:89
 msgid "RTP Jitter"
 msgstr "Тремтіння по стандарту RTP"
 
-#: scripts/../src/ui/host_row.rs:88 scripts/../src/ui/host_settings.rs:91
+#: scripts/../src/ui/host_row.rs:89 scripts/../src/ui/host_settings.rs:91
 msgid "Mean Jitter"
 msgstr "Середнє тремтіння"
 
-#: scripts/../src/ui/host_row.rs:95 scripts/../src/ui/host_settings.rs:93
+#: scripts/../src/ui/host_row.rs:96 scripts/../src/ui/host_settings.rs:93
 msgid "Median Jitter"
 msgstr "Медіанне тремтіння"
 
-#: scripts/../src/ui/host_row.rs:102
+#: scripts/../src/ui/host_row.rs:103
 msgid "Voice Quality (MOS)"
 msgstr "Якість голосу (1.0-3.0-4.5)"
 
-#: scripts/../src/ui/host_row.rs:109 scripts/../src/ui/host_settings.rs:97
+#: scripts/../src/ui/host_row.rs:110 scripts/../src/ui/host_settings.rs:97
 msgid "Availability"
 msgstr "Доступність"
 
-#: scripts/../src/ui/host_row.rs:116
+#: scripts/../src/ui/host_row.rs:117
 msgid "Outliers (Lags)"
 msgstr "Аномалії (Лаги)"
 
-#: scripts/../src/ui/host_row.rs:126
+#: scripts/../src/ui/host_row.rs:127
 msgid "S"
 msgstr "У"
 
-#: scripts/../src/ui/host_row.rs:128
+#: scripts/../src/ui/host_row.rs:129
 msgid "F"
 msgstr "Н"
 
-#: scripts/../src/ui/host_row.rs:143 scripts/../src/ui/host_settings.rs:101
+#: scripts/../src/ui/host_row.rs:144 scripts/../src/ui/host_settings.rs:101
 msgid "Streak"
 msgstr "Страйк (Серія Успішних/Неуспішних)"
 
-#: scripts/../src/ui/host_row.rs:150
+#: scripts/../src/ui/host_row.rs:151
 msgid "Standard Deviation"
 msgstr "Стандартне відхилення"
 
-#: scripts/../src/ui/host_row.rs:157 scripts/../src/ui/host_settings.rs:105
+#: scripts/../src/ui/host_row.rs:158 scripts/../src/ui/host_settings.rs:105
 msgid "95th Percentile"
 msgstr "Найгірший з 95%"
 
-#: scripts/../src/ui/host_row.rs:169 scripts/../src/ui/host_settings.rs:107
+#: scripts/../src/ui/host_row.rs:170 scripts/../src/ui/host_settings.rs:107
 msgid "Min / Max RTT"
 msgstr "Мін/Макс час повернення"
 
-#: scripts/../src/ui/host_row.rs:182 scripts/../src/ui/host_settings.rs:109
+#: scripts/../src/ui/host_row.rs:183 scripts/../src/ui/host_settings.rs:109
 msgid "Packet Loss"
 msgstr "Втрати пакетів"
 
-#: scripts/../src/ui/host_row.rs:210
+#: scripts/../src/ui/host_row.rs:211
 msgid "View Log"
 msgstr "Перегляд журналу"
 
-#: scripts/../src/ui/host_row.rs:216
+#: scripts/../src/ui/host_row.rs:217
 msgid "Start monitoring"
 msgstr "Почати моніторинг"
 
-#: scripts/../src/ui/host_row.rs:218
+#: scripts/../src/ui/host_row.rs:219
 msgid "Stop monitoring"
 msgstr "Зупинити моніторинг"
 
-#: scripts/../src/ui/host_row.rs:282
+#: scripts/../src/ui/host_row.rs:283
 msgid "Timeout"
 msgstr "Без відповіді"
 

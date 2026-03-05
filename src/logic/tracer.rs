@@ -2,6 +2,7 @@ use regex::Regex;
 use std::time::Duration;
 use tokio::process::Command as TokioCommand;
 
+/// Represents a single hop in a traceroute path.
 #[derive(Debug, Clone, Default)]
 pub struct TracerouteHop {
     pub hop_number: u8,
@@ -66,8 +67,10 @@ pub fn parse_traceroute_output(output: &str) -> Vec<String> {
     let mut ips = Vec::new();
     // Regex to match IPv4 or IPv6 addresses.
     // Basic pattern that matches typical IP representations.
-    let ip_re =
-        Regex::new(r"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})|([0-9a-fA-F:]+:[0-9a-fA-F:]+)").unwrap();
+    use std::sync::LazyLock;
+    static IP_RE: LazyLock<Regex> = LazyLock::new(|| {
+        Regex::new(r"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})|([0-9a-fA-F:]+:[0-9a-fA-F:]+)").unwrap()
+    });
 
     for line in output.lines() {
         // Skip header lines - usually start with "traceroute" or "Tracing"
@@ -77,7 +80,7 @@ pub fn parse_traceroute_output(output: &str) -> Vec<String> {
 
         // Windows output might have "*" for timeouts.
         // We only care about lines with actual IPs.
-        if let Some(caps) = ip_re.captures(line)
+        if let Some(caps) = IP_RE.captures(line)
             && let Some(m) = caps.get(0)
         {
             let ip = m.as_str().to_string();

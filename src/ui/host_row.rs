@@ -5,6 +5,7 @@ use eframe::egui::{Color32, RichText};
 use egui_plot::{Bar, BarChart, HLine, Plot};
 use tr::tr;
 
+/// Renders a single host row with controls and a mini-chart.
 #[allow(clippy::too_many_arguments)]
 pub fn render_host_row(
     ui: &mut egui::Ui,

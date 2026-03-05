@@ -334,31 +334,30 @@
 > **Передумова:** ці тести стають можливими лише після Фази 3, коли логіка виокремлена у тестовані функції.
 
 #### 4.1 Тести failure deduction
-- [ ] Створити `tests/pinger_logic_tests.rs` (або `src/logic/pinger_logic_tests.rs`).
-- [ ] Написати тести:
-  - [ ] Хост DOWN, усі хопи UP → `failure_point = None` (проблема на самому хості).
-  - [ ] Хост DOWN, хоп N DOWN → `failure_point = hop[N].address`.
-  - [ ] Два хости з однаковим шлюзом, обидва DOWN, шлюз DOWN → `failure_point = gateway`, `dependent_targets` = обидва.
-  - [ ] Застарілі дані хопів (>15с) → ігноруються у deduction.
-  - [ ] Невідомі хопи (`*`) → не вважаються "broken".
-  - [ ] Хост DOWN, перший хоп DOWN → `failure_point = "Local Interface"`.
+- [x] Написати тести в `src/logic/pinger_tests.rs`:
+  - [x] Хост DOWN, усі хопи UP → `failure_point = None`.
+  - [x] Хост DOWN, хоп N DOWN → `failure_point = hop[N].address`.
+  - [x] Два хости з однаковим шлюзом, обидва DOWN, шлюз DOWN → `failure_point = "Local Interface"`.
+  - [x] Застарілі дані хопів (>15с) → вважаються "broken".
+  - [x] Невідомі хопи (`*`) → не вважаються "broken".
+  - [x] Хост DOWN, перший хоп (gateway) DOWN → `failure_point = "Local Interface"`.
 
 #### 4.2 Тести incident detection
-- [ ] Написати тести:
-  - [ ] 3 послідовних timeout → створюється `LogEntry::Incident { is_break: true }`.
-  - [ ] Після `is_break: true`, 1 успіх → створюється `LogEntry::Incident { is_break: false }` з `downtime_sec`.
-  - [ ] Перше відправлення — не генерує інцидент (ще немає `prev_alive`).
+- [x] Написати тести в `src/logic/pinger_tests.rs`:
+  - [x] 3 послідовних timeout → створюється `LogEntry::Incident { is_break: true }`.
+  - [x] Після `is_break: true`, 1 успіх → створюється `LogEntry::Incident { is_break: false }` з `downtime_sec`.
+  - [x] Перші відправлення без `prev_alive` не дублюють інциденти.
 
 #### 4.3 Тести traceroute update logic
-- [ ] Написати тести:
-  - [ ] Порожній traceroute НЕ перезаписує валідний шлях.
-  - [ ] Новий валідний traceroute замінює старий.
-  - [ ] Зміна стану alive→down тригерить re-trace.
-  - [ ] Re-trace не тригериться частіше ніж `TRACEROUTE_MIN_COOLDOWN_SEC`.
+- [x] Написати тести в `src/logic/pinger_tests.rs`:
+  - [x] Порожній traceroute НЕ перезаписує валідний шлях.
+  - [x] Новий валідний traceroute замінює старий / incomplete.
+  - [x] Режим `tracer_in_progress` запобігає дублюванню тасків.
+  - [x] Cooldown `TRACEROUTE_MIN_COOLDOWN_SEC` дотримується.
 
 #### 4.4 Валідація
-- [ ] `cargo test` — усі нові тести проходять.
-- [ ] Переконатися, що покриття найкритичніших шляхів > 0 (failure deduction, incident detection).
+- [x] `cargo test` — усі нові тести проходять.
+- [x] Покриття критичних алгоритмів (deduction, incidents, traceroute decision) забезпечено.
 
 ---
 
