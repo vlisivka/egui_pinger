@@ -35,10 +35,11 @@ fn main() -> eframe::Result {
     {
         // For embedded mode, we check the language and load the appropriate MO file.
         // Currently, we only have Ukrainian translation.
-        let lang = std::env::var("LANG")
-            .or_else(|_| std::env::var("LC_ALL"))
-            .or_else(|_| std::env::var("LC_MESSAGES"))
-            .unwrap_or_else(|_| "en".to_string());
+        let lang = sys_locale::get_locale()
+            .or_else(|| std::env::var("LANG").ok())
+            .or_else(|| std::env::var("LC_ALL").ok())
+            .or_else(|| std::env::var("LC_MESSAGES").ok())
+            .unwrap_or_else(|| "en".to_string());
 
         if lang.starts_with("uk") {
             let uk_mo = include_bytes!("../locales/uk/LC_MESSAGES/egui_pinger.mo");

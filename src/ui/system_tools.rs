@@ -1,9 +1,9 @@
 use eframe::egui;
 use eframe::egui::RichText;
-use std::sync::{Arc, Mutex};
-use tr::tr;
 #[cfg(windows)]
 use std::os::windows::process::CommandExt;
+use std::sync::{Arc, Mutex};
+use tr::tr;
 
 #[cfg(windows)]
 use crate::constants::CREATE_NO_WINDOW;
@@ -257,6 +257,15 @@ fn get_windows_commands() -> Vec<SystemCommand> {
             &["interface", "show", "interface"],
         ),
         SystemCommand::new(
+            &tr!("Basic Info"),
+            &tr!("External IP Address"),
+            &tr!(
+                "Shows your public IP address as seen from the internet. Useful for checking if you are behind a NAT, using a VPN, or to confirm internet connectivity even if DNS is failing."
+            ),
+            "curl",
+            &["-s", "ifconfig.me"],
+        ),
+        SystemCommand::new(
             &tr!("Routing"),
             &tr!("Routing Table"),
             &tr!(
@@ -365,7 +374,8 @@ fn get_windows_commands() -> Vec<SystemCommand> {
 fn run_command_background(cmd: String, args: Vec<String>, result_slot: Arc<Mutex<Option<String>>>) {
     std::thread::spawn(move || {
         let mut cmd_builder = std::process::Command::new(&cmd);
-        cmd_builder.args(&args)
+        cmd_builder
+            .args(&args)
             .stdout(std::process::Stdio::piped())
             .stderr(std::process::Stdio::piped());
 

@@ -1035,7 +1035,7 @@ dependencies = [
 
 [[package]]
 name = "egui_pinger"
-version = "0.5.1"
+version = "0.6.1"
 dependencies = [
  "chrono",
  "dirs",
@@ -1049,6 +1049,7 @@ dependencies = [
  "regex",
  "serde",
  "serde_json",
+ "sys-locale",
  "tokio",
  "tr",
  "wgpu",
@@ -3570,6 +3571,15 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "sys-locale"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8eab9a99a024a169fe8a903cf9d4a3b3601109bcc13bd9e3c6fff259138626c4"
+dependencies = [
+ "libc",
 ]
 
 [[package]]

@@ -1,8 +1,8 @@
+#[cfg(windows)]
+use crate::constants::CREATE_NO_WINDOW;
 use regex::Regex;
 use std::time::Duration;
 use tokio::process::Command as TokioCommand;
-#[cfg(windows)]
-use crate::constants::CREATE_NO_WINDOW;
 
 /// Represents a single hop in a traceroute path.
 #[derive(Debug, Clone, Default)]

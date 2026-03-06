@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: egui_pinger\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-05 18:12+0000\n"
+"POT-Creation-Date: 2026-03-06 05:52+0000\n"
 "PO-Revision-Date: 2026-02-25 16:30+0200\n"
 "Last-Translator: Volodymyr M. Lisivka <vlisivka@gmail.com>\n"
 "Language-Team: Ukrainian\n"
@@ -178,7 +178,7 @@ msgid "Add"
 msgstr "Додати"
 
 # --- System Tools ---
-#: scripts/../src/app.rs:305 scripts/../src/ui/system_tools.rs:412
+#: scripts/../src/app.rs:305 scripts/../src/ui/system_tools.rs:421
 msgid "System Tools"
 msgstr "Системні інструменти"
 
@@ -758,6 +758,7 @@ msgstr "Не знайдено статусу для цієї адреси."
 #: scripts/../src/ui/system_tools.rs:95 scripts/../src/ui/system_tools.rs:104
 #: scripts/../src/ui/system_tools.rs:131 scripts/../src/ui/system_tools.rs:235
 #: scripts/../src/ui/system_tools.rs:244 scripts/../src/ui/system_tools.rs:251
+#: scripts/../src/ui/system_tools.rs:260
 msgid "Basic Info"
 msgstr "Базова інформація"
 
@@ -790,11 +791,11 @@ msgstr ""
 "бути від'єднаний або Wi-Fi вимкнений."
 
 #: scripts/../src/ui/system_tools.rs:113 scripts/../src/ui/system_tools.rs:122
-#: scripts/../src/ui/system_tools.rs:260
+#: scripts/../src/ui/system_tools.rs:269
 msgid "Routing"
 msgstr "Маршрутизація"
 
-#: scripts/../src/ui/system_tools.rs:114 scripts/../src/ui/system_tools.rs:261
+#: scripts/../src/ui/system_tools.rs:114 scripts/../src/ui/system_tools.rs:270
 msgid "Routing Table"
 msgstr "Таблиця маршрутів"
 
@@ -820,11 +821,11 @@ msgstr ""
 "Відображає таблицю маршрутизації IPv6. Аналогічно до IPv4, шукайте запис "
 "'default via' для вашого шлюзу IPv6."
 
-#: scripts/../src/ui/system_tools.rs:132
+#: scripts/../src/ui/system_tools.rs:132 scripts/../src/ui/system_tools.rs:261
 msgid "External IP Address"
 msgstr "Зовнішня IP-адреса"
 
-#: scripts/../src/ui/system_tools.rs:134
+#: scripts/../src/ui/system_tools.rs:134 scripts/../src/ui/system_tools.rs:263
 msgid ""
 "Shows your public IP address as seen from the internet. Useful for checking "
 "if you are behind a NAT, using a VPN, or to confirm internet connectivity "
@@ -835,8 +836,8 @@ msgstr ""
 "підтвердження наявності інтернету, навіть якщо DNS не працює."
 
 #: scripts/../src/ui/system_tools.rs:140 scripts/../src/ui/system_tools.rs:149
-#: scripts/../src/ui/system_tools.rs:158 scripts/../src/ui/system_tools.rs:269
-#: scripts/../src/ui/system_tools.rs:278 scripts/../src/ui/system_tools.rs:287
+#: scripts/../src/ui/system_tools.rs:158 scripts/../src/ui/system_tools.rs:278
+#: scripts/../src/ui/system_tools.rs:287 scripts/../src/ui/system_tools.rs:296
 msgid "DNS"
 msgstr "DNS"
 
@@ -854,7 +855,7 @@ msgstr ""
 "Якщо DNS налаштовано неправильно, ви зможете пінгувати IP-адреси (наприклад, "
 "8.8.8.8), але не зможете відкрити сайти за назвою."
 
-#: scripts/../src/ui/system_tools.rs:150 scripts/../src/ui/system_tools.rs:288
+#: scripts/../src/ui/system_tools.rs:150 scripts/../src/ui/system_tools.rs:297
 msgid "DNS Lookup (google.com)"
 msgstr "DNS-запит (google.com)"
 
@@ -880,8 +881,8 @@ msgstr ""
 "Шукає ім'я хоста для IP-адреси 8.8.8.8. Перевіряє, чи працює зворотне "
 "розпізнавання DNS. Має повернути 'dns.google'."
 
-#: scripts/../src/ui/system_tools.rs:167 scripts/../src/ui/system_tools.rs:296
-#: scripts/../src/ui/system_tools.rs:305
+#: scripts/../src/ui/system_tools.rs:167 scripts/../src/ui/system_tools.rs:305
+#: scripts/../src/ui/system_tools.rs:314
 msgid "Connections"
 msgstr "З'єднання"
 
@@ -899,11 +900,11 @@ msgstr ""
 "Корисно для перевірки, чи працює сервіс (наприклад, SIP-сервер) і "
 "прослуховує очікуваний порт."
 
-#: scripts/../src/ui/system_tools.rs:176 scripts/../src/ui/system_tools.rs:314
+#: scripts/../src/ui/system_tools.rs:176 scripts/../src/ui/system_tools.rs:323
 msgid "Neighbors"
 msgstr "Сусіди"
 
-#: scripts/../src/ui/system_tools.rs:177 scripts/../src/ui/system_tools.rs:315
+#: scripts/../src/ui/system_tools.rs:177 scripts/../src/ui/system_tools.rs:324
 msgid "ARP Table"
 msgstr "Таблиця ARP"
 
@@ -918,11 +919,11 @@ msgstr ""
 "проблема з локальним підключенням."
 
 #: scripts/../src/ui/system_tools.rs:185 scripts/../src/ui/system_tools.rs:194
-#: scripts/../src/ui/system_tools.rs:323 scripts/../src/ui/system_tools.rs:332
+#: scripts/../src/ui/system_tools.rs:332 scripts/../src/ui/system_tools.rs:341
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: scripts/../src/ui/system_tools.rs:186 scripts/../src/ui/system_tools.rs:324
+#: scripts/../src/ui/system_tools.rs:186 scripts/../src/ui/system_tools.rs:333
 msgid "Wi-Fi Connection Status"
 msgstr "Стан з'єднання Wi-Fi"
 
@@ -936,7 +937,7 @@ msgstr ""
 "швидкість з'єднання. Низький рівень сигналу (нижче -70 дБм) може спричинити "
 "втрату пакетів та високу затримку."
 
-#: scripts/../src/ui/system_tools.rs:195 scripts/../src/ui/system_tools.rs:333
+#: scripts/../src/ui/system_tools.rs:195 scripts/../src/ui/system_tools.rs:342
 msgid "Available Wi-Fi Networks"
 msgstr "Доступні мережі Wi-Fi"
 
@@ -951,8 +952,8 @@ msgstr ""
 "використовують один канал."
 
 #: scripts/../src/ui/system_tools.rs:203 scripts/../src/ui/system_tools.rs:212
-#: scripts/../src/ui/system_tools.rs:221 scripts/../src/ui/system_tools.rs:341
-#: scripts/../src/ui/system_tools.rs:350
+#: scripts/../src/ui/system_tools.rs:221 scripts/../src/ui/system_tools.rs:350
+#: scripts/../src/ui/system_tools.rs:359
 msgid "System"
 msgstr "Система"
 
@@ -1026,7 +1027,7 @@ msgstr ""
 "Показує адміністративний та робочий статус усіх мережевих інтерфейсів "
 "(Підключено/Відключено)."
 
-#: scripts/../src/ui/system_tools.rs:263
+#: scripts/../src/ui/system_tools.rs:272
 msgid ""
 "Displays the IPv4 and IPv6 routing tables. Look for the '0.0.0.0' route — "
 "its gateway is your router. If this entry is missing, your system cannot "
@@ -1036,11 +1037,11 @@ msgstr ""
 "його шлюз є вашим маршрутизатором. Якщо цього запису немає, система не може "
 "дістатися до інтернету."
 
-#: scripts/../src/ui/system_tools.rs:270
+#: scripts/../src/ui/system_tools.rs:279
 msgid "DNS Cache"
 msgstr "Кеш DNS"
 
-#: scripts/../src/ui/system_tools.rs:272
+#: scripts/../src/ui/system_tools.rs:281
 msgid ""
 "Shows the local DNS resolver cache. This reveals which domain names have "
 "been recently resolved. If a domain shows an incorrect IP, you may have a "
@@ -1050,11 +1051,11 @@ msgstr ""
 "розпізнані. Якщо домен показує неправильну IP-адресу, можливо, у вас "
 "застарілий запис кешу."
 
-#: scripts/../src/ui/system_tools.rs:279
+#: scripts/../src/ui/system_tools.rs:288
 msgid "Flush DNS Cache"
 msgstr "Очистити кеш DNS"
 
-#: scripts/../src/ui/system_tools.rs:281
+#: scripts/../src/ui/system_tools.rs:290
 msgid ""
 "Clears the local DNS resolver cache. This is often the first step to fix "
 "'website not found' errors if the connection otherwise seems fine."
@@ -1062,7 +1063,7 @@ msgstr ""
 "Очищає локальний кеш DNS. Це часто є першим кроком для вирішення проблем, "
 "коли сайти не відкриваються, хоча з’єднання здається справним."
 
-#: scripts/../src/ui/system_tools.rs:290
+#: scripts/../src/ui/system_tools.rs:299
 msgid ""
 "Performs a DNS query for google.com using the system's default DNS server. "
 "If this fails but pinging 8.8.8.8 works, you have a DNS problem."
@@ -1070,11 +1071,11 @@ msgstr ""
 "Виконує DNS-запит для google.com, використовуючи DNS-сервер системи. Якщо це "
 "не вдається, але пінг 8.8.8.8 працює, у вас проблема з DNS."
 
-#: scripts/../src/ui/system_tools.rs:297
+#: scripts/../src/ui/system_tools.rs:306
 msgid "Active Connections"
 msgstr "Активні з'єднання"
 
-#: scripts/../src/ui/system_tools.rs:299
+#: scripts/../src/ui/system_tools.rs:308
 msgid ""
 "Shows all active TCP/UDP connections and listening ports. Useful for "
 "checking if a service is running on the expected port, or if there are "
@@ -1084,11 +1085,11 @@ msgstr ""
 "перевірки, чи працює сервіс на очікуваному порту, або чи є незвичні вихідні "
 "з'єднання."
 
-#: scripts/../src/ui/system_tools.rs:306
+#: scripts/../src/ui/system_tools.rs:315
 msgid "Protocol Statistics"
 msgstr "Статистика протоколів"
 
-#: scripts/../src/ui/system_tools.rs:308
+#: scripts/../src/ui/system_tools.rs:317
 msgid ""
 "Shows per-protocol statistics (TCP, UDP, ICMP, IP). High error counts or "
 "retransmissions indicate network problems."
@@ -1096,7 +1097,7 @@ msgstr ""
 "Показує статистику по протоколах (TCP, UDP, ICMP, IP). Високі лічильники "
 "помилок або повторних передач вказують на проблеми з мережею."
 
-#: scripts/../src/ui/system_tools.rs:317
+#: scripts/../src/ui/system_tools.rs:326
 msgid ""
 "Shows the ARP cache — IP-to-MAC address mappings on your local network. "
 "Missing or incomplete entries for your gateway suggest a local connectivity "
@@ -1106,7 +1107,7 @@ msgstr ""
 "Відсутні або неповні записи для вашого шлюзу свідчать про проблему з "
 "локальною мережею."
 
-#: scripts/../src/ui/system_tools.rs:326
+#: scripts/../src/ui/system_tools.rs:335
 msgid ""
 "Shows current Wi-Fi adapter details: SSID, signal quality, radio type, "
 "channel, and authentication. Signal quality below 50% typically causes "
@@ -1116,7 +1117,7 @@ msgstr ""
 "канал та аутентифікацію. Якість сигналу нижче 50% зазвичай спричиняє втрату "
 "пакетів."
 
-#: scripts/../src/ui/system_tools.rs:335
+#: scripts/../src/ui/system_tools.rs:344
 msgid ""
 "Lists all visible Wi-Fi networks with signal strength, channel, and "
 "encryption. Helps identify Wi-Fi congestion if many networks overlap on the "
@@ -1126,11 +1127,11 @@ msgstr ""
 "Допомагає виявити перевантаження Wi-Fi, якщо багато мереж перетинаються на "
 "одному каналі."
 
-#: scripts/../src/ui/system_tools.rs:342
+#: scripts/../src/ui/system_tools.rs:351
 msgid "Firewall Status"
 msgstr "Стан файрволу"
 
-#: scripts/../src/ui/system_tools.rs:344
+#: scripts/../src/ui/system_tools.rs:353
 msgid ""
 "Shows the current Windows Firewall profile status. If the firewall is "
 "blocking ICMP, pings will fail even though the network is working."
@@ -1138,11 +1139,11 @@ msgstr ""
 "Показує стан поточного профілю Windows Firewall. Якщо файрвол блокує ICMP, "
 "пінги не працюватимуть, навіть якщо мережа працює."
 
-#: scripts/../src/ui/system_tools.rs:351
+#: scripts/../src/ui/system_tools.rs:360
 msgid "TCP Global Settings"
 msgstr "Глобальні налаштування TCP"
 
-#: scripts/../src/ui/system_tools.rs:353
+#: scripts/../src/ui/system_tools.rs:362
 msgid ""
 "Shows global TCP parameters like Receive Window Auto-Tuning and Chimney "
 "Offload. Useful for troubleshooting throughput issues."
@@ -1150,40 +1151,40 @@ msgstr ""
 "Показує глобальні параметри TCP, такі як автоналаштування вікна прийому та "
 "Chimney Offload. Корисно для діагностики проблем із пропускною здатністю."
 
-#: scripts/../src/ui/system_tools.rs:420
+#: scripts/../src/ui/system_tools.rs:429
 msgid "No commands available for this platform."
 msgstr "Для цієї платформи немає доступних команд."
 
-#: scripts/../src/ui/system_tools.rs:426
+#: scripts/../src/ui/system_tools.rs:435
 msgid "Command:"
 msgstr "Команда:"
 
-#: scripts/../src/ui/system_tools.rs:453
+#: scripts/../src/ui/system_tools.rs:462
 msgid "Guide"
 msgstr "Довідник"
 
-#: scripts/../src/ui/system_tools.rs:457
+#: scripts/../src/ui/system_tools.rs:466
 msgid "Command Output"
 msgstr "Вивід команди"
 
-#: scripts/../src/ui/system_tools.rs:484
+#: scripts/../src/ui/system_tools.rs:493
 msgid "▶ Run"
 msgstr "▶ Запуск"
 
-#: scripts/../src/ui/system_tools.rs:498
+#: scripts/../src/ui/system_tools.rs:507
 msgid "Running..."
 msgstr "Виконується..."
 
 #. Section 1: No internet
-#: scripts/../src/ui/system_tools.rs:523
+#: scripts/../src/ui/system_tools.rs:532
 msgid "1. Internet is completely down"
 msgstr "1. Інтернет повністю не працює"
 
-#: scripts/../src/ui/system_tools.rs:524
+#: scripts/../src/ui/system_tools.rs:533
 msgid "If you cannot access any website or service:"
 msgstr "Якщо ви не можете відкрити жоден сайт або сервіс:"
 
-#: scripts/../src/ui/system_tools.rs:525
+#: scripts/../src/ui/system_tools.rs:534
 msgid ""
 "  • Run 'Network Interfaces' — check if your adapter has an IP address. If "
 "no IP is assigned, DHCP may have failed."
@@ -1191,7 +1192,7 @@ msgstr ""
 "  • Запустіть 'Мережеві інтерфейси' — перевірте, чи має адаптер IP-адресу. "
 "Якщо IP не призначено, DHCP міг не спрацювати."
 
-#: scripts/../src/ui/system_tools.rs:526
+#: scripts/../src/ui/system_tools.rs:535
 msgid ""
 "  • Run 'External IP Address' — confirms you have internet access and shows "
 "your public IP. If this works, your basic connection is fine."
@@ -1199,7 +1200,7 @@ msgstr ""
 "  • Запустіть 'Зовнішня IP-адреса' — підтверджує доступ до інтернету та "
 "показує вашу публічну IP. Якщо це працює, базове з'єднання в порядку."
 
-#: scripts/../src/ui/system_tools.rs:527
+#: scripts/../src/ui/system_tools.rs:536
 msgid ""
 "  • Run 'Routing Table' — look for a 'default' route. If missing, the system "
 "doesn't know how to reach the internet."
@@ -1207,7 +1208,7 @@ msgstr ""
 "  • Запустіть 'Таблиця маршрутів' — шукайте маршрут 'default'. Якщо його "
 "немає, система не знає, як дістатися до інтернету."
 
-#: scripts/../src/ui/system_tools.rs:528
+#: scripts/../src/ui/system_tools.rs:537
 msgid ""
 "  • Run 'DNS Lookup (google.com)' — if this fails but pinging 8.8.8.8 works "
 "in the main window, you have a DNS problem, not a connection problem."
@@ -1216,15 +1217,15 @@ msgstr ""
 "8.8.8.8 працює в головному вікні, у вас проблема з DNS, а не з підключенням."
 
 #. Section 2: Intermittent connectivity
-#: scripts/../src/ui/system_tools.rs:532
+#: scripts/../src/ui/system_tools.rs:541
 msgid "2. Connection drops or is unstable"
 msgstr "2. З'єднання обривається або нестабільне"
 
-#: scripts/../src/ui/system_tools.rs:533
+#: scripts/../src/ui/system_tools.rs:542
 msgid "If the connection works sometimes but keeps cutting out:"
 msgstr "Якщо з'єднання іноді працює, але постійно обривається:"
 
-#: scripts/../src/ui/system_tools.rs:534
+#: scripts/../src/ui/system_tools.rs:543
 msgid ""
 "  • Run 'ARP Table' — if the gateway entry shows 'FAILED' or 'INCOMPLETE', "
 "there is a problem on your local network (cable, switch, or router)."
@@ -1233,7 +1234,7 @@ msgstr ""
 "'INCOMPLETE', є проблема у вашій локальній мережі (кабель, комутатор або "
 "маршрутизатор)."
 
-#: scripts/../src/ui/system_tools.rs:535
+#: scripts/../src/ui/system_tools.rs:544
 msgid ""
 "  • Run 'Interface Statistics' — look for high 'errors' or 'dropped' "
 "counters. These indicate hardware, driver, or cable problems."
@@ -1242,7 +1243,7 @@ msgstr ""
 "або 'dropped'. Вони вказують на проблеми з обладнанням, драйверами або "
 "кабелем."
 
-#: scripts/../src/ui/system_tools.rs:536
+#: scripts/../src/ui/system_tools.rs:545
 msgid ""
 "  • Run 'Network Manager Log' — look for repeated 'connection dropped' or "
 "'DHCP lease expired' messages."
@@ -1251,16 +1252,16 @@ msgstr ""
 "'connection dropped' або 'DHCP lease expired'."
 
 #. Section 3: Slow internet
-#: scripts/../src/ui/system_tools.rs:540
+#: scripts/../src/ui/system_tools.rs:549
 msgid "3. Internet is slow"
 msgstr "3. Інтернет працює повільно"
 
-#: scripts/../src/ui/system_tools.rs:541
+#: scripts/../src/ui/system_tools.rs:550
 msgid "If pages load slowly or VoIP calls have bad quality:"
 msgstr ""
 "Якщо сторінки завантажуються повільно або VoIP-дзвінки мають погану якість:"
 
-#: scripts/../src/ui/system_tools.rs:542
+#: scripts/../src/ui/system_tools.rs:551
 msgid ""
 "  • Run 'Wi-Fi Connection Status' — check signal strength. Below -70 dBm (or "
 "below 50% on Windows) causes packet loss and jitter."
@@ -1268,7 +1269,7 @@ msgstr ""
 "  • Запустіть 'Стан з'єднання Wi-Fi' — перевірте рівень сигналу. Нижче -70 "
 "дБм (або нижче 50% на Windows) призводить до втрати пакетів та тремтіння."
 
-#: scripts/../src/ui/system_tools.rs:543
+#: scripts/../src/ui/system_tools.rs:552
 msgid ""
 "  • Run 'Available Wi-Fi Networks' — if many networks use the same channel, "
 "interference is likely. Consider switching to a less crowded channel or 5 "
@@ -1278,7 +1279,7 @@ msgstr ""
 "один канал, імовірні завади. Спробуйте перейти на менш зайнятий канал або "
 "діапазон 5 ГГц."
 
-#: scripts/../src/ui/system_tools.rs:544
+#: scripts/../src/ui/system_tools.rs:553
 msgid ""
 "  • Run 'Listening Ports' — check if many connections are open. A torrent "
 "client or large download can saturate your bandwidth."
@@ -1287,17 +1288,17 @@ msgstr ""
 "з'єднань. Торент-клієнт або велике завантаження може перевантажити канал."
 
 #. Section 4: DNS problems
-#: scripts/../src/ui/system_tools.rs:548
+#: scripts/../src/ui/system_tools.rs:557
 msgid "4. Websites don't open, but ping works"
 msgstr "4. Сайти не відкриваються, але пінг працює"
 
-#: scripts/../src/ui/system_tools.rs:549
+#: scripts/../src/ui/system_tools.rs:558
 msgid "If you can ping 8.8.8.8 in the main window but cannot open websites:"
 msgstr ""
 "Якщо ви можете пінгувати 8.8.8.8 у головному вікні, але не можете відкрити "
 "сайти:"
 
-#: scripts/../src/ui/system_tools.rs:550
+#: scripts/../src/ui/system_tools.rs:559
 msgid ""
 "  • Run 'DNS Configuration' — verify your DNS servers are correctly set. "
 "Common public DNS: 8.8.8.8, 1.1.1.1, 9.9.9.9."
@@ -1305,7 +1306,7 @@ msgstr ""
 "  • Запустіть 'Налаштування DNS' — перевірте, чи правильно налаштовані ваші "
 "DNS-сервери. Відкриті публічні DNS: 8.8.8.8, 1.1.1.1, 9.9.9.9."
 
-#: scripts/../src/ui/system_tools.rs:551
+#: scripts/../src/ui/system_tools.rs:560
 msgid ""
 "  • Run 'DNS Lookup (google.com)' — if it fails or returns wrong IPs, your "
 "DNS server may be down or misconfigured."
@@ -1314,7 +1315,7 @@ msgstr ""
 "неправильні IP, ваш DNS-сервер може бути недоступний або неправильно "
 "налаштований."
 
-#: scripts/../src/ui/system_tools.rs:553
+#: scripts/../src/ui/system_tools.rs:562
 msgid ""
 "  • Run 'DNS Cache' — check for stale entries. You can flush the cache with: "
 "ipconfig /flushdns (requires admin)."
@@ -1323,11 +1324,11 @@ msgstr ""
 "кеш можна командою: ipconfig /flushdns (потрібні права адміністратора)."
 
 #. Section 5: Advanced (admin-only)
-#: scripts/../src/ui/system_tools.rs:558
+#: scripts/../src/ui/system_tools.rs:567
 msgid "5. Advanced diagnostics (require administrator privileges)"
 msgstr "5. Розширена діагностика (потрібні права адміністратора)"
 
-#: scripts/../src/ui/system_tools.rs:559
+#: scripts/../src/ui/system_tools.rs:568
 msgid ""
 "These commands require elevated privileges and must be run from a terminal:"
 msgstr ""

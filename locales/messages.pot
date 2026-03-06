@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-05 18:12+0000\n"
+"POT-Creation-Date: 2026-03-06 05:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -175,7 +175,7 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: scripts/../src/app.rs:305 scripts/../src/ui/system_tools.rs:412 scripts/../src/app.rs:305 scripts/../src/ui/system_tools.rs:412 scripts/../src/ui/system_tools.rs:412
+#: scripts/../src/app.rs:305 scripts/../src/ui/system_tools.rs:421 scripts/../src/app.rs:305 scripts/../src/ui/system_tools.rs:421 scripts/../src/ui/system_tools.rs:421
 msgid "System Tools"
 msgstr ""
 
@@ -647,7 +647,7 @@ msgstr ""
 msgid "No status found for this address."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:95 scripts/../src/ui/system_tools.rs:104 scripts/../src/ui/system_tools.rs:131 scripts/../src/ui/system_tools.rs:235 scripts/../src/ui/system_tools.rs:244 scripts/../src/ui/system_tools.rs:251 scripts/../src/ui/system_tools.rs:95 scripts/../src/ui/system_tools.rs:104 scripts/../src/ui/system_tools.rs:131 scripts/../src/ui/system_tools.rs:235 scripts/../src/ui/system_tools.rs:244 scripts/../src/ui/system_tools.rs:251 scripts/../src/ui/system_tools.rs:95 scripts/../src/ui/system_tools.rs:104 scripts/../src/ui/system_tools.rs:131 scripts/../src/ui/system_tools.rs:235 scripts/../src/ui/system_tools.rs:244 scripts/../src/ui/system_tools.rs:251
+#: scripts/../src/ui/system_tools.rs:95 scripts/../src/ui/system_tools.rs:104 scripts/../src/ui/system_tools.rs:131 scripts/../src/ui/system_tools.rs:235 scripts/../src/ui/system_tools.rs:244 scripts/../src/ui/system_tools.rs:251 scripts/../src/ui/system_tools.rs:260 scripts/../src/ui/system_tools.rs:95 scripts/../src/ui/system_tools.rs:104 scripts/../src/ui/system_tools.rs:131 scripts/../src/ui/system_tools.rs:235 scripts/../src/ui/system_tools.rs:244 scripts/../src/ui/system_tools.rs:251 scripts/../src/ui/system_tools.rs:260 scripts/../src/ui/system_tools.rs:95 scripts/../src/ui/system_tools.rs:104 scripts/../src/ui/system_tools.rs:131 scripts/../src/ui/system_tools.rs:235 scripts/../src/ui/system_tools.rs:244 scripts/../src/ui/system_tools.rs:251 scripts/../src/ui/system_tools.rs:260
 msgid "Basic Info"
 msgstr ""
 
@@ -667,11 +667,11 @@ msgstr ""
 msgid "Shows link-layer status of all interfaces: MTU, MAC address, and whether the link is physically UP. If your interface shows 'state DOWN', the cable might be unplugged or Wi-Fi is disconnected."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:113 scripts/../src/ui/system_tools.rs:122 scripts/../src/ui/system_tools.rs:260 scripts/../src/ui/system_tools.rs:113 scripts/../src/ui/system_tools.rs:122 scripts/../src/ui/system_tools.rs:260 scripts/../src/ui/system_tools.rs:113 scripts/../src/ui/system_tools.rs:122 scripts/../src/ui/system_tools.rs:260
+#: scripts/../src/ui/system_tools.rs:113 scripts/../src/ui/system_tools.rs:122 scripts/../src/ui/system_tools.rs:269 scripts/../src/ui/system_tools.rs:113 scripts/../src/ui/system_tools.rs:122 scripts/../src/ui/system_tools.rs:269 scripts/../src/ui/system_tools.rs:113 scripts/../src/ui/system_tools.rs:122 scripts/../src/ui/system_tools.rs:269
 msgid "Routing"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:114 scripts/../src/ui/system_tools.rs:261 scripts/../src/ui/system_tools.rs:114 scripts/../src/ui/system_tools.rs:261 scripts/../src/ui/system_tools.rs:114 scripts/../src/ui/system_tools.rs:261
+#: scripts/../src/ui/system_tools.rs:114 scripts/../src/ui/system_tools.rs:270 scripts/../src/ui/system_tools.rs:114 scripts/../src/ui/system_tools.rs:270 scripts/../src/ui/system_tools.rs:114 scripts/../src/ui/system_tools.rs:270
 msgid "Routing Table"
 msgstr ""
 
@@ -687,15 +687,15 @@ msgstr ""
 msgid "Displays the IPv6 routing table. Similar to IPv4, look for a 'default via' entry for your IPv6 gateway."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:132 scripts/../src/ui/system_tools.rs:132 scripts/../src/ui/system_tools.rs:132
+#: scripts/../src/ui/system_tools.rs:132 scripts/../src/ui/system_tools.rs:261 scripts/../src/ui/system_tools.rs:132 scripts/../src/ui/system_tools.rs:261 scripts/../src/ui/system_tools.rs:132 scripts/../src/ui/system_tools.rs:261
 msgid "External IP Address"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:134 scripts/../src/ui/system_tools.rs:134 scripts/../src/ui/system_tools.rs:134
+#: scripts/../src/ui/system_tools.rs:134 scripts/../src/ui/system_tools.rs:263 scripts/../src/ui/system_tools.rs:134 scripts/../src/ui/system_tools.rs:263 scripts/../src/ui/system_tools.rs:134 scripts/../src/ui/system_tools.rs:263
 msgid "Shows your public IP address as seen from the internet. Useful for checking if you are behind a NAT, using a VPN, or to confirm internet connectivity even if DNS is failing."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:140 scripts/../src/ui/system_tools.rs:149 scripts/../src/ui/system_tools.rs:158 scripts/../src/ui/system_tools.rs:269 scripts/../src/ui/system_tools.rs:278 scripts/../src/ui/system_tools.rs:287 scripts/../src/ui/system_tools.rs:140 scripts/../src/ui/system_tools.rs:149 scripts/../src/ui/system_tools.rs:158 scripts/../src/ui/system_tools.rs:269 scripts/../src/ui/system_tools.rs:278 scripts/../src/ui/system_tools.rs:287 scripts/../src/ui/system_tools.rs:140 scripts/../src/ui/system_tools.rs:149 scripts/../src/ui/system_tools.rs:158 scripts/../src/ui/system_tools.rs:269 scripts/../src/ui/system_tools.rs:278 scripts/../src/ui/system_tools.rs:287
+#: scripts/../src/ui/system_tools.rs:140 scripts/../src/ui/system_tools.rs:149 scripts/../src/ui/system_tools.rs:158 scripts/../src/ui/system_tools.rs:278 scripts/../src/ui/system_tools.rs:287 scripts/../src/ui/system_tools.rs:296 scripts/../src/ui/system_tools.rs:140 scripts/../src/ui/system_tools.rs:149 scripts/../src/ui/system_tools.rs:158 scripts/../src/ui/system_tools.rs:278 scripts/../src/ui/system_tools.rs:287 scripts/../src/ui/system_tools.rs:296 scripts/../src/ui/system_tools.rs:140 scripts/../src/ui/system_tools.rs:149 scripts/../src/ui/system_tools.rs:158 scripts/../src/ui/system_tools.rs:278 scripts/../src/ui/system_tools.rs:287 scripts/../src/ui/system_tools.rs:296
 msgid "DNS"
 msgstr ""
 
@@ -707,7 +707,7 @@ msgstr ""
 msgid "Shows which DNS servers your system is using (via /etc/resolv.conf). If DNS is misconfigured, you can ping IP addresses (like 8.8.8.8) but cannot open websites by name."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:150 scripts/../src/ui/system_tools.rs:288 scripts/../src/ui/system_tools.rs:150 scripts/../src/ui/system_tools.rs:288 scripts/../src/ui/system_tools.rs:150 scripts/../src/ui/system_tools.rs:288
+#: scripts/../src/ui/system_tools.rs:150 scripts/../src/ui/system_tools.rs:297 scripts/../src/ui/system_tools.rs:150 scripts/../src/ui/system_tools.rs:297 scripts/../src/ui/system_tools.rs:150 scripts/../src/ui/system_tools.rs:297
 msgid "DNS Lookup (google.com)"
 msgstr ""
 
@@ -723,7 +723,7 @@ msgstr ""
 msgid "Looks up the hostname for IP address 8.8.8.8. This tests if reverse DNS resolution works. Should return 'dns.google'."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:167 scripts/../src/ui/system_tools.rs:296 scripts/../src/ui/system_tools.rs:305 scripts/../src/ui/system_tools.rs:167 scripts/../src/ui/system_tools.rs:296 scripts/../src/ui/system_tools.rs:305 scripts/../src/ui/system_tools.rs:167 scripts/../src/ui/system_tools.rs:296 scripts/../src/ui/system_tools.rs:305
+#: scripts/../src/ui/system_tools.rs:167 scripts/../src/ui/system_tools.rs:305 scripts/../src/ui/system_tools.rs:314 scripts/../src/ui/system_tools.rs:167 scripts/../src/ui/system_tools.rs:305 scripts/../src/ui/system_tools.rs:314 scripts/../src/ui/system_tools.rs:167 scripts/../src/ui/system_tools.rs:305 scripts/../src/ui/system_tools.rs:314
 msgid "Connections"
 msgstr ""
 
@@ -735,11 +735,11 @@ msgstr ""
 msgid "Shows all TCP and UDP ports that are currently listening for incoming connections. Useful for checking if a service (like a SIP server) is running and listening on the expected port."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:176 scripts/../src/ui/system_tools.rs:314 scripts/../src/ui/system_tools.rs:176 scripts/../src/ui/system_tools.rs:314 scripts/../src/ui/system_tools.rs:176 scripts/../src/ui/system_tools.rs:314
+#: scripts/../src/ui/system_tools.rs:176 scripts/../src/ui/system_tools.rs:323 scripts/../src/ui/system_tools.rs:176 scripts/../src/ui/system_tools.rs:323 scripts/../src/ui/system_tools.rs:176 scripts/../src/ui/system_tools.rs:323
 msgid "Neighbors"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:177 scripts/../src/ui/system_tools.rs:315 scripts/../src/ui/system_tools.rs:177 scripts/../src/ui/system_tools.rs:315 scripts/../src/ui/system_tools.rs:177 scripts/../src/ui/system_tools.rs:315
+#: scripts/../src/ui/system_tools.rs:177 scripts/../src/ui/system_tools.rs:324 scripts/../src/ui/system_tools.rs:177 scripts/../src/ui/system_tools.rs:324 scripts/../src/ui/system_tools.rs:177 scripts/../src/ui/system_tools.rs:324
 msgid "ARP Table"
 msgstr ""
 
@@ -747,11 +747,11 @@ msgstr ""
 msgid "Shows the ARP cache — a mapping of IP addresses to MAC addresses on your local network. If your gateway's entry is missing or shows 'FAILED', you have a local network connectivity issue."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:185 scripts/../src/ui/system_tools.rs:194 scripts/../src/ui/system_tools.rs:323 scripts/../src/ui/system_tools.rs:332 scripts/../src/ui/system_tools.rs:185 scripts/../src/ui/system_tools.rs:194 scripts/../src/ui/system_tools.rs:323 scripts/../src/ui/system_tools.rs:332 scripts/../src/ui/system_tools.rs:185 scripts/../src/ui/system_tools.rs:194 scripts/../src/ui/system_tools.rs:323 scripts/../src/ui/system_tools.rs:332
+#: scripts/../src/ui/system_tools.rs:185 scripts/../src/ui/system_tools.rs:194 scripts/../src/ui/system_tools.rs:332 scripts/../src/ui/system_tools.rs:341 scripts/../src/ui/system_tools.rs:185 scripts/../src/ui/system_tools.rs:194 scripts/../src/ui/system_tools.rs:332 scripts/../src/ui/system_tools.rs:341 scripts/../src/ui/system_tools.rs:185 scripts/../src/ui/system_tools.rs:194 scripts/../src/ui/system_tools.rs:332 scripts/../src/ui/system_tools.rs:341
 msgid "Wi-Fi"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:186 scripts/../src/ui/system_tools.rs:324 scripts/../src/ui/system_tools.rs:186 scripts/../src/ui/system_tools.rs:324 scripts/../src/ui/system_tools.rs:186 scripts/../src/ui/system_tools.rs:324
+#: scripts/../src/ui/system_tools.rs:186 scripts/../src/ui/system_tools.rs:333 scripts/../src/ui/system_tools.rs:186 scripts/../src/ui/system_tools.rs:333 scripts/../src/ui/system_tools.rs:186 scripts/../src/ui/system_tools.rs:333
 msgid "Wi-Fi Connection Status"
 msgstr ""
 
@@ -759,7 +759,7 @@ msgstr ""
 msgid "Shows details about your current Wi-Fi connection: SSID, signal strength, frequency, and link speed. Low signal strength (below -70 dBm) can cause packet loss and high latency."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:195 scripts/../src/ui/system_tools.rs:333 scripts/../src/ui/system_tools.rs:195 scripts/../src/ui/system_tools.rs:333 scripts/../src/ui/system_tools.rs:195 scripts/../src/ui/system_tools.rs:333
+#: scripts/../src/ui/system_tools.rs:195 scripts/../src/ui/system_tools.rs:342 scripts/../src/ui/system_tools.rs:195 scripts/../src/ui/system_tools.rs:342 scripts/../src/ui/system_tools.rs:195 scripts/../src/ui/system_tools.rs:342
 msgid "Available Wi-Fi Networks"
 msgstr ""
 
@@ -767,7 +767,7 @@ msgstr ""
 msgid "Lists all visible Wi-Fi networks with their signal strength, channel, and security. Useful for identifying channel congestion if many networks share the same channel."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:203 scripts/../src/ui/system_tools.rs:212 scripts/../src/ui/system_tools.rs:221 scripts/../src/ui/system_tools.rs:341 scripts/../src/ui/system_tools.rs:350 scripts/../src/ui/system_tools.rs:203 scripts/../src/ui/system_tools.rs:212 scripts/../src/ui/system_tools.rs:221 scripts/../src/ui/system_tools.rs:341 scripts/../src/ui/system_tools.rs:350 scripts/../src/ui/system_tools.rs:203 scripts/../src/ui/system_tools.rs:212 scripts/../src/ui/system_tools.rs:221 scripts/../src/ui/system_tools.rs:341 scripts/../src/ui/system_tools.rs:350
+#: scripts/../src/ui/system_tools.rs:203 scripts/../src/ui/system_tools.rs:212 scripts/../src/ui/system_tools.rs:221 scripts/../src/ui/system_tools.rs:350 scripts/../src/ui/system_tools.rs:359 scripts/../src/ui/system_tools.rs:203 scripts/../src/ui/system_tools.rs:212 scripts/../src/ui/system_tools.rs:221 scripts/../src/ui/system_tools.rs:350 scripts/../src/ui/system_tools.rs:359 scripts/../src/ui/system_tools.rs:203 scripts/../src/ui/system_tools.rs:212 scripts/../src/ui/system_tools.rs:221 scripts/../src/ui/system_tools.rs:350 scripts/../src/ui/system_tools.rs:359
 msgid "System"
 msgstr ""
 
@@ -815,191 +815,191 @@ msgstr ""
 msgid "Shows the administrative and operational status of all network interfaces (Connected/Disconnected)."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:263 scripts/../src/ui/system_tools.rs:263 scripts/../src/ui/system_tools.rs:263
+#: scripts/../src/ui/system_tools.rs:272 scripts/../src/ui/system_tools.rs:272 scripts/../src/ui/system_tools.rs:272
 msgid "Displays the IPv4 and IPv6 routing tables. Look for the '0.0.0.0' route — its gateway is your router. If this entry is missing, your system cannot reach the internet."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:270 scripts/../src/ui/system_tools.rs:270 scripts/../src/ui/system_tools.rs:270
+#: scripts/../src/ui/system_tools.rs:279 scripts/../src/ui/system_tools.rs:279 scripts/../src/ui/system_tools.rs:279
 msgid "DNS Cache"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:272 scripts/../src/ui/system_tools.rs:272 scripts/../src/ui/system_tools.rs:272
+#: scripts/../src/ui/system_tools.rs:281 scripts/../src/ui/system_tools.rs:281 scripts/../src/ui/system_tools.rs:281
 msgid "Shows the local DNS resolver cache. This reveals which domain names have been recently resolved. If a domain shows an incorrect IP, you may have a stale cache entry."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:279 scripts/../src/ui/system_tools.rs:279 scripts/../src/ui/system_tools.rs:279
+#: scripts/../src/ui/system_tools.rs:288 scripts/../src/ui/system_tools.rs:288 scripts/../src/ui/system_tools.rs:288
 msgid "Flush DNS Cache"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:281 scripts/../src/ui/system_tools.rs:281 scripts/../src/ui/system_tools.rs:281
+#: scripts/../src/ui/system_tools.rs:290 scripts/../src/ui/system_tools.rs:290 scripts/../src/ui/system_tools.rs:290
 msgid "Clears the local DNS resolver cache. This is often the first step to fix 'website not found' errors if the connection otherwise seems fine."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:290 scripts/../src/ui/system_tools.rs:290 scripts/../src/ui/system_tools.rs:290
+#: scripts/../src/ui/system_tools.rs:299 scripts/../src/ui/system_tools.rs:299 scripts/../src/ui/system_tools.rs:299
 msgid "Performs a DNS query for google.com using the system's default DNS server. If this fails but pinging 8.8.8.8 works, you have a DNS problem."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:297 scripts/../src/ui/system_tools.rs:297 scripts/../src/ui/system_tools.rs:297
+#: scripts/../src/ui/system_tools.rs:306 scripts/../src/ui/system_tools.rs:306 scripts/../src/ui/system_tools.rs:306
 msgid "Active Connections"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:299 scripts/../src/ui/system_tools.rs:299 scripts/../src/ui/system_tools.rs:299
+#: scripts/../src/ui/system_tools.rs:308 scripts/../src/ui/system_tools.rs:308 scripts/../src/ui/system_tools.rs:308
 msgid "Shows all active TCP/UDP connections and listening ports. Useful for checking if a service is running on the expected port, or if there are unusual outgoing connections."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:306 scripts/../src/ui/system_tools.rs:306 scripts/../src/ui/system_tools.rs:306
+#: scripts/../src/ui/system_tools.rs:315 scripts/../src/ui/system_tools.rs:315 scripts/../src/ui/system_tools.rs:315
 msgid "Protocol Statistics"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:308 scripts/../src/ui/system_tools.rs:308 scripts/../src/ui/system_tools.rs:308
+#: scripts/../src/ui/system_tools.rs:317 scripts/../src/ui/system_tools.rs:317 scripts/../src/ui/system_tools.rs:317
 msgid "Shows per-protocol statistics (TCP, UDP, ICMP, IP). High error counts or retransmissions indicate network problems."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:317 scripts/../src/ui/system_tools.rs:317 scripts/../src/ui/system_tools.rs:317
+#: scripts/../src/ui/system_tools.rs:326 scripts/../src/ui/system_tools.rs:326 scripts/../src/ui/system_tools.rs:326
 msgid "Shows the ARP cache — IP-to-MAC address mappings on your local network. Missing or incomplete entries for your gateway suggest a local connectivity problem."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:326 scripts/../src/ui/system_tools.rs:326 scripts/../src/ui/system_tools.rs:326
+#: scripts/../src/ui/system_tools.rs:335 scripts/../src/ui/system_tools.rs:335 scripts/../src/ui/system_tools.rs:335
 msgid "Shows current Wi-Fi adapter details: SSID, signal quality, radio type, channel, and authentication. Signal quality below 50% typically causes packet loss."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:335 scripts/../src/ui/system_tools.rs:335 scripts/../src/ui/system_tools.rs:335
+#: scripts/../src/ui/system_tools.rs:344 scripts/../src/ui/system_tools.rs:344 scripts/../src/ui/system_tools.rs:344
 msgid "Lists all visible Wi-Fi networks with signal strength, channel, and encryption. Helps identify Wi-Fi congestion if many networks overlap on the same channel."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:342 scripts/../src/ui/system_tools.rs:342 scripts/../src/ui/system_tools.rs:342
+#: scripts/../src/ui/system_tools.rs:351 scripts/../src/ui/system_tools.rs:351 scripts/../src/ui/system_tools.rs:351
 msgid "Firewall Status"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:344 scripts/../src/ui/system_tools.rs:344 scripts/../src/ui/system_tools.rs:344
+#: scripts/../src/ui/system_tools.rs:353 scripts/../src/ui/system_tools.rs:353 scripts/../src/ui/system_tools.rs:353
 msgid "Shows the current Windows Firewall profile status. If the firewall is blocking ICMP, pings will fail even though the network is working."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:351 scripts/../src/ui/system_tools.rs:351 scripts/../src/ui/system_tools.rs:351
+#: scripts/../src/ui/system_tools.rs:360 scripts/../src/ui/system_tools.rs:360 scripts/../src/ui/system_tools.rs:360
 msgid "TCP Global Settings"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:353 scripts/../src/ui/system_tools.rs:353 scripts/../src/ui/system_tools.rs:353
+#: scripts/../src/ui/system_tools.rs:362 scripts/../src/ui/system_tools.rs:362 scripts/../src/ui/system_tools.rs:362
 msgid "Shows global TCP parameters like Receive Window Auto-Tuning and Chimney Offload. Useful for troubleshooting throughput issues."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:420 scripts/../src/ui/system_tools.rs:420 scripts/../src/ui/system_tools.rs:420
+#: scripts/../src/ui/system_tools.rs:429 scripts/../src/ui/system_tools.rs:429 scripts/../src/ui/system_tools.rs:429
 msgid "No commands available for this platform."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:426 scripts/../src/ui/system_tools.rs:426 scripts/../src/ui/system_tools.rs:426
+#: scripts/../src/ui/system_tools.rs:435 scripts/../src/ui/system_tools.rs:435 scripts/../src/ui/system_tools.rs:435
 msgid "Command:"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:453 scripts/../src/ui/system_tools.rs:453 scripts/../src/ui/system_tools.rs:453
+#: scripts/../src/ui/system_tools.rs:462 scripts/../src/ui/system_tools.rs:462 scripts/../src/ui/system_tools.rs:462
 msgid "Guide"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:457 scripts/../src/ui/system_tools.rs:457 scripts/../src/ui/system_tools.rs:457
+#: scripts/../src/ui/system_tools.rs:466 scripts/../src/ui/system_tools.rs:466 scripts/../src/ui/system_tools.rs:466
 msgid "Command Output"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:484 scripts/../src/ui/system_tools.rs:484 scripts/../src/ui/system_tools.rs:484
+#: scripts/../src/ui/system_tools.rs:493 scripts/../src/ui/system_tools.rs:493 scripts/../src/ui/system_tools.rs:493
 msgid "▶ Run"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:498 scripts/../src/ui/system_tools.rs:498 scripts/../src/ui/system_tools.rs:498
+#: scripts/../src/ui/system_tools.rs:507 scripts/../src/ui/system_tools.rs:507 scripts/../src/ui/system_tools.rs:507
 msgid "Running..."
 msgstr ""
 
 #. Section 1: No internet
-#: scripts/../src/ui/system_tools.rs:523 scripts/../src/ui/system_tools.rs:523 scripts/../src/ui/system_tools.rs:523
+#: scripts/../src/ui/system_tools.rs:532 scripts/../src/ui/system_tools.rs:532 scripts/../src/ui/system_tools.rs:532
 msgid "1. Internet is completely down"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:524 scripts/../src/ui/system_tools.rs:524 scripts/../src/ui/system_tools.rs:524
+#: scripts/../src/ui/system_tools.rs:533 scripts/../src/ui/system_tools.rs:533 scripts/../src/ui/system_tools.rs:533
 msgid "If you cannot access any website or service:"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:525 scripts/../src/ui/system_tools.rs:525 scripts/../src/ui/system_tools.rs:525
+#: scripts/../src/ui/system_tools.rs:534 scripts/../src/ui/system_tools.rs:534 scripts/../src/ui/system_tools.rs:534
 msgid "  • Run 'Network Interfaces' — check if your adapter has an IP address. If no IP is assigned, DHCP may have failed."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:526 scripts/../src/ui/system_tools.rs:526 scripts/../src/ui/system_tools.rs:526
+#: scripts/../src/ui/system_tools.rs:535 scripts/../src/ui/system_tools.rs:535 scripts/../src/ui/system_tools.rs:535
 msgid "  • Run 'External IP Address' — confirms you have internet access and shows your public IP. If this works, your basic connection is fine."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:527 scripts/../src/ui/system_tools.rs:527 scripts/../src/ui/system_tools.rs:527
+#: scripts/../src/ui/system_tools.rs:536 scripts/../src/ui/system_tools.rs:536 scripts/../src/ui/system_tools.rs:536
 msgid "  • Run 'Routing Table' — look for a 'default' route. If missing, the system doesn't know how to reach the internet."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:528 scripts/../src/ui/system_tools.rs:528 scripts/../src/ui/system_tools.rs:528
+#: scripts/../src/ui/system_tools.rs:537 scripts/../src/ui/system_tools.rs:537 scripts/../src/ui/system_tools.rs:537
 msgid "  • Run 'DNS Lookup (google.com)' — if this fails but pinging 8.8.8.8 works in the main window, you have a DNS problem, not a connection problem."
 msgstr ""
 
 #. Section 2: Intermittent connectivity
-#: scripts/../src/ui/system_tools.rs:532 scripts/../src/ui/system_tools.rs:532 scripts/../src/ui/system_tools.rs:532
+#: scripts/../src/ui/system_tools.rs:541 scripts/../src/ui/system_tools.rs:541 scripts/../src/ui/system_tools.rs:541
 msgid "2. Connection drops or is unstable"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:533 scripts/../src/ui/system_tools.rs:533 scripts/../src/ui/system_tools.rs:533
+#: scripts/../src/ui/system_tools.rs:542 scripts/../src/ui/system_tools.rs:542 scripts/../src/ui/system_tools.rs:542
 msgid "If the connection works sometimes but keeps cutting out:"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:534 scripts/../src/ui/system_tools.rs:534 scripts/../src/ui/system_tools.rs:534
+#: scripts/../src/ui/system_tools.rs:543 scripts/../src/ui/system_tools.rs:543 scripts/../src/ui/system_tools.rs:543
 msgid "  • Run 'ARP Table' — if the gateway entry shows 'FAILED' or 'INCOMPLETE', there is a problem on your local network (cable, switch, or router)."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:535 scripts/../src/ui/system_tools.rs:535 scripts/../src/ui/system_tools.rs:535
+#: scripts/../src/ui/system_tools.rs:544 scripts/../src/ui/system_tools.rs:544 scripts/../src/ui/system_tools.rs:544
 msgid "  • Run 'Interface Statistics' — look for high 'errors' or 'dropped' counters. These indicate hardware, driver, or cable problems."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:536 scripts/../src/ui/system_tools.rs:536 scripts/../src/ui/system_tools.rs:536
+#: scripts/../src/ui/system_tools.rs:545 scripts/../src/ui/system_tools.rs:545 scripts/../src/ui/system_tools.rs:545
 msgid "  • Run 'Network Manager Log' — look for repeated 'connection dropped' or 'DHCP lease expired' messages."
 msgstr ""
 
 #. Section 3: Slow internet
-#: scripts/../src/ui/system_tools.rs:540 scripts/../src/ui/system_tools.rs:540 scripts/../src/ui/system_tools.rs:540
+#: scripts/../src/ui/system_tools.rs:549 scripts/../src/ui/system_tools.rs:549 scripts/../src/ui/system_tools.rs:549
 msgid "3. Internet is slow"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:541 scripts/../src/ui/system_tools.rs:541 scripts/../src/ui/system_tools.rs:541
+#: scripts/../src/ui/system_tools.rs:550 scripts/../src/ui/system_tools.rs:550 scripts/../src/ui/system_tools.rs:550
 msgid "If pages load slowly or VoIP calls have bad quality:"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:542 scripts/../src/ui/system_tools.rs:542 scripts/../src/ui/system_tools.rs:542
+#: scripts/../src/ui/system_tools.rs:551 scripts/../src/ui/system_tools.rs:551 scripts/../src/ui/system_tools.rs:551
 msgid "  • Run 'Wi-Fi Connection Status' — check signal strength. Below -70 dBm (or below 50% on Windows) causes packet loss and jitter."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:543 scripts/../src/ui/system_tools.rs:543 scripts/../src/ui/system_tools.rs:543
+#: scripts/../src/ui/system_tools.rs:552 scripts/../src/ui/system_tools.rs:552 scripts/../src/ui/system_tools.rs:552
 msgid "  • Run 'Available Wi-Fi Networks' — if many networks use the same channel, interference is likely. Consider switching to a less crowded channel or 5 GHz band."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:544 scripts/../src/ui/system_tools.rs:544 scripts/../src/ui/system_tools.rs:544
+#: scripts/../src/ui/system_tools.rs:553 scripts/../src/ui/system_tools.rs:553 scripts/../src/ui/system_tools.rs:553
 msgid "  • Run 'Listening Ports' — check if many connections are open. A torrent client or large download can saturate your bandwidth."
 msgstr ""
 
 #. Section 4: DNS problems
-#: scripts/../src/ui/system_tools.rs:548 scripts/../src/ui/system_tools.rs:548 scripts/../src/ui/system_tools.rs:548
+#: scripts/../src/ui/system_tools.rs:557 scripts/../src/ui/system_tools.rs:557 scripts/../src/ui/system_tools.rs:557
 msgid "4. Websites don't open, but ping works"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:549 scripts/../src/ui/system_tools.rs:549 scripts/../src/ui/system_tools.rs:549
+#: scripts/../src/ui/system_tools.rs:558 scripts/../src/ui/system_tools.rs:558 scripts/../src/ui/system_tools.rs:558
 msgid "If you can ping 8.8.8.8 in the main window but cannot open websites:"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:550 scripts/../src/ui/system_tools.rs:550 scripts/../src/ui/system_tools.rs:550
+#: scripts/../src/ui/system_tools.rs:559 scripts/../src/ui/system_tools.rs:559 scripts/../src/ui/system_tools.rs:559
 msgid "  • Run 'DNS Configuration' — verify your DNS servers are correctly set. Common public DNS: 8.8.8.8, 1.1.1.1, 9.9.9.9."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:551 scripts/../src/ui/system_tools.rs:551 scripts/../src/ui/system_tools.rs:551
+#: scripts/../src/ui/system_tools.rs:560 scripts/../src/ui/system_tools.rs:560 scripts/../src/ui/system_tools.rs:560
 msgid "  • Run 'DNS Lookup (google.com)' — if it fails or returns wrong IPs, your DNS server may be down or misconfigured."
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:553 scripts/../src/ui/system_tools.rs:553 scripts/../src/ui/system_tools.rs:553
+#: scripts/../src/ui/system_tools.rs:562 scripts/../src/ui/system_tools.rs:562 scripts/../src/ui/system_tools.rs:562
 msgid "  • Run 'DNS Cache' — check for stale entries. You can flush the cache with: ipconfig /flushdns (requires admin)."
 msgstr ""
 
 #. Section 5: Advanced (admin-only)
-#: scripts/../src/ui/system_tools.rs:558 scripts/../src/ui/system_tools.rs:558 scripts/../src/ui/system_tools.rs:558
+#: scripts/../src/ui/system_tools.rs:567 scripts/../src/ui/system_tools.rs:567 scripts/../src/ui/system_tools.rs:567
 msgid "5. Advanced diagnostics (require administrator privileges)"
 msgstr ""
 
-#: scripts/../src/ui/system_tools.rs:559 scripts/../src/ui/system_tools.rs:559 scripts/../src/ui/system_tools.rs:559
+#: scripts/../src/ui/system_tools.rs:568 scripts/../src/ui/system_tools.rs:568 scripts/../src/ui/system_tools.rs:568
 msgid "These commands require elevated privileges and must be run from a terminal:"
 msgstr ""

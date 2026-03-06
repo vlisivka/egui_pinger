@@ -30,4 +30,3 @@ pub const RTP_JITTER_SMOOTHING_DIVISOR: f64 = 16.0;
 
 /// Windows creation flag to hide the console window.
 pub const CREATE_NO_WINDOW: u32 = 0x08000000;
-

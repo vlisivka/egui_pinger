@@ -60,6 +60,7 @@ src/ui/
 | Базова інформація    | Налаштування мережі           | `ipconfig /all`                      |
 | Базова інформація    | MAC-адреси мережевих адаптерів | `getmac /v`                          |
 | Базова інформація    | Статус мережевих інтерфейсів  | `netsh interface show interface`     |
+| Базова інформація    | Зовнішня IP-адреса            | `curl -s ifconfig.me`                |
 | Маршрутизація        | Таблиця маршрутів             | `route print`                        |
 | DNS                  | Кеш DNS                       | `ipconfig /displaydns`               |
 | DNS                  | Очищення DNS-кешу             | `ipconfig /flushdns`                 |
