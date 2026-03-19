@@ -1,0 +1,9 @@
+[package]
+name = "mos"
+version = "0.1.0"
+edition = "2024"
+authors = ["Volodymyr M. Lisivka <vlisivka@gmail.com>"]
+description = "CLI utility to calculate ping statistics (Mean, Median, P95, RTP Jitter, Availability, Loss, MOS)."
+license = "GPL-3.0-or-later"
+
+[dependencies]
