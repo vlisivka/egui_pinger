@@ -32,6 +32,8 @@ A powerful network diagnostic tool with a graphical interface designed for Windo
   - **Theme Support**: Adaptive dark/light mode following system settings.
 - **Data Persistence**: Automatically saves host lists and individual display settings.
 - **System Tools (🔧)**: Built-in window for running common network diagnostic commands (`ip addr`, `ss`, `dig`, `ipconfig`, `netstat`, etc.) directly from the GUI, with a step-by-step troubleshooting guide.
+- **Standalone CLI Utility (`mos`)**: A lightweight command-line tool to process standard `ping` output and calculate advanced metrics in real-time.
+
 
 ## Roadmap & Progress
 
@@ -42,6 +44,8 @@ A powerful network diagnostic tool with a graphical interface designed for Windo
 - [x] **Phase 5: I18n**: Support for English and Ukrainian.
 - [x] **Phase 6: Native Diagnostics**: Integrated Traceroute and automated hop-by-hop failure detection.
 - [x] **Phase 7: System Tools**: Built-in network diagnostic commands with troubleshooting guide.
+- [x] **Phase 8: CLI Utility**: Standalone `mos` tool for processing ping output.
+
 
 ## Technical Stack
 
@@ -49,6 +53,32 @@ A powerful network diagnostic tool with a graphical interface designed for Windo
 - **UI Framework**: [egui](https://github.com/emilk/egui) / [eframe](https://github.com/emilk/egui/tree/master/crates/eframe)
 - **Async Runtime**: [Tokio](https://tokio.rs/)
 - **I18n**: `tr` crate with `mo-translator` (Pure Rust backend for Windows).
+- **CLI Component**: Pure Rust implementation of statistics calculation logic, shared between GUI and CLI.
+
+## Standalone CLI Utility: `mos`
+
+The project includes a lightweight command-line utility called `mos`. It is designed to be used in a pipe with the standard `ping` command to provide real-time advanced statistics without the need for a GUI.
+
+### Usage
+
+```bash
+ping google.com | mos
+```
+
+### Features
+
+- Processes standard `ping` output from `stdin`.
+- Calculates **RFC 3550 Jitter**, **MOS (Mean Opinion Score)**, **P95**, **Median**, and more.
+- Uses a sliding window for calculations (default: 300 samples).
+- Zero dependencies, ultra-fast, and portable.
+
+### Options
+
+- `-n, --number-of-lines NUM`: Set the sliding window size (default: 300).
+- `-e, --enable STAT`: Enable a specific field (e.g., `jitter_mean`, `stddev`, `streak`).
+- `-d, --disable STAT`: Disable a specific field.
+- `-h, --help`: Show all available statistics and options.
+
 
 ## Building from Source
 
