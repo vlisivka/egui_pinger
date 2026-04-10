@@ -3,7 +3,10 @@ set -ueE -o pipefail
 
 NAME=$(<Cargo.toml grep '^name =' | cut -d '"' -f 2)
 VERSION=$(<Cargo.toml grep '^version =' | cut -d '"' -f 2)
+MOS_NAME=$(<mos/Cargo.toml grep '^name =' | cut -d '"' -f 2)
+MOS_VERSION=$(<mos/Cargo.toml grep '^version =' | cut -d '"' -f 2)
 RELEASES_DIR="./release"
+
 
 panic() {
   echo "ERROR: $*"
@@ -40,11 +43,14 @@ do
     # Export RC for winres and update PATH
     export RC="$BIN_DIR/rc.exe"
     PATH="$BIN_DIR:$PATH" cargo xwin build --release --target "$TARGET" --features embed-locales || { rm -rf "$BIN_DIR"; panic "Cannot build release for \"$TARGET\" target using cargo-xwin."; }
+    PATH="$BIN_DIR:$PATH" cargo xwin build --release --target "$TARGET" --manifest-path mos/Cargo.toml --target-dir target || { rm -rf "$BIN_DIR"; panic "Cannot build $MOS_NAME for \"$TARGET\" target using cargo-xwin."; }
     unset RC
     rm -rf "$BIN_DIR"
   else
     cross build --release --target "$TARGET" --features embed-locales || panic "Cannot build release for \"$TARGET\" target using cross."
+    cross build --release --target "$TARGET" --manifest-path mos/Cargo.toml --target-dir target || panic "Cannot build $MOS_NAME for \"$TARGET\" target using cross."
   fi
+
   TARGET_BUILD_DIR="./target/$TARGET/release/"
 
   if [ -x "$TARGET_BUILD_DIR/$NAME" ]
@@ -57,6 +63,7 @@ do
     mkdir -p "$TEMP_DIR/bin" "$TEMP_DIR/share/applications" "$TEMP_DIR/share/icons/hicolor/scalable/apps"
 
     cp "$TARGET_BUILD_DIR/$EXECUTABLE" "$TEMP_DIR/bin/"
+    cp "$TARGET_BUILD_DIR/$MOS_NAME" "$TEMP_DIR/bin/"
     cp "assets/linux/com.github.vlisivka.EguiPinger.desktop" "$TEMP_DIR/share/applications/"
     cp "assets/linux/com.github.vlisivka.EguiPinger.svg" "$TEMP_DIR/share/icons/hicolor/scalable/apps/"
 
@@ -65,13 +72,31 @@ do
 
     rm -rf "$TEMP_DIR"
 
+    # Packaging separate mos utility
+    MOS_ARCHIVE="$RELEASES_DIR/${MOS_NAME}_$TARGET-$MOS_VERSION.tar.gz"
+    echo "--- Packaging $MOS_ARCHIVE ---"
+    TEMP_DIR=$(mktemp -d)
+    mkdir -p "$TEMP_DIR/bin"
+    cp "$TARGET_BUILD_DIR/$MOS_NAME" "$TEMP_DIR/bin/"
+    rm -f "$MOS_ARCHIVE"
+    tar -zcf "$MOS_ARCHIVE" -C "$TEMP_DIR" bin || panic "Cannot make archive \"$MOS_ARCHIVE\" from \"$TEMP_DIR\"."
+    rm -rf "$TEMP_DIR"
+
   elif [ -x "$TARGET_BUILD_DIR/$NAME.exe" ]
+
   then
     EXECUTABLE="$NAME.exe"
+    MOS_EXECUTABLE="$MOS_NAME.exe"
     ARCHIVE=$(readlink -f "$RELEASES_DIR/egui_pinger_$TARGET-$VERSION.zip")
 
     rm -f "$ARCHIVE"
-    ( cd "$TARGET_BUILD_DIR" && zip "$ARCHIVE" "$EXECUTABLE" ) || panic "Cannot make archive \"$ARCHIVE\" using file \"$EXECUTABLE\" from \"$TARGET_BUILD_DIR\" ."
+    ( cd "$TARGET_BUILD_DIR" && zip "$ARCHIVE" "$EXECUTABLE" "$MOS_EXECUTABLE" ) || panic "Cannot make archive \"$ARCHIVE\" using files \"$EXECUTABLE\" and \"$MOS_EXECUTABLE\" from \"$TARGET_BUILD_DIR\" ."
+
+    # Packaging separate mos utility
+    MOS_ARCHIVE=$(readlink -f "$RELEASES_DIR/${MOS_NAME}_$TARGET-$MOS_VERSION.zip")
+    rm -f "$MOS_ARCHIVE"
+    ( cd "$TARGET_BUILD_DIR" && zip "$MOS_ARCHIVE" "$MOS_EXECUTABLE" ) || panic "Cannot make archive \"$MOS_ARCHIVE\" using file \"$MOS_EXECUTABLE\" from \"$TARGET_BUILD_DIR\" ."
+
 
   else
     panic "Cannot find executable for \"$TARGET\" target."

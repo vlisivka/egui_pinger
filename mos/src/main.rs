@@ -1,5 +1,4 @@
-use std::io::{BufRead};
-use mos::{DisplaySettings};
+use mos::DisplaySettings;
 
 fn main() {
     // Collect and parse command line arguments using manual matching to avoid dependencies.
