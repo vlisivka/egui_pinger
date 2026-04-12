@@ -133,8 +133,8 @@ fn test_random_padding_varies_size() {
         unique.len() > 1,
         "Random padding should produce varying payload sizes"
     );
-    for &s in &unique {
-        assert!(s >= 100 && s <= 125, "Padded size {} outside [100, 125]", s);
+    for s in unique {
+        assert!((100..=125).contains(&s), "Padded size {} outside [100, 125]", s);
     }
 }
 
@@ -203,7 +203,7 @@ async fn test_ipv6_bracketed_resolution() {
     let clean_address = if address.starts_with('[') && address.ends_with(']') {
         &address[1..address.len() - 1]
     } else {
-        &address
+        address
     };
 
     let ip = clean_address.parse::<IpAddr>();
@@ -227,7 +227,7 @@ async fn test_ipv6_long_address_parsing() {
     let clean = if address2.starts_with('[') && address2.ends_with(']') {
         &address2[1..address2.len() - 1]
     } else {
-        &address2
+        address2
     };
     assert!(clean.parse::<IpAddr>().is_ok());
 }
@@ -245,17 +245,21 @@ fn test_failure_deduction_host_down_hops_up() {
         sl.hosts.push(test_host(PingMode::Fast, 16, false));
         sl.hosts[0].address = target_addr.clone();
 
-        let mut status = HostStatus::default();
-        status.streak_success = false;
-        status.streak = 3; // officially down
-        status.traceroute_path = vec![hop1.clone(), target_addr.clone()];
+        let status = HostStatus {
+            streak_success: false,
+            streak: 3, // officially down
+            traceroute_path: vec![hop1.clone(), target_addr.clone()],
+            ..Default::default()
+        };
         sl.statuses.insert(target_addr.clone(), status);
 
         // Hop 1 is alive
-        let mut h1_status = HostStatus::default();
-        h1_status.streak_success = true;
-        h1_status.streak = 10;
-        h1_status.last_updated = Some(Instant::now());
+        let h1_status = HostStatus {
+            streak_success: true,
+            streak: 10,
+            last_updated: Some(Instant::now()),
+            ..Default::default()
+        };
         sl.statuses.insert(hop1.clone(), h1_status);
     }
 
@@ -280,17 +284,21 @@ fn test_failure_deduction_hop_down() {
         sl.hosts.push(test_host(PingMode::Fast, 16, false));
         sl.hosts[0].address = target_addr.clone();
 
-        let mut status = HostStatus::default();
-        status.streak_success = false;
-        status.streak = 3;
-        status.traceroute_path = vec![hop1.clone(), target_addr.clone()];
+        let status = HostStatus {
+            streak_success: false,
+            streak: 3,
+            traceroute_path: vec![hop1.clone(), target_addr.clone()],
+            ..Default::default()
+        };
         sl.statuses.insert(target_addr.clone(), status);
 
         // Hop 1 is broken
-        let mut h1_status = HostStatus::default();
-        h1_status.streak_success = false;
-        h1_status.streak = 3;
-        h1_status.last_updated = Some(Instant::now());
+        let h1_status = HostStatus {
+            streak_success: false,
+            streak: 3,
+            last_updated: Some(Instant::now()),
+            ..Default::default()
+        };
         sl.statuses.insert(hop1.clone(), h1_status);
     }
 
@@ -317,24 +325,30 @@ fn test_failure_deduction_remote_hop_down() {
         sl.hosts.push(test_host(PingMode::Fast, 16, false));
         sl.hosts[0].address = target_addr.clone();
 
-        let mut status = HostStatus::default();
-        status.streak_success = false;
-        status.streak = 3;
-        status.traceroute_path = vec![hop1.clone(), hop2.clone(), target_addr.clone()];
+        let status = HostStatus {
+            streak_success: false,
+            streak: 3,
+            traceroute_path: vec![hop1.clone(), hop2.clone(), target_addr.clone()],
+            ..Default::default()
+        };
         sl.statuses.insert(target_addr.clone(), status);
 
         // Hop 1 is alive
-        let mut h1_status = HostStatus::default();
-        h1_status.streak_success = true;
-        h1_status.streak = 10;
-        h1_status.last_updated = Some(Instant::now());
+        let h1_status = HostStatus {
+            streak_success: true,
+            streak: 10,
+            last_updated: Some(Instant::now()),
+            ..Default::default()
+        };
         sl.statuses.insert(hop1.clone(), h1_status);
 
         // Hop 2 is broken
-        let mut h2_status = HostStatus::default();
-        h2_status.streak_success = false;
-        h2_status.streak = 3;
-        h2_status.last_updated = Some(Instant::now());
+        let h2_status = HostStatus {
+            streak_success: false,
+            streak: 3,
+            last_updated: Some(Instant::now()),
+            ..Default::default()
+        };
         sl.statuses.insert(hop2.clone(), h2_status);
     }
 
@@ -360,10 +374,12 @@ fn test_failure_deduction_local_breakdown() {
         sl.hosts[0].address = target_addr.clone();
 
         // Path only contains target
-        let mut status = HostStatus::default();
-        status.streak_success = false;
-        status.streak = 3;
-        status.traceroute_path = vec![target_addr.clone()];
+        let status = HostStatus {
+            streak_success: false,
+            streak: 3,
+            traceroute_path: vec![target_addr.clone()],
+            ..Default::default()
+        };
         sl.statuses.insert(target_addr.clone(), status);
     }
 
@@ -385,17 +401,21 @@ fn test_failure_deduction_gateway_down() {
         sl.hosts.push(test_host(PingMode::Fast, 16, false));
         sl.hosts[0].address = target_addr.clone();
 
-        let mut status = HostStatus::default();
-        status.streak_success = false;
-        status.streak = 3;
-        status.traceroute_path = vec![hop1.clone(), "2.2.2.2".to_string(), target_addr.clone()];
+        let status = HostStatus {
+            streak_success: false,
+            streak: 3,
+            traceroute_path: vec![hop1.clone(), "2.2.2.2".to_string(), target_addr.clone()],
+            ..Default::default()
+        };
         sl.statuses.insert(target_addr.clone(), status);
 
         // Gateway is broken
-        let mut h1_status = HostStatus::default();
-        h1_status.streak_success = false;
-        h1_status.streak = 3;
-        h1_status.last_updated = Some(Instant::now());
+        let h1_status = HostStatus {
+            streak_success: false,
+            streak: 3,
+            last_updated: Some(Instant::now()),
+            ..Default::default()
+        };
         sl.statuses.insert(hop1.clone(), h1_status);
     }
 
@@ -417,17 +437,21 @@ fn test_failure_deduction_stale_data() {
         sl.hosts.push(test_host(PingMode::Fast, 16, false));
         sl.hosts[0].address = target_addr.clone();
 
-        let mut status = HostStatus::default();
-        status.streak_success = false;
-        status.streak = 3;
-        status.traceroute_path = vec![hop1.clone(), target_addr.clone()];
+        let status = HostStatus {
+            streak_success: false,
+            streak: 3,
+            traceroute_path: vec![hop1.clone(), target_addr.clone()],
+            ..Default::default()
+        };
         sl.statuses.insert(target_addr.clone(), status);
 
         // Hop 1 has stale data
-        let mut h1_status = HostStatus::default();
-        h1_status.streak_success = true;
-        h1_status.streak = 10;
-        h1_status.last_updated = Some(Instant::now() - Duration::from_secs(3600));
+        let h1_status = HostStatus {
+            streak_success: true,
+            streak: 10,
+            last_updated: Some(Instant::now() - Duration::from_secs(3600)),
+            ..Default::default()
+        };
         sl.statuses.insert(hop1.clone(), h1_status);
     }
 
@@ -469,7 +493,7 @@ async fn test_incident_detection_timeout_streak() {
         .filter(|e| matches!(e, LogEntry::Incident { .. }))
         .collect();
     assert_eq!(incidents.len(), 1, "Should have one incident");
-    if let Some(LogEntry::Incident { is_break, .. }) = incidents.get(0) {
+    if let Some(LogEntry::Incident { is_break, .. }) = incidents.first() {
         assert!(is_break, "Incident should be a break");
     }
 }
@@ -644,10 +668,12 @@ fn test_failure_deduction_skips_unknown_hops() {
         sl.hosts.push(test_host(PingMode::Fast, 16, false));
         sl.hosts[0].address = target_addr.clone();
 
-        let mut status = HostStatus::default();
-        status.streak_success = false;
-        status.streak = 3;
-        status.traceroute_path = vec![hop1.clone(), target_addr.clone()];
+        let status = HostStatus {
+            streak_success: false,
+            streak: 3,
+            traceroute_path: vec![hop1.clone(), target_addr.clone()],
+            ..Default::default()
+        };
         sl.statuses.insert(target_addr.clone(), status);
     }
 
@@ -672,35 +698,43 @@ fn test_failure_deduction_multiple_targets_same_node() {
     {
         let mut sl = state.lock().unwrap();
         // Gateway is UP
-        let mut g_s = HostStatus::default();
-        g_s.streak_success = true;
-        g_s.streak = 10;
-        g_s.last_updated = Some(Instant::now());
+        let g_s = HostStatus {
+            streak_success: true,
+            streak: 10,
+            last_updated: Some(Instant::now()),
+            ..Default::default()
+        };
         sl.statuses.insert(gateway.clone(), g_s);
 
         // Host 1
         sl.hosts.push(test_host(PingMode::Fast, 16, false));
         sl.hosts[0].address = h1_addr.clone();
-        let mut s1 = HostStatus::default();
-        s1.streak_success = false;
-        s1.streak = 3;
-        s1.traceroute_path = vec![gateway.clone(), common_hop.clone(), h1_addr.clone()];
+        let s1 = HostStatus {
+            streak_success: false,
+            streak: 3,
+            traceroute_path: vec![gateway.clone(), common_hop.clone(), h1_addr.clone()],
+            ..Default::default()
+        };
         sl.statuses.insert(h1_addr.clone(), s1);
 
         // Host 2
         sl.hosts.push(test_host(PingMode::Fast, 16, false));
         sl.hosts[1].address = h2_addr.clone();
-        let mut s2 = HostStatus::default();
-        s2.streak_success = false;
-        s2.streak = 3;
-        s2.traceroute_path = vec![gateway.clone(), common_hop.clone(), h2_addr.clone()];
+        let s2 = HostStatus {
+            streak_success: false,
+            streak: 3,
+            traceroute_path: vec![gateway.clone(), common_hop.clone(), h2_addr.clone()],
+            ..Default::default()
+        };
         sl.statuses.insert(h2_addr.clone(), s2);
 
         // Common hop is broken
-        let mut hop_s = HostStatus::default();
-        hop_s.streak_success = false;
-        hop_s.streak = 3;
-        hop_s.last_updated = Some(Instant::now());
+        let hop_s = HostStatus {
+            streak_success: false,
+            streak: 3,
+            last_updated: Some(Instant::now()),
+            ..Default::default()
+        };
         sl.statuses.insert(common_hop.clone(), hop_s);
     }
 

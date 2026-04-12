@@ -61,10 +61,13 @@ fn make_state_with_active_host(name: &str, address: &str, rtt: f64) -> Arc<Mutex
             log_file_path: String::new(),
             is_stopped: false,
         });
-        let mut status = HostStatus::default();
-        status.alive = true;
-        status.latency = rtt;
+        let status = HostStatus {
+            alive: true,
+            latency: rtt,
+            ..Default::default()
+        };
         // Add a few samples for realistic stats
+        let mut status = status; // make mutable for add_sample
         status.add_sample(rtt, true);
         status.add_sample(rtt + 5.0, true);
         status.add_sample(rtt - 3.0, true);
@@ -143,10 +146,12 @@ fn test_status_display_updates() {
             log_file_path: String::new(),
             is_stopped: false,
         });
-        let mut status = HostStatus::default();
-        status.alive = true;
-        status.latency = 123.0;
-        status.mean = 123.0;
+        let status = HostStatus {
+            alive: true,
+            latency: 123.0,
+            mean: 123.0,
+            ..Default::default()
+        };
         s.statuses.insert("8.8.8.8".to_string(), status);
     }
 
@@ -173,10 +178,12 @@ fn test_stop_start_flow() {
             log_file_path: String::new(),
             is_stopped: false,
         });
-        let mut status = HostStatus::default();
-        status.sent = 10;
-        status.latency = 42.0;
-        status.alive = true;
+        let status = HostStatus {
+            sent: 10,
+            latency: 42.0,
+            alive: true,
+            ..Default::default()
+        };
         s.statuses.insert("1.1.1.1".to_string(), status);
     }
 
@@ -676,7 +683,7 @@ fn test_system_tools_window_opens() {
         harness.run();
         harness.get_by_label_contains(&tr!("System Tools"));
         harness.get_by_label_contains(&tr!("Guide"));
-        harness.get_by_label_contains(&tr!("Run Command"));
+        harness.get_by_label_contains(&tr!("Command Output"));
         harness.get_by_label_contains(&tr!("Command:"));
     }
 }

@@ -12,18 +12,18 @@ fn test_add_sample_stats() {
     assert_eq!(status.mean, 15.0); // (10+20)/2
     assert_eq!(status.availability, (2.0 / 3.0) * 100.0);
     assert_eq!(status.streak, 1);
-    assert_eq!(status.streak_success, false); // Last was NaN
+    assert!(!status.streak_success); // Last was NaN
 }
 
 #[test]
 fn test_calculate_percentile() {
-    let data = vec![1.0, 2.0, 3.0, 4.0, 5.0];
+    let data = [1.0, 2.0, 3.0, 4.0, 5.0];
     assert_eq!(calculate_percentile(data.iter().copied(), 0.0), 1.0);
     assert_eq!(calculate_percentile(data.iter().copied(), 50.0), 3.0);
     assert_eq!(calculate_percentile(data.iter().copied(), 100.0), 5.0);
     assert_eq!(calculate_percentile(data.iter().copied(), 25.0), 2.0); // (0.25 * 4) = 1.0 -> idx 1 -> 2.0
 
-    let data2 = vec![10.0, 20.0];
+    let data2 = [10.0, 20.0];
     assert_eq!(calculate_percentile(data2.iter().copied(), 50.0), 15.0); // interpolation
 }
 
@@ -56,21 +56,21 @@ fn test_streaks() {
     status.add_sample(10.0, true);
     status.add_sample(10.0, true);
     assert_eq!(status.streak, 3);
-    assert_eq!(status.streak_success, true);
+    assert!(status.streak_success);
 
     // Switch to fail streak
     status.add_sample(f64::NAN, false);
     assert_eq!(status.streak, 1);
-    assert_eq!(status.streak_success, false);
+    assert!(!status.streak_success);
 
     status.add_sample(f64::NAN, false);
     assert_eq!(status.streak, 2);
-    assert_eq!(status.streak_success, false);
+    assert!(!status.streak_success);
 
     // Switch back to success
     status.add_sample(10.0, true);
     assert_eq!(status.streak, 1);
-    assert_eq!(status.streak_success, true);
+    assert!(status.streak_success);
 }
 
 #[test]
