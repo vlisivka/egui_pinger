@@ -328,6 +328,25 @@ fn test_down_host_shows_down_label() {
     harness.get_by_label_contains("DOWN");
 }
 
+#[test]
+fn test_unresolved_host_shows_unknown_name_label() {
+    let (state, _) = make_state_with_host("Unresolved", "nonexistent.example.com", PingMode::Fast);
+    {
+        let mut s = state.lock().unwrap();
+        s.statuses
+            .get_mut("nonexistent.example.com")
+            .unwrap()
+            .dns_error = true;
+    }
+
+    let mut app = EguiPinger::from_state(state.clone());
+    let mut harness = Harness::new(|ctx| app.ui_layout(ctx));
+    harness.set_size(egui::vec2(1200.0, 800.0));
+    harness.run();
+
+    harness.get_by_label_contains(&tr!("UNKNOWN NAME"));
+}
+
 // === All stats visible ===
 
 #[test]

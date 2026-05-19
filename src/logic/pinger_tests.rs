@@ -484,7 +484,7 @@ async fn test_incident_detection_timeout_streak() {
 
     // Simulate 3 timeouts
     for _ in 0..STATE_CONFIRMATION_STREAK {
-        process_ping_result(&state, &address, false, f64::NAN, None);
+        process_ping_result(&state, &address, false, f64::NAN, false, None);
     }
 
     let sl = state.lock().unwrap();
@@ -514,11 +514,11 @@ async fn test_incident_restoration() {
 
     // Streak failures
     for _ in 0..STATE_CONFIRMATION_STREAK {
-        process_ping_result(&state, &address, false, f64::NAN, None);
+        process_ping_result(&state, &address, false, f64::NAN, false, None);
     }
 
     // Now one success
-    process_ping_result(&state, &address, true, 10.0, None);
+    process_ping_result(&state, &address, true, 10.0, false, None);
 
     let sl = state.lock().unwrap();
     let status = sl.statuses.get(&address).unwrap();

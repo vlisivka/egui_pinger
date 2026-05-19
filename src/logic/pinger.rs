@@ -455,12 +455,14 @@ fn process_ping_result(
     address: &str,
     alive: bool,
     rtt_ms: f64,
+    dns_error: bool,
     host_info: Option<&HostInfo>,
 ) {
     let mut state_lock = state
         .lock()
         .expect("Failed to lock state for updating status");
     if let Some(status) = state_lock.statuses.get_mut(address) {
+        status.dns_error = dns_error;
         status.add_sample(rtt_ms, alive);
 
         let now_ts = chrono::Utc::now().timestamp() as u64;
@@ -639,9 +641,16 @@ pub async fn pinger_task(state: SharedState) {
                         }
                     };
 
-                    process_ping_result(&state, &address, alive, rtt_ms, host_info.as_ref());
+                    process_ping_result(&state, &address, alive, rtt_ms, false, host_info.as_ref());
                 } else {
-                    process_ping_result(&state, &address, false, f64::NAN, host_info.as_ref());
+                    process_ping_result(
+                        &state,
+                        &address,
+                        false,
+                        f64::NAN,
+                        true,
+                        host_info.as_ref(),
+                    );
                 }
             });
         }

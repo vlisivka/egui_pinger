@@ -34,6 +34,8 @@ pub fn render_host_row(
     if host_info.display.show_latency {
         if host_info.is_stopped {
             parts.push(tr!("STOPPED").to_string());
+        } else if status.dns_error {
+            parts.push(tr!("UNKNOWN NAME").to_string());
         } else if status.alive {
             parts.push(format!("{:4.0}{}", status.latency, tr!("ms")));
         } else {

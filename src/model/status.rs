@@ -530,6 +530,10 @@ pub struct HostStatus {
     /// Counter of pings since last statistics entry in log
     #[serde(skip, default)]
     pub log_pings_since_stats: u32,
+
+    /// Flag indicating if DNS resolution failed
+    #[serde(skip, default)]
+    pub dns_error: bool,
 }
 
 impl HostStatus {
@@ -684,6 +688,7 @@ impl HostStatus {
         self.prev_alive = None;
         self.incident_start = None;
         self.log_pings_since_stats = 0;
+        self.dns_error = false;
         self.events.clear();
         // Do not reset traceroute_path, tracking states for traceroute
     }

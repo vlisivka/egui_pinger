@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: egui_pinger\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-06 05:52+0000\n"
+"POT-Creation-Date: 2026-05-19 14:17+0000\n"
 "PO-Revision-Date: 2026-02-25 16:30+0200\n"
 "Last-Translator: Volodymyr M. Lisivka <vlisivka@gmail.com>\n"
 "Language-Team: Ukrainian\n"
@@ -12,6 +12,57 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: scripts/../src/app.rs:183 scripts/../src/ui/log_viewer.rs:69
+msgid "Journal started at"
+msgstr "Журнал почато"
+
+#: scripts/../src/app.rs:185 scripts/../src/ui/log_viewer.rs:71
+msgid "Journal ended at"
+msgstr "Журнал закінчено"
+
+#: scripts/../src/app.rs:242
+msgid "Host name"
+msgstr "Імʼя хоста"
+
+#: scripts/../src/app.rs:250
+msgid "Host address"
+msgstr "Адреса хоста"
+
+#. When "Add" button is clicked or Enter is pressed in the second field,
+#. add host to the list
+#: scripts/../src/app.rs:256
+msgid "Add"
+msgstr "Додати"
+
+# --- System Tools ---
+#: scripts/../src/app.rs:305 scripts/../src/ui/system_tools.rs:422
+msgid "System Tools"
+msgstr "Системні інструменти"
+
+#: scripts/../src/app.rs:360
+msgid "Monitoring stopped"
+msgstr "Моніторинг зупинено"
+
+#: scripts/../src/app.rs:362
+msgid "Monitoring started"
+msgstr "Моніторинг розпочато"
+
+#: scripts/../src/app.rs:396
+msgid "Confirm Deletion"
+msgstr "Підтвердження видалення"
+
+#: scripts/../src/app.rs:403
+msgid "Are you sure you want to remove this host"
+msgstr "Ви впевнені, що хочете видалити цей хост"
+
+#: scripts/../src/app.rs:409
+msgid "Delete"
+msgstr "Видалити"
+
+#: scripts/../src/app.rs:416
+msgid "Cancel"
+msgstr "Скасувати"
 
 #: scripts/../src/model/status.rs:21
 msgid "Very fast (1s)"
@@ -52,8 +103,8 @@ msgstr "час"
 #: scripts/../src/model/status.rs:102 scripts/../src/model/status.rs:133
 #: scripts/../src/model/status.rs:136 scripts/../src/model/status.rs:139
 #: scripts/../src/model/status.rs:142 scripts/../src/model/status.rs:145
-#: scripts/../src/model/status.rs:152 scripts/../src/ui/host_row.rs:38
-#: scripts/../src/ui/host_row.rs:285
+#: scripts/../src/model/status.rs:152 scripts/../src/ui/host_row.rs:40
+#: scripts/../src/ui/host_row.rs:287
 msgid "ms"
 msgstr "мс"
 
@@ -61,11 +112,11 @@ msgstr "мс"
 msgid "Request timeout for"
 msgstr "Тайм-аут запиту для"
 
-#: scripts/../src/model/status.rs:133 scripts/../src/ui/host_row.rs:67
+#: scripts/../src/model/status.rs:133 scripts/../src/ui/host_row.rs:69
 msgid "M"
 msgstr "С"
 
-#: scripts/../src/model/status.rs:136 scripts/../src/ui/host_row.rs:74
+#: scripts/../src/model/status.rs:136 scripts/../src/ui/host_row.rs:76
 msgid "Med"
 msgstr "Мд"
 
@@ -73,45 +124,45 @@ msgstr "Мд"
 msgid "95%"
 msgstr "95%"
 
-#: scripts/../src/model/status.rs:142 scripts/../src/ui/host_row.rs:81
+#: scripts/../src/model/status.rs:142 scripts/../src/ui/host_row.rs:83
 msgid "J"
 msgstr "Т"
 
-#: scripts/../src/model/status.rs:145 scripts/../src/ui/host_row.rs:88
+#: scripts/../src/model/status.rs:145 scripts/../src/ui/host_row.rs:90
 msgid "Jm"
 msgstr "Тс"
 
-#: scripts/../src/model/status.rs:150 scripts/../src/ui/host_row.rs:95
+#: scripts/../src/model/status.rs:150 scripts/../src/ui/host_row.rs:97
 msgid "Jmed"
 msgstr "Тм"
 
-#: scripts/../src/model/status.rs:156 scripts/../src/ui/host_row.rs:102
+#: scripts/../src/model/status.rs:156 scripts/../src/ui/host_row.rs:104
 #: scripts/../src/ui/host_settings.rs:99
 msgid "MOS"
 msgstr "MOS"
 
-#: scripts/../src/model/status.rs:159 scripts/../src/ui/host_row.rs:109
+#: scripts/../src/model/status.rs:159 scripts/../src/ui/host_row.rs:111
 msgid "Av"
 msgstr "Дс"
 
-#: scripts/../src/model/status.rs:162 scripts/../src/ui/host_row.rs:116
+#: scripts/../src/model/status.rs:162 scripts/../src/ui/host_row.rs:118
 msgid "Out"
 msgstr "Ан"
 
-#: scripts/../src/model/status.rs:165 scripts/../src/ui/host_row.rs:143
+#: scripts/../src/model/status.rs:165 scripts/../src/ui/host_row.rs:145
 msgid "Str"
 msgstr "Стр"
 
-#: scripts/../src/model/status.rs:168 scripts/../src/ui/host_row.rs:150
+#: scripts/../src/model/status.rs:168 scripts/../src/ui/host_row.rs:152
 msgid "SD"
 msgstr "СВ"
 
-#: scripts/../src/model/status.rs:171 scripts/../src/ui/host_row.rs:166
+#: scripts/../src/model/status.rs:171 scripts/../src/ui/host_row.rs:168
 msgid "m/M"
 msgstr "м/М"
 
 #: scripts/../src/model/status.rs:174 scripts/../src/model/status.rs:179
-#: scripts/../src/ui/host_row.rs:178
+#: scripts/../src/ui/host_row.rs:180
 msgid "L"
 msgstr "В"
 
@@ -123,7 +174,7 @@ msgstr "Статистика"
 msgid "Route updated"
 msgstr "Маршрут оновлено"
 
-#: scripts/../src/model/status.rs:197 scripts/../src/ui/host_row.rs:42
+#: scripts/../src/model/status.rs:197 scripts/../src/ui/host_row.rs:44
 msgid "Local Interface"
 msgstr "Локальний інтерфейс"
 
@@ -150,61 +201,6 @@ msgstr "с"
 #: scripts/../src/model/status.rs:224
 msgid "Connectivity restored"
 msgstr "Зв'язок відновлено"
-
-#: scripts/../src/main.rs:15
-msgid "egui_pinger"
-msgstr "egui_pinger"
-
-#: scripts/../src/app.rs:183 scripts/../src/ui/log_viewer.rs:69
-msgid "Journal started at"
-msgstr "Журнал почато"
-
-#: scripts/../src/app.rs:185 scripts/../src/ui/log_viewer.rs:71
-msgid "Journal ended at"
-msgstr "Журнал закінчено"
-
-#: scripts/../src/app.rs:242
-msgid "Host name"
-msgstr "Імʼя хоста"
-
-#: scripts/../src/app.rs:250
-msgid "Host address"
-msgstr "Адреса хоста"
-
-#. When "Add" button is clicked or Enter is pressed in the second field,
-#. add host to the list
-#: scripts/../src/app.rs:256
-msgid "Add"
-msgstr "Додати"
-
-# --- System Tools ---
-#: scripts/../src/app.rs:305 scripts/../src/ui/system_tools.rs:421
-msgid "System Tools"
-msgstr "Системні інструменти"
-
-#: scripts/../src/app.rs:360
-msgid "Monitoring stopped"
-msgstr "Моніторинг зупинено"
-
-#: scripts/../src/app.rs:362
-msgid "Monitoring started"
-msgstr "Моніторинг розпочато"
-
-#: scripts/../src/app.rs:396
-msgid "Confirm Deletion"
-msgstr "Підтвердження видалення"
-
-#: scripts/../src/app.rs:403
-msgid "Are you sure you want to remove this host"
-msgstr "Ви впевнені, що хочете видалити цей хост"
-
-#: scripts/../src/app.rs:409
-msgid "Delete"
-msgstr "Видалити"
-
-#: scripts/../src/app.rs:416
-msgid "Cancel"
-msgstr "Скасувати"
 
 #: scripts/../src/ui/help.rs:8
 msgid "Network Statistics Information"
@@ -481,87 +477,91 @@ msgstr "Закрити"
 msgid "STOPPED"
 msgstr "ЗУПИНЕНО"
 
-#: scripts/../src/ui/host_row.rs:46
+#: scripts/../src/ui/host_row.rs:38
+msgid "UNKNOWN NAME"
+msgstr "НЕВІДОМЕ ІМʼЯ"
+
+#: scripts/../src/ui/host_row.rs:48
 msgid "DOWN (at {node})"
 msgstr "ОБРИВ (на {node})"
 
-#: scripts/../src/ui/host_row.rs:48
+#: scripts/../src/ui/host_row.rs:50
 msgid "DOWN"
 msgstr "НЕМА"
 
-#: scripts/../src/ui/host_row.rs:68 scripts/../src/ui/host_settings.rs:89
+#: scripts/../src/ui/host_row.rs:70 scripts/../src/ui/host_settings.rs:89
 msgid "Mean RTT"
 msgstr "Середній час повернення"
 
-#: scripts/../src/ui/host_row.rs:75 scripts/../src/ui/host_settings.rs:91
+#: scripts/../src/ui/host_row.rs:77 scripts/../src/ui/host_settings.rs:91
 msgid "Median RTT"
 msgstr "Медіанний час повернення"
 
-#: scripts/../src/ui/host_row.rs:82 scripts/../src/ui/host_settings.rs:93
+#: scripts/../src/ui/host_row.rs:84 scripts/../src/ui/host_settings.rs:93
 msgid "RTP Jitter"
 msgstr "Тремтіння по стандарту RTP"
 
-#: scripts/../src/ui/host_row.rs:89 scripts/../src/ui/host_settings.rs:95
+#: scripts/../src/ui/host_row.rs:91 scripts/../src/ui/host_settings.rs:95
 msgid "Mean Jitter"
 msgstr "Середнє тремтіння"
 
-#: scripts/../src/ui/host_row.rs:96 scripts/../src/ui/host_settings.rs:97
+#: scripts/../src/ui/host_row.rs:98 scripts/../src/ui/host_settings.rs:97
 msgid "Median Jitter"
 msgstr "Медіанне тремтіння"
 
-#: scripts/../src/ui/host_row.rs:103
+#: scripts/../src/ui/host_row.rs:105
 msgid "Voice Quality (MOS)"
 msgstr "Якість голосу (1.0-3.0-4.5)"
 
-#: scripts/../src/ui/host_row.rs:110 scripts/../src/ui/host_settings.rs:101
+#: scripts/../src/ui/host_row.rs:112 scripts/../src/ui/host_settings.rs:101
 msgid "Availability"
 msgstr "Доступність"
 
-#: scripts/../src/ui/host_row.rs:117
+#: scripts/../src/ui/host_row.rs:119
 msgid "Outliers (Lags)"
 msgstr "Аномалії (Лаги)"
 
-#: scripts/../src/ui/host_row.rs:127
+#: scripts/../src/ui/host_row.rs:129
 msgid "S"
 msgstr "У"
 
-#: scripts/../src/ui/host_row.rs:129
+#: scripts/../src/ui/host_row.rs:131
 msgid "F"
 msgstr "Н"
 
-#: scripts/../src/ui/host_row.rs:144 scripts/../src/ui/host_settings.rs:105
+#: scripts/../src/ui/host_row.rs:146 scripts/../src/ui/host_settings.rs:105
 msgid "Streak"
 msgstr "Страйк (Серія Успішних/Неуспішних)"
 
-#: scripts/../src/ui/host_row.rs:151
+#: scripts/../src/ui/host_row.rs:153
 msgid "Standard Deviation"
 msgstr "Стандартне відхилення"
 
-#: scripts/../src/ui/host_row.rs:158 scripts/../src/ui/host_settings.rs:109
+#: scripts/../src/ui/host_row.rs:160 scripts/../src/ui/host_settings.rs:109
 msgid "95th Percentile"
 msgstr "Найгірший з 95%"
 
-#: scripts/../src/ui/host_row.rs:170 scripts/../src/ui/host_settings.rs:111
+#: scripts/../src/ui/host_row.rs:172 scripts/../src/ui/host_settings.rs:111
 msgid "Min / Max RTT"
 msgstr "Мін/Макс час повернення"
 
-#: scripts/../src/ui/host_row.rs:183 scripts/../src/ui/host_settings.rs:113
+#: scripts/../src/ui/host_row.rs:185 scripts/../src/ui/host_settings.rs:113
 msgid "Packet Loss"
 msgstr "Втрати пакетів"
 
-#: scripts/../src/ui/host_row.rs:211
+#: scripts/../src/ui/host_row.rs:213
 msgid "View Log"
 msgstr "Перегляд журналу"
 
-#: scripts/../src/ui/host_row.rs:217
+#: scripts/../src/ui/host_row.rs:219
 msgid "Start monitoring"
 msgstr "Почати моніторинг"
 
-#: scripts/../src/ui/host_row.rs:219
+#: scripts/../src/ui/host_row.rs:221
 msgid "Stop monitoring"
 msgstr "Зупинити моніторинг"
 
-#: scripts/../src/ui/host_row.rs:283
+#: scripts/../src/ui/host_row.rs:285
 msgid "Timeout"
 msgstr "Без відповіді"
 
@@ -1151,40 +1151,40 @@ msgstr ""
 "Показує глобальні параметри TCP, такі як автоналаштування вікна прийому та "
 "Chimney Offload. Корисно для діагностики проблем із пропускною здатністю."
 
-#: scripts/../src/ui/system_tools.rs:429
+#: scripts/../src/ui/system_tools.rs:430
 msgid "No commands available for this platform."
 msgstr "Для цієї платформи немає доступних команд."
 
-#: scripts/../src/ui/system_tools.rs:435
+#: scripts/../src/ui/system_tools.rs:436
 msgid "Command:"
 msgstr "Команда:"
 
-#: scripts/../src/ui/system_tools.rs:462
+#: scripts/../src/ui/system_tools.rs:463
 msgid "Guide"
 msgstr "Довідник"
 
-#: scripts/../src/ui/system_tools.rs:466
+#: scripts/../src/ui/system_tools.rs:467
 msgid "Command Output"
 msgstr "Вивід команди"
 
-#: scripts/../src/ui/system_tools.rs:493
+#: scripts/../src/ui/system_tools.rs:494
 msgid "▶ Run"
 msgstr "▶ Запуск"
 
-#: scripts/../src/ui/system_tools.rs:507
+#: scripts/../src/ui/system_tools.rs:508
 msgid "Running..."
 msgstr "Виконується..."
 
 #. Section 1: No internet
-#: scripts/../src/ui/system_tools.rs:532
+#: scripts/../src/ui/system_tools.rs:533
 msgid "1. Internet is completely down"
 msgstr "1. Інтернет повністю не працює"
 
-#: scripts/../src/ui/system_tools.rs:533
+#: scripts/../src/ui/system_tools.rs:534
 msgid "If you cannot access any website or service:"
 msgstr "Якщо ви не можете відкрити жоден сайт або сервіс:"
 
-#: scripts/../src/ui/system_tools.rs:534
+#: scripts/../src/ui/system_tools.rs:535
 msgid ""
 "  • Run 'Network Interfaces' — check if your adapter has an IP address. If "
 "no IP is assigned, DHCP may have failed."
@@ -1192,7 +1192,7 @@ msgstr ""
 "  • Запустіть 'Мережеві інтерфейси' — перевірте, чи має адаптер IP-адресу. "
 "Якщо IP не призначено, DHCP міг не спрацювати."
 
-#: scripts/../src/ui/system_tools.rs:535
+#: scripts/../src/ui/system_tools.rs:536
 msgid ""
 "  • Run 'External IP Address' — confirms you have internet access and shows "
 "your public IP. If this works, your basic connection is fine."
@@ -1200,7 +1200,7 @@ msgstr ""
 "  • Запустіть 'Зовнішня IP-адреса' — підтверджує доступ до інтернету та "
 "показує вашу публічну IP. Якщо це працює, базове з'єднання в порядку."
 
-#: scripts/../src/ui/system_tools.rs:536
+#: scripts/../src/ui/system_tools.rs:537
 msgid ""
 "  • Run 'Routing Table' — look for a 'default' route. If missing, the system "
 "doesn't know how to reach the internet."
@@ -1208,7 +1208,7 @@ msgstr ""
 "  • Запустіть 'Таблиця маршрутів' — шукайте маршрут 'default'. Якщо його "
 "немає, система не знає, як дістатися до інтернету."
 
-#: scripts/../src/ui/system_tools.rs:537
+#: scripts/../src/ui/system_tools.rs:538
 msgid ""
 "  • Run 'DNS Lookup (google.com)' — if this fails but pinging 8.8.8.8 works "
 "in the main window, you have a DNS problem, not a connection problem."
@@ -1217,15 +1217,15 @@ msgstr ""
 "8.8.8.8 працює в головному вікні, у вас проблема з DNS, а не з підключенням."
 
 #. Section 2: Intermittent connectivity
-#: scripts/../src/ui/system_tools.rs:541
+#: scripts/../src/ui/system_tools.rs:542
 msgid "2. Connection drops or is unstable"
 msgstr "2. З'єднання обривається або нестабільне"
 
-#: scripts/../src/ui/system_tools.rs:542
+#: scripts/../src/ui/system_tools.rs:543
 msgid "If the connection works sometimes but keeps cutting out:"
 msgstr "Якщо з'єднання іноді працює, але постійно обривається:"
 
-#: scripts/../src/ui/system_tools.rs:543
+#: scripts/../src/ui/system_tools.rs:544
 msgid ""
 "  • Run 'ARP Table' — if the gateway entry shows 'FAILED' or 'INCOMPLETE', "
 "there is a problem on your local network (cable, switch, or router)."
@@ -1234,7 +1234,7 @@ msgstr ""
 "'INCOMPLETE', є проблема у вашій локальній мережі (кабель, комутатор або "
 "маршрутизатор)."
 
-#: scripts/../src/ui/system_tools.rs:544
+#: scripts/../src/ui/system_tools.rs:545
 msgid ""
 "  • Run 'Interface Statistics' — look for high 'errors' or 'dropped' "
 "counters. These indicate hardware, driver, or cable problems."
@@ -1243,7 +1243,7 @@ msgstr ""
 "або 'dropped'. Вони вказують на проблеми з обладнанням, драйверами або "
 "кабелем."
 
-#: scripts/../src/ui/system_tools.rs:545
+#: scripts/../src/ui/system_tools.rs:546
 msgid ""
 "  • Run 'Network Manager Log' — look for repeated 'connection dropped' or "
 "'DHCP lease expired' messages."
@@ -1252,16 +1252,16 @@ msgstr ""
 "'connection dropped' або 'DHCP lease expired'."
 
 #. Section 3: Slow internet
-#: scripts/../src/ui/system_tools.rs:549
+#: scripts/../src/ui/system_tools.rs:550
 msgid "3. Internet is slow"
 msgstr "3. Інтернет працює повільно"
 
-#: scripts/../src/ui/system_tools.rs:550
+#: scripts/../src/ui/system_tools.rs:551
 msgid "If pages load slowly or VoIP calls have bad quality:"
 msgstr ""
 "Якщо сторінки завантажуються повільно або VoIP-дзвінки мають погану якість:"
 
-#: scripts/../src/ui/system_tools.rs:551
+#: scripts/../src/ui/system_tools.rs:552
 msgid ""
 "  • Run 'Wi-Fi Connection Status' — check signal strength. Below -70 dBm (or "
 "below 50% on Windows) causes packet loss and jitter."
@@ -1269,7 +1269,7 @@ msgstr ""
 "  • Запустіть 'Стан з'єднання Wi-Fi' — перевірте рівень сигналу. Нижче -70 "
 "дБм (або нижче 50% на Windows) призводить до втрати пакетів та тремтіння."
 
-#: scripts/../src/ui/system_tools.rs:552
+#: scripts/../src/ui/system_tools.rs:553
 msgid ""
 "  • Run 'Available Wi-Fi Networks' — if many networks use the same channel, "
 "interference is likely. Consider switching to a less crowded channel or 5 "
@@ -1279,7 +1279,7 @@ msgstr ""
 "один канал, імовірні завади. Спробуйте перейти на менш зайнятий канал або "
 "діапазон 5 ГГц."
 
-#: scripts/../src/ui/system_tools.rs:553
+#: scripts/../src/ui/system_tools.rs:554
 msgid ""
 "  • Run 'Listening Ports' — check if many connections are open. A torrent "
 "client or large download can saturate your bandwidth."
@@ -1288,17 +1288,17 @@ msgstr ""
 "з'єднань. Торент-клієнт або велике завантаження може перевантажити канал."
 
 #. Section 4: DNS problems
-#: scripts/../src/ui/system_tools.rs:557
+#: scripts/../src/ui/system_tools.rs:558
 msgid "4. Websites don't open, but ping works"
 msgstr "4. Сайти не відкриваються, але пінг працює"
 
-#: scripts/../src/ui/system_tools.rs:558
+#: scripts/../src/ui/system_tools.rs:559
 msgid "If you can ping 8.8.8.8 in the main window but cannot open websites:"
 msgstr ""
 "Якщо ви можете пінгувати 8.8.8.8 у головному вікні, але не можете відкрити "
 "сайти:"
 
-#: scripts/../src/ui/system_tools.rs:559
+#: scripts/../src/ui/system_tools.rs:560
 msgid ""
 "  • Run 'DNS Configuration' — verify your DNS servers are correctly set. "
 "Common public DNS: 8.8.8.8, 1.1.1.1, 9.9.9.9."
@@ -1306,7 +1306,7 @@ msgstr ""
 "  • Запустіть 'Налаштування DNS' — перевірте, чи правильно налаштовані ваші "
 "DNS-сервери. Відкриті публічні DNS: 8.8.8.8, 1.1.1.1, 9.9.9.9."
 
-#: scripts/../src/ui/system_tools.rs:560
+#: scripts/../src/ui/system_tools.rs:561
 msgid ""
 "  • Run 'DNS Lookup (google.com)' — if it fails or returns wrong IPs, your "
 "DNS server may be down or misconfigured."
@@ -1315,7 +1315,7 @@ msgstr ""
 "неправильні IP, ваш DNS-сервер може бути недоступний або неправильно "
 "налаштований."
 
-#: scripts/../src/ui/system_tools.rs:562
+#: scripts/../src/ui/system_tools.rs:563
 msgid ""
 "  • Run 'DNS Cache' — check for stale entries. You can flush the cache with: "
 "ipconfig /flushdns (requires admin)."
@@ -1324,12 +1324,16 @@ msgstr ""
 "кеш можна командою: ipconfig /flushdns (потрібні права адміністратора)."
 
 #. Section 5: Advanced (admin-only)
-#: scripts/../src/ui/system_tools.rs:567
+#: scripts/../src/ui/system_tools.rs:568
 msgid "5. Advanced diagnostics (require administrator privileges)"
 msgstr "5. Розширена діагностика (потрібні права адміністратора)"
 
-#: scripts/../src/ui/system_tools.rs:568
+#: scripts/../src/ui/system_tools.rs:569
 msgid ""
 "These commands require elevated privileges and must be run from a terminal:"
 msgstr ""
 "Ці команди потребують підвищених привілеїв і мають бути запущені з терміналу:"
+
+#: scripts/../src/main.rs:15
+msgid "egui_pinger"
+msgstr "egui_pinger"
