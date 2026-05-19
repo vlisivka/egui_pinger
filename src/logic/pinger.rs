@@ -570,48 +570,53 @@ pub async fn pinger_task(state: SharedState) {
             let _payload = generate_payload(host_info.as_ref());
 
             tokio::spawn(async move {
-                // Get or create requestor for this host
-                let requestor_opt = {
-                    let mut reqs = requestors_clone.lock().await;
-                    if let Some(r) = reqs.get(&address) {
-                        Some(r.clone())
+                let existing_requestor = {
+                    let reqs = requestors_clone.lock().await;
+                    reqs.get(&address).cloned()
+                };
+
+                let requestor_opt = if let Some(r) = existing_requestor {
+                    Some(r)
+                } else {
+                    // Resolve the address outside of the lock
+                    let clean_address = if address.starts_with('[') && address.ends_with(']') {
+                        &address[1..address.len() - 1]
                     } else {
-                        // Resolve the address
-                        let clean_address = if address.starts_with('[') && address.ends_with(']') {
-                            &address[1..address.len() - 1]
-                        } else {
-                            &address
-                        };
+                        &address
+                    };
 
-                        let ip = if let Ok(ip) = clean_address.parse::<IpAddr>() {
-                            Some(ip)
-                        } else {
-                            // Try DNS resolution
-                            let lookup_str = format!("{}:0", address);
-                            if let Ok(mut addrs) = tokio::net::lookup_host(&lookup_str).await {
-                                addrs.next().map(|a| a.ip())
-                            } else {
-                                None
-                            }
-                        };
-
-                        if let Some(target_ip) = ip {
-                            match IcmpEchoRequestor::new(target_ip, None, None, None) {
-                                Ok(r) => {
-                                    reqs.insert(address.clone(), r.clone());
-                                    Some(r)
-                                }
-                                Err(e) => {
-                                    eprintln!(
-                                        "Failed to create ICMP requestor for {}: {}",
-                                        address, e
-                                    );
-                                    None
-                                }
-                            }
+                    let ip = if let Ok(ip) = clean_address.parse::<IpAddr>() {
+                        Some(ip)
+                    } else {
+                        // Try DNS resolution
+                        let lookup_str = format!("{}:0", address);
+                        if let Ok(mut addrs) = tokio::net::lookup_host(&lookup_str).await {
+                            addrs.next().map(|a| a.ip())
                         } else {
                             None
                         }
+                    };
+
+                    if let Some(target_ip) = ip {
+                        match IcmpEchoRequestor::new(target_ip, None, None, None) {
+                            Ok(r) => {
+                                // Re-acquire the lock to insert
+                                let mut reqs = requestors_clone.lock().await;
+                                // Double check in case another task inserted it
+                                if let Some(existing) = reqs.get(&address) {
+                                    Some(existing.clone())
+                                } else {
+                                    reqs.insert(address.clone(), r.clone());
+                                    Some(r)
+                                }
+                            }
+                            Err(e) => {
+                                eprintln!("Failed to create ICMP requestor for {}: {}", address, e);
+                                None
+                            }
+                        }
+                    } else {
+                        None
                     }
                 };
 

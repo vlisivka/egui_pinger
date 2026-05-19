@@ -134,7 +134,11 @@ fn test_random_padding_varies_size() {
         "Random padding should produce varying payload sizes"
     );
     for s in unique {
-        assert!((100..=125).contains(&s), "Padded size {} outside [100, 125]", s);
+        assert!(
+            (100..=125).contains(&s),
+            "Padded size {} outside [100, 125]",
+            s
+        );
     }
 }
 
